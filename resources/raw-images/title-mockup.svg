@@ -20,18 +20,6 @@
      id="defs4">
     <filter
        inkscape:collect="always"
-       id="filter3773"
-       x="-0.086211188"
-       width="1.1724224"
-       y="-0.99527836"
-       height="2.9905567">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="30.47256"
-         id="feGaussianBlur3775" />
-    </filter>
-    <filter
-       inkscape:collect="always"
        id="filter28075"
        x="-0.18696184"
        width="1.3739237"
@@ -105,7 +93,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -135,16 +123,6 @@
          x="528.27441"
          y="450.70251"
          id="tspan28004">Alien Forest Explorer</tspan></text>
-    <path
-       sodipodi:type="arc"
-       style="fill:#000000;fill-opacity:0.26368163;stroke:none;filter:url(#filter28075)"
-       id="path28061"
-       sodipodi:cx="538.91638"
-       sodipodi:cy="662.27216"
-       sodipodi:rx="139.90613"
-       sodipodi:ry="48.487324"
-       d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
-       transform="translate(-229.07107,294.02404)" />
     <g
        id="g29252"
        transform="matrix(3.5036226,0,0,3.5036226,-2610.257,-1396.5058)">
@@ -177,7 +155,7 @@
     </g>
     <path
        transform="matrix(0.50722182,0,0,0.50722182,347.43785,620.37731)"
-       d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
+       d="m 678.82251,662.27216 c 0,26.77881 -62.63811,48.48732 -139.90613,48.48732 -77.26802,0 -139.90613,-21.70851 -139.90613,-48.48732 0,-26.77881 62.63811,-48.48733 139.90613,-48.48733 77.26802,0 139.90613,21.70852 139.90613,48.48733 z"
        sodipodi:ry="48.487324"
        sodipodi:rx="139.90613"
        sodipodi:cy="662.27216"
@@ -250,7 +228,7 @@
        sodipodi:cy="662.27216"
        sodipodi:rx="139.90613"
        sodipodi:ry="48.487324"
-       d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
+       d="m 678.82251,662.27216 c 0,26.77881 -62.63811,48.48732 -139.90613,48.48732 -77.26802,0 -139.90613,-21.70851 -139.90613,-48.48732 0,-26.77881 62.63811,-48.48733 139.90613,-48.48733 77.26802,0 139.90613,21.70852 139.90613,48.48733 z"
        transform="matrix(0.50722182,0,0,0.50722182,587.43785,620.37731)" />
     <g
        transform="matrix(3.9327009,0,0,3.9327009,-624.75464,-2070.0289)"
@@ -279,5 +257,15 @@
          style="fill:url(#linearGradient33799);stroke:none"
          inkscape:connector-curvature="0" />
     </g>
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:0.26368163;stroke:none;filter:url(#filter28075)"
+       id="path34599"
+       sodipodi:cx="538.91638"
+       sodipodi:cy="662.27216"
+       sodipodi:rx="139.90613"
+       sodipodi:ry="48.487324"
+       d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
+       transform="matrix(0.50722182,0,0,0.50722182,27.43785,620.37731)" />
   </g>
 </svg>
