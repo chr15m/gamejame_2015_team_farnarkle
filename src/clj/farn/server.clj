@@ -7,7 +7,8 @@
             [net.cgrand.enlive-html :refer [deftemplate]]
             [ring.middleware.reload :as reload]
             [environ.core :refer [env]]
-            [ring.adapter.jetty :refer [run-jetty]]))
+            [ring.adapter.jetty :refer [run-jetty]]
+            [garden.core :refer [css]]))
 
 (deftemplate page
   (io/resource "index.html") [] [:body] (if is-dev? inject-devmode-html identity))
@@ -34,3 +35,66 @@
 
 (defn -main [& [port]]
   (run port))
+
+(defn dump []
+  (println (css [:.sprite
+         {
+          :position "absolute"
+          :background-color "transparent"
+          :background-repeat "no-repeat"
+          :display "block"
+          :height "64px"
+          :width "64px"
+          :background-position "0px 0"
+          }]
+
+        [(keyword "@font-face")
+         {
+          :font-family "vectorfuture"
+          :src "url('/img/ui_space/Fonts/kenvector_future_thin.ttf')"
+          }]
+
+        [:body
+         {
+          :width "100%"
+          :height "100%"
+          :margin "0"
+          :padding "0"
+          :background-color "#000000"
+          :border "none"
+
+          ;; no scrollbars
+          :overflow "hidden"}]
+
+        [:#game-area
+         {
+          :position "absolute"
+          :width "100%"
+          :height "100%"
+          :left "0"
+          :top "0"}]
+
+        [:#ui
+         {
+          :position "absolute"
+          :left "50%"
+          :top "50%"
+          }]
+
+        [:#status-bottom
+         {:position "absolute"
+          :width "100%"
+          :height "20%"
+          :font-size "24pt"
+          :bottom "0"
+          :opacity "0.8"
+          :z-index 200}]
+
+        [:#fps
+         {:position "absolute"
+          :right 0
+          :top 0
+          :padding-right 15
+          :color "white"
+          :z-index 200}]
+         )))
