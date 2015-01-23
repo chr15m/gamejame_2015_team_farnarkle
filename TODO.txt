@@ -1,0 +1,13 @@
+ * integrate pixi.js etc.
+ * end-to-end deployment to a server working
+ * initial basic screens working
+ * ideas brainstorm
+ * initial assets pipeline + some basic asset ideas for music, sfx, gfx
+
+DONE
+----
+
+ * basic leiningen/clojurescript project set up
+ * find out theme
+ * basic git repo set up & checked in
+
