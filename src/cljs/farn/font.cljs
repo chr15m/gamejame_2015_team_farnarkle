@@ -199,8 +199,10 @@
   (let [buff (:texture font)
         metrics (:metrics font)
         sb (js/PIXI.SpriteBatch. buff)
-        ;_ (set! (.-pivot.x sb) 120)
-        ;_ (set! (.-pivot.y sb) 6)
+
+        ;; handle by center of text
+        _ (set! (.-pivot.x sb) (int (/ (text-width metrics text) 2)))
+        _ (set! (.-pivot.y sb) (int (/ (text-height metrics text) 2)))
         ]
     (loop [t text xp x]
       (let [c (first t)
