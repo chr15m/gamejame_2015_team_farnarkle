@@ -21,6 +21,8 @@
                  [weasel "0.4.0-SNAPSHOT"]
                  [leiningen "2.5.0"]]
 
+  :main farn.server/dump
+
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]]
 
