@@ -85,8 +85,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="583.66676"
-     inkscape:cy="368.4749"
+     inkscape:cx="513.96623"
+     inkscape:cy="388.83044"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -115,23 +115,25 @@
      id="layer1"
      transform="translate(0,-308.2677)">
     <rect
-       style="fill:#003575;fill-opacity:0.39215687;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#003575;fill-opacity:0.39215686;stroke:none"
        id="rect2985"
-       width="1054.5992"
-       height="746.50275"
-       x="0"
-       y="-0.38794351"
-       transform="translate(0,308.2677)" />
+       width="1024"
+       height="768"
+       x="14"
+       y="296.36218"
+       inkscape:export-filename="../../alien-forest-explorer.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
-       style="font-size:94.6473465px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#008080;fill-opacity:0.63137255;stroke:none;font-family:Lobster;-inkscape-font-specification:Lobster"
-       x="514.27441"
-       y="440.70251"
+       style="font-size:94.6473465px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#39929b;fill-opacity:1;stroke:none;font-family:Lobster;-inkscape-font-specification:Lobster"
+       x="528.27441"
+       y="450.70251"
        id="text3755"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="514.27441"
-         y="440.70251"
+         x="528.27441"
+         y="450.70251"
          id="tspan28004">Alien Forest Explorer</tspan></text>
     <path
        sodipodi:type="arc"
@@ -142,10 +144,10 @@
        sodipodi:rx="139.90613"
        sodipodi:ry="48.487324"
        d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
-       transform="translate(-243.07107,284.02404)" />
+       transform="translate(-229.07107,294.02404)" />
     <g
        id="g29252"
-       transform="matrix(3.5036226,0,0,3.5036226,-2624.257,-1406.5058)">
+       transform="matrix(3.5036226,0,0,3.5036226,-2610.257,-1396.5058)">
       <path
          d="m 911.49949,602.36829 q -2.07987,-3.04575 -1.66699,-4.39558 l 0.24432,-0.44756 0.0321,-0.0383 q 1.41859,-1.61635 3.29007,-2.52744 l 0.37712,0.25056 0.35126,0.35933 q 0.97711,1.01378 1.09562,2.35204 0.14968,1.69045 -0.94169,2.99387 -1.09137,1.30343 -2.74971,1.41478 l -0.0321,0.0383 m 25.4828,20.42399 -3.39594,-1.47398 -2.01401,-1.09943 -0.12656,-0.62768 q -0.14345,-1.62001 0.88372,-2.84676 1.02717,-1.22675 2.64717,-1.3702 1.62001,-0.14345 2.84676,0.88372 1.22675,1.02717 1.3702,2.64718 0.14345,1.62001 -0.88372,2.84676 -0.57778,0.69005 -1.32762,1.04039 m -2.02018,-17.60344 q 0.76672,0.64198 0.85404,1.62807 0.0936,1.05652 -0.54843,1.82324 -0.64198,0.76672 -1.66641,0.82194 -1.01819,0.12566 -1.78491,-0.51633 -0.76672,-0.64198 -0.86027,-1.6985 -0.0873,-0.98609 0.55466,-1.75282 0.64198,-0.76672 1.66018,-0.89237 1.02442,-0.0552 1.79114,0.58677 m -16.10344,-4.28855 q 1.02717,-1.22675 2.64718,-1.3702 1.62,-0.14345 2.84676,0.88372 1.22675,1.02717 1.3702,2.64718 0.14345,1.62001 -0.88372,2.84676 -1.02717,1.22675 -2.64718,1.3702 -1.62001,0.14345 -2.84676,-0.88372 -1.22675,-1.02717 -1.3702,-2.64718 -0.14345,-1.62001 0.88372,-2.84676"
          id="path24951"
@@ -174,7 +176,7 @@
          style="fill:#ef975c;stroke:none" />
     </g>
     <path
-       transform="matrix(0.50722182,0,0,0.50722182,333.43785,610.37731)"
+       transform="matrix(0.50722182,0,0,0.50722182,347.43785,620.37731)"
        d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
        sodipodi:ry="48.487324"
        sodipodi:rx="139.90613"
@@ -184,7 +186,8 @@
        style="fill:#000000;fill-opacity:0.26368163;stroke:none;filter:url(#filter28075)"
        sodipodi:type="arc" />
     <g
-       id="g33828">
+       id="g33828"
+       transform="translate(14,10)">
       <path
          style="fill:#f19cb7"
          inkscape:connector-curvature="0"
@@ -248,9 +251,9 @@
        sodipodi:rx="139.90613"
        sodipodi:ry="48.487324"
        d="m 678.82251,662.27216 a 139.90613,48.487324 0 1 1 -279.81226,0 139.90613,48.487324 0 1 1 279.81226,0 z"
-       transform="matrix(0.50722182,0,0,0.50722182,573.43785,610.37731)" />
+       transform="matrix(0.50722182,0,0,0.50722182,587.43785,620.37731)" />
     <g
-       transform="matrix(3.9327009,0,0,3.9327009,-638.75464,-2080.0289)"
+       transform="matrix(3.9327009,0,0,3.9327009,-624.75464,-2070.0289)"
        id="g33593"
        inkscape:export-filename="../public/img/sprites/static-tree-8.png"
        inkscape:export-xdpi="197.26019"
