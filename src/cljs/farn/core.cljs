@@ -149,7 +149,7 @@
         (let [d-theta 0.01
               xc (Math/cos d-theta)
               yc (Math/sin d-theta)]
-          (log xc yc)
+          ;; (log xc yc)
           (doseq [i (range 200)]
             (let [sp (aget (.-children main-stage) i)]
               (sprite/set-pos!
