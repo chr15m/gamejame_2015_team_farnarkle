@@ -10,3 +10,4 @@ pom.xml.asc
 /out
 /.repl
 .*.swp
+resources/tracker-files/*.ogg
