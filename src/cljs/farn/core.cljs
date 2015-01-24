@@ -8,6 +8,7 @@
             [farn.store :as store]
             [farn.map :as perlin-map]
             [farn.assets :as assets]
+            [farn.rex :as rex]
             [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
@@ -111,7 +112,7 @@
     (when (= (:test (:query-params url)) "perlin")
       (println "we perlin!"))
       (let [c (perlin-map/perlin-map-generator)]
-        (go
+        (go 
           (let [t  (<! c)]
             (println "Perlin map done:" (.-length t))
             )
@@ -136,22 +137,22 @@
     (<! loader)
     (log "pulled")
     (let [
-          lobster-big (font/make-tiled-font "Lobster" 400 40)
-          varela (font/make-tiled-font "Varela Round" 400 15)
+          lobster-big (font/make-tiled-font "Lobster" 400 48)
+          varela (font/make-tiled-font "Varela Round" 400 24)
           wait (<! (timeout 1000))
           _ (log "perlin channel - start")
           tilemap (<! perlin-channel)
           _ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
-          title-text (font/make-text "400 40pt Lobster"
+          title-text (font/make-text "400 48pt Lobster"
                                      "Alien Forest Explorer"
-                                     :weight 400 :fill "#399296"
+                                     :weight 400 :fill "#7FCACD"
                                      :dropShadow true
                                      :dropShadowColor "#333333")
 
           tex (gfx/get-texture :pink-stand-4)
-          player (make-sprite tex)
-          player-shadow (make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
+          player (sprite/make-sprite tex)
+          player-shadow (sprite/make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
 
           player-standing-texs (doall (for [type [:pink-stand-1 :pink-stand-2
                                                   :pink-stand-3 :pink-stand-4]]
@@ -196,7 +197,7 @@
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-
+          
           game-map (spatial/make-map-from-tilemap
                         tilemap
                         {
@@ -219,7 +220,7 @@
                                   ;(assets/make-range "static-tuft-" 3)
                                   ))
                          ; grass
-                         4 (vec (concat
+                         4 (vec (concat 
                                   ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
                                   [:static-lump-1 :static-lump-3]
@@ -232,7 +233,7 @@
                                   (assets/make-range "static-flower-" 3)
                                   ))
                         }
-                        50000 -10000 10000 -10000 10000)
+                        30000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
                                 (let [type (:type obj)
@@ -280,7 +281,7 @@
                   h (.-innerHeight js/window)
                   hw (/ w 2)
                   hh (/ h 2)]
-              (sprite/set-pos! title-text 0 (+ (- hh) 30))
+              (sprite/set-pos! title-text 0 (+ (- hh) 100))
               (<! rc)
               )
             )
@@ -305,91 +306,7 @@
         )
 
       ;; the little chatterbox guy
-      (let [rex-talks
-            (doall (for [tex-name [:brown-talk-noblink-1
-                                   :brown-talk-noblink-2
-                                   :brown-talk-noblink-3
-                                   ]]
-                     (gfx/get-texture tex-name)
-                     ))
-            rex-does-nothing
-            (doall (for [tex-name [:brown-stand-1
-                                   ;:brown-stand-2
-                                   ;:brown-stand-3
-                                   ]]
-                     (gfx/get-texture tex-name)
-                     ))
-            rex (make-sprite (rand-nth rex-does-nothing))
-            ]
-        (sprite/set-anchor! rex 0.5 0)
-        (.addChild ui-stage rex)
-
-        ;; rex lives in the corner
-        (go
-          (let [rc (events/new-resize-chan)]
-            (while true
-              (let [w (.-innerWidth js/window)
-                    h (.-innerHeight js/window)
-                    hw (/ w 2)
-                    hh (/ h 2)]
-                (sprite/set-pos! rex (- hw 50) (- hh 80))
-                (<! rc)))))
-
-        ;; rex has a life of his own
-        (go
-          (while true
-            (.setTexture rex (rand-nth rex-does-nothing))
-            (<! (timeout 10000))
-
-            ;; text scroll out
-            (go
-              (let [
-                    phrases rex-phrases
-                    phrase (rand-nth phrases)
-                    phrase-spr (font/make-text "400 15pt Varela Round"
-                                     phrase
-                                     :weight 400 :fill "#ffffff"
-                                     ;:dropShadow true
-                                     ;:dropShadowColor "#000000"
-                                     :stroke "#000000"
-                                     :strokeThickness 1
-                                     )
-                    w (.-innerWidth js/window)
-                    h (.-innerHeight js/window)
-                    hw (/ w 2)
-                    hh (/ h 2)
-                    ]
-                (sprite/set-pos! phrase-spr 0 10000)
-                (.addChild ui-stage phrase-spr)
-                (loop [i 0]
-                  (<! (events/next-frame))
-                  (sprite/set-pos! phrase-spr (js/Math.pow (- 50 i) word-entry-speed) (- hh 30))
-                  (when (< i 50)
-                    (recur (inc i))
-                    )
-                  )
-                ;; pause
-                (<! (timeout 3000))
-
-                ;; exit quickly
-                (loop [i 0]
-                  (<! (events/next-frame))
-                  (sprite/set-pos! phrase-spr (- (js/Math.pow i word-exit-speed)) (- hh 30))
-                  (when (< i 50)
-                    (recur (inc i))
-                    )
-                  )
-                (.removeChild ui-stage phrase-spr)))
-
-            ;; mouth animation
-            (loop [i 50]
-              (<! (timeout 60))
-              (.setTexture rex (rand-nth rex-talks))
-              (when (pos? i)
-                (recur (dec i)))
-              )))
-
-        )
+      (rex/launch-rex ui-stage)
 
       (<! (timeout 1000))
       (log "adding player")
@@ -598,3 +515,4 @@
 (defn main []
 
 )
+

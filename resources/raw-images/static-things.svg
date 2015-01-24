@@ -3642,7 +3642,7 @@
        inkscape:export-ydpi="197.25999"
        inkscape:export-xdpi="197.25999"
        inkscape:export-filename="../public/img/sprites/static-floor-sand-medium.png"
-       transform="matrix(-1,0,0,1,438.99999,401.2677)"
+       transform="matrix(-1.5513336,0,0,1.5513336,573.88748,315.5989)"
        d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
        sodipodi:ry="24.5"
        sodipodi:rx="49"
@@ -3663,12 +3663,12 @@
        sodipodi:rx="49"
        sodipodi:ry="24.5"
        d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
-       transform="matrix(-1.4285714,0,0,1.4285714,346.57142,327.22721)" />
+       transform="matrix(-2.2161907,0,0,2.2161907,430.49994,200.73741)" />
     <path
        inkscape:export-ydpi="197.25999"
        inkscape:export-xdpi="197.25999"
        inkscape:export-filename="../public/img/sprites/static-floor-sand-small.png"
-       transform="matrix(-0.61224487,0,0,0.61224487,504.81632,470.16148)"
+       transform="matrix(-0.94979599,0,0,0.94979599,675.99056,422.47613)"
        d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
        sodipodi:ry="24.5"
        sodipodi:rx="49"

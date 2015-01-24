@@ -4,8 +4,10 @@
   (vec (map (fn [s] (keyword (nth (.split (.replace s ".png" "") "/") 2))) which)))
 
 (defn make-range [prefix r]
-  (vec (map (fn [i] (keyword (str prefix i))) (range 1 (+ r 1))))
-  )
+  (vec (map (fn [i] (keyword (str prefix i))) (range 1 (+ r 1)))))
+
+(defn floor-sprites []
+    (to-keys (filter (fn [a] (not (= -1 (.indexOf a "-floor-")))) farn.assets/=assets=)))
 
 (def =assets-sprites-static= 
   [
