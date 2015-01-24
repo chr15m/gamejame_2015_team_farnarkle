@@ -5,11 +5,19 @@
             [farn.sprite :as sprite]
             [farn.spatial :as spatial]
             [farn.events :as events]
+            [farn.store :as store]
+            [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
             [dommy.core :as dommy :refer-macros [sel1]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]])
 )
+
+(enable-console-print!)
+
+(def url (query-string/parse-url (.-href (.-location js/document))))
+
+(println "url-parsed:" url)
 
 (def grass-green 0x357564)
 
@@ -92,6 +100,14 @@
 
 (def cell-size 300)
 
+(if (:test (:query-params url)) 
+  (do
+    ; visit a URL with ?test=1 or &test=1 in there somewhere
+    (println "Testing code goes here!")
+    
+  )
+
+; main live code goes here
 (go
   (let [loader
         (load ui-stage =assets=
@@ -217,7 +233,7 @@
               vx (* speed hx)
               vy (* speed hy)
               ]
-          (log "pos" (str pos) "theta" theta)
+          ; (log "pos" (str pos) "theta" theta)
           (doto player
             (sprite/set-pos! pos))
 
@@ -293,7 +309,7 @@
                theta)))))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
-      )))
+      ))))
 
 ;; (def lobster-big (font/make-tiled-font "Lobster" 400 40))
 

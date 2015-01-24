@@ -1,4 +1,3 @@
- * end-to-end deployment to a server working
  * initial basic screens working
  * refactoring into functions
  * procedural map
@@ -7,6 +6,7 @@
 DONE
 ----
 
+ * end-to-end deployment to a server working
  * initial assets pipeline + some basic asset ideas for music, sfx, gfx
  * integrate pixi.js etc.
  * ideas brainstorm
