@@ -36,8 +36,11 @@
 (defn -main [& [port]]
   (run port))
 
-(defn dump []
-  (println (css [:.sprite
+(defn dump-html []
+  (println (apply str (page))))
+
+(defn dump-css []
+  (comment  (println (css [:.sprite
          {
           :position "absolute"
           :background-color "transparent"
@@ -97,4 +100,4 @@
           :padding-right 15
           :color "white"
           :z-index 200}]
-         )))
+         ))))

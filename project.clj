@@ -23,6 +23,10 @@
 
   :main farn.server/dump
 
+  :aliases {
+          "dump-index-html" ["run" "-m" "farn.server/dump-html"]
+          }
+  
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]]
 
