@@ -109,8 +109,8 @@
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           title-text (font/font-make-batch lobster-big "Alien Forest Explorer" )
           tex (gfx/get-texture :pink-stand-4)
-          guy (make-sprite tex)
-          _ (log "GUY" guy)
+          player (make-sprite tex)
+          _ (log "GUY" player)
           trees (for [i (range 10)]
                   (gfx/get-texture (keyword (str "static-tree-" (inc i)))))
           tufts (for [i (range 3)]
@@ -154,9 +154,9 @@
       (log "adding")
       (log (str trees))
       (log (str tufts))
-      (doto guy
+      (doto player
         (sprite/set-scale! 0.5))
-      (.addChild main-stage guy)
+      (.addChild main-stage player)
 
       ;; (doseq [t-num (range 50)]
       ;;   (let [tree (make-sprite (rand-nth trees))
@@ -199,35 +199,94 @@
 
       (log "PRELOOP")
 
-      (loop []
-        (let [d-theta (cond
-                       (events/is-pressed? :left)
-                       0.03
+      (loop [pos player-pos theta 0]
+        (let [[x y] pos
 
-                       (events/is-pressed? :right)
-                       -0.03
+              ;; his heading unit vector
+              hy (- (Math/cos theta))
+              hx (- (Math/sin theta))
 
-                       :default
-                       0
-                       )
-              xc (Math/cos d-theta)
-              yc (Math/sin d-theta)]
-          ;; (log xc yc)
-          (doseq [i (range (.-children.length main-stage))]
-            (let [sp (aget (.-children main-stage) i)]
-              (sprite/set-pos!
-               sp
-               (-
-                (* xc (.-position.x sp))
-                (* yc (.-position.y sp)))
-               (+
-                (* yc (.-position.x sp))
-                (* xc (.-position.y sp))))
-              ))
-          )
-        (.sort (.-children main-stage) depth-compare)
-        (<! (events/next-frame))
-        (recur))
+              ;; the reverse heading vector
+              rhy (- (Math/cos (- theta)))
+              rhx (- (Math/sin (- theta)))
+
+              speed 4
+
+              vx (* speed hx)
+              vy (* speed hy)
+              ]
+          (log "pos" (str pos) "theta" theta)
+          (doto player
+            (sprite/set-pos! pos))
+
+          ;; (let [d-theta (cond
+          ;;                (events/is-pressed? :left)
+          ;;                0.03
+
+          ;;                (events/is-pressed? :right)
+          ;;                -0.03
+
+          ;;                :default
+          ;;                0
+          ;;                )
+          ;;       xc (Math/cos d-theta)
+          ;;       yc (Math/sin d-theta)]
+          ;;   ;; (log xc yc)
+          ;;   (doseq [i (range (.-children.length main-stage))]
+          ;;     (let [sp (aget (.-children main-stage) i)]
+          ;;       (sprite/set-pos!
+          ;;        sp
+          ;;        (-
+          ;;         (* xc (.-position.x sp))
+          ;;         (* yc (.-position.y sp)))
+          ;;        (+
+          ;;         (* yc (.-position.x sp))
+          ;;         (* xc (.-position.y sp))))
+          ;;       ))
+          ;;   )
+
+          ;; set the static world sprites to the correct orientation (rotate trees)
+          (doseq [obj (game-space (spatial/cell? player-pos cell-size))]
+            (let [
+                  ;; absolute tree location
+                  [ox oy] (:pos obj)
+
+                  ;; vector from player to tree
+                  p->t [(- ox x) (- oy y)]
+                  [p->t.x p->t.y] p->t
+
+                  ;; rotate this p->t
+                  [rx ry] [
+                           (+ (* rhy p->t.x) (* rhx p->t.y))
+                           (- (* rhx p->t.x) (* rhy p->t.y))
+                           ]
+
+                  ;; now add to the the player loc
+                  fx (+ rx x)
+                  fy (+ ry y)
+                  ]
+              (doto (:sprite obj)
+                (sprite/set-pos!
+                 fx fy
+                 ))))
+
+          ;; move cetnter of render to be on player
+          (sprite/set-pivot! main-stage x y)
+
+          (.sort (.-children main-stage) depth-compare)
+          (<! (events/next-frame))
+          (recur
+           ;; new position
+           (if (events/is-pressed? :up)
+             [(+ x vx) (+ y vy)]
+             [x y])
+
+           ;; new heading
+           (if (events/is-pressed? :left)
+             (- theta 0.03)
+             (if (events/is-pressed? :right)
+               (+ theta 0.03)
+               theta)))))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
       )))
@@ -239,7 +298,7 @@
 
 
 (defn main []
-  (log "main!!" (:stage world) title-text)
+  ;; (log "main!!" (:stage world) title-text)
   ;; (.addChild (:stage world) (:sprite title-text))
   ;; (doto (:sprite title-text)
   ;;   (sprite/set-pos! 0 0))
