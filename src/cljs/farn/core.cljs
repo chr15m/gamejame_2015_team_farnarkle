@@ -128,7 +128,7 @@
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
           title-text (font/make-text "400 40pt Lobster"
                                      "Alien Forest Explorer"
-                                     :weight 400 :fill "#399296"
+                                     :weight 400 :fill "#7FCACD"
                                      :dropShadow true
                                      :dropShadowColor "#333333")
 
@@ -200,7 +200,7 @@
                   h (.-innerHeight js/window)
                   hw (/ w 2)
                   hh (/ h 2)]
-              (sprite/set-pos! title-text 0 (+ (- hh) 30))
+              (sprite/set-pos! title-text 0 (+ (- hh) 100))
               (<! rc)
               )
             )
