@@ -6,6 +6,7 @@
             [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.store :as store]
+            [farn.map :as perlin-map]
             [farn.assets :as assets]
             [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
@@ -26,7 +27,7 @@
 (def cell-size 500)
 
 ;; player settings
-(def player-max-speed 10)
+(def player-max-speed 20)
 (def player-acceleration 0.6)
 (def player-drag 0.95)
 (def player-turn-speed 0.03)
@@ -106,7 +107,16 @@
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
-
+    (when (= (:test (:query-params url)) "perlin")
+      (println "we perlin!"))
+      (let [c (perlin-map/perlin-map-generator)]
+        (go 
+          (let [t  (<! c)]
+            (println "Perlin map done:" (.-length t))
+            )
+          )
+        )
+      ; (js/map 23 1000 1000 (fn [t] (println "Perlin map done!" t)))
   )
 
 ; main live code goes here
@@ -119,7 +129,8 @@
               :empty-colour 0x000000
               ;; :debug-delay 0.1
               :fade-in 0.2
-              :fade-out 2)]
+              :fade-out 2)
+        perlin-channel (perlin-map/perlin-map-generator)]
     (log "pulling")
     (<! loader)
     (log "pulled")
@@ -127,6 +138,9 @@
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           varela (font/make-tiled-font "Varela Round" 400 15)
           wait (<! (timeout 1000))
+          _ (log "perlin channel - start")
+          tilemap (<! perlin-channel)
+          _ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
           title-text (font/make-text "400 40pt Lobster"
                                      "Alien Forest Explorer"
@@ -158,10 +172,43 @@
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-
-          game-map (spatial/make-random-map
-                        (assets/to-keys assets/=assets-sprites-static=)
-                        10000 -10000 10000 -10000 10000)
+          
+          game-map (spatial/make-map-from-tilemap
+                        tilemap
+                        {
+                         ; water
+                         0 [:static-floor-water-big :static-floor-water-medium :static-floor-water-small]
+                         ; road
+                         1 [:static-floor-path-big :static-floor-path-medium :static-floor-path-small]
+                         ; "sand"
+                         2 (vec (concat
+                                  [:static-rock-1]
+                                  [:static-lump-2]
+                                  [:static-floor-sand-big :static-floor-sand-medium :static-floor-sand-small]
+                                  (assets/make-range "static-cactus-" 3)
+                                  ))
+                         ; trees
+                         3 (vec (concat
+                                  (assets/make-range "static-tree-" 20)
+                                  ;(assets/make-range "static-flower-" 3)
+                                  ;(assets/make-range "static-schroom-" 2)
+                                  ;(assets/make-range "static-tuft-" 3)
+                                  ))
+                         ; grass
+                         4 (vec (concat 
+                                  ;(assets/make-range "static-tuft-" 3)
+                                  [:static-schrub-1]
+                                  [:static-lump-1 :static-lump-3]
+                                  (assets/make-range "static-schroom-" 2)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  ))
+                        }
+                        50000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
@@ -190,6 +237,8 @@
                            (.removeChild main-stage (:sprite obj)))
                          )
 ]
+
+      ; (println "game-map" game-map)
 
       ;; title text
       (.addChild ui-stage title-text)
@@ -503,3 +552,4 @@
 (defn main []
 
 )
+
