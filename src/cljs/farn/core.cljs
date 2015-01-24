@@ -160,27 +160,15 @@
                                         ;(.addChild ui-stage (:sprite title-text))
       (<! (timeout 1000))
       (log "adding")
-      (log (str trees))
-      (log (str tufts))
       (doto player
         (sprite/set-scale! 0.5))
       (.addChild main-stage player)
 
-
-      (doseq [obj (game-space (spatial/cell? player-pos cell-size))]
-        (log "adding" (str obj))
-        (doto (:sprite obj)
-          (sprite/set-pos! (:pos obj))
-          (sprite/set-scale! (:scale obj))
-          )
-        (.addChild main-stage (:sprite obj))
-        )
+      (add-cell! (spatial/which-cell player-pos cell-size))
 
       (.sort (.-children main-stage) depth-compare)
 
-      (log "PRELOOP")
-
-      (loop [pos player-pos theta 0 ;(+ (/ Math/PI 2))
+      (loop [pos [0 0] theta 0 cells #{[0 0]}
              ]
         (let [[x y] pos
               calc-theta (+ theta Math/PI)
