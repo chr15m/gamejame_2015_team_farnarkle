@@ -4,6 +4,7 @@
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
 OUTDIR=gh-pages-build/
+COMMIT_ID=`git rev-parse master`
 
 echo "Cleaning with lein cljsbuild clean."
 lein cljsbuild clean
@@ -18,3 +19,7 @@ lein dump-index-html > $OUTDIR/index.html
 echo "Checking out gh-pages branch and syncing."
 git checkout gh-pages && \
 rsync -a --progress $OUTDIR .
+echo "Adding everything to the gh-pages branch."
+git add css img index.html js music
+git commit -m "gh-pages build of commit ID $COMMIT_ID"
+echo "now 'git push' to get gh-pages branch live."
