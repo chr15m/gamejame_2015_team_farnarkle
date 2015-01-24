@@ -48,7 +48,7 @@
 
 (def world (gfx/init :background grass-green
                      :expand true
-                     :engine :canvas
+                     :engine :webgl
                      :canvas (sel1 :#game)))
 (def main-stage (:world world))
 (def ui-stage (:ui world))
