@@ -104,10 +104,14 @@
               :empty-colour 0x000000
               ;; :debug-delay 0.1
               :fade-in 0.2
-              :fade-out 2)]
+              :fade-out 2)
+        perlin-channel (perlin-map/perlin-map-generator)]
     (log "pulling")
     (<! loader)
     (log "pulled")
+    (log "perlin channel - start")
+    (<! perlin-channel)
+    (log "perlin channel - done")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           title-text (font/font-make-batch lobster-big "Alien Forest Explorer" )
