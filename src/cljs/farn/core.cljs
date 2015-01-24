@@ -55,6 +55,7 @@
 
 ;; player animation is an atom cause I'm lazy
 (def player-animation (atom :standing))
+(def player-stars (atom 0))
 
 (defn load [s urls & {:keys [fade-in fade-out]
                       :or {fade-in 0.5 fade-out 0.5}
@@ -110,7 +111,7 @@
     (when (= (:test (:query-params url)) "perlin")
       (println "we perlin!"))
       (let [c (perlin-map/perlin-map-generator)]
-        (go 
+        (go
           (let [t  (<! c)]
             (println "Perlin map done:" (.-length t))
             )
@@ -161,6 +162,24 @@
           player-walking-texs [(gfx/get-texture :pink-walk-1)
                                (gfx/get-texture :pink-walk-2)]
 
+          player-stars-text (font/make-text "400 20pt Varela Round"
+                                            (str "★  " @player-stars)
+                                            :weight 400
+                                            :fill "#ffffff"
+                                            :dropShadow true
+                                            :dropShadowColor "#000000")
+
+          floor-objects [:static-floor-path-big
+                         :static-floor-path-medium
+                         :static-floor-path-small
+                         :static-floor-sand-big
+                         :static-floor-sand-medium
+                         :static-floor-sand-small
+                         :static-floor-water-big
+                         :static-floor-water-medium
+                         :static-floor-water-small
+                         ]
+
           trees (for [i (range 10)]
                   (gfx/get-texture (keyword (str "static-tree-" (inc i)))))
           tufts (for [i (range 3)]
@@ -169,10 +188,15 @@
           depth-compare (fn [a b]
                           ;(log "comp" (.-position.y a) (.-position.y b))
                           (cond
+                           (and (.-floortile a) (.-floortile b))
+                           (- (.-texture.width a) (.-texture.width b))
+
+                           (.-floortile a) -1
+                           (.-floortile b) 1
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-          
+
           game-map (spatial/make-map-from-tilemap
                         tilemap
                         {
@@ -195,7 +219,7 @@
                                   ;(assets/make-range "static-tuft-" 3)
                                   ))
                          ; grass
-                         4 (vec (concat 
+                         4 (vec (concat
                                   ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
                                   [:static-lump-1 :static-lump-3]
@@ -211,10 +235,15 @@
                         50000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
-                                (assoc obj
-                                  :sprite (make-sprite (gfx/get-texture (:type obj)))
-                                  :scale 0.5
-                                  )))
+                                (let [type (:type obj)
+                                      sprite (make-sprite (gfx/get-texture type))]
+                                  (when (some #(= type %) floor-objects)
+                                    (set! (.-floortile sprite) true)
+                                    (sprite/set-anchor! sprite 0.5 0.5))
+                                  (assoc obj
+                                    :sprite sprite
+                                    :scale 0.5
+                                    ))))
 
           game-space (spatial/hash-locations game-sprites cell-size)
 
@@ -252,6 +281,23 @@
                   hw (/ w 2)
                   hh (/ h 2)]
               (sprite/set-pos! title-text 0 (+ (- hh) 30))
+              (<! rc)
+              )
+            )
+          )
+        )
+
+      ;; player star count text
+      (sprite/set-anchor! player-stars-text 0 0)
+      (.addChild ui-stage player-stars-text)
+      (go
+        (let [rc (events/new-resize-chan)]
+          (while true
+            (let [w (.-innerWidth js/window)
+                  h (.-innerHeight js/window)
+                  hw (/ w 2)
+                  hh (/ h 2)]
+              (sprite/set-pos! player-stars-text (+ (- hw) 5) (+ (- hh) 5))
               (<! rc)
               )
             )
@@ -552,4 +598,3 @@
 (defn main []
 
 )
-
