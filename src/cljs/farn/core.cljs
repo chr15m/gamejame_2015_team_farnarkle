@@ -15,7 +15,9 @@
 
 (enable-console-print!)
 
-(println "url-parsed:" (query-string/parse-url (.-href (.-location js/document))))
+(def url (query-string/parse-url (.-href (.-location js/document))))
+
+(println "url-parsed:" url)
 
 (def grass-green 0x357564)
 
@@ -98,6 +100,14 @@
 
 (def cell-size 300)
 
+(if (:test (:query-params url)) 
+  (do
+    ; visit a URL with ?test=1 or &test=1 in there somewhere
+    (println "Testing code goes here!")
+    
+  )
+
+; main live code goes here
 (go
   (let [loader
         (load ui-stage =assets=
@@ -221,7 +231,7 @@
               vx (* speed hx)
               vy (* speed hy)
               ]
-          (log "pos" (str pos) "theta" theta)
+          ; (log "pos" (str pos) "theta" theta)
           (doto player
             (sprite/set-pos! pos))
 
@@ -295,7 +305,7 @@
                theta)))))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
-      )))
+      ))))
 
 ;; (def lobster-big (font/make-tiled-font "Lobster" 400 40))
 
