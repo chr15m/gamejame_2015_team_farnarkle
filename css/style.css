@@ -1,0 +1,57 @@
+.sprite {
+  height: 64px;
+  background-position: 0px 0;
+  background-repeat: no-repeat;
+  position: absolute;
+  display: block;
+  width: 64px;
+  background-color: transparent;
+}
+
+@font-face {
+  font-family: vectorfuture;
+  src: url('/img/ui_space/Fonts/kenvector_future_thin.ttf');
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  border: none;
+  padding: 0;
+  width: 100%;
+  background-color: #000000;
+  overflow: hidden;
+}
+
+#game-area {
+  left: 0;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+
+#ui {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+}
+
+#status-bottom {
+  height: 20%;
+  position: absolute;
+  opacity: 0.8;
+  z-index: 200;
+  width: 100%;
+  font-size: 24pt;
+  bottom: 0;
+}
+
+#fps {
+  position: absolute;
+  right: 0;
+  z-index: 200;
+  padding-right: 15;
+  top: 0;
+  color: white;
+}
