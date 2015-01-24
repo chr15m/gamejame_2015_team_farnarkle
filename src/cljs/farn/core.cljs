@@ -140,7 +140,22 @@
 
           game-space (spatial/hash-locations game-sprites cell-size)
 
-          player-pos [0 0]
+          add-cell! (fn [id]
+                     (doseq [obj (game-space id)]
+                       (log "adding" (str obj))
+                       (sprite/set-scale! (:sprite obj) (:scale obj))
+
+                       ;; add them way off so they don't pop
+                       ;; TODO: fix this
+                       (sprite/set-pos! (:sprite obj) 100000 100000)
+
+                       (.addChild main-stage (:sprite obj))))
+
+          remove-cell! (fn [id]
+                         (doseq [obj (game-space id)]
+                           (log "removing" (str obj))
+                           (.removeChild main-stage (:sprite obj)))
+                         )
 ]
                                         ;(.addChild ui-stage (:sprite title-text))
       (<! (timeout 1000))
