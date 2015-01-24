@@ -156,8 +156,18 @@
 
       (.sort (.-children main-stage) depth-compare)
 
+
       (loop []
-        (let [d-theta -0.01
+        (let [d-theta (cond
+                       (events/is-pressed? :left)
+                       0.02
+
+                       (events/is-pressed? :right)
+                       -0.02
+
+                       :default
+                       0
+                       )
               xc (Math/cos d-theta)
               yc (Math/sin d-theta)]
           ;; (log xc yc)
