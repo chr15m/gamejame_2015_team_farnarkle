@@ -49,6 +49,12 @@
   "img/sprites/static-tuft-3.png"
 ])
 
+(def =assets-sprites-bits= 
+  [
+  "img/sprites/shadow-1.png"
+   ]
+  )
+
 (def =assets-sprites-components= 
   [
   "img/sprites/component-tree-shrub-brown-1.png"
@@ -106,4 +112,4 @@
    "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"])
 
 (def =assets=
-  (vec (concat =assets-fonts= =assets-sprites-static= =assets-sprites-baby= =assets-sprites-pink= =assets-sprites-brown= )))
+  (vec (concat =assets-fonts= =assets-sprites-static= =assets-sprites-baby= =assets-sprites-pink= =assets-sprites-brown= =assets-sprites-bits= )))
