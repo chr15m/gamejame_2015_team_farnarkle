@@ -37,7 +37,7 @@ function map(seed, w, h, callback) {
                 var roads = Math.abs(roadsp) < 0.05;
                 var riversideRoads = desertp < 0.6 && Math.abs(waterp) < 0.11 && Math.abs(waterp > 0.08);
                 // trees
-                var trees = treep > 0.5;
+                var trees = treep > 0.50;
                 
                 if (lake || river || oasis) {
 			// water

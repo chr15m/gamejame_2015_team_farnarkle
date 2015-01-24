@@ -1213,7 +1213,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-11.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 511.3295,758.1413 0,-85 q 5.45,0.1 9.3,3.95 3.95,3.95 3.95,9.55 l 0,58 q 0,5.6 -3.95,9.55 -2.65,2.65 -6.05,3.55 l -3.25,0.4"
          id="path31663"
@@ -1240,7 +1240,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-10.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 467.5795,757.7413 q -3.4,-0.9 -6.05,-3.55 -3.95,-3.95 -3.95,-9.55 l 0,-38 q 0,-5.6 3.95,-9.55 3.95,-3.95 9.55,-3.95 l 0.25,0 0,65 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2"
          id="path31729"
@@ -1267,7 +1267,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-12.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 547.5795,737.7413 0,-8 1,0.2 2.25,0.2 0.25,0 0.25,0 3.25,-0.4 0,8 -3.25,0.4 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2 m 7,2 0,9.45 -0.05,0.6 0.05,-0.05 0,9.55 -0.05,0.5 0.05,-0.05 0,9.45 q -0.05,1.15 -1,2.05 -0.9,0.8 -2.25,0.9 l -0.25,0 q -1.4,0 -2.45,-0.9 -1,-0.9 -1.05,-2.05 l 0,-9.45 0.1,0.05 -0.1,-0.55 0,-9.5 0.1,0.05 -0.1,-0.6 0,-9.45 0.1,0.05 0.9,0.15 2.25,0.2 0.25,0 0.25,0 3.2,-0.35 0.05,-0.05"
          id="path31961"
@@ -1294,7 +1294,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-13.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 587.5795,757.7413 q -3.4,-0.9 -6.05,-3.55 -3.95,-3.95 -3.95,-9.55 l 0,-38 q 0,-5.6 3.95,-9.55 3.95,-3.95 9.55,-3.95 l 0.25,0 0,65 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2"
          id="path31971"
@@ -1321,7 +1321,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-14.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 631.3295,673.1413 0,85 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2 q -3.4,-0.9 -6.05,-3.55 -3.95,-3.95 -3.95,-9.55 l 0,-58 q 0,-5.6 3.95,-9.55 3.95,-3.95 9.55,-3.95 l 0.25,0"
          id="path31981"
@@ -1348,7 +1348,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-15.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 671.3295,738.1413 0,-65 q 5.45,0.1 9.3,3.95 3.95,3.95 3.95,9.55 l 0,38 q 0,5.6 -3.95,9.55 -2.65,2.65 -6.05,3.55 l -3.25,0.4"
          id="path31991"
@@ -1375,7 +1375,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-16.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 707.5795,757.7413 q -3.4,-0.9 -6.05,-3.55 -3.95,-3.95 -3.95,-9.55 l 0,-38 q 0,-5.6 3.95,-9.55 3.95,-3.95 9.55,-3.95 l 0.25,0 0,65 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2"
          id="path32001"
@@ -1402,7 +1402,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-17.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 751.3295,673.1413 q 5.45,0.1 9.3,3.95 3.95,3.95 3.95,9.55 l 0,58 q 0,5.6 -3.95,9.55 -2.65,2.65 -6.05,3.55 l -3.25,0.4 0,-85"
          id="path32011"
@@ -1429,7 +1429,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-18.png"
        inkscape:export-xdpi="213.03798"
        inkscape:export-ydpi="213.03798"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 791.3295,673.1413 q 5.45,0.1 9.3,3.95 3.95,3.95 3.95,9.55 l 0,38 q 0,5.6 -3.95,9.55 -2.65,2.65 -6.05,3.55 l -3.25,0.4 0,-65"
          id="path32021"
@@ -1456,7 +1456,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-8.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 374.83321,757.61437 0,-2 1,0.2 2.25,0.2 0.25,0 0.25,0 3.25,-0.4 0,2 -3.25,0.4 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2"
          id="path32031"
@@ -1483,7 +1483,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-7.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 334.83321,757.61437 0,-2 1,0.2 2.25,0.2 0.25,0 0.25,0 3.25,-0.4 0,2 -3.25,0.4 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2"
          id="path32041"
@@ -1510,7 +1510,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-9.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 414.83321,742.61437 0,-15 1,0.2 2.25,0.2 0.25,0 0.25,0 3.25,-0.4 0,15 -3.25,0.4 -0.25,0 -0.25,0 -2.25,-0.2 -1,-0.2 m 7,2 0,2.45 -0.05,0.6 0.05,-0.05 0,9.65 -0.05,0.4 0.05,-0.05 0,9.45 q -0.05,1.15 -1,2.05 -0.9,0.8 -2.25,0.9 l -0.25,0 q -1.4,0 -2.45,-0.9 -1,-0.9 -1.05,-2.05 l 0,-9.45 0.1,0.05 -0.1,-0.45 0,-9.6 0.1,0.05 -0.1,-0.6 0,-2.45 0.1,0.05 0.9,0.15 2.25,0.2 0.25,0 0.25,0 3.2,-0.35 0.05,-0.05"
          id="path32051"
@@ -1537,7 +1537,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-6.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          inkscape:export-ydpi="197.26019"
          inkscape:export-xdpi="197.26019"
@@ -1576,7 +1576,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-5.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 258.13321,677.01437 3.2,0 8.85,52.95 q 2.55,15.05 2.55,18.1 0,6.4 -4.45,10.95 -2.85,2.9 -6.45,3.95 l -3.7,0.55 0,-86.5"
          id="path32071"
@@ -1598,7 +1598,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-4.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 218.13321,699.01437 3.2,0 8.85,36.5 q 2.4,9.8 2.55,12.2 l 0,0.4 q -0.15,6.15 -4.45,10.55 -2.85,2.9 -6.45,3.95 l -3.7,0.55 0,-64.15"
          id="path32079"
@@ -1620,7 +1620,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-1.png"
        inkscape:export-xdpi="197.25999"
        inkscape:export-ydpi="197.25999"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          inkscape:export-ydpi="62.560001"
          inkscape:export-xdpi="62.560001"
@@ -1651,7 +1651,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-2.png"
        inkscape:export-xdpi="197.25999"
        inkscape:export-ydpi="197.25999"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 134.83321,763.06437 q -3.85,-1 -6.85,-4.05 -4.45,-4.55 -4.45,-10.95 0,-3.05 2.55,-18.1 l 8.85,-52.95 3.2,0 0,86.5 -3.3,-0.45"
          id="path32095"
@@ -1673,7 +1673,7 @@
        inkscape:export-filename="../public/img/sprites/static-tree-3.png"
        inkscape:export-xdpi="197.26019"
        inkscape:export-ydpi="197.26019"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          inkscape:export-ydpi="62.560001"
          inkscape:export-xdpi="62.560001"
@@ -1712,7 +1712,7 @@
        inkscape:export-filename="../public/img/sprites/static-cactus-1.png"
        inkscape:export-xdpi="200.17241"
        inkscape:export-ydpi="200.17241"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 831.0795,714.1913 0.5,-0.05 q 2.9,0 4.95,2.05 2.05,2.1 2.05,5 l 0,46.15 q 0,2 -2.05,3.4 -2.05,1.4 -4.95,1.4 l -0.5,0 0,-57.95"
          id="path32113"
@@ -1739,7 +1739,7 @@
        inkscape:export-filename="../public/img/sprites/static-cactus-2.png"
        inkscape:export-xdpi="200"
        inkscape:export-ydpi="200"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          inkscape:export-ydpi="187.82608"
          inkscape:export-xdpi="187.82608"
@@ -1770,7 +1770,7 @@
        inkscape:export-filename="../public/img/sprites/static-cactus-3.png"
        inkscape:export-xdpi="200.17241"
        inkscape:export-ydpi="200.17241"
-       transform="translate(20,-160)">
+       transform="translate(20,-80)">
       <path
          d="m 911.0795,714.1913 0.5,-0.05 q 2.9,0 4.95,2.05 2.05,2.1 2.05,5 l 0,46.15 q 0,2 -2.05,3.4 -2.05,1.4 -4.95,1.4 l -0.5,0 0,-57.95"
          id="path32131"
@@ -1796,39 +1796,39 @@
        style="fill:#d3ad89;stroke:none"
        inkscape:connector-curvature="0"
        id="path26077"
-       d="m 478.8,714.36218 q 0.05,-2.45 1.8,-4.2 1.75,-1.8 4.3,-1.8 2.55,0 4.35,1.8 1.7,1.75 1.75,4.2 l -0.35,0 q -0.45,-1.2 -1.4,-2.2 -1.8,-1.8 -4.35,-1.8 -2.55,0 -4.3,1.8 -1,1 -1.45,2.2 l -0.35,0" />
+       d="m 478.8,734.36218 q 0.05,-2.45 1.8,-4.2 1.75,-1.8 4.3,-1.8 2.55,0 4.35,1.8 1.7,1.75 1.75,4.2 l -0.35,0 q -0.45,-1.2 -1.4,-2.2 -1.8,-1.8 -4.35,-1.8 -2.55,0 -4.3,1.8 -1,1 -1.45,2.2 l -0.35,0" />
     <path
        style="fill:#c99869;stroke:none"
        inkscape:connector-curvature="0"
        id="path26079"
-       d="m 478.8,714.36218 0.35,0 q 0.45,-1.2 1.45,-2.2 1.75,-1.8 4.3,-1.8 2.55,0 4.35,1.8 0.95,1 1.4,2.2 l 0.35,0 0,64 -12.2,0 0,-64" />
+       d="m 478.8,734.36218 0.35,0 q 0.45,-1.2 1.45,-2.2 1.75,-1.8 4.3,-1.8 2.55,0 4.35,1.8 0.95,1 1.4,2.2 l 0.35,0 0,64 -12.2,0 0,-64" />
     <path
        style="fill:#bb844d;stroke:none"
        inkscape:connector-curvature="0"
        id="path26081"
-       d="m 508.95,721.76218 q -0.15,-1.3 -1.85,-1.45 l -40.1,0 0,-2 40.1,0 q 2,0.15 1.85,1.9 l 0,0.55 0,0.45 0,0.55 m -41.95,-9.1 q -0.15,-4.5 -3.55,0 l -16.25,18.8 q -1.05,1.75 -1.2,3.5 l 0,-1 q -0.2,-2.2 1.2,-4.5 l 16.25,-18.8 q 3.4,-4.5 3.55,0 l 0,2" />
+       d="m 508.95,741.76218 q -0.15,-1.3 -1.85,-1.45 l -40.1,0 0,-2 40.1,0 q 2,0.15 1.85,1.9 l 0,0.55 0,0.45 0,0.55 m -41.95,-9.1 q -0.15,-4.5 -3.55,0 l -16.25,18.8 q -1.05,1.75 -1.2,3.5 l 0,-1 q -0.2,-2.2 1.2,-4.5 l 16.25,-18.8 q 3.4,-4.5 3.55,0 l 0,2" />
     <path
        style="fill:#ae7640;stroke:none"
        inkscape:connector-curvature="0"
        id="path26083"
-       d="m 467,712.66218 0,5.65 0,2 40.1,0 q 1.7,0.15 1.85,1.45 l 0,0.45 0,25.4 0,0.45 0,0.55 q 0.15,1.75 -1.85,1.85 l -40.1,0 0,7.7 q -0.15,4.45 -3.55,0 l -16.25,-18.8 q -1.4,-2.2 -1.2,-4.4 0.15,-1.75 1.2,-3.5 l 16.25,-18.8 q 3.4,-4.5 3.55,0" />
+       d="m 467,732.66218 0,5.65 0,2 40.1,0 q 1.7,0.15 1.85,1.45 l 0,0.45 0,25.4 0,0.45 0,0.55 q 0.15,1.75 -1.85,1.85 l -40.1,0 0,7.7 q -0.15,4.45 -3.55,0 l -16.25,-18.8 q -1.4,-2.2 -1.2,-4.4 0.15,-1.75 1.2,-3.5 l 16.25,-18.8 q 3.4,-4.5 3.55,0" />
     <path
-       d="m 636.2,714.36218 -0.35,0 q -0.45,-1.2 -1.45,-2.2 -1.75,-1.8 -4.3,-1.8 -2.55,0 -4.35,1.8 -0.95,1 -1.4,2.2 l -0.35,0 q 0.05,-2.45 1.75,-4.2 1.8,-1.8 4.35,-1.8 2.55,0 4.3,1.8 1.75,1.75 1.8,4.2"
+       d="m 636.2,734.36218 -0.35,0 q -0.45,-1.2 -1.45,-2.2 -1.75,-1.8 -4.3,-1.8 -2.55,0 -4.35,1.8 -0.95,1 -1.4,2.2 l -0.35,0 q 0.05,-2.45 1.75,-4.2 1.8,-1.8 4.35,-1.8 2.55,0 4.3,1.8 1.75,1.75 1.8,4.2"
        id="path33942"
        inkscape:connector-curvature="0"
        style="fill:#d3ad89;stroke:none" />
     <path
-       d="m 636.2,714.36218 0,64 -12.2,0 0,-64 0.35,0 q 0.45,-1.2 1.4,-2.2 1.8,-1.8 4.35,-1.8 2.55,0 4.3,1.8 1,1 1.45,2.2 l 0.35,0"
+       d="m 636.2,734.36218 0,64 -12.2,0 0,-64 0.35,0 q 0.45,-1.2 1.4,-2.2 1.8,-1.8 4.35,-1.8 2.55,0 4.3,1.8 1,1 1.45,2.2 l 0.35,0"
        id="path33944"
        inkscape:connector-curvature="0"
        style="fill:#c99869;stroke:none" />
     <path
-       d="m 670,734.96218 q -0.15,-1.75 -1.2,-3.5 l -16.25,-18.8 q -3.4,-4.5 -3.55,0 l 0,-2 q 0.15,-4.5 3.55,0 l 16.25,18.8 q 1.4,2.3 1.2,4.5 l 0,1 m -21,-16.65 0,2 -40.1,0 q -1.7,0.15 -1.85,1.45 l 0,-0.55 0,-0.45 0,-0.55 q -0.15,-1.75 1.85,-1.9 l 40.1,0"
+       d="m 670,754.96218 q -0.15,-1.75 -1.2,-3.5 l -16.25,-18.8 q -3.4,-4.5 -3.55,0 l 0,-2 q 0.15,-4.5 3.55,0 l 16.25,18.8 q 1.4,2.3 1.2,4.5 l 0,1 m -21,-16.65 0,2 -40.1,0 q -1.7,0.15 -1.85,1.45 l 0,-0.55 0,-0.45 0,-0.55 q -0.15,-1.75 1.85,-1.9 l 40.1,0"
        id="path33946"
        inkscape:connector-curvature="0"
        style="fill:#bb844d;stroke:none" />
     <path
-       d="m 649,718.31218 0,-5.65 q 0.15,-4.5 3.55,0 l 16.25,18.8 q 1.05,1.75 1.2,3.5 0.2,2.2 -1.2,4.4 l -16.25,18.8 q -3.4,4.45 -3.55,0 l 0,-7.7 -40.1,0 q -2,-0.1 -1.85,-1.85 l 0,-0.55 0,-0.45 0,-25.4 0,-0.45 q 0.15,-1.3 1.85,-1.45 l 40.1,0 0,-2"
+       d="m 649,738.31218 0,-5.65 q 0.15,-4.5 3.55,0 l 16.25,18.8 q 1.05,1.75 1.2,3.5 0.2,2.2 -1.2,4.4 l -16.25,18.8 q -3.4,4.45 -3.55,0 l 0,-7.7 -40.1,0 q -2,-0.1 -1.85,-1.85 l 0,-0.55 0,-0.45 0,-25.4 0,-0.45 q 0.15,-1.3 1.85,-1.45 l 40.1,0 0,-2"
        id="path33948"
        inkscape:connector-curvature="0"
        style="fill:#ae7640;stroke:none" />
@@ -1836,22 +1836,22 @@
        style="fill:#cfdada;stroke:none"
        inkscape:connector-curvature="0"
        id="path25637"
-       d="m 220.50562,717.71187 0,-1.9 q 0,-2.95 2.95,-2.95 l 13.1,0 q 2.95,0 2.95,2.95 l 0,1.9 q -0.05,-2.85 -2.95,-2.85 l -13.1,0 q -2.9,0 -2.95,2.85" />
+       d="m 220.50562,737.71187 0,-1.9 q 0,-2.95 2.95,-2.95 l 13.1,0 q 2.95,0 2.95,2.95 l 0,1.9 q -0.05,-2.85 -2.95,-2.85 l -13.1,0 q -2.9,0 -2.95,2.85" />
     <path
        style="fill:#acc0c1;stroke:none"
        inkscape:connector-curvature="0"
        id="path25639"
-       d="m 220.50562,717.71187 q 0.05,-2.85 2.95,-2.85 l 13.1,0 q 2.9,0 2.95,2.85 l 0,6.35 q -0.1,2.8 -2.95,2.8 l -13.1,0 q -2.85,0 -2.95,-2.8 l 0,-6.35" />
+       d="m 220.50562,737.71187 q 0.05,-2.85 2.95,-2.85 l 13.1,0 q 2.9,0 2.95,2.85 l 0,6.35 q -0.1,2.8 -2.95,2.8 l -13.1,0 q -2.85,0 -2.95,-2.8 l 0,-6.35" />
     <path
        style="fill:#cfdada;stroke:none"
        inkscape:connector-curvature="0"
        id="path25641"
-       d="m 219.75562,752.11187 q -0.75,-1.55 0.8,-3.1 l 9.15,-9.1 q 2.05,-2.1 4.1,-0.05 l 5.75,5.75 q 1.4,1.55 0.7,3.05 l -0.7,-1.05 -5.75,-5.8 q -2.05,-2 -4.1,0.05 l -9.15,9.15 -0.8,1.1" />
+       d="m 219.75562,772.11187 q -0.75,-1.55 0.8,-3.1 l 9.15,-9.1 q 2.05,-2.1 4.1,-0.05 l 5.75,5.75 q 1.4,1.55 0.7,3.05 l -0.7,-1.05 -5.75,-5.8 q -2.05,-2 -4.1,0.05 l -9.15,9.15 -0.8,1.1" />
     <path
        style="fill:#acc0c1;stroke:none"
        inkscape:connector-curvature="0"
        id="path25643"
-       d="m 219.75562,752.11187 0.8,-1.1 9.15,-9.15 q 2.05,-2.05 4.1,-0.05 l 5.75,5.8 0.7,1.05 -0.8,1 -9.15,9.15 q -2,2.05 -4.05,0.1 l -5.75,-5.8 -0.75,-1" />
+       d="m 219.75562,772.11187 0.8,-1.1 9.15,-9.15 q 2.05,-2.05 4.1,-0.05 l 5.75,5.8 0.7,1.05 -0.8,1 -9.15,9.15 q -2,2.05 -4.05,0.1 l -5.75,-5.8 -0.75,-1" />
     <path
        style="fill:#a3784d;stroke:none"
        inkscape:connector-curvature="0"
@@ -2754,7 +2754,7 @@
     </g>
     <path
        sodipodi:type="arc"
-       style="fill:#808000;fill-opacity:0.26368163;stroke:none"
+       style="fill:#91975a;fill-opacity:1;stroke:none"
        id="path45861"
        sodipodi:cx="132"
        sodipodi:cy="150.59448"
@@ -2773,14 +2773,14 @@
        sodipodi:cy="150.59448"
        sodipodi:cx="132"
        id="path45863"
-       style="fill:#808000;fill-opacity:0.26368163;stroke:none"
+       style="fill:#91975a;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        inkscape:export-filename="../public/img/sprites/static-floor-path-big.png"
        inkscape:export-xdpi="197.25999"
        inkscape:export-ydpi="197.25999" />
     <path
        sodipodi:type="arc"
-       style="fill:#808000;fill-opacity:0.26368163;stroke:none"
+       style="fill:#91975a;fill-opacity:1;stroke:none"
        id="path45865"
        sodipodi:cx="132"
        sodipodi:cy="150.59448"
@@ -3610,14 +3610,14 @@
        sodipodi:cy="150.59448"
        sodipodi:cx="132"
        id="path46369"
-       style="fill:#008080;fill-opacity:0.26368163000000000;stroke:none"
+       style="fill:#30a2a2;fill-opacity:1;stroke:none"
        sodipodi:type="arc" />
     <path
        inkscape:export-ydpi="197.25999"
        inkscape:export-xdpi="197.25999"
        inkscape:export-filename="../public/img/sprites/static-floor-water-big.png"
        sodipodi:type="arc"
-       style="fill:#008080;fill-opacity:0.26368163000000000;stroke:none"
+       style="fill:#30a2a2;fill-opacity:1;stroke:none"
        id="path46371"
        sodipodi:cx="132"
        sodipodi:cy="150.59448"
@@ -3636,7 +3636,59 @@
        sodipodi:cy="150.59448"
        sodipodi:cx="132"
        id="path46373"
-       style="fill:#008080;fill-opacity:0.26368163000000000;stroke:none"
+       style="fill:#30a2a2;fill-opacity:1;stroke:none"
        sodipodi:type="arc" />
+    <path
+       inkscape:export-ydpi="197.25999"
+       inkscape:export-xdpi="197.25999"
+       inkscape:export-filename="../public/img/sprites/static-floor-sand-medium.png"
+       transform="matrix(-1,0,0,1,438.99999,401.2677)"
+       d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
+       sodipodi:ry="24.5"
+       sodipodi:rx="49"
+       sodipodi:cy="150.59448"
+       sodipodi:cx="132"
+       id="path46393"
+       style="fill:#b7b700;fill-opacity:1;stroke:none"
+       sodipodi:type="arc" />
+    <path
+       inkscape:export-ydpi="197.25999"
+       inkscape:export-xdpi="197.25999"
+       inkscape:export-filename="../public/img/sprites/static-floor-sand-big.png"
+       sodipodi:type="arc"
+       style="fill:#b7b700;fill-opacity:1;stroke:none"
+       id="path46395"
+       sodipodi:cx="132"
+       sodipodi:cy="150.59448"
+       sodipodi:rx="49"
+       sodipodi:ry="24.5"
+       d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
+       transform="matrix(-1.4285714,0,0,1.4285714,346.57142,327.22721)" />
+    <path
+       inkscape:export-ydpi="197.25999"
+       inkscape:export-xdpi="197.25999"
+       inkscape:export-filename="../public/img/sprites/static-floor-sand-small.png"
+       transform="matrix(-0.61224487,0,0,0.61224487,504.81632,470.16148)"
+       d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
+       sodipodi:ry="24.5"
+       sodipodi:rx="49"
+       sodipodi:cy="150.59448"
+       sodipodi:cx="132"
+       id="path46397"
+       style="fill:#b7b700;fill-opacity:1;stroke:none"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#008181;fill-opacity:1;stroke:none"
+       id="path46399"
+       sodipodi:cx="132"
+       sodipodi:cy="150.59448"
+       sodipodi:rx="49"
+       sodipodi:ry="24.5"
+       d="m 181,150.59448 a 49,24.5 0 1 1 -98,0 49,24.5 0 1 1 98,0 z"
+       transform="matrix(0.8772029,0,0,0.8772029,998.07057,360.59235)"
+       inkscape:export-filename="../public/img/sprites/static-floor-water-small.png"
+       inkscape:export-xdpi="197.25999"
+       inkscape:export-ydpi="197.25999" />
   </g>
 </svg>

@@ -27,7 +27,7 @@
 (def cell-size 500)
 
 ;; player settings
-(def player-max-speed 10)
+(def player-max-speed 20)
 (def player-acceleration 0.6)
 (def player-drag 0.95)
 (def player-turn-speed 0.03)
@@ -155,26 +155,33 @@
                          1 [:static-floor-path-big :static-floor-path-medium :static-floor-path-small]
                          ; "sand"
                          2 (vec (concat
-                                  (assets/make-range "static-rock-" 3)
+                                  [:static-rock-1]
+                                  [:static-lump-2]
+                                  [:static-floor-sand-big :static-floor-sand-medium :static-floor-sand-small]
                                   (assets/make-range "static-cactus-" 3)
                                   ))
                          ; trees
                          3 (vec (concat
                                   (assets/make-range "static-tree-" 20)
-                                  (assets/make-range "static-flower-" 3)
-                                  (assets/make-range "static-schroom-" 2)
-                                  (assets/make-range "static-tuft-" 3)))
+                                  ;(assets/make-range "static-flower-" 3)
+                                  ;(assets/make-range "static-schroom-" 2)
+                                  ;(assets/make-range "static-tuft-" 3)
+                                  ))
                          ; grass
                          4 (vec (concat 
-                                  (assets/make-range "static-tuft-" 3)
+                                  ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
-                                  [:static-rock-1]
+                                  [:static-lump-1 :static-lump-3]
                                   (assets/make-range "static-schroom-" 2)
-                                  (assets/make-range "static-lump-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-flower-" 3)
                                   (assets/make-range "static-flower-" 3)
                                   ))
                         }
-                        10000 -10000 10000 -10000 10000)
+                        50000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
