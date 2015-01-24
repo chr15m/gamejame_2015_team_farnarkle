@@ -5,11 +5,17 @@
             [farn.sprite :as sprite]
             [farn.spatial :as spatial]
             [farn.events :as events]
+            [farn.store :as store]
+            [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
             [dommy.core :as dommy :refer-macros [sel1]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]])
 )
+
+(enable-console-print!)
+
+(println "url-parsed:" (query-string/parse-url (.-href (.-location js/document))))
 
 (def grass-green 0x357564)
 
