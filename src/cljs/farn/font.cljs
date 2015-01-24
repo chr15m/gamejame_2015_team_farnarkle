@@ -39,19 +39,28 @@
 
 (defn make-text
   "Make a PIXI.Text object using font and string and default settings"
-  [font str]
-  (js/PIXI.Text. str
-                 #js {
-                      :font font
-                      :fill "#ffffff"
-                      :align "left"
-                      :style "normal"
-                      :weight 400
-                      :stroke "#ffffff"
-                      :strokeThickness 0
-                      :dropShadow false
-                      :dropShadowColor "#444444"
-                      }))
+  [font str &
+   {:keys [fill align style weight stroke strokeThickness dropShadow dropShadowColor]
+    :or {fill "#ffffff" align "left" style "normal" weight 400 stroke "#ffffff"
+         strokeThickness 0 dropShadow false dropShadowColor "#444444"}
+    }
+   ]
+  (let [spr (js/PIXI.Text. str
+                           #js {
+                                :font font
+                                :fill fill
+                                :align align
+                                :style style
+                                :weight weight
+                                :stroke stroke
+                                :strokeThickness strokeThickness
+                                :dropShadow dropShadow
+                                :dropShadowColor dropShadowColor
+                                })]
+    (set! (.-anchor.x spr) 0.5)
+    (set! (.-anchor.y spr) 0.5)
+    spr
+))
 
 ;; "400 48px Open Sans"
 (defn font-metrics
