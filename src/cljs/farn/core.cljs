@@ -34,6 +34,15 @@
 ;; rex stuff
 (def word-exit-speed 2)
 (def word-entry-speed 1.6)
+(def rex-phrases ["What do we do now?"
+                  "I'm sick of asking!"
+                  "Who the fuck knows!"
+                  "Maybe theres an alien baby lost in these woods..."
+                  "I can hear that baby crying!"
+                  "Why don't you go find the source of that sobbing?"
+                  "Is there anything else to do on this planet?"
+                  "These human brains are puny... but tasty!"
+                  ])
 
 (defonce fonts
   [
@@ -86,9 +95,9 @@
     (<! (events/next-frame))
     (.render (:renderer world) (:stage world))))
 
-(defn make-sprite [tex]
+(defn make-sprite [tex & {:keys [anchor-x anchor-y] :or {anchor-x 0.5 anchor-y 1}}]
   (let [s (gfx/make-sprite tex)]
-    (sprite/set-anchor! s 0.5 1)
+    (sprite/set-anchor! s anchor-x anchor-y)
     s))
 
 (if (:test (:query-params url))
@@ -122,9 +131,20 @@
                                      :weight 400 :fill "#399296"
                                      :dropShadow true
                                      :dropShadowColor "#333333")
+
           tex (gfx/get-texture :pink-stand-4)
           player (make-sprite tex)
-          _ (log "GUY" player)
+          player-shadow (make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
+
+          player-standing-texs (doall (for [type [:pink-stand-1 :pink-stand-2
+                                                  :pink-stand-3 :pink-stand-4]]
+                                        (gfx/get-texture type)
+                                        ))
+          player-standing-sway [0 -4 0 4]
+
+          player-walking-texs [(gfx/get-texture :pink-walk-1)
+                               (gfx/get-texture :pink-walk-2)]
+
           trees (for [i (range 10)]
                   (gfx/get-texture (keyword (str "static-tree-" (inc i)))))
           tufts (for [i (range 3)]
@@ -227,15 +247,7 @@
             ;; text scroll out
             (go
               (let [
-                    phrases ["What do we do now?"
-                             "I'm sick of asking!"
-                             "Who the fuck knows!"
-                             "Maybe theres an alien baby lost in these woods..."
-                             "I can hear that baby crying!"
-                             "Why don't you go find the source of that sobbing?"
-                             "Is there anything else to do on this planet?"
-                             "These human brains are puny... but tasty!"
-                             ]
+                    phrases rex-phrases
                     phrase (rand-nth phrases)
                     phrase-spr (font/make-text "400 15pt Varela Round"
                                      phrase
@@ -283,10 +295,40 @@
         )
 
       (<! (timeout 1000))
-      (log "adding")
+      (log "adding player")
       (doto player
         (sprite/set-scale! 0.5))
       (.addChild main-stage player)
+      (.addChild main-stage player-shadow)
+
+      ;; handle the player animation
+      (go
+        (while true
+          (case @player-animation
+            :standing
+            (do
+              (while (= @player-animation :standing)
+                (loop [i 0]
+                  (<! (timeout (rand-between 300 600)))
+                  (.setTexture player (nth player-standing-texs i))
+                  (sprite/set-pivot! player (player-standing-sway i) 0)
+                  (when (= @player-animation :standing)
+                    (recur (mod (inc i) 4))))))
+
+            :running
+            (do
+              (while (= @player-animation :running)
+                (.setTexture player (player-walking-texs 0))
+                ;; (loop [i 0]
+                ;;   ()
+                ;;   )
+                (<! (timeout 500))
+                (.setTexture player (player-walking-texs 1))
+                (<! (timeout 500))
+)
+
+)
+            )))
 
       (add-cell! (spatial/which-cell player-pos cell-size))
 
@@ -374,10 +416,8 @@
                                         ;(log "pos" (str pos) "theta" theta)
 ]
 
-          (doto player
-            (sprite/set-pos! pos))
-
-
+          (sprite/set-pos! player pos)
+          (sprite/set-pos! player-shadow pos)
 
           ;; set the static world sprites to the correct orientation (rotate trees)
           (doseq [cell cells]
@@ -408,6 +448,11 @@
 
           ;; move cetnter of render to be on player
           (sprite/set-pivot! main-stage x y)
+
+          ;; switch the player animation
+          (if (or (> (Math/abs vx) 0.4) (> (Math/abs vy) 0.4))
+            (reset! player-animation :running)
+            (reset! player-animation :standing))
 
           (.sort (.-children main-stage) depth-compare)
           (<! (events/next-frame))
