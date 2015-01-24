@@ -208,7 +208,7 @@
                                   (assets/make-range "static-flower-" 3)
                                   ))
                         }
-                        50000 -10000 10000 -10000 10000)
+                        30000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
