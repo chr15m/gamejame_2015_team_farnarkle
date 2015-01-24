@@ -38,6 +38,9 @@
    (font/install-google-font-stylesheet! "http://fonts.googleapis.com/css?family=Varela+Round")
    (font/install-google-font-stylesheet! "http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two")])
 
+;; player animation is an atom cause I'm lazy
+(def player-animation (atom :standing))
+
 (defn load [s urls & {:keys [fade-in fade-out]
                       :or {fade-in 0.5 fade-out 0.5}
                       :as options}]
@@ -121,7 +124,13 @@
     (log "perlin channel - done")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 40)
-          title-text (font/font-make-batch lobster-big "Alien Forest Explorer" )
+          wait (<! (timeout 1000))
+          ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
+          title-text (font/make-text "400 40pt Lobster"
+                                     "Alien Forest Explorer"
+                                     :weight 400 :fill "#399296"
+                                     :dropShadow true
+                                     :dropShadowColor "#333333")
           tex (gfx/get-texture :pink-stand-4)
           player (make-sprite tex)
           _ (log "GUY" player)
@@ -168,7 +177,26 @@
                            (.removeChild main-stage (:sprite obj)))
                          )
 ]
-                                        ;(.addChild ui-stage (:sprite title-text))
+
+      ;; title text
+      (.addChild ui-stage title-text)
+
+      ;; keep title positioned at top
+      (go
+        (let [rc (events/new-resize-chan)]
+          (while true
+            (let [w (.-innerWidth js/window)
+                  h (.-innerHeight js/window)
+                  hw (/ w 2)
+                  hh (/ h 2)]
+              (sprite/set-pos! title-text 0 (+ (- hh) 30))
+              (<! rc)
+              )
+            )
+          )
+        )
+
+
       (<! (timeout 1000))
       (log "adding")
       (doto player
