@@ -21,6 +21,8 @@
 (println "url-parsed:" url)
 
 (def grass-green 0x357564)
+(def isometric-factor 3)
+(def cell-size 500)
 
 (defonce fonts
   [
@@ -75,13 +77,11 @@
     (sprite/set-anchor! s 0.5 1)
     s))
 
-(def cell-size 1000)
-
 (if (:test (:query-params url))
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
-    
+
   )
 
 ; main live code goes here
@@ -118,7 +118,7 @@
 
           game-map (spatial/make-random-map
                         (assets/to-keys assets/=assets-sprites-static=)
-                        5000 -5000 5000 -5000 5000)
+                        10000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
@@ -132,7 +132,7 @@
 
           add-cell! (fn [id]
                      (doseq [obj (game-space id)]
-                       (log "adding" (str obj))
+                       ;(log "adding" (str obj))
                        (sprite/set-scale! (:sprite obj) (:scale obj))
 
                        ;; add them way off so they don't pop
@@ -143,7 +143,7 @@
 
           remove-cell! (fn [id]
                          (doseq [obj (game-space id)]
-                           (log "removing" (str obj))
+                           ;(log "removing" (str obj))
                            (.removeChild main-stage (:sprite obj)))
                          )
 ]
@@ -159,7 +159,11 @@
       (.sort (.-children main-stage) depth-compare)
 
       (loop [pos [0 0] theta 0 cells #{[0 0]}
+             sprite-count 0
              ]
+        (when (not= sprite-count (.-children.length main-stage))
+          (log "SPRITE COUNT:" (.-children.length main-stage)))
+
         (let [[x y] pos
               calc-theta (+ theta Math/PI)
 
@@ -176,29 +180,47 @@
               vx (* speed hx)
               vy (* speed hy)
 
+              ;; save the old sprite count before killing the number
+              old-sprite-count (.-children.length main-stage)
+
               ;; what cell is player in
               player-cell (spatial/which-cell pos cell-size)
+              [player-cell-x player-cell-y] player-cell
+
+              ;; we need surrounding cells too
+              player-and-surrounds (for [dx [-2 -1 0 1 2]
+                                         dy [-2 -1 0 1 2]]
+                                     [(+ dx player-cell-x) (+ dy player-cell-y)])
+
+              ;; a function to take a cell coord and if its not added, add it
+              ;; returns the new set with added cells
+              process-add-cell (fn [test-cell cells]
+                                 (if-not (some #(= % test-cell) cells)
+                                   (do
+                                     (add-cell! test-cell)
+                                     (conj cells test-cell)
+                                     )
+                                   cells))
 
               ;; if the present cell isn't in cells, lets load it in
-              new-cells (if-not (some #(= % player-cell) cells)
-                          (do
-                            (add-cell! player-cell)
-                            (conj cells player-cell)
+              new-cells (loop [done cells
+                               [h & t] player-and-surrounds]
+                          (if (nil? h)
+                            done
+                            (recur (process-add-cell h done) t)
                             )
-
-                          cells)
+                          )
 
               ;; remove cells that are too far away from player
               cull-cells
               (filter #(not (nil? %))
                       (for [c cells]
                         (let [[cx cy] c
-                              [px py] player-cell
-                              dx (Math/abs (- cx px))
-                              dy (Math/abs (- cy py))
+                              dx (Math/abs (- cx player-cell-x))
+                              dy (Math/abs (- cy player-cell-y))
                               d-squared (+ (* dx dx) (* dy dy))
                               ]
-                          (if (> d-squared 3)
+                          (if (> d-squared 25)
                             c
                             nil))))
 
@@ -220,7 +242,7 @@
           (doto player
             (sprite/set-pos! pos))
 
- 
+
 
           ;; set the static world sprites to the correct orientation (rotate trees)
           (doseq [cell cells]
@@ -242,11 +264,11 @@
 
                     ;; now add to the the player loc
                     fx (+ rx x)
-                    fy (+ ry y)
+                    fy (+ (/ ry isometric-factor) y)
                     ]
                 (doto (:sprite obj)
                   (sprite/set-pos!
-                   fx fy
+                   fx  fy
                    )))))
 
           ;; move cetnter of render to be on player
@@ -271,6 +293,9 @@
 
            ;; pass through new cell list
            post-remove-cells
+
+           ;; pass through sprite count
+           old-sprite-count
            )))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
@@ -278,5 +303,5 @@
 
 
 (defn main []
-  
+
 )
