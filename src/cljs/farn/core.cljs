@@ -97,7 +97,7 @@
               :fade-out 2)]
     (log "pulling")
     (<! loader)
-    (log "pulled")
+    (log "pulled" (str assets/=assets=))
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           title-text (font/font-make-batch lobster-big "Alien Forest Explorer" )
