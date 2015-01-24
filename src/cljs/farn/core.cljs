@@ -30,6 +30,8 @@
 (def player-acceleration 0.6)
 (def player-drag 0.95)
 (def player-turn-speed 0.03)
+(def player-bound-height 30)
+(def player-bound-length 30)
 
 ;; rex stuff
 (def word-exit-speed 2)
@@ -319,16 +321,23 @@
             (do
               (while (= @player-animation :running)
                 (.setTexture player (player-walking-texs 0))
-                ;; (loop [i 0]
-                ;;   ()
-                ;;   )
-                (<! (timeout 500))
-                (.setTexture player (player-walking-texs 1))
-                (<! (timeout 500))
-)
+                (loop [i 0]
+                  (<! (events/next-frame))
+                  (sprite/set-pivot!
+                   player -1
+                   (* player-bound-height (Math/sin (* Math/PI (/ i player-bound-length)))))
+                  (when (< i player-bound-length)
+                    (recur (inc i))))
 
-)
-            )))
+                (when (= @player-animation :running)
+                  (.setTexture player (player-walking-texs 1))
+                  (loop [i 0]
+                    (<! (events/next-frame))
+                    (sprite/set-pivot!
+                     player 1
+                     (* player-bound-height (Math/sin (* Math/PI (/ i player-bound-length)))))
+                    (when (< i player-bound-length)
+                      (recur (inc i))))))))))
 
       (add-cell! (spatial/which-cell player-pos cell-size))
 
@@ -450,7 +459,9 @@
           (sprite/set-pivot! main-stage x y)
 
           ;; switch the player animation
-          (if (or (> (Math/abs vx) 0.4) (> (Math/abs vy) 0.4))
+          (if (or (> (Math/abs vx) 2)
+                  (> (Math/abs vy) 2)
+                  (events/is-pressed? :up))
             (reset! player-animation :running)
             (reset! player-animation :standing))
 
