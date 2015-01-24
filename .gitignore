@@ -11,3 +11,5 @@ pom.xml.asc
 /.repl
 .*.swp
 resources/tracker-files/*.ogg
+resources/tracker-files/*.bak
+gh-pages-build
