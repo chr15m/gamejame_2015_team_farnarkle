@@ -6,6 +6,7 @@
             [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.store :as store]
+            [farn.map :as perlin-map]
             [farn.assets :as assets]
             [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
@@ -81,7 +82,16 @@
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
-    
+    (when (= (:test (:query-params url)) "perlin")
+      (println "we perlin!"))
+      (let [c (perlin-map/perlin-map-generator)]
+        (go 
+          (let [t  (<! c)]
+            (println "Perlin map done:" (.-length t))
+            )
+          )
+        )
+      ; (js/map 23 1000 1000 (fn [t] (println "Perlin map done!" t)))
   )
 
 ; main live code goes here
@@ -280,3 +290,4 @@
 (defn main []
   
 )
+
