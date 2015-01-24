@@ -44,25 +44,29 @@
   "img/sprites/static-tree-7.png"
   "img/sprites/static-tree-8.png"
   "img/sprites/static-tree-9.png"
-  "img/sprites/static-tree-shrub-brown-1.png"
-  "img/sprites/static-tree-shrub-brown-2.png"
-  "img/sprites/static-tree-shrub-brown-3.png"
-  "img/sprites/static-tree-shrub-brown-4.png"
-  "img/sprites/static-tree-shrub-dark-1.png"
-  "img/sprites/static-tree-shrub-dark-2.png"
-  "img/sprites/static-tree-shrub-dark-3.png"
-  "img/sprites/static-tree-shrub-dark-4.png"
-  "img/sprites/static-tree-shrub-light-1.png"
-  "img/sprites/static-tree-shrub-light-2.png"
-  "img/sprites/static-tree-shrub-light-3.png"
-  "img/sprites/static-tree-shrub-light-4.png"
-  "img/sprites/static-tree-trunk-1.png"
-  "img/sprites/static-tree-trunk-2.png"
   "img/sprites/static-tuft-1.png"
   "img/sprites/static-tuft-2.png"
   "img/sprites/static-tuft-3.png"
 ])
 
+(def =assets-sprites-components= 
+  [
+  "img/sprites/component-tree-shrub-brown-1.png"
+  "img/sprites/component-tree-shrub-brown-2.png"
+  "img/sprites/component-tree-shrub-brown-3.png"
+  "img/sprites/component-tree-shrub-brown-4.png"
+  "img/sprites/component-tree-shrub-dark-1.png"
+  "img/sprites/component-tree-shrub-dark-2.png"
+  "img/sprites/component-tree-shrub-dark-3.png"
+  "img/sprites/component-tree-shrub-dark-4.png"
+  "img/sprites/component-tree-shrub-light-1.png"
+  "img/sprites/component-tree-shrub-light-2.png"
+  "img/sprites/component-tree-shrub-light-3.png"
+  "img/sprites/component-tree-shrub-light-4.png"
+  "img/sprites/component-tree-trunk-1.png"
+  "img/sprites/component-tree-trunk-2.png"   
+   ]
+  )
 (def =assets-sprites-baby= 
   [
   "img/sprites/baby-float-1.png"
