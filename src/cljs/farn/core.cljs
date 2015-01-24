@@ -183,16 +183,18 @@
 
       (log "PRELOOP")
 
-      (loop [pos player-pos theta 0]
+      (loop [pos player-pos theta 0 ;(+ (/ Math/PI 2))
+             ]
         (let [[x y] pos
+              calc-theta (+ theta Math/PI)
 
               ;; his heading unit vector
-              hy (- (Math/cos theta))
-              hx (- (Math/sin theta))
+              hx (Math/cos calc-theta)
+              hy (Math/sin calc-theta)
 
               ;; the reverse heading vector
-              rhy (- (Math/cos (- theta)))
-              rhx (- (Math/sin (- theta)))
+              rhx (Math/cos (- (* 2 Math/PI) calc-theta))
+              rhy (Math/sin (- (* 2 Math/PI) calc-theta))
 
               speed 4
 
@@ -203,7 +205,7 @@
           (doto player
             (sprite/set-pos! pos))
 
-          ;; (let [d-theta (cond
+          ;; (let [d-calc-theta (cond
           ;;                (events/is-pressed? :left)
           ;;                0.03
 
@@ -213,8 +215,8 @@
           ;;                :default
           ;;                0
           ;;                )
-          ;;       xc (Math/cos d-theta)
-          ;;       yc (Math/sin d-theta)]
+          ;;       xc (Math/cos d-calc-theta)
+          ;;       yc (Math/sin d-calc-theta)]
           ;;   ;; (log xc yc)
           ;;   (doseq [i (range (.-children.length main-stage))]
           ;;     (let [sp (aget (.-children main-stage) i)]
@@ -241,7 +243,7 @@
 
                   ;; rotate this p->t
                   [rx ry] [
-                           (+ (* rhy p->t.x) (* rhx p->t.y))
+                           (+ (* rhx p->t.y) (* rhy p->t.x))
                            (- (* rhx p->t.x) (* rhy p->t.y))
                            ]
 
@@ -261,15 +263,17 @@
           (<! (events/next-frame))
           (recur
            ;; new position
-           (if (events/is-pressed? :up)
+           (if (events/is-pressed? :down)
              [(+ x vx) (+ y vy)]
-             [x y])
+             (if (events/is-pressed? :up)
+               [(- x vx) (- y vy)]
+               [x y]))
 
            ;; new heading
            (if (events/is-pressed? :left)
-             (- theta 0.03)
+             (+ theta 0.03)
              (if (events/is-pressed? :right)
-               (+ theta 0.03)
+               (- theta 0.03)
                theta)))))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
