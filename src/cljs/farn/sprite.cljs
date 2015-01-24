@@ -7,9 +7,12 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
 )
 
-(defn set-pos! [sprite x y]
-  (set! (.-position.x sprite) x)
-  (set! (.-position.y sprite) y))
+(defn set-pos!
+  ([sprite x y]
+   (set! (.-position.x sprite) x)
+   (set! (.-position.y sprite) y))
+  ([sprite [x y]]
+   (set-pos! sprite x y)))
 
 (defn set-anchor! [sprite x y]
   (set! (.-anchor sprite) (gfx/make-point x y)))

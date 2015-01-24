@@ -21,7 +21,6 @@
   [collection cell-size]
   (loop [output {}
          [h & t] collection]
-    (log (str output) )
     (let [[x y] (:pos h)
           xh (int (/ x cell-size))
           yh (int (/ y cell-size))
@@ -32,3 +31,7 @@
           (recur (assoc output key (conj (output key) h)) t)
           (recur (assoc output key [h]) t))
         ))))
+
+(defn cell? [[x y] cell-size]
+  [(int (/ x cell-size)) (int (/ y cell-size))]
+)

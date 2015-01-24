@@ -90,6 +90,8 @@
     (sprite/set-anchor! s 0.5 1)
     s))
 
+(def cell-size 300)
+
 (go
   (let [loader
         (load ui-stage =assets=
@@ -119,7 +121,34 @@
                           (cond
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
-                           :default 0))]
+                           :default 0))
+
+          game-map (spatial/make-random-map
+                       [:static-tree-1
+                        :static-tree-2
+                        :static-tree-3
+                        :static-tree-4
+                        :static-tree-5
+                        :static-tree-6
+                        :static-tree-7
+                        :static-tree-8
+                        :static-tree-9
+                        :static-tree-10
+                        :static-tuft-1
+                        :static-tuft-2
+                        :static-tuft-3
+                        ] 5000 -5000 5000 -5000 5000)
+
+          game-sprites (doall (for [obj game-map]
+                                (assoc obj
+                                  :sprite (make-sprite (gfx/get-texture (:type obj)))
+                                  :scale 0.5
+                                  )))
+
+          game-space (spatial/hash-locations game-sprites cell-size)
+
+          player-pos [0 0]
+]
                                         ;(.addChild ui-stage (:sprite title-text))
       (<! (timeout 1000))
       (log "adding")
@@ -129,35 +158,46 @@
         (sprite/set-scale! 0.5))
       (.addChild main-stage guy)
 
-      (doseq [t-num (range 50)]
-        (let [tree (make-sprite (rand-nth trees))
-              width (.-width tree)
-              height (.-height tree)
-              x (rand-between -500 500)
-              y (rand-between -500 500)]
-          (log "x,y" x y)
-          (doto tree
-            (sprite/set-scale! 0.5)
-            (sprite/set-pos!
-             ;;0 0
-              x y
-             ))
-          (.addChild main-stage tree)))
+      ;; (doseq [t-num (range 50)]
+      ;;   (let [tree (make-sprite (rand-nth trees))
+      ;;         width (.-width tree)
+      ;;         height (.-height tree)
+      ;;         x (rand-between -500 500)
+      ;;         y (rand-between -500 500)]
+      ;;     (log "x,y" x y)
+      ;;     (doto tree
+      ;;       (sprite/set-scale! 0.5)
+      ;;       (sprite/set-pos!
+      ;;        ;;0 0
+      ;;         x y
+      ;;        ))
+      ;;     (.addChild main-stage tree)))
 
-      (doseq [t-num (range 100)]
-        (let [tufts (make-sprite (rand-nth tufts))
-              width (.-width tufts)
-              height (.-height tufts)
-              x (rand-between -500 500)
-              y (rand-between -500 500)
-              ]
-          (doto tufts
-            (sprite/set-scale! 0.5)
-            (sprite/set-pos! x y))
-          (.addChild main-stage tufts)))
+      ;; (doseq [t-num (range 100)]
+      ;;   (let [tufts (make-sprite (rand-nth tufts))
+      ;;         width (.-width tufts)
+      ;;         height (.-height tufts)
+      ;;         x (rand-between -500 500)
+      ;;         y (rand-between -500 500)
+      ;;         ]
+      ;;     (doto tufts
+      ;;       (sprite/set-scale! 0.5)
+      ;;       (sprite/set-pos! x y))
+      ;;     (.addChild main-stage tufts)))
+
+
+      (doseq [obj (game-space (spatial/cell? player-pos cell-size))]
+        (log "adding" (str obj))
+        (doto (:sprite obj)
+          (sprite/set-pos! (:pos obj))
+          (sprite/set-scale! (:scale obj))
+          )
+        (.addChild main-stage (:sprite obj))
+        )
 
       (.sort (.-children main-stage) depth-compare)
 
+      (log "PRELOOP")
 
       (loop []
         (let [d-theta (cond
@@ -173,7 +213,7 @@
               xc (Math/cos d-theta)
               yc (Math/sin d-theta)]
           ;; (log xc yc)
-          (doseq [i (range 151)]
+          (doseq [i (range (.-children.length main-stage))]
             (let [sp (aget (.-children main-stage) i)]
               (sprite/set-pos!
                sp
