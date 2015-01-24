@@ -20,3 +20,25 @@
    (.log js/console a1 a2 a3))
   ([a1 a2 a3 a4]
    (.log js/console a1 a2 a3 a4)))
+
+
+(defn rand-between
+  "return a random integer between low and high inclusive"
+  [low high]
+  (let [size (Math/abs (- high low))]
+    (int (+ low (* size (rand))))))
+
+(defn ends-with? [str end]
+  (let [len (.-length str)
+        end-len (.-length end)
+        pos (.indexOf str end)]
+    (= (+ pos end-len) len))
+)
+
+(defn url-keyword [url]
+  (-> url
+      (.split "/")
+      last
+      (.split ".")
+      first
+      keyword))

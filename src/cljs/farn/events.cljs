@@ -4,7 +4,7 @@
 )
 
 ;; global controls
-(defonce ^:dynamic *debug-event-handlers* true)
+(defonce ^:dynamic *debug-event-handlers* false)
 (defonce ^:dynamic *devtools-passthrough* true)
 (defonce ^:dynamic *target-fps* 60)
 (defonce ^:dynamic *pixi-renderer* (atom nil))
@@ -111,14 +111,10 @@
   (.addEventListener js/window "keydown" handle-keydown-event)
   (.addEventListener js/window "keyup" handle-keyup-event))
 
-
 (defn is-pressed?
   "returns true if the key is pressently down"
   [code]
-
   (@key-state (key-codes code)))
-
-(.log js/console (str key-codes))
 
 ;;
 ;; Animation handler
