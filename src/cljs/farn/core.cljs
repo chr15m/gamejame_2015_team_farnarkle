@@ -119,12 +119,12 @@
     (log "pulling")
     (<! loader)
     (log "pulled")
-    (log "perlin channel - start")
-    (<! perlin-channel)
-    (log "perlin channel - done")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           wait (<! (timeout 1000))
+          _ (log "perlin channel - start")
+          tilemap (<! perlin-channel)
+          _ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
           title-text (font/make-text "400 40pt Lobster"
                                      "Alien Forest Explorer"
@@ -145,9 +145,35 @@
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-
-          game-map (spatial/make-random-map
-                        (assets/to-keys assets/=assets-sprites-static=)
+          
+          game-map (spatial/make-map-from-tilemap
+                        tilemap
+                        {
+                         ; water
+                         0 [:static-floor-water-big :static-floor-water-medium :static-floor-water-small]
+                         ; road
+                         1 [:static-floor-path-big :static-floor-path-medium :static-floor-path-small]
+                         ; "sand"
+                         2 (vec (concat
+                                  (assets/make-range "static-rock-" 3)
+                                  (assets/make-range "static-cactus-" 3)
+                                  ))
+                         ; trees
+                         3 (vec (concat
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-flower-" 3)
+                                  (assets/make-range "static-schroom-" 2)
+                                  (assets/make-range "static-tuft-" 3)))
+                         ; grass
+                         4 (vec (concat 
+                                  (assets/make-range "static-tuft-" 3)
+                                  [:static-schrub-1]
+                                  [:static-rock-1]
+                                  (assets/make-range "static-schroom-" 2)
+                                  (assets/make-range "static-lump-" 3)
+                                  (assets/make-range "static-flower-" 3)
+                                  ))
+                        }
                         10000 -10000 10000 -10000 10000)
 
           game-sprites (doall (for [obj game-map]
@@ -177,6 +203,8 @@
                            (.removeChild main-stage (:sprite obj)))
                          )
 ]
+
+      ; (println "game-map" game-map)
 
       ;; title text
       (.addChild ui-stage title-text)

@@ -5,6 +5,24 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
 )
 
+(defn make-map-from-tilemap
+  [tilemap tile-lookup number minx maxx miny maxy]
+  (doall (for [i (range number)]
+           (let [
+                 lookup-x (rand-between minx maxx)
+                 lookup-y (rand-between miny maxy)
+                 tilesize-y (.-length tilemap)
+                 tilesize-x (.-length (nth tilemap 0))
+                 ]
+             ; (println "raw-vals" lookup-x lookup-y tilesize-x tilesize-y)
+             ; (println "================== dONE ================")
+             ; (println "tile-num" (nth (nth tilemap (mod lookup-x tilesize-x)) (mod lookup-y tilesize-y)))
+             ; (println "tile-num" (nth (nth tilemap (mod lookup-x tilesize-x)) (mod lookup-y tilesize-y)))
+             ; (println "tile-lookup" (tile-lookup (nth (nth tilemap (mod lookup-x tilesize-x)) (mod lookup-y tilesize-y))))
+             {:pos [lookup-x
+                    lookup-y]
+              :type (rand-nth (tile-lookup (nth (nth tilemap (mod (int (/ lookup-x 10)) tilesize-x)) (mod (int (/ lookup-x 10)) tilesize-y))))}))))
+
 (defn make-random-map
   "make a massive crappy map. obj-keys is a list of texture keywords.
   number is how many will be spread out across the map

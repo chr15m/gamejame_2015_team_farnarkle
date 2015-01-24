@@ -37,22 +37,27 @@ function map(seed, w, h, callback) {
                 var roads = Math.abs(roadsp) < 0.05;
                 var riversideRoads = desertp < 0.6 && Math.abs(waterp) < 0.11 && Math.abs(waterp > 0.08);
                 // trees
-                var trees = treep > 1.15;
+                var trees = treep > 0.5;
                 
                 if (lake || river || oasis) {
-                terrain = "water";
+			// water
+                    terrain = 0;
                 }
                 else if (roads || riversideRoads) {
-                terrain = "road";
+			// road
+                    terrain = 1;
                 } 
                 else if (desert) {
-                terrain = "sand";
+			// sand
+                    terrain = 2;
                 } 
                 else if (trees) {
-                terrain = "trees";
+			// trees
+                    terrain = 3;
                 } 
                 else {
-                terrain = "grass";
+			// grass
+                    terrain = 4;
                 }
                 
                 // Add our landscape tile to the grid (table) output.
