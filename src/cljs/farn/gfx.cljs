@@ -2,7 +2,7 @@
   (:require [dommy.core :as dommy :refer-macros [sel1]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout]]
             [farn.events :as events]
-            [farn.utils :refer [log]])
+            [farn.utils :refer [log ends-with? url-keyword]])
   (:require-macros [cljs.core.async.macros :refer [go]])
 )
 
@@ -98,8 +98,6 @@
               ;; always render after resize
               (.render rend stage)))))
 
-
-
     ;; do our first render
     (.render rend stage)
 
@@ -189,6 +187,11 @@
     (.addChild stage s)
     s))
 
+(def =textures= (atom {}))
+
+(defn get-texture [key]
+  (key @=textures=)
+)
 
 (defn load-urls
   "loads each url in the passed in list as an image. Updates the progress
@@ -202,18 +205,22 @@ fullsize."
           images (doall                           ;; start loading all the urls
                   (map (fn [src]
                          (let [i (js/Image.)]
-                           (set! (.-onload i) #(put! finished i))
-                           (set! (.-onerror i) #(put! finished i))
+                           (set! (.-onload i) #(put! finished [src i]))
+                           (set! (.-onerror i) #(put! finished [src i]))
                            (set! (.-onabort i) #(js/alert "abort"))
                            (set! (.-src i) src)
                            i))
-                       urls))
-          ]
+                       urls))]
       (go
         (loop [i 1]
-          (let [img (<! finished)]     ;; a new image has finished loading
+          (let [[url img] (<! finished)] ;; a new image has finished loading
             (when (:debug-delay options)
               (<! (timeout (* (:debug-delay options) 1000)))) ;; artificial random delay (up to 1 ec)
+
+            ;; setup a pixi texture keyed by the tail of its filename
+            (when (ends-with? url ".png")
+              (swap! =textures=
+                     assoc (url-keyword url) (js/PIXI.Texture.fromImage url)))
 
             ;; update progress bar and add image
             (.setTexture progress-bar
