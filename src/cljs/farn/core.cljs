@@ -3,6 +3,7 @@
             [farn.gfx :as gfx]
             [farn.font :as font]
             [farn.sprite :as sprite]
+            [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
@@ -46,9 +47,10 @@
       (close! c))
     c))
 
+
 (def world (gfx/init :background grass-green
                      :expand true
-                     :engine :webgl
+                     :engine :auto
                      :canvas (sel1 :#game)))
 (def main-stage (:world world))
 (def ui-stage (:ui world))
@@ -160,10 +162,10 @@
       (loop []
         (let [d-theta (cond
                        (events/is-pressed? :left)
-                       0.02
+                       0.03
 
                        (events/is-pressed? :right)
-                       -0.02
+                       -0.03
 
                        :default
                        0
