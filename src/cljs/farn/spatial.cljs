@@ -32,6 +32,6 @@
           (recur (assoc output key [h]) t))
         ))))
 
-(defn cell? [[x y] cell-size]
+(defn which-cell [[x y] cell-size]
   [(int (/ x cell-size)) (int (/ y cell-size))]
 )
