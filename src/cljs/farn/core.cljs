@@ -81,7 +81,7 @@
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
-
+    
   )
 
 ; main live code goes here
@@ -97,7 +97,7 @@
               :fade-out 2)]
     (log "pulling")
     (<! loader)
-    (log "pulled" (str assets/=assets=))
+    (log "pulled")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 40)
           title-text (font/font-make-batch lobster-big "Alien Forest Explorer" )
@@ -117,20 +117,8 @@
                            :default 0))
 
           game-map (spatial/make-random-map
-                       [:static-tree-1
-                        :static-tree-2
-                        :static-tree-3
-                        :static-tree-4
-                        :static-tree-5
-                        :static-tree-6
-                        :static-tree-7
-                        :static-tree-8
-                        :static-tree-9
-                        :static-tree-10
-                        :static-tuft-1
-                        :static-tuft-2
-                        :static-tuft-3
-                        ] 5000 -5000 5000 -5000 5000)
+                        (assets/to-keys assets/=assets-sprites-static=)
+                        5000 -5000 5000 -5000 5000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
@@ -140,22 +128,7 @@
 
           game-space (spatial/hash-locations game-sprites cell-size)
 
-          add-cell! (fn [id]
-                     (doseq [obj (game-space id)]
-                       (log "adding" (str obj))
-                       (sprite/set-scale! (:sprite obj) (:scale obj))
-
-                       ;; add them way off so they don't pop
-                       ;; TODO: fix this
-                       (sprite/set-pos! (:sprite obj) 100000 100000)
-
-                       (.addChild main-stage (:sprite obj))))
-
-          remove-cell! (fn [id]
-                         (doseq [obj (game-space id)]
-                           (log "removing" (str obj))
-                           (.removeChild main-stage (:sprite obj)))
-                         )
+          player-pos [0 0]
 ]
                                         ;(.addChild ui-stage (:sprite title-text))
       (<! (timeout 1000))
@@ -230,6 +203,7 @@
           (doto player
             (sprite/set-pos! pos))
 
+ 
 
           ;; set the static world sprites to the correct orientation (rotate trees)
           (doseq [cell cells]
@@ -285,5 +259,7 @@
                                         ;(.removeChild ui-stage (:sprite title-text))
       ))))
 
+
 (defn main []
+  
 )
