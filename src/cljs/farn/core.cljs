@@ -75,13 +75,13 @@
     (sprite/set-anchor! s 0.5 1)
     s))
 
-(def cell-size 300)
+(def cell-size 1000)
 
-(if (:test (:query-params url)) 
+(if (:test (:query-params url))
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
-    
+
   )
 
 ; main live code goes here
