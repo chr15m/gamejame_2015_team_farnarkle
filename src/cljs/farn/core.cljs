@@ -6,6 +6,7 @@
             [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.store :as store]
+            [farn.assets :as assets]
             [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
@@ -69,30 +70,6 @@
     (<! (events/next-frame))
     (.render (:renderer world) (:stage world))))
 
-(def =assets=
-  ["http://fonts.gstatic.com/s/lobster/v12/cycBf3mfbGkh66G5NhszPQ.woff2"
-   "http://fonts.gstatic.com/s/varelaround/v6/APH4jr0uSos5wiut5cpjrugdm0LZdjqr5-oayXSOefg.woff2"
-   "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"
-   "img/sprites/pink-stand-1.png"
-   "img/sprites/pink-stand-2.png"
-   "img/sprites/pink-stand-3.png"
-   "img/sprites/pink-stand-4.png"
-   "img/sprites/static-tree-1.png"
-   "img/sprites/static-tree-2.png"
-   "img/sprites/static-tree-3.png"
-   "img/sprites/static-tree-4.png"
-   "img/sprites/static-tree-5.png"
-   "img/sprites/static-tree-6.png"
-   "img/sprites/static-tree-7.png"
-   "img/sprites/static-tree-8.png"
-   "img/sprites/static-tree-9.png"
-   "img/sprites/static-tree-10.png"
-   "img/sprites/static-tuft-1.png"
-   "img/sprites/static-tuft-2.png"
-   "img/sprites/static-tuft-3.png"
-])
-
-
 (defn make-sprite [tex]
   (let [s (gfx/make-sprite tex)]
     (sprite/set-anchor! s 0.5 1)
@@ -110,7 +87,7 @@
 ; main live code goes here
 (go
   (let [loader
-        (load ui-stage =assets=
+        (load ui-stage assets/=assets=
               :full-colour 0x306020
               :highlight 0x80ff80
               :lowlight 0x103010
