@@ -8,6 +8,7 @@
             [farn.store :as store]
             [farn.map :as perlin-map]
             [farn.assets :as assets]
+            [farn.rex :as rex]
             [farn.query-string :as query-string]
             [farn.utils :refer [log rand-between ends-with?]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
@@ -33,19 +34,6 @@
 (def player-turn-speed 0.03)
 (def player-bound-height 30)
 (def player-bound-length 30)
-
-;; rex stuff
-(def word-exit-speed 2)
-(def word-entry-speed 1.6)
-(def rex-phrases ["What do we do now?"
-                  "I'm sick of asking!"
-                  "Who the fuck knows!"
-                  "Maybe theres an alien baby lost in these woods..."
-                  "I can hear that baby crying!"
-                  "Why don't you go find the source of that sobbing?"
-                  "Is there anything else to do on this planet?"
-                  "These human brains are puny... but tasty!"
-                  ])
 
 (defonce fonts
   [
@@ -98,11 +86,6 @@
     (<! (events/next-frame))
     (.render (:renderer world) (:stage world))))
 
-(defn make-sprite [tex & {:keys [anchor-x anchor-y] :or {anchor-x 0.5 anchor-y 1}}]
-  (let [s (gfx/make-sprite tex)]
-    (sprite/set-anchor! s anchor-x anchor-y)
-    s))
-
 (if (:test (:query-params url))
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
@@ -149,8 +132,8 @@
                                      :dropShadowColor "#333333")
 
           tex (gfx/get-texture :pink-stand-4)
-          player (make-sprite tex)
-          player-shadow (make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
+          player (sprite/make-sprite tex)
+          player-shadow (sprite/make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
 
           player-standing-texs (doall (for [type [:pink-stand-1 :pink-stand-2
                                                   :pink-stand-3 :pink-stand-4]]
@@ -212,7 +195,7 @@
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj
-                                  :sprite (make-sprite (gfx/get-texture (:type obj)))
+                                  :sprite (sprite/make-sprite (gfx/get-texture (:type obj)))
                                   :scale 0.5
                                   )))
 
@@ -259,91 +242,7 @@
         )
 
       ;; the little chatterbox guy
-      (let [rex-talks
-            (doall (for [tex-name [:brown-talk-noblink-1
-                                   :brown-talk-noblink-2
-                                   :brown-talk-noblink-3
-                                   ]]
-                     (gfx/get-texture tex-name)
-                     ))
-            rex-does-nothing
-            (doall (for [tex-name [:brown-stand-1
-                                   ;:brown-stand-2
-                                   ;:brown-stand-3
-                                   ]]
-                     (gfx/get-texture tex-name)
-                     ))
-            rex (make-sprite (rand-nth rex-does-nothing))
-            ]
-        (sprite/set-anchor! rex 0.5 0)
-        (.addChild ui-stage rex)
-
-        ;; rex lives in the corner
-        (go
-          (let [rc (events/new-resize-chan)]
-            (while true
-              (let [w (.-innerWidth js/window)
-                    h (.-innerHeight js/window)
-                    hw (/ w 2)
-                    hh (/ h 2)]
-                (sprite/set-pos! rex (- hw 100) (- hh 80))
-                (<! rc)))))
-
-        ;; rex has a life of his own
-        (go
-          (while true
-            (.setTexture rex (rand-nth rex-does-nothing))
-            (<! (timeout 10000))
-
-            ;; text scroll out
-            (go
-              (let [
-                    phrases rex-phrases
-                    phrase (rand-nth phrases)
-                    phrase-spr (font/make-text "400 24pt Varela Round"
-                                     phrase
-                                     :weight 400 :fill "#ffffff"
-                                     ;:dropShadow true
-                                     ;:dropShadowColor "#000000"
-                                     :stroke "#000000"
-                                     :strokeThickness 1
-                                     )
-                    w (.-innerWidth js/window)
-                    h (.-innerHeight js/window)
-                    hw (/ w 2)
-                    hh (/ h 2)
-                    ]
-                (sprite/set-pos! phrase-spr 0 10000)
-                (.addChild ui-stage phrase-spr)
-                (loop [i 0]
-                  (<! (events/next-frame))
-                  (sprite/set-pos! phrase-spr (js/Math.pow (- 50 i) word-entry-speed) (- hh 30))
-                  (when (< i 50)
-                    (recur (inc i))
-                    )
-                  )
-                ;; pause
-                (<! (timeout 3000))
-
-                ;; exit quickly
-                (loop [i 0]
-                  (<! (events/next-frame))
-                  (sprite/set-pos! phrase-spr (- (js/Math.pow i word-exit-speed)) (- hh 30))
-                  (when (< i 50)
-                    (recur (inc i))
-                    )
-                  )
-                (.removeChild ui-stage phrase-spr)))
-
-            ;; mouth animation
-            (loop [i 50]
-              (<! (timeout 60))
-              (.setTexture rex (rand-nth rex-talks))
-              (when (pos? i)
-                (recur (dec i)))
-              )))
-
-        )
+      (rex/launch-rex ui-stage)
 
       (<! (timeout 1000))
       (log "adding player")
