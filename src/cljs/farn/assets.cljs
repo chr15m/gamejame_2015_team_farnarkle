@@ -3,6 +3,10 @@
 (defn to-keys [which]
   (vec (map (fn [s] (keyword (nth (.split (.replace s ".png" "") "/") 2))) which)))
 
+(defn make-range [prefix r]
+  (vec (map (fn [i] (keyword (str prefix i))) (range 1 (+ r 1))))
+  )
+
 (def =assets-sprites-static= 
   [
   "img/sprites/static-bush-1.png"
@@ -12,6 +16,12 @@
   "img/sprites/static-floor-path-big.png"
   "img/sprites/static-floor-path-medium.png"
   "img/sprites/static-floor-path-small.png"
+  "img/sprites/static-floor-sand-big.png"
+  "img/sprites/static-floor-sand-medium.png"
+  "img/sprites/static-floor-sand-small.png"
+  "img/sprites/static-floor-water-big.png"
+  "img/sprites/static-floor-water-medium.png"
+  "img/sprites/static-floor-water-small.png"
   "img/sprites/static-flower-1.png"
   "img/sprites/static-flower-2.png"
   "img/sprites/static-flower-3.png"
@@ -101,10 +111,6 @@
   "img/sprites/brown-talk-noblink-1.png"
   "img/sprites/brown-talk-noblink-2.png"
   "img/sprites/brown-talk-noblink-3.png"
-  "img/sprites/static-tree-shrub-brown-1.png"
-  "img/sprites/static-tree-shrub-brown-2.png"
-  "img/sprites/static-tree-shrub-brown-3.png"
-  "img/sprites/static-tree-shrub-brown-4.png"
       ]
      )
 (def =assets-fonts= ["http://fonts.gstatic.com/s/lobster/v12/cycBf3mfbGkh66G5NhszPQ.woff2"
