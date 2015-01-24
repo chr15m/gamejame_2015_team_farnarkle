@@ -20,9 +20,16 @@
 
 (println "url-parsed:" url)
 
+;; background
 (def grass-green 0x357564)
 (def isometric-factor 3)
 (def cell-size 500)
+
+;; player settings
+(def player-max-speed 10)
+(def player-acceleration 0.6)
+(def player-drag 0.95)
+(def player-turn-speed 0.03)
 
 (defonce fonts
   [
@@ -178,11 +185,6 @@
               rhx (Math/cos (- (* 2 Math/PI) calc-theta))
               rhy (Math/sin (- (* 2 Math/PI) calc-theta))
 
-              max-speed 10
-              acceleration 0.6
-              drag 0.95
-              turn-speed 0.03
-
               vx (* speed hx)
               vy (* speed hy)
 
@@ -294,14 +296,14 @@
 
            ;; new speed
            (if (events/is-pressed? :up)
-             (min (+ speed acceleration) max-speed)
-             (max (* speed drag) 0))
+             (min (+ speed player-acceleration) player-max-speed)
+             (max (* speed player-drag) 0))
 
            ;; new heading
            (if (events/is-pressed? :left)
-             (+ theta turn-speed)
+             (+ theta player-turn-speed)
              (if (events/is-pressed? :right)
-               (- theta turn-speed)
+               (- theta player-turn-speed)
                theta))
 
            ;; pass through new cell list
