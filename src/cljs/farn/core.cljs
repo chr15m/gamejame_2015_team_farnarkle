@@ -135,14 +135,14 @@
     (<! loader)
     (log "pulled")
     (let [
-          lobster-big (font/make-tiled-font "Lobster" 400 40)
-          varela (font/make-tiled-font "Varela Round" 400 15)
+          lobster-big (font/make-tiled-font "Lobster" 400 48)
+          varela (font/make-tiled-font "Varela Round" 400 24)
           wait (<! (timeout 1000))
           _ (log "perlin channel - start")
           tilemap (<! perlin-channel)
           _ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
-          title-text (font/make-text "400 40pt Lobster"
+          title-text (font/make-text "400 48pt Lobster"
                                      "Alien Forest Explorer"
                                      :weight 400 :fill "#7FCACD"
                                      :dropShadow true
@@ -286,7 +286,7 @@
                     h (.-innerHeight js/window)
                     hw (/ w 2)
                     hh (/ h 2)]
-                (sprite/set-pos! rex (- hw 50) (- hh 80))
+                (sprite/set-pos! rex (- hw 100) (- hh 80))
                 (<! rc)))))
 
         ;; rex has a life of his own
@@ -300,7 +300,7 @@
               (let [
                     phrases rex-phrases
                     phrase (rand-nth phrases)
-                    phrase-spr (font/make-text "400 15pt Varela Round"
+                    phrase-spr (font/make-text "400 24pt Varela Round"
                                      phrase
                                      :weight 400 :fill "#ffffff"
                                      ;:dropShadow true
