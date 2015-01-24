@@ -166,33 +166,6 @@
         (sprite/set-scale! 0.5))
       (.addChild main-stage player)
 
-      ;; (doseq [t-num (range 50)]
-      ;;   (let [tree (make-sprite (rand-nth trees))
-      ;;         width (.-width tree)
-      ;;         height (.-height tree)
-      ;;         x (rand-between -500 500)
-      ;;         y (rand-between -500 500)]
-      ;;     (log "x,y" x y)
-      ;;     (doto tree
-      ;;       (sprite/set-scale! 0.5)
-      ;;       (sprite/set-pos!
-      ;;        ;;0 0
-      ;;         x y
-      ;;        ))
-      ;;     (.addChild main-stage tree)))
-
-      ;; (doseq [t-num (range 100)]
-      ;;   (let [tufts (make-sprite (rand-nth tufts))
-      ;;         width (.-width tufts)
-      ;;         height (.-height tufts)
-      ;;         x (rand-between -500 500)
-      ;;         y (rand-between -500 500)
-      ;;         ]
-      ;;     (doto tufts
-      ;;       (sprite/set-scale! 0.5)
-      ;;       (sprite/set-pos! x y))
-      ;;     (.addChild main-stage tufts)))
-
 
       (doseq [obj (game-space (spatial/cell? player-pos cell-size))]
         (log "adding" (str obj))
