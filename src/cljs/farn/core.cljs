@@ -22,6 +22,8 @@
 
 (def grass-green 0x357564)
 
+(println "static-assets-keys" (assets/to-keys assets/=assets-sprites-static=))
+
 (defonce fonts
   [
    (font/install-google-font-stylesheet! "http://fonts.googleapis.com/css?family=Lobster")
@@ -77,13 +79,14 @@
 
 (def cell-size 300)
 
+
 (if (:test (:query-params url)) 
   (do
     ; visit a URL with ?test=1 or &test=1 in there somewhere
     (println "Testing code goes here!")
     
   )
-
+          
 ; main live code goes here
 (go
   (let [loader
@@ -117,20 +120,8 @@
                            :default 0))
 
           game-map (spatial/make-random-map
-                       [:static-tree-1
-                        :static-tree-2
-                        :static-tree-3
-                        :static-tree-4
-                        :static-tree-5
-                        :static-tree-6
-                        :static-tree-7
-                        :static-tree-8
-                        :static-tree-9
-                        :static-tree-10
-                        :static-tuft-1
-                        :static-tuft-2
-                        :static-tuft-3
-                        ] 5000 -5000 5000 -5000 5000)
+                        (assets/to-keys assets/=assets-sprites-static=)
+                        5000 -5000 5000 -5000 5000)
 
           game-sprites (doall (for [obj game-map]
                                 (assoc obj

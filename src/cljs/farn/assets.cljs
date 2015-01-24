@@ -1,5 +1,8 @@
 (ns farn.assets)
 
+(defn to-keys [which]
+  (vec (map (fn [s] (keyword (nth (.split (.replace s ".png" "") "/") 2))) which)))
+
 (def =assets-sprites-static= 
   [
   "img/sprites/static-bush-1.png"
