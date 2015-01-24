@@ -158,7 +158,10 @@
 
       (.sort (.-children main-stage) depth-compare)
 
-      (loop [pos [0 0] theta 0 cells #{[0 0]}
+      (loop [pos [0 0]
+             speed 0
+             theta 0
+             cells #{[0 0]}
              sprite-count 0
              ]
         (when (not= sprite-count (.-children.length main-stage))
@@ -175,7 +178,10 @@
               rhx (Math/cos (- (* 2 Math/PI) calc-theta))
               rhy (Math/sin (- (* 2 Math/PI) calc-theta))
 
-              speed 4
+              max-speed 10
+              acceleration 0.6
+              drag 0.95
+              turn-speed 0.03
 
               vx (* speed hx)
               vy (* speed hy)
@@ -278,17 +284,24 @@
           (<! (events/next-frame))
           (recur
            ;; new position
-           (if (events/is-pressed? :down)
-             [(+ x vx) (+ y vy)]
-             (if (events/is-pressed? :up)
-               [(- x vx) (- y vy)]
-               [x y]))
+           [(- x vx) (- y vy)]
+
+           ;; (if (events/is-pressed? :down)
+           ;;   [(+ x vx) (+ y vy)]
+           ;;   (if (events/is-pressed? :up)
+           ;;     [(- x vx) (- y vy)]
+           ;;     [x y]))
+
+           ;; new speed
+           (if (events/is-pressed? :up)
+             (min (+ speed acceleration) max-speed)
+             (max (* speed drag) 0))
 
            ;; new heading
            (if (events/is-pressed? :left)
-             (+ theta 0.03)
+             (+ theta turn-speed)
              (if (events/is-pressed? :right)
-               (- theta 0.03)
+               (- theta turn-speed)
                theta))
 
            ;; pass through new cell list
