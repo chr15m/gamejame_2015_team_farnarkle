@@ -8,7 +8,7 @@ goog.require('farn.font');
 goog.require('farn.gfx');
 farn.rex.word_exit_speed = (2);
 farn.rex.word_entry_speed = 1.6;
-farn.rex.rex_phrases = new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, ["What do we do now?","I'm sick of asking!","Who knows!","Maybe theres an alien baby lost in these woods...","I can hear that baby crying!","Why don't you go find the source of that sobbing?","Is there anything else to do on this planet?","These human brains are puny... but tasty!","Scenario brothers galaxy woohoo!","Nee mee nee mee nee."], null);
+farn.rex.rex_phrases = new cljs.core.PersistentVector(null, 18, 5, cljs.core.PersistentVector.EMPTY_NODE, ["What do we do now?","I'm sick of asking!","Who knows!","Maybe theres an alien baby lost in these woods...","I can hear that baby crying!","Why don't you go find the source of that sobbing?","Is there anything else to do on this planet?","These human brains are puny... but tasty!","Scenario brothers galaxy woohoo!","Nee mee nee mee nee.","If a tree falls in a forest, and no alien is there to hear it...","What was I when I wasn't what I am? What will I be when I'm not?","What is the sound of one baby crying? hint, hint...","These plants are very perculiar. Our leader will be pleased!","Try and make contact with the flowers","Ramma Lamma Ding Dong!","The hive mind is calling me home.","Once the baby is recovered, this planet can be purged"], null);
 farn.rex.launch_rex = (function launch_rex(ui_stage){
 var rex_talks = cljs.core.doall.call(null,(function (){var iter__4386__auto__ = (function iter__14922(s__14923){
 return (new cljs.core.LazySeq(null,(function (){
