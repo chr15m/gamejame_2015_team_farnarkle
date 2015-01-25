@@ -9,7 +9,7 @@
 (defn floor-sprites []
     (to-keys (filter (fn [a] (not (= -1 (.indexOf a "-floor-")))) farn.assets/=assets=)))
 
-(def =assets-sprites-static= 
+(def =sprites-static=
   [
   "img/sprites/static-bush-1.png"
   "img/sprites/static-cactus-1.png"
@@ -61,13 +61,13 @@
   "img/sprites/static-tuft-3.png"
 ])
 
-(def =assets-sprites-bits= 
+(def =sprites-bits=
   [
   "img/sprites/shadow-1.png"
    ]
   )
 
-(def =assets-sprites-components= 
+(def =sprites-components=
   [
   "img/sprites/component-tree-shrub-brown-1.png"
   "img/sprites/component-tree-shrub-brown-2.png"
@@ -82,16 +82,16 @@
   "img/sprites/component-tree-shrub-light-3.png"
   "img/sprites/component-tree-shrub-light-4.png"
   "img/sprites/component-tree-trunk-1.png"
-  "img/sprites/component-tree-trunk-2.png"   
+  "img/sprites/component-tree-trunk-2.png"
    ]
   )
-(def =assets-sprites-baby= 
+(def =sprites-baby=
   [
   "img/sprites/baby-float-1.png"
    ]
   )
 
-(def =assets-sprites-pink=
+(def =sprites-pink=
   [
   "img/sprites/pink-crouch-4.png"
   "img/sprites/pink-stand-1.png"
@@ -103,7 +103,7 @@
    ]
   )
 
-(def =assets-sprites-brown=
+(def =sprites-brown=
      [
   "img/sprites/brown-stand-1.png"
   "img/sprites/brown-stand-2.png"
@@ -115,9 +115,16 @@
   "img/sprites/brown-talk-noblink-3.png"
       ]
      )
-(def =assets-fonts= ["http://fonts.gstatic.com/s/lobster/v12/cycBf3mfbGkh66G5NhszPQ.woff2"
+
+(def =pickups=
+  [
+   "img/sprites/pickup-star-1.png"
+   ]
+)
+
+(def =fonts= ["http://fonts.gstatic.com/s/lobster/v12/cycBf3mfbGkh66G5NhszPQ.woff2"
    "http://fonts.gstatic.com/s/varelaround/v6/APH4jr0uSos5wiut5cpjrugdm0LZdjqr5-oayXSOefg.woff2"
    "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"])
 
 (def =assets=
-  (vec (concat =assets-fonts= =assets-sprites-static= =assets-sprites-baby= =assets-sprites-pink= =assets-sprites-brown= =assets-sprites-bits= )))
+  (vec (concat =fonts= =sprites-static= =sprites-baby= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))
