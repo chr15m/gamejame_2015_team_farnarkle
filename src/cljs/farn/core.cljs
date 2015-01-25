@@ -44,9 +44,10 @@
 (def pickup-bounce-speed 0.1)
 (def pickup-vertical-offset 25)
 (def max-pickups 100)
-(def pickup-cull-distance 2000)
+(def pickup-cull-distance 4000)
 (def pickup-cull-distance-squared (* pickup-cull-distance pickup-cull-distance))
-(def pickup-spread 1000) ;; how far the spawner spreads the pickups out around you
+(def pickup-spread 3000) ;; how far the spawner spreads the pickups out around you
+(def pickup-exclusion-zone 500) ;; how far within this zone it wont spawn (the players area)
 
 (defonce fonts
   [
@@ -217,17 +218,26 @@
 
 
           make-pickup
-          (fn [[x y] spread]
+          (fn [[x y] spread ]
             (let [s (sprite/make-sprite star-tex)
                   shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
                   ;; offscreen
                   _ (sprite/set-pos! s 50000 10000)
                   _ (sprite/set-pos! shadow 50000 10000)
+
+                  xoff (if (< (rand) 0.5)
+                         (rand-between (- spread) (- pickup-exclusion-zone))
+                         (rand-between pickup-exclusion-zone spread)
+                         )
+                  yoff (if (< (rand) 0.5)
+                         (rand-between (- spread) (- pickup-exclusion-zone))
+                         (rand-between pickup-exclusion-zone spread)
+                         )
                   ]
               {:sprite s
-               :pos [(+ x (rand-between (- spread) spread))
-                     (+ y (rand-between (- spread) spread))]
+               :pos [(+ x xoff)
+                     (+ y yoff)]
                :shadow shadow
                :scale 0.7}))
 
@@ -422,7 +432,7 @@
       ;; and culls stars that get too far away
       (go
         (while true
-          (<! (timeout 1000))
+          (<! (timeout 333))
 
           ;; add a pickup if theres not too many
           (when (< (count @pickup-store) max-pickups)
@@ -432,6 +442,7 @@
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))
               ))))
+
 
       ;; cull go block
       (let [cull-distance? (fn [pickup]
