@@ -1,11 +1,20 @@
- * initial basic screens working
- * refactoring into functions
- * procedural map
+ * front-facing character
+ * music
+ * collecting stars
+ * hitting things and stars fly
+ * sfx
+
+ * collecting mushrooms
+ * arrow indicator
+ * collecting baby mission
+
  * procedural trees
 
 DONE
 ----
 
+ * initial basic screens working
+ * procedural map
  * end-to-end deployment to a server working
  * initial assets pipeline + some basic asset ideas for music, sfx, gfx
  * integrate pixi.js etc.
