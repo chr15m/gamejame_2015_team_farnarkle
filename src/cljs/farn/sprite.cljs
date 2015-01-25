@@ -48,7 +48,8 @@
   (.-position.y sprite))
 
 (defn get-pos [sprite]
-  (.-position sprite))
+  [(.-position.x sprite)
+   (.-position.y sprite)])
 
 
 ;;
