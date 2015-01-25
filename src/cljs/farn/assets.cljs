@@ -122,12 +122,27 @@
 (def =pickups=
   [
    "img/sprites/pickup-star-1.png"
+   "img/sprites/pickup-mushroom-1.png"
+   "img/sprites/pickup-baby-1.png"
+   "img/sprites/pickup-baby-2.png"
    ]
 )
+
+(def =sfx=
+   (vec (concat
+     (map (fn [x] (str "sfx/boom-" x ".ogg")) (range 1 4))
+     (map (fn [x] (str "sfx/pickup-" x ".ogg")) (range 1 9))))
+  )
+
+(def =music=
+  [
+   "music/bu-ogre-of-a-simplex.ogg"
+   ]
+  )
 
 (def =fonts= ["http://fonts.gstatic.com/s/lobster/v12/cycBf3mfbGkh66G5NhszPQ.woff2"
    "http://fonts.gstatic.com/s/varelaround/v6/APH4jr0uSos5wiut5cpjrugdm0LZdjqr5-oayXSOefg.woff2"
    "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"])
 
 (def =assets=
-  (vec (concat =fonts= =sprites-static= =sprites-baby= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))
+  (vec (concat =fonts= =music= =sfx= =sprites-static= =sprites-baby= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))

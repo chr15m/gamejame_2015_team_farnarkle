@@ -129,6 +129,16 @@
 
 ; main live code goes here
 (go
+  ; kick off the music
+  (go
+      (println "pre sound lel")
+    (let [music-track (<! (sound/load-sound "music/bu-ogre-of-a-simplex.ogg"))]
+      (println "we has sound lel")
+      (.log js/console music-track)
+      (sound/play-sound music-track 0.9 true)
+      )
+    )
+  ; kick off the assets loader
   (let [loader
         (load ui-stage assets/=assets=
               :full-colour 0x306020

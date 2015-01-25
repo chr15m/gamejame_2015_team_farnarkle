@@ -22,9 +22,10 @@
 (defn play-sound
   "pass this a buffer, and an optional gain parameter, and the
   sound will be played to the speakers"
-  ([buff g]
+  ([buff g & loop-flag]
    (let [source (.createBufferSource audio-context)
          gain (.createGain audio-context)]
+     (when loop-flag (set! (.-loop source) true))
      (set! (.-buffer source) buff)
      (.connect source gain)
      (.connect gain (.-destination audio-context))
