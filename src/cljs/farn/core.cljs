@@ -6,6 +6,7 @@
             [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.store :as store]
+            [farn.stars :as stars]
             [farn.sound :as sound]
             [farn.map :as perlin-map]
             [farn.assets :as assets]
@@ -38,6 +39,7 @@
 
 ;; this atom is so other go blocks can read the players last position
 (def last-player-position (atom [0 0]))
+(def last-player-rh (atom [0 0]))
 
 ;; pickups
 (def pickup-bounce-height 5)
@@ -710,6 +712,7 @@
 
           ;; other go blocks need the players position
           (reset! last-player-position [x y])
+          (reset! last-player-rh [rhx rhy])
 
           ;; switch the player animation
           (if (or (> (Math/abs vx) 2)
@@ -721,7 +724,9 @@
           (.sort (.-children main-stage) depth-compare)
           (<! (events/next-frame))
 
-          ;(log "HIT?" player-hit)
+          (when (events/is-pressed? :s)
+            (log "SPAWN")
+            (stars/make main-stage star-tex shadow-tex x y))
 
           (recur
            ;; new frame-num
