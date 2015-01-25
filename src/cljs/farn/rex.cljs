@@ -22,6 +22,15 @@
                   "These human brains are puny... but tasty!"
                   "Scenario brothers galaxy woohoo!"
                   "Nee mee nee mee nee."
+                  "If a tree falls in a forest, and no alien is there to hear it..."
+                  "What was I when I wasn't what I am? What will I be when I'm not?"
+                  "What is the sound of one baby crying? hint, hint..."
+                  "These plants are very perculiar. Our leader will be pleased!"
+                  "Try and make contact with the flowers"
+                  "Ramma Lamma Ding Dong!"
+                  "The hive mind is calling me home."
+                  "Once the baby is recovered, this planet can be purged"
+
                   ])
 
 (defn launch-rex [ui-stage]
