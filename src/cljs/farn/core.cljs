@@ -39,23 +39,11 @@
 ;; pickups
 (def pickup-bounce-height 5)
 (def pickup-bounce-speed 0.1)
-(def pickup-vertical-offset 10)
+(def pickup-vertical-offset 25)
 (def max-pickups 100)
 (def pickup-cull-distance 2000)
 (def pickup-cull-distance-squared (* pickup-cull-distance pickup-cull-distance))
 
-;; rex stuff
-;; (def word-exit-speed 2)
-;; (def word-entry-speed 1.6)
-;; (def rex-phrases ["What do we do now?"
-;;                   "I'm sick of asking!"
-;;                   "Who the fuck knows!"
-;;                   "Maybe theres an alien baby lost in these woods..."
-;;                   "I can hear that baby crying!"
-;;                   "Why don't you go find the source of that sobbing?"
-;;                   "Is there anything else to do on this planet?"
-;;                   "These human brains are puny... but tasty!"
-;;                   ])
 
 (defonce fonts
   [
