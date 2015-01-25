@@ -191,7 +191,6 @@
                                             :dropShadowColor "#000000")
           
           pickup-textures [:pickup-star-1 :pickup-mushroom-1]
-          baby-texture :pickup-baby-1
 
           floor-objects [:static-floor-path-big
                          :static-floor-path-medium
@@ -220,8 +219,9 @@
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
           make-pickup
-          (fn [[x y] spread & force-type]
-            (let [pickup-type (if force-type force-type (rand-nth pickup-textures))
+          (fn [[x y] spread & [force-type force-exclusion-zone]]
+            (let [exclusion-zone (if force-exclusion-zone force-exclusion-zone pickup-exclusion-zone)
+                  pickup-type (if force-type force-type (rand-nth pickup-textures))
                   s (sprite/make-sprite (gfx/get-texture pickup-type))
                   shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
@@ -230,14 +230,15 @@
                   _ (sprite/set-pos! shadow 50000 10000)
 
                   xoff (if (< (rand) 0.5)
-                         (rand-between (- spread) (- pickup-exclusion-zone))
-                         (rand-between pickup-exclusion-zone spread)
+                         (rand-between (- spread) (- exclusion-zone))
+                         (rand-between exclusion-zone spread)
                          )
                   yoff (if (< (rand) 0.5)
-                         (rand-between (- spread) (- pickup-exclusion-zone))
-                         (rand-between pickup-exclusion-zone spread)
+                         (rand-between (- spread) (- exclusion-zone))
+                         (rand-between exclusion-zone spread)
                          )
                   ]
+              (println pickup-type (+ x xoff) (+ y yoff))
               {:sprite s
                :pos [(+ x xoff)
                      (+ y yoff)]
@@ -442,6 +443,15 @@
       ;; go block that watches the player. it regularly adds stars just off screen
       ;; and culls stars that get too far away
       (go
+        ;; add an alien baby!
+        (println "MAKE BABY")
+        (let [pickup (make-pickup [200 200] 200 :pickup-baby-1 300)]
+              (swap! pickup-store conj pickup)
+              (sprite/set-scale! (:sprite pickup)  (:scale pickup))
+              (.addChild main-stage (:sprite pickup))
+              (.addChild main-stage (:shadow pickup))
+          )
+        ;; also add the rest of the things
         (while true
           (<! (timeout 333))
 
@@ -453,10 +463,6 @@
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))
               ))))
-
-
-      ;; add a baby!
-      ; (make-pickup baby-texture)
       
       ;; cull go block
       (let [cull-distance? (fn [pickup]

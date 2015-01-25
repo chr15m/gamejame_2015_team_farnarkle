@@ -1,9 +1,7 @@
  * hitting things and stars fly
-
- * title fader
- * refactor stars to to 'collectible' and add mushrooms & baby
- * castle
  * procedural trees
+
+ * castle
 
 WE HAVE A GAME
 --------------
@@ -17,6 +15,8 @@ WE HAVE A GAME
 DONE
 ----
 
+ * title fader
+ * refactor stars to to 'collectible' and add mushrooms & baby
  * stars more spread out
  * sfx
  * music
