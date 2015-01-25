@@ -206,7 +206,7 @@
                          ]
 
           ;; things that we can hit
-          obstacle-types [:static-tree-1 :static-tree-2 :static-tree-3 :static-tree-4 :static-tree-5 :static-tree-6 :static-tree-7 :static-tree-8 :static-tree-9 :static-tree-10 :static-tree-11 :static-tree-12 :static-tree-13 :static-tree-14 :static-tree-15 :static-tree-16 :static-tree-17 :static-tree-18 :static-tree-19 :static-tree-20
+          obstacle-types [:static-tree-1 :static-tree-2 :static-tree-3 :static-tree-4 :static-tree-5 :static-tree-6 :static-tree-7 :static-tree-8 :static-tree-9 :static-tree-10 :static-tree-11 :static-tree-12 :static-tree-13 :static-tree-14 :static-tree-15 :static-tree-16 :static-tree-17 :static-tree-18 :static-tree-19 :static-tree-20 :static-castle-1
                           ;:static-rock-1
                           :static-giant-schroom-1
                           :static-giant-schroom-2
@@ -331,10 +331,14 @@
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-giant-schroom-" 2)
-                                  ;(assets/make-range "static-flower-" 3)
-                                  ;(assets/make-range "static-schroom-" 2)
-                                  ;(assets/make-range "static-tuft-" 3)
+                                  (assets/make-range "static-giant-schroom-" 2)
+                                  [:static-castle-1]
                                   ))
                          ; grass
                          4 (vec (concat

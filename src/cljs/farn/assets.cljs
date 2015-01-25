@@ -59,6 +59,7 @@
   "img/sprites/static-tree-7.png"
   "img/sprites/static-tree-8.png"
   "img/sprites/static-tree-9.png"
+  "img/sprites/static-castle-1.png"
   "img/sprites/static-tuft-1.png"
   "img/sprites/static-tuft-2.png"
   "img/sprites/static-tuft-3.png"
