@@ -14,13 +14,14 @@
 (def word-entry-speed 1.6)
 (def rex-phrases ["What do we do now?"
                   "I'm sick of asking!"
-                  "Who the fuck knows!"
+                  "Who knows!"
                   "Maybe theres an alien baby lost in these woods..."
                   "I can hear that baby crying!"
                   "Why don't you go find the source of that sobbing?"
                   "Is there anything else to do on this planet?"
                   "These human brains are puny... but tasty!"
-                  "This game should be called 'Scenario Brothers'"
+                  "Scenario brothers galaxy woohoo!"
+                  "Nee mee nee mee nee."
                   ])
 
 (defn launch-rex [ui-stage]

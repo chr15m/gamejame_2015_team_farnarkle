@@ -398,6 +398,23 @@
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-giant-schroom-" 2)
                                   (assets/make-range "static-giant-schroom-" 2)
                                   (assets/make-range "static-giant-schroom-" 2)
                                   [:static-castle-1]
@@ -512,7 +529,7 @@
       ;; and culls stars that get too far away
       (go
         ;; add an alien baby!
-        (let [pickup (make-pickup [200 200] 200 :pickup-baby-1 300)]
+        (let [pickup (make-pickup [0 0] 10000 :pickup-baby-1 2000)]
               (swap! pickup-store conj pickup)
               (sprite/set-scale! (:sprite pickup)  (:scale pickup))
               (.addChild main-stage (:sprite pickup))
