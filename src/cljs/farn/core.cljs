@@ -215,6 +215,12 @@
                          ; trees
                          3 (vec (concat
                                   (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-giant-schroom-" 2)
                                   ;(assets/make-range "static-flower-" 3)
                                   ;(assets/make-range "static-schroom-" 2)
                                   ;(assets/make-range "static-tuft-" 3)
@@ -224,7 +230,7 @@
                                   ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
                                   [:static-lump-1 :static-lump-3]
-                                  (assets/make-range "static-schroom-" 2)
+                                  (assets/make-range "static-schroom-" 3)
                                   (assets/make-range "static-flower-" 3)
                                   (assets/make-range "static-flower-" 3)
                                   (assets/make-range "static-flower-" 3)
