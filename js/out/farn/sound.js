@@ -19,8 +19,8 @@ req.responseType = "arraybuffer";
 req.onload = ((function (req,c){
 return (function (){
 return farn.sound.audio_context.decodeAudioData(req.response,((function (req,c){
-return (function (p1__13666_SHARP_){
-return cljs.core.async.put_BANG_.call(null,c,p1__13666_SHARP_);
+return (function (p1__15145_SHARP_){
+return cljs.core.async.put_BANG_.call(null,c,p1__15145_SHARP_);
 });})(req,c))
 );
 });})(req,c))
@@ -41,7 +41,7 @@ var play_sound__1 = (function (buff){
 return play_sound.call(null,buff,farn.sound.default_gain);
 });
 var play_sound__3 = (function() { 
-var G__13667__delegate = function (buff,g,loop_flag){
+var G__15146__delegate = function (buff,g,loop_flag){
 var source = farn.sound.audio_context.createBufferSource();
 var gain = farn.sound.audio_context.createGain();
 if(cljs.core.truth_(loop_flag)){
@@ -59,22 +59,22 @@ gain.gain.value = g;
 
 return source.start((0));
 };
-var G__13667 = function (buff,g,var_args){
+var G__15146 = function (buff,g,var_args){
 var loop_flag = null;
 if (arguments.length > 2) {
   loop_flag = cljs.core.array_seq(Array.prototype.slice.call(arguments, 2),0);
 } 
-return G__13667__delegate.call(this,buff,g,loop_flag);};
-G__13667.cljs$lang$maxFixedArity = 2;
-G__13667.cljs$lang$applyTo = (function (arglist__13668){
-var buff = cljs.core.first(arglist__13668);
-arglist__13668 = cljs.core.next(arglist__13668);
-var g = cljs.core.first(arglist__13668);
-var loop_flag = cljs.core.rest(arglist__13668);
-return G__13667__delegate(buff,g,loop_flag);
+return G__15146__delegate.call(this,buff,g,loop_flag);};
+G__15146.cljs$lang$maxFixedArity = 2;
+G__15146.cljs$lang$applyTo = (function (arglist__15147){
+var buff = cljs.core.first(arglist__15147);
+arglist__15147 = cljs.core.next(arglist__15147);
+var g = cljs.core.first(arglist__15147);
+var loop_flag = cljs.core.rest(arglist__15147);
+return G__15146__delegate(buff,g,loop_flag);
 });
-G__13667.cljs$core$IFn$_invoke$arity$variadic = G__13667__delegate;
-return G__13667;
+G__15146.cljs$core$IFn$_invoke$arity$variadic = G__15146__delegate;
+return G__15146;
 })()
 ;
 play_sound = function(buff,g,var_args){

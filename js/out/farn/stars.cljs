@@ -48,8 +48,8 @@
              (* exit-speed (Math/sin theta))
              ]
         [dx dy] direction]
-    (sprite/set-pos! star x y)
-    (sprite/set-pos! shadow x y)
+    (sprite/set-pos! star 100000 100000)
+    (sprite/set-pos! shadow 100000 100000)
     (sprite/set-scale! star 0.7)
     (go
       (.addChild stage shadow)

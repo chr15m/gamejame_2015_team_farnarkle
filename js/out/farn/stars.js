@@ -36,9 +36,9 @@ var direction = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentV
 var vec__10228 = direction;
 var dx = cljs.core.nth.call(null,vec__10228,(0),null);
 var dy = cljs.core.nth.call(null,vec__10228,(1),null);
-farn.sprite.set_pos_BANG_.call(null,star,x,y);
+farn.sprite.set_pos_BANG_.call(null,star,(100000),(100000));
 
-farn.sprite.set_pos_BANG_.call(null,shadow,x,y);
+farn.sprite.set_pos_BANG_.call(null,shadow,(100000),(100000));
 
 farn.sprite.set_scale_BANG_.call(null,star,0.7);
 
