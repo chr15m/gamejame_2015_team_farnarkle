@@ -20,6 +20,7 @@
                   "Why don't you go find the source of that sobbing?"
                   "Is there anything else to do on this planet?"
                   "These human brains are puny... but tasty!"
+                  "This game should be called 'Scenario Brothers'"
                   ])
 
 (defn launch-rex [ui-stage]

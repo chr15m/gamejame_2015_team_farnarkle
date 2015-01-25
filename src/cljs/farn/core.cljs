@@ -40,6 +40,9 @@
 (def pickup-bounce-height 5)
 (def pickup-bounce-speed 0.1)
 (def pickup-vertical-offset 10)
+(def max-pickups 100)
+(def pickup-cull-distance 2000)
+(def pickup-cull-distance-squared (* pickup-cull-distance pickup-cull-distance))
 
 ;; rex stuff
 ;; (def word-exit-speed 2)
@@ -62,7 +65,13 @@
 
 ;; player animation is an atom cause I'm lazy
 (def player-animation (atom :standing))
+
+;; players star pickup count
 (def player-stars (atom 0))
+
+;; all the stars on the game atm
+(def pickup-store (atom #{}))
+
 
 (defn load [s urls & {:keys [fade-in fade-out]
                       :or {fade-in 0.5 fade-out 0.5}
@@ -216,18 +225,20 @@
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
 
-          pickups (for [i (range 20)]
-                    (let [s (sprite/make-sprite star-tex)
-                          shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
+          make-pickup
+          (fn []
+            (let [s (sprite/make-sprite star-tex)
+                  shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
-                          ;; offscreen
-                          _ (sprite/set-pos! s 10000 10000)
-                          _ (sprite/set-pos! shadow 10000 10000)
-                          ]
-                      {:sprite s
-                       :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
-                       :shadow shadow
-                       :scale 0.7}))
+                  ;; offscreen
+                  _ (sprite/set-pos! s 50000 10000)
+                  _ (sprite/set-pos! shadow 50000 10000)
+                  ]
+              {:sprite s
+               :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
+               :shadow shadow
+               :scale 0.7}))
+
           pickup-sfx (loop [sounds [] [h & t] (range 1 10)]
                        (if-not (nil? h)
                          (recur
@@ -415,12 +426,29 @@
       ;; the little chatterbox guy
       (rex/launch-rex ui-stage)
 
-      ;; add the stars
-      (doseq [pickup pickups]
-        (sprite/set-scale! (:sprite pickup)  (:scale pickup))
-        (.addChild main-stage (:sprite pickup))
-        (.addChild main-stage (:shadow pickup))
-        )
+      ;; go block that watches the player. it regularly adds stars just off screen
+      ;; and culls stars that get too far away
+      (go
+        (while true
+          (<! (timeout 1000))
+
+          ;; add a pickup if theres not too many
+          (when (< (count @pickup-store) max-pickups)
+            (let [pickup (make-pickup)]
+              (swap! pickup-store conj pickup)
+              (sprite/set-scale! (:sprite pickup)  (:scale pickup))
+              (.addChild main-stage (:sprite pickup))
+              (.addChild main-stage (:shadow pickup))
+              ))))
+
+      ;; cull go block
+      (go
+        (while true
+          (<! (timeout 250))
+
+          ;; remove any remote pickups
+
+          ))
 
       (<! (timeout 1000))
       (log "adding player")
@@ -475,7 +503,6 @@
              theta 0
              cells #{[0 0]}
              sprite-count 0
-             pickups pickups
              player-hit 0
              ]
         (when (not= sprite-count (.-children.length main-stage))
@@ -552,22 +579,16 @@
                                ))
 
               ;; has player hit a pickup
-              new-pickup-list
-              (filter #(not (nil? %))
-                      (for [pickup pickups]
-                        (if (sprite/overlap? player (:sprite pickup))
-                          ;; picked up
-                          (do
-                            (sound/play-sound (rand-nth pickup-sfx) 0.4)
-                            (.removeChild main-stage (:sprite pickup))
-                            (.removeChild main-stage (:shadow pickup))
-                            (swap! player-stars inc)
-                            nil)
-
-                          ;; not picked up... pass through
-                          pickup
-                          )
-                        ))
+              _ (doseq [pickup @pickup-store]
+                  (if (sprite/overlap? player (:sprite pickup))
+                    ;; picked up
+                    (do
+                      (sound/play-sound (rand-nth pickup-sfx) 0.4)
+                      (.removeChild main-stage (:sprite pickup))
+                      (.removeChild main-stage (:shadow pickup))
+                      (swap! player-stars inc)
+                      (swap! pickup-store disj pickup)
+                      nil)))
 
               player-hit? (let [check-cell (game-space player-cell)
                          obstacle? (fn [obj] (some #(= (:type obj) %) obstacle-types))
@@ -608,7 +629,7 @@
           ;;
           ;; PICKUPS
           ;;
-          (doseq [pickup pickups]
+          (doseq [pickup @pickup-store]
             (let [[x y] (polar-object-coords (:pos pickup)
                                              (:sprite pickup)
                                              x y
@@ -707,9 +728,6 @@
 
            ;; pass through sprite count
            old-sprite-count
-
-           ;; pass through new pickup list
-           new-pickup-list
 
            ;; player hit count down pass through
            (max 0 (dec new-player-hit))
