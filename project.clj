@@ -8,6 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2511" :scope "provided"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [ring "1.3.1"]
                  [compojure "1.2.0"]
                  [enlive "1.1.5"]
@@ -19,10 +20,15 @@
                  [garden "1.1.7"]
                  [hiccup "1.0.5"]
                  [weasel "0.4.0-SNAPSHOT"]
-                 [leiningen "2.5.0"]]
+                 [leiningen "2.5.0"]
+                 ]
 
   :main farn.server/dump
 
+  :aliases {
+          "dump-index-html" ["run" "-m" "farn.server/dump-html"]
+          }
+  
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]]
 
@@ -34,8 +40,10 @@
                              :compiler {:output-to     "resources/public/js/app.js"
                                         :output-dir    "resources/public/js/out"
                                         :source-map    "resources/public/js/out.js.map"
-                                        :optimizations :none
-                                        :pretty-print  true}}}}
+                                        :preamble      ["react/react.min.js"]
+                                        :externs       ["react/externs/react.js"]
+                                        ; :pretty-print  true
+                                        }}}}
 
   :profiles {:dev {:repl-options {:init-ns farn.server
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -48,7 +56,11 @@
 
                    :env {:is-dev true}
 
-                   :cljsbuild {:builds {:app {:source-paths ["env/dev/cljs"]}}}}
+                   :cljsbuild {:builds {:app {:source-paths ["env/dev/cljs"]
+                                              :compiler {:optimizations :none
+                                                         :pretty-print true
+                                                         }
+                                              }}}}
 
              :uberjar {:hooks [leiningen.cljsbuild]
                        :env {:production true}
@@ -58,4 +70,14 @@
                                             {:source-paths ["env/prod/cljs"]
                                              :compiler
                                              {:optimizations :advanced
-                                              :pretty-print false}}}}}})
+                                              :pretty-print false}}}}}
+             
+             :build-static {:hooks [leiningen.cljsbuild]
+                            :env {:production true}
+                            :cljsbuild {:builds {:app
+                                            {:source-paths ["env/prod/cljs"]
+                                             :compiler
+                                             {:optimizations :advanced
+                                              :pretty-print false}}}}
+                            }
+             })
