@@ -619,6 +619,17 @@
                                ;; how many frames we "bounce" for
                                (do
                                  (sound/play-sound (rand-nth hit-sfx) 0.5)
+
+                                 (let [stars-to-spawn (min 30 @player-stars)
+                                       [x y] pos]
+                                   (when (> stars-to-spawn 0)
+                                     (loop [i stars-to-spawn]
+                                       (stars/make main-stage star-tex shadow-tex x y)
+                                       (when (> i 1)
+                                         (recur (dec i)))
+                                       )))
+                                 (reset! player-stars 0)
+
                                  (* 30 (/ speed player-max-speed)))
 
                                ;; the old value
@@ -703,9 +714,8 @@
           (.sort (.-children main-stage) depth-compare)
           (<! (events/next-frame))
 
-          (when (events/is-pressed? :s)
-            (log "SPAWN")
-            (stars/make main-stage star-tex shadow-tex x y))
+          ;; (when (events/is-pressed? :s)
+          ;;   (stars/make main-stage star-tex shadow-tex x y))
 
           (recur
            ;; new frame-num

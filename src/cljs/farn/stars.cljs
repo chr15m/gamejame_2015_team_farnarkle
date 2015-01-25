@@ -57,6 +57,7 @@
       (loop [frame 1
              star-x x
              star-y y
+
              ]
         (<! (events/next-frame))
         (let [zpos (Math/abs (* 0.3
