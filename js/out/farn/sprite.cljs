@@ -7,9 +7,17 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
 )
 
-(defn set-pos! [sprite x y]
-  (set! (.-position.x sprite) x)
-  (set! (.-position.y sprite) y))
+(defn make-sprite [tex & {:keys [anchor-x anchor-y] :or {anchor-x 0.5 anchor-y 1}}]
+  (let [s (gfx/make-sprite tex)]
+    (set-anchor! s anchor-x anchor-y)
+    s))
+
+(defn set-pos!
+  ([sprite x y]
+   (set! (.-position.x sprite) x)
+   (set! (.-position.y sprite) y))
+  ([sprite [x y]]
+   (set-pos! sprite x y)))
 
 (defn set-anchor! [sprite x y]
   (set! (.-anchor sprite) (gfx/make-point x y)))
@@ -40,7 +48,8 @@
   (.-position.y sprite))
 
 (defn get-pos [sprite]
-  (.-position sprite))
+  [(.-position.x sprite)
+   (.-position.y sprite)])
 
 
 ;;
@@ -66,6 +75,7 @@
      (< b1 t2) false
      (> t1 b2) false
      :default true)))
+
 
 (defn overlap?
   "do the bounding boxes of the two sprites overlap?"
