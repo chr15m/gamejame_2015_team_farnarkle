@@ -36,6 +36,9 @@
 (def player-bound-height 30)
 (def player-bound-length 30)
 
+;; this atom is so other go blocks can read the players last position
+(def last-player-position (atom [0 0]))
+
 ;; pickups
 (def pickup-bounce-height 5)
 (def pickup-bounce-speed 0.1)
@@ -43,7 +46,7 @@
 (def max-pickups 100)
 (def pickup-cull-distance 2000)
 (def pickup-cull-distance-squared (* pickup-cull-distance pickup-cull-distance))
-
+(def pickup-spread 1000) ;; how far the spawner spreads the pickups out around you
 
 (defonce fonts
   [
@@ -214,7 +217,7 @@
 
 
           make-pickup
-          (fn []
+          (fn [[x y] spread]
             (let [s (sprite/make-sprite star-tex)
                   shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
@@ -223,7 +226,8 @@
                   _ (sprite/set-pos! shadow 50000 10000)
                   ]
               {:sprite s
-               :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
+               :pos [(+ x (rand-between (- spread) spread))
+                     (+ y (rand-between (- spread) spread))]
                :shadow shadow
                :scale 0.7}))
 
@@ -422,7 +426,7 @@
 
           ;; add a pickup if theres not too many
           (when (< (count @pickup-store) max-pickups)
-            (let [pickup (make-pickup)]
+            (let [pickup (make-pickup @last-player-position pickup-spread)]
               (swap! pickup-store conj pickup)
               (sprite/set-scale! (:sprite pickup)  (:scale pickup))
               (.addChild main-stage (:sprite pickup))
@@ -430,13 +434,25 @@
               ))))
 
       ;; cull go block
-      (go
-        (while true
-          (<! (timeout 250))
+      (let [cull-distance? (fn [pickup]
+                             (when
+                                 (not (close? @last-player-position
+                                              (:pos pickup)
+                                              pickup-cull-distance-squared))
+                               pickup
+                               ))]
+        (go
+          (while true
+            (<! (timeout 250))
 
-          ;; remove any remote pickups
-
-          ))
+            ;; remove some remote pickups
+            (when-let [pickup (some cull-distance? @pickup-store)]
+              (.removeChild main-stage (:sprite pickup))
+              (.removeChild main-stage (:shadow pickup))
+              (log "REMOVING" (str pickup))
+              (swap! pickup-store disj pickup)
+              )
+            )))
 
       (<! (timeout 1000))
       (log "adding player")
@@ -659,6 +675,9 @@
 
           ;; move cetnter of render to be on player
           (sprite/set-pivot! main-stage x y)
+
+          ;; other go blocks need the players position
+          (reset! last-player-position [x y])
 
           ;; switch the player animation
           (if (or (> (Math/abs vx) 2)
