@@ -66,17 +66,16 @@
 
 (defn rectangles-overlap?
   "given two rectangles. Do they overlap?"
-  ([r1 r2]
-   (let [rec1 (edges-from-rect r1)
-         rec2 (edges-from-rect r2)]
-     (rectangles-overlap? rec1 rec2)))
-  ([[l1 r1 t1 b1] [l2 r2 t2 b2]]
-   (cond
-      (< r1 l2) false
-      (> l1 r2) false
-      (< b1 t2) false
-      (> t1 b2) false
-      :default true)))
+  [r1 r2]
+  (let [[l1 r1 t1 b1] (edges-from-rect r1)
+        [l2 r2 t2 b2] (edges-from-rect r2)]
+    (cond
+     (< r1 l2) false
+     (> l1 r2) false
+     (< b1 t2) false
+     (> t1 b2) false
+     :default true)))
+
 
 (defn overlap?
   "do the bounding boxes of the two sprites overlap?"

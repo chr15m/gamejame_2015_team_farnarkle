@@ -203,7 +203,8 @@
                           ]
                       {:sprite s
                        :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
-                       :shadow shadow}))
+                       :shadow shadow
+                       :scale 0.7}))
 
           depth-compare (fn [a b]
                           ;(log "comp" (.-position.y a) (.-position.y b))
@@ -358,6 +359,7 @@
 
       ;; add the stars
       (doseq [pickup pickups]
+        (sprite/set-scale! (:sprite pickup)  (:scale pickup))
         (.addChild main-stage (:sprite pickup))
         (.addChild main-stage (:shadow pickup))
         )
@@ -415,6 +417,7 @@
              theta 0
              cells #{[0 0]}
              sprite-count 0
+             pickups pickups
              ]
         (when (not= sprite-count (.-children.length main-stage))
           (log "SPRITE COUNT:" (.-children.length main-stage)))
@@ -488,6 +491,24 @@
                                ;; exit. return the new cell list
                                final-cells
                                ))
+
+              ;; has player hit a pickup
+              new-pickup-list
+              (filter #(not (nil? %))
+                      (for [pickup pickups]
+                        (if (sprite/overlap? player (:sprite pickup))
+                          ;; picked up
+                          (do
+                                        ;(sound/play-sound pickup-sound 0.4)
+                            (.removeChild main-stage (:sprite pickup))
+                            (.removeChild main-stage (:shadow pickup))
+                            nil)
+
+                          ;; not picked up... pass through
+                          pickup
+                          )
+                        ))
+
               ;_ (log (str cull-cells))
                                         ;(log "pos" (str pos) "theta" theta)
 ]
@@ -505,7 +526,9 @@
                 (sprite/set-pos! (:sprite obj) x y))
               ))
 
-          ;; do the same to the pickups
+          ;;
+          ;; PICKUPS
+          ;;
           (doseq [pickup pickups]
             (let [[x y] (polar-object-coords (:pos pickup)
                                              (:sprite pickup)
@@ -523,6 +546,9 @@
                            (* frame-num pickup-bounce-speed))))))
               )
             )
+
+
+
 
           ;; move cetnter of render to be on player
           (sprite/set-pivot! main-stage x y)
@@ -566,6 +592,9 @@
 
            ;; pass through sprite count
            old-sprite-count
+
+           ;; pass through new pickup list
+           new-pickup-list
            )))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
