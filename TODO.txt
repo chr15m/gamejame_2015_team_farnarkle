@@ -1,20 +1,18 @@
- * hitting things and stars fly
  * procedural trees
-
- * castle
 
 WE HAVE A GAME
 --------------
 
  * remember/recall perlin seed in URL
-
- * collecting mushrooms
  * arrow indicator
  * collecting baby mission
 
 DONE
 ----
 
+ * collecting mushrooms
+ * hitting things and stars fly
+ * castle
  * title fader
  * refactor stars to to 'collectible' and add mushrooms & baby
  * stars more spread out
