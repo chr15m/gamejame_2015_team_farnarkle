@@ -620,6 +620,7 @@
              pos [0 0]
              speed 0
              theta 0
+             d-theta 0
              cells #{[0 0]}
              sprite-count 0
              player-hit 0
@@ -849,6 +850,7 @@
            ;;     [(- x vx) (- y vy)]
            ;;     [x y]))
 
+
            ;; new speed
            (cond
             ;; at end of bounce speed should be 0
@@ -864,11 +866,16 @@
               (max (* speed player-drag) 0)))
 
            ;; new heading
+           (+ theta d-theta)
+
+           ;; next rate of change of theta
            (if (events/is-pressed? :left)
-             (+ theta player-turn-speed)
+             (min (+ d-theta 0.01) player-turn-speed)
              (if (events/is-pressed? :right)
-               (- theta player-turn-speed)
-               theta))
+               (max (- d-theta 0.01) (- player-turn-speed))
+
+               ;; no key pressed slow to 0
+               (* 0.5 d-theta)))
 
            ;; pass through new cell list
            post-remove-cells
