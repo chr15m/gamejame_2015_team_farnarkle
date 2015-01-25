@@ -39,20 +39,7 @@
 ;; pickups
 (def pickup-bounce-height 5)
 (def pickup-bounce-speed 0.1)
-(def pickup-vertical-offset 10)
-
-;; rex stuff
-;; (def word-exit-speed 2)
-;; (def word-entry-speed 1.6)
-;; (def rex-phrases ["What do we do now?"
-;;                   "I'm sick of asking!"
-;;                   "Who the fuck knows!"
-;;                   "Maybe theres an alien baby lost in these woods..."
-;;                   "I can hear that baby crying!"
-;;                   "Why don't you go find the source of that sobbing?"
-;;                   "Is there anything else to do on this planet?"
-;;                   "These human brains are puny... but tasty!"
-;;                   ])
+(def pickup-vertical-offset 25)
 
 (defonce fonts
   [
