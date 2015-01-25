@@ -66,6 +66,68 @@
 ;; all the stars on the game atm
 (def pickup-store (atom #{}))
 
+(defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare]
+  (go
+    (while true
+      (loop [theta 0 frame-num 0]
+        (let [calc-theta (+ theta Math/PI)
+
+              ;; his heading unit vector
+              hx (Math/cos calc-theta)
+              hy (Math/sin calc-theta)
+
+              ;; the reverse heading vector
+              rhx (Math/cos (- (* 2 Math/PI) calc-theta))
+              rhy (Math/sin (- (* 2 Math/PI) calc-theta))]
+          (reset! last-player-rh [rhx rhy])
+          (.sort (.-children main-stage) depth-compare)
+          (<! (events/next-frame))
+
+          ;; set the static world sprites to the correct orientation (rotate trees)
+          (doseq [cell cells]
+            (doseq [obj (game-space cell)]
+              ;(println "->" obj)
+              (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
+                                       x y
+                                       rhx rhy)]
+                (sprite/set-pos! (:sprite obj) x y))
+              ))
+
+          ;;
+          ;; PICKUPS
+          ;;
+          (doseq [pickup @pickup-store]
+            (let [[x y] (polar-object-coords (:pos pickup)
+                                             (:sprite pickup)
+                                             x y
+                                             rhx rhy)]
+              (sprite/set-pos! (:sprite pickup) x y)
+              (sprite/set-pos! (:shadow pickup) x y)
+
+              ;; oscillate pickup
+              (sprite/set-pivot!
+               (:sprite pickup) 0
+               (+ pickup-vertical-offset
+                  (* pickup-bounce-height
+                     (+ 1 (Math/sin
+                           (* frame-num pickup-bounce-speed))))))
+              )))
+        (recur (+ theta 0.03) (inc frame-num)))))
+
+  (go
+    (while true
+      (doseq [a (range 10)]
+        (doseq [i (range 10)]
+          (stars/make main-stage star-tex shadow-tex x y))
+        (<! (timeout 430)))
+      (<! (timeout 3000))
+      (doseq [i (range 100)]
+        (stars/make main-stage star-tex shadow-tex x y)
+        (<! (timeout 100)))
+      (<! (timeout 3000))
+
+)
+  ))
 
 (defn load [s urls & {:keys [fade-in fade-out]
                       :or {fade-in 0.5 fade-out 0.5}
@@ -191,7 +253,7 @@
                                             :fill "#ffffff"
                                             :dropShadow true
                                             :dropShadowColor "#000000")
-          
+
           pickup-textures [:pickup-star-1 :pickup-mushroom-1]
 
           floor-objects [:static-floor-path-big
@@ -468,7 +530,7 @@
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))
               ))))
-      
+
       ;; cull go block
       (let [cull-distance? (fn [pickup]
                              (when
@@ -621,8 +683,18 @@
               ;; has player hit a pickup
               _ (doseq [pickup @pickup-store]
                   (if (sprite/overlap? player (:sprite pickup))
-                    (if (= (:type pickup) :pickup-baby-1) 
-                      (js/alert "BABY PIKCUP")
+                    (if (= (:type pickup) :pickup-baby-1)
+                      (do
+                        (.removeChild main-stage (:sprite pickup))
+                        (.removeChild main-stage (:shadow pickup))
+                        (reset! player-animation :standing)
+                        (let [[bx by] pos]
+                          (<! (game-completed main-stage star-tex shadow-tex bx by
+                                              polar-object-coords post-remove-cells
+                                              game-space depth-compare))
+                        )
+                        )
+                      ;(js/alert "BABY PIKCUP")
                     ;; picked up
                     (do
                       (sound/play-sound (rand-nth pickup-sfx) 0.4)
