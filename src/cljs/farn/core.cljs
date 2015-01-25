@@ -6,6 +6,7 @@
             [farn.spatial :as spatial]
             [farn.events :as events]
             [farn.store :as store]
+            [farn.sound :as sound]
             [farn.map :as perlin-map]
             [farn.assets :as assets]
             [farn.rex :as rex]
@@ -205,6 +206,15 @@
                        :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
                        :shadow shadow
                        :scale 0.7}))
+          pickup-sfx (loop [sounds [] [h & t] (range 1 10)]
+                       (if-not (nil? h)
+                         (recur
+                          (conj sounds (<! (sound/load-sound (str "sfx/pickup-" h ".ogg"))))
+                          t
+                          )
+                         sounds
+                         ))
+
 
           depth-compare (fn [a b]
                           ;(log "comp" (.-position.y a) (.-position.y b))
@@ -354,6 +364,11 @@
           )
         )
 
+      ;; add a watcher that updates the count
+      (add-watch player-stars :add
+                 (fn [key ref old new]
+                   (log "STARS:" new)))
+
       ;; the little chatterbox guy
       (rex/launch-rex ui-stage)
 
@@ -499,9 +514,10 @@
                         (if (sprite/overlap? player (:sprite pickup))
                           ;; picked up
                           (do
-                                        ;(sound/play-sound pickup-sound 0.4)
+                            (sound/play-sound (rand-nth pickup-sfx) 0.4)
                             (.removeChild main-stage (:sprite pickup))
                             (.removeChild main-stage (:shadow pickup))
+                            (swap! player-stars inc)
                             nil)
 
                           ;; not picked up... pass through

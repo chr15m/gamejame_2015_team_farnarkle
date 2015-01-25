@@ -1,4 +1,4 @@
-(ns cljs-jam.sound
+(ns farn.sound
   (:require [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
             ))
 
