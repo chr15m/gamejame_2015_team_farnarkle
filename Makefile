@@ -13,9 +13,9 @@ MUSIC_DESTFILES = $(MUSIC_OUT_DIR)/bu-ogre-of-a-simplex.ogg
 SFX_WAVS := $(wildcard $(SFX_DIR)/*.wav)
 SFX_OGGFILES := $(SFX_WAVS:.wav=.ogg)
 
-$(info $(ITFILES))
-$(info $(MUSIC_OGGFILES))
-$(info $(MUSIC_DESTFILES))
+# $(info $(ITFILES))
+# $(info $(MUSIC_OGGFILES))
+# $(info $(MUSIC_DESTFILES))
 
 sound: $(MUSIC_DESTFILES) $(SFX_OGGFILES)
 

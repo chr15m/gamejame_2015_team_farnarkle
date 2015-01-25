@@ -14,3 +14,4 @@ resources/tracker-files/*.ogg
 resources/tracker-files/*.bak
 resources/tracker-files/*.AutoSave*
 resources/public/sfx/*.ogg
+resources/public/music/*.ogg
