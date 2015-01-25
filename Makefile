@@ -3,22 +3,37 @@ MYDIR := $(dir $(MKFILE_PATH))
 
 MUSIC_SRC_DIR := $(MYDIR)resources/tracker-files
 MUSIC_OUT_DIR := $(MYDIR)resources/public/music
+SFX_DIR := $(MYDIR)resources/public/sfx
 
 ITFILES	:= $(wildcard $(MUSIC_SRC_DIR)/*.it)
-OGGFILES := $(ITFILES:.it=.ogg)
+MUSIC_OGGFILES := $(ITFILES:.it=.ogg)
+MUSIC_DESTFILES := $(MUSIC_OFFILES:$(MUSIC_SRC_DIR):$(MUSIC_OUT_DIR))
 
-music: $(OGGFILES)
+SFX_WAVS := $(wildcard $(SFX_DIR)/*.wav)
+SFX_OGGFILES := $(SFX_WAVS:.wav=.ogg)
+
+sound: music $(SFX_OGGFILES)
+
+music: $(MUSIC_OGGFILES)
 	@mkdir -p $(MUSIC_OUT_DIR)
-	@cp -av $(OGGFILES) $(MUSIC_OUT_DIR)
+
+$(MUSIC_DESTFILES): $(MUSIC_OGGFILES)
+	@cp -av $< $@
 
 clean-music:
 	@rm -f output.wav
 	@rm -f $(MUSIC_SRC_DIR)/*.ogg
 	@rm -f $(MUSIC_OUT_DIR)/*.ogg
 
-clean: clean-music
+clean-sfx:
+	@rm -f $(SFX_DIR)/*.ogg
 
-$(OGGFILES): $(ITFILES)
+clean: clean-music clean-sfx
+
+$(MUSIC_OGGFILES): $(ITFILES)
 	modplug123 $< -ao wav
 	oggenc -o $@ output.wav
 	rm output.wav
+
+$(SFX_OGGFILES): $(SFX_WAVS)
+	oggenc -o $@ $<
