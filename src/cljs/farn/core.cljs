@@ -36,17 +36,17 @@
 (def player-bound-length 30)
 
 ;; rex stuff
-(def word-exit-speed 2)
-(def word-entry-speed 1.6)
-(def rex-phrases ["What do we do now?"
-                  "I'm sick of asking!"
-                  "Who the fuck knows!"
-                  "Maybe theres an alien baby lost in these woods..."
-                  "I can hear that baby crying!"
-                  "Why don't you go find the source of that sobbing?"
-                  "Is there anything else to do on this planet?"
-                  "These human brains are puny... but tasty!"
-                  ])
+;; (def word-exit-speed 2)
+;; (def word-entry-speed 1.6)
+;; (def rex-phrases ["What do we do now?"
+;;                   "I'm sick of asking!"
+;;                   "Who the fuck knows!"
+;;                   "Maybe theres an alien baby lost in these woods..."
+;;                   "I can hear that baby crying!"
+;;                   "Why don't you go find the source of that sobbing?"
+;;                   "Is there anything else to do on this planet?"
+;;                   "These human brains are puny... but tasty!"
+;;                   ])
 
 (defonce fonts
   [
@@ -112,7 +112,7 @@
     (when (= (:test (:query-params url)) "perlin")
       (println "we perlin!"))
       (let [c (perlin-map/perlin-map-generator)]
-        (go 
+        (go
           (let [t  (<! c)]
             (println "Perlin map done:" (.-length t))
             )
@@ -197,7 +197,7 @@
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-          
+
           game-map (spatial/make-map-from-tilemap
                         tilemap
                         {
@@ -220,7 +220,7 @@
                                   ;(assets/make-range "static-tuft-" 3)
                                   ))
                          ; grass
-                         4 (vec (concat 
+                         4 (vec (concat
                                   ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
                                   [:static-lump-1 :static-lump-3]
@@ -515,4 +515,3 @@
 (defn main []
 
 )
-
