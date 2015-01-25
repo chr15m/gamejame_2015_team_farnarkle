@@ -7,7 +7,7 @@ SFX_DIR := $(MYDIR)resources/public/sfx
 
 ITFILES	:= $(wildcard $(MUSIC_SRC_DIR)/*.it)
 MUSIC_OGGFILES := $(ITFILES:.it=.ogg)
-MUSIC_DESTFILES := $(MUSIC_OFFILES:$(MUSIC_SRC_DIR):$(MUSIC_OUT_DIR))
+MUSIC_DESTFILES := $(MUSIC_OGGILES:$(MUSIC_SRC_DIR):$(MUSIC_OUT_DIR))
 
 SFX_WAVS := $(wildcard $(SFX_DIR)/*.wav)
 SFX_OGGFILES := $(SFX_WAVS:.wav=.ogg)
@@ -35,5 +35,5 @@ $(MUSIC_OGGFILES): $(ITFILES)
 	oggenc -o $@ output.wav
 	rm output.wav
 
-$(SFX_OGGFILES): $(SFX_WAVS)
+%.ogg: %.wav
 	oggenc -o $@ $<
