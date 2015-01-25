@@ -1,7 +1,6 @@
- * music
- * collecting stars
+ * stars more spread out
  * hitting things and stars fly
- * sfx
+ * refactor stars to to 'collectible' and add mushrooms & baby
 
 WE HAVE A GAME
 --------------
@@ -17,6 +16,9 @@ WE HAVE A GAME
 DONE
 ----
 
+ * sfx
+ * music
+ * collecting stars
  * front-facing character
  * initial basic screens working
  * procedural map
