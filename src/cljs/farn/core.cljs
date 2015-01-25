@@ -191,6 +191,8 @@
                                             :fill "#ffffff"
                                             :dropShadow true
                                             :dropShadowColor "#000000")
+          
+          pickup-textures [:pickup-star-1 :pickup-mushroom-1]
 
           floor-objects [:static-floor-path-big
                          :static-floor-path-medium
@@ -204,7 +206,7 @@
                          ]
 
           ;; things that we can hit
-          obstacle-types [:static-tree-1 :static-tree-2 :static-tree-3 :static-tree-4 :static-tree-5 :static-tree-6 :static-tree-7 :static-tree-8 :static-tree-9 :static-tree-10 :static-tree-11 :static-tree-12 :static-tree-13 :static-tree-14 :static-tree-15 :static-tree-16 :static-tree-17 :static-tree-18 :static-tree-19 :static-tree-20
+          obstacle-types [:static-tree-1 :static-tree-2 :static-tree-3 :static-tree-4 :static-tree-5 :static-tree-6 :static-tree-7 :static-tree-8 :static-tree-9 :static-tree-10 :static-tree-11 :static-tree-12 :static-tree-13 :static-tree-14 :static-tree-15 :static-tree-16 :static-tree-17 :static-tree-18 :static-tree-19 :static-tree-20 :static-castle-1
                           ;:static-rock-1
                           :static-giant-schroom-1
                           :static-giant-schroom-2
@@ -218,10 +220,11 @@
           tufts (for [i (range 3)]
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
-
           make-pickup
-          (fn [[x y] spread ]
-            (let [s (sprite/make-sprite star-tex)
+          (fn [[x y] spread & [force-type force-exclusion-zone]]
+            (let [exclusion-zone (if force-exclusion-zone force-exclusion-zone pickup-exclusion-zone)
+                  pickup-type (if force-type force-type (rand-nth pickup-textures))
+                  s (sprite/make-sprite (gfx/get-texture pickup-type))
                   shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
                   ;; offscreen
@@ -229,19 +232,21 @@
                   _ (sprite/set-pos! shadow 50000 10000)
 
                   xoff (if (< (rand) 0.5)
-                         (rand-between (- spread) (- pickup-exclusion-zone))
-                         (rand-between pickup-exclusion-zone spread)
+                         (rand-between (- spread) (- exclusion-zone))
+                         (rand-between exclusion-zone spread)
                          )
                   yoff (if (< (rand) 0.5)
-                         (rand-between (- spread) (- pickup-exclusion-zone))
-                         (rand-between pickup-exclusion-zone spread)
+                         (rand-between (- spread) (- exclusion-zone))
+                         (rand-between exclusion-zone spread)
                          )
                   ]
+              (println pickup-type (+ x xoff) (+ y yoff))
               {:sprite s
                :pos [(+ x xoff)
                      (+ y yoff)]
                :shadow shadow
-               :scale 0.7}))
+               :scale 0.7
+               :type pickup-type}))
 
           pickup-sfx (loop [sounds [] [h & t] (range 1 10)]
                        (if-not (nil? h)
@@ -326,10 +331,14 @@
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
+                                  (assets/make-range "static-tree-" 20)
                                   (assets/make-range "static-giant-schroom-" 2)
-                                  ;(assets/make-range "static-flower-" 3)
-                                  ;(assets/make-range "static-schroom-" 2)
-                                  ;(assets/make-range "static-tuft-" 3)
+                                  (assets/make-range "static-giant-schroom-" 2)
+                                  [:static-castle-1]
                                   ))
                          ; grass
                          4 (vec (concat
@@ -400,6 +409,13 @@
           )
         )
 
+      ;; fade the title
+      (go
+        (<! (timeout 1000))
+        (<! (gfx/fadeout title-text :duration 1))
+        (.removeChild ui-stage title-text)
+        )
+
       ;; player star count text
       (sprite/set-anchor! player-stars-icon 0 0)
       (sprite/set-scale! player-stars-icon 0.7)
@@ -433,6 +449,14 @@
       ;; go block that watches the player. it regularly adds stars just off screen
       ;; and culls stars that get too far away
       (go
+        ;; add an alien baby!
+        (let [pickup (make-pickup [200 200] 200 :pickup-baby-1 300)]
+              (swap! pickup-store conj pickup)
+              (sprite/set-scale! (:sprite pickup)  (:scale pickup))
+              (.addChild main-stage (:sprite pickup))
+              (.addChild main-stage (:shadow pickup))
+          )
+        ;; also add the rest of the things
         (while true
           (<! (timeout 333))
 
@@ -444,8 +468,7 @@
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))
               ))))
-
-
+      
       ;; cull go block
       (let [cull-distance? (fn [pickup]
                              (when
@@ -598,6 +621,8 @@
               ;; has player hit a pickup
               _ (doseq [pickup @pickup-store]
                   (if (sprite/overlap? player (:sprite pickup))
+                    (if (= (:type pickup) :pickup-baby-1) 
+                      (js/alert "BABY PIKCUP")
                     ;; picked up
                     (do
                       (sound/play-sound (rand-nth pickup-sfx) 0.4)
@@ -605,7 +630,7 @@
                       (.removeChild main-stage (:shadow pickup))
                       (swap! player-stars inc)
                       (swap! pickup-store disj pickup)
-                      nil)))
+                      nil))))
 
               player-hit? (let [check-cell (game-space player-cell)
                          obstacle? (fn [obj] (some #(= (:type obj) %) obstacle-types))

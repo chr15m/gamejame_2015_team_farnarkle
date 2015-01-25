@@ -59,6 +59,7 @@
   "img/sprites/static-tree-7.png"
   "img/sprites/static-tree-8.png"
   "img/sprites/static-tree-9.png"
+  "img/sprites/static-castle-1.png"
   "img/sprites/static-tuft-1.png"
   "img/sprites/static-tuft-2.png"
   "img/sprites/static-tuft-3.png"
@@ -86,11 +87,6 @@
   "img/sprites/component-tree-shrub-light-4.png"
   "img/sprites/component-tree-trunk-1.png"
   "img/sprites/component-tree-trunk-2.png"
-   ]
-  )
-(def =sprites-baby=
-  [
-  "img/sprites/baby-float-1.png"
    ]
   )
 
@@ -145,4 +141,4 @@
    "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"])
 
 (def =assets=
-  (vec (concat =fonts= =music= =sfx= =sprites-static= =sprites-baby= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))
+  (vec (concat =fonts= =music= =sfx= =sprites-static= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))
