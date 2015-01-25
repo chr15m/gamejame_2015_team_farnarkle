@@ -1,8 +1,12 @@
- * front-facing character
  * music
  * collecting stars
  * hitting things and stars fly
  * sfx
+
+WE HAVE A GAME
+--------------
+
+ * remember/recall perlin seed in URL
 
  * collecting mushrooms
  * arrow indicator
@@ -13,6 +17,7 @@
 DONE
 ----
 
+ * front-facing character
  * initial basic screens working
  * procedural map
  * end-to-end deployment to a server working

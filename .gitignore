@@ -11,3 +11,4 @@ pom.xml.asc
 /.repl
 .*.swp
 resources/tracker-files/*.ogg
+resources/public/sfx/*.ogg
