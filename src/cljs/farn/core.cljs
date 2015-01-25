@@ -190,6 +190,16 @@
                          :static-floor-water-small
                          ]
 
+          ;; things that we can hit
+          obstacle-types [:static-tree-1 :static-tree-2 :static-tree-3 :static-tree-4 :static-tree-5 :static-tree-6 :static-tree-7 :static-tree-8 :static-tree-9 :static-tree-10 :static-tree-11 :static-tree-12 :static-tree-13 :static-tree-14 :static-tree-15 :static-tree-16 :static-tree-17 :static-tree-18 :static-tree-19 :static-tree-20
+                          ;:static-rock-1
+                          :static-giant-schroom-1
+                          :static-giant-schroom-2
+                          :static-cactus-1
+                          :static-cactus-2
+                          :static-cactus-3
+                           ]
+
           trees (for [i (range 10)]
                   (gfx/get-texture (keyword (str "static-tree-" (inc i)))))
           tufts (for [i (range 3)]
@@ -212,6 +222,15 @@
                        (if-not (nil? h)
                          (recur
                           (conj sounds (<! (sound/load-sound (str "sfx/pickup-" h ".ogg"))))
+                          t
+                          )
+                         sounds
+                         ))
+
+          hit-sfx (loop [sounds [] [h & t] (range 1 4)]
+                       (if-not (nil? h)
+                         (recur
+                          (conj sounds (<! (sound/load-sound (str "sfx/boom-" h ".ogg"))))
                           t
                           )
                          sounds
@@ -252,6 +271,13 @@
                   ]
               [fx fy])
             )
+
+          ;; function that sees if two positions are really close
+          close? (fn [[x1 y1] [x2 y2] threshold]
+                   (let [dx (- x1 x2)
+                         dy (- y1 y2)
+                         d-squared (+ (* dx dx) (* dy dy))]
+                     (< d-squared threshold)))
 
           game-map (spatial/make-map-from-tilemap
                         tilemap
@@ -440,6 +466,7 @@
              cells #{[0 0]}
              sprite-count 0
              pickups pickups
+             player-hit 0
              ]
         (when (not= sprite-count (.-children.length main-stage))
           (log "SPRITE COUNT:" (.-children.length main-stage)))
@@ -532,6 +559,25 @@
                           )
                         ))
 
+              player-hit? (let [check-cell (game-space player-cell)
+                         obstacle? (fn [obj] (some #(= (:type obj) %) obstacle-types))
+                         hit-things (filter obstacle? check-cell)
+                         hit-player? #(close? pos (:pos %) 500)
+                         ] (some hit-player? hit-things))
+
+              ;_ (log "?" player-hit?)
+
+              new-player-hit (if (and (= 0 player-hit) player-hit?)
+                               ;; how many frames we "bounce" for
+                               (do
+                                 (sound/play-sound (rand-nth hit-sfx) 0.5)
+                                 (* 30 (/ speed player-max-speed)))
+
+                               ;; the old value
+                               player-hit
+                               )
+
+
               ;_ (log (str cull-cells))
                                         ;(log "pos" (str pos) "theta" theta)
 ]
@@ -570,6 +616,25 @@
               )
             )
 
+          ;; check for collision only with objects in the players cell
+
+            ;; (if player-hit?
+            ;;   (do
+            ;;     (sound/play-sound (rand-nth hit-sfx) 0.4)
+            ;;     true)
+            ;;   false)
+
+
+
+          ;; (doseq [obj (game-space id)]
+          ;;              ;(log "adding" (str obj))
+          ;;              (sprite/set-scale! (:sprite obj) (:scale obj))
+
+          ;;              ;; add them way off so they don't pop
+          ;;              ;; TODO: fix this
+          ;;              (sprite/set-pos! (:sprite obj) 100000 100000)
+
+          ;;              (.addChild main-stage (:sprite obj)))
 
 
 
@@ -585,12 +650,20 @@
 
           (.sort (.-children main-stage) depth-compare)
           (<! (events/next-frame))
+
+          ;(log "HIT?" player-hit)
+
           (recur
            ;; new frame-num
            (inc frame-num)
 
            ;; new position
-           [(- x vx) (- y vy)]
+           (if (pos? player-hit)
+             ;; player hit bounce movement
+             [(+ x vx) (+ y vy)]
+
+             ;; normal movement
+             [(- x vx) (- y vy)])
 
            ;; (if (events/is-pressed? :down)
            ;;   [(+ x vx) (+ y vy)]
@@ -599,9 +672,18 @@
            ;;     [x y]))
 
            ;; new speed
-           (if (events/is-pressed? :up)
-             (min (+ speed player-acceleration) player-max-speed)
-             (max (* speed player-drag) 0))
+           (cond
+            ;; at end of bounce speed should be 0
+            (< 0 new-player-hit 5) 0
+
+            ;; if player-hit is positive up key has no effect
+            ;(pos? new-player-hit) speed
+
+            :default
+            ;; normal speed update
+            (if (events/is-pressed? :up)
+              (min (+ speed player-acceleration) player-max-speed)
+              (max (* speed player-drag) 0)))
 
            ;; new heading
            (if (events/is-pressed? :left)
@@ -618,6 +700,9 @@
 
            ;; pass through new pickup list
            new-pickup-list
+
+           ;; player hit count down pass through
+           (max 0 (dec new-player-hit))
            )))
 
                                         ;(.removeChild ui-stage (:sprite title-text))
