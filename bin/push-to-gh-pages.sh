@@ -14,6 +14,7 @@ echo "Building statically with lein cljsbuild."
 lein with-profile +dev cljsbuild once
 rm -rf gh-pages-build
 rm -rf $ALLFILES
+Make sound
 mkdir -p gh-pages-build && \
 rsync -a --progress resources/public/ $OUTDIR && \
 echo "Running 'lein dump-index-html'"
