@@ -444,7 +444,6 @@
       ;; and culls stars that get too far away
       (go
         ;; add an alien baby!
-        (println "MAKE BABY")
         (let [pickup (make-pickup [200 200] 200 :pickup-baby-1 300)]
               (swap! pickup-store conj pickup)
               (sprite/set-scale! (:sprite pickup)  (:scale pickup))
@@ -616,6 +615,8 @@
               ;; has player hit a pickup
               _ (doseq [pickup @pickup-store]
                   (if (sprite/overlap? player (:sprite pickup))
+                    (if (= (:type pickup) :pickup-baby-1) 
+                      (js/alert "BABY PIKCUP")
                     ;; picked up
                     (do
                       (sound/play-sound (rand-nth pickup-sfx) 0.4)
@@ -623,7 +624,7 @@
                       (.removeChild main-stage (:shadow pickup))
                       (swap! player-stars inc)
                       (swap! pickup-store disj pickup)
-                      nil)))
+                      nil))))
 
               player-hit? (let [check-cell (game-space player-cell)
                          obstacle? (fn [obj] (some #(= (:type obj) %) obstacle-types))
