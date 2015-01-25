@@ -3,7 +3,7 @@
 # get into this script's own root
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
-ALLFILES=index.html css img js music sfx
+ALLFILES="index.html css img js music sfx"
 OUTDIR=gh-pages-build/
 COMMIT_ID=`git rev-parse master`
 
