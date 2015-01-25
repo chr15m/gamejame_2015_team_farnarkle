@@ -88,11 +88,6 @@
   "img/sprites/component-tree-trunk-2.png"
    ]
   )
-(def =sprites-baby=
-  [
-  "img/sprites/baby-float-1.png"
-   ]
-  )
 
 (def =sprites-pink=
   [
@@ -145,4 +140,4 @@
    "http://fonts.gstatic.com/s/shadowsintolighttwo/v4/gDxHeefcXIo-lOuZFCn2xbIfIbZrEcH2WW587lG91II.woff2"])
 
 (def =assets=
-  (vec (concat =fonts= =music= =sfx= =sprites-static= =sprites-baby= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))
+  (vec (concat =fonts= =music= =sfx= =sprites-static= =sprites-pink= =sprites-brown= =sprites-bits= =pickups=)))

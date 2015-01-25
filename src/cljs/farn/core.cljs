@@ -189,6 +189,9 @@
                                             :fill "#ffffff"
                                             :dropShadow true
                                             :dropShadowColor "#000000")
+          
+          pickup-textures [:pickup-star-1 :pickup-mushroom-1]
+          baby-texture :pickup-baby-1
 
           floor-objects [:static-floor-path-big
                          :static-floor-path-medium
@@ -216,10 +219,10 @@
           tufts (for [i (range 3)]
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
-
           make-pickup
-          (fn [[x y] spread ]
-            (let [s (sprite/make-sprite star-tex)
+          (fn [[x y] spread & force-type]
+            (let [pickup-type (if force-type force-type (rand-nth pickup-textures))
+                  s (sprite/make-sprite (gfx/get-texture pickup-type))
                   shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
 
                   ;; offscreen
@@ -239,7 +242,8 @@
                :pos [(+ x xoff)
                      (+ y yoff)]
                :shadow shadow
-               :scale 0.7}))
+               :scale 0.7
+               :type pickup-type}))
 
           pickup-sfx (loop [sounds [] [h & t] (range 1 10)]
                        (if-not (nil? h)
@@ -398,6 +402,13 @@
           )
         )
 
+      ;; fade the title
+      (go
+        (<! (timeout 1000))
+        (<! (gfx/fadeout title-text :duration 1))
+        (.removeChild ui-stage title-text)
+        )
+
       ;; player star count text
       (sprite/set-anchor! player-stars-icon 0 0)
       (sprite/set-scale! player-stars-icon 0.7)
@@ -444,6 +455,9 @@
               ))))
 
 
+      ;; add a baby!
+      ; (make-pickup baby-texture)
+      
       ;; cull go block
       (let [cull-distance? (fn [pickup]
                              (when

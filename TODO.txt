@@ -1,6 +1,9 @@
- * stars more spread out
  * hitting things and stars fly
+
+ * title fader
  * refactor stars to to 'collectible' and add mushrooms & baby
+ * castle
+ * procedural trees
 
 WE HAVE A GAME
 --------------
@@ -11,11 +14,10 @@ WE HAVE A GAME
  * arrow indicator
  * collecting baby mission
 
- * procedural trees
-
 DONE
 ----
 
+ * stars more spread out
  * sfx
  * music
  * collecting stars
