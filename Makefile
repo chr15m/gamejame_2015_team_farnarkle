@@ -7,18 +7,19 @@ SFX_DIR := $(MYDIR)resources/public/sfx
 
 ITFILES	:= $(wildcard $(MUSIC_SRC_DIR)/*.it)
 MUSIC_OGGFILES := $(ITFILES:.it=.ogg)
-MUSIC_DESTFILES := $(MUSIC_OGGILES:$(MUSIC_SRC_DIR):$(MUSIC_OUT_DIR))
+# MUSIC_DESTFILES := $(MUSIC_OGGFILES:$(MUSIC_SRC_DIR):$(MUSIC_OUT_DIR))
+MUSIC_DESTFILES = $(MUSIC_OUT_DIR)/bu-ogre-of-a-simplex.ogg
 
 SFX_WAVS := $(wildcard $(SFX_DIR)/*.wav)
 SFX_OGGFILES := $(SFX_WAVS:.wav=.ogg)
 
-sound: music $(SFX_OGGFILES)
+$(info $(ITFILES))
+$(info $(MUSIC_OGGFILES))
+$(info $(MUSIC_DESTFILES))
 
-music: $(MUSIC_OGGFILES)
-	@mkdir -p $(MUSIC_OUT_DIR)
+sound: $(MUSIC_DESTFILES) $(SFX_OGGFILES)
 
-$(MUSIC_DESTFILES): $(MUSIC_OGGFILES)
-	@cp -av $< $@
+$(MUSIC_OGGFILES): $(ITFILES)
 
 clean-music:
 	@rm -f output.wav
@@ -30,8 +31,10 @@ clean-sfx:
 
 clean: clean-music clean-sfx
 
-$(MUSIC_OGGFILES): $(ITFILES)
+$(MUSIC_SRC_DIR)/%.ogg: $(MUSIC_SRC_DIR)/%.it
 	modplug123 $< -ao wav
+
+$(MUSIC_OUT_DIR)/%.ogg: $(MUSIC_SRC_DIR)/%.ogg
 	oggenc -o $@ output.wav
 	rm output.wav
 
