@@ -35,18 +35,23 @@
 (def player-bound-height 30)
 (def player-bound-length 30)
 
+;; pickups
+(def pickup-bounce-height 5)
+(def pickup-bounce-speed 0.1)
+(def pickup-vertical-offset 10)
+
 ;; rex stuff
-(def word-exit-speed 2)
-(def word-entry-speed 1.6)
-(def rex-phrases ["What do we do now?"
-                  "I'm sick of asking!"
-                  "Who the fuck knows!"
-                  "Maybe theres an alien baby lost in these woods..."
-                  "I can hear that baby crying!"
-                  "Why don't you go find the source of that sobbing?"
-                  "Is there anything else to do on this planet?"
-                  "These human brains are puny... but tasty!"
-                  ])
+;; (def word-exit-speed 2)
+;; (def word-entry-speed 1.6)
+;; (def rex-phrases ["What do we do now?"
+;;                   "I'm sick of asking!"
+;;                   "Who the fuck knows!"
+;;                   "Maybe theres an alien baby lost in these woods..."
+;;                   "I can hear that baby crying!"
+;;                   "Why don't you go find the source of that sobbing?"
+;;                   "Is there anything else to do on this planet?"
+;;                   "These human brains are puny... but tasty!"
+;;                   ])
 
 (defonce fonts
   [
@@ -112,7 +117,7 @@
     (when (= (:test (:query-params url)) "perlin")
       (println "we perlin!"))
       (let [c (perlin-map/perlin-map-generator)]
-        (go 
+        (go
           (let [t  (<! c)]
             (println "Perlin map done:" (.-length t))
             )
@@ -152,7 +157,8 @@
 
           tex (gfx/get-texture :pink-stand-4)
           player (sprite/make-sprite tex)
-          player-shadow (sprite/make-sprite (gfx/get-texture :shadow-1) :anchor-x 0.5 :anchor-y 0.5)
+          shadow-tex (gfx/get-texture :shadow-1)
+          player-shadow (sprite/make-sprite shadow-tex  :anchor-x 0.5 :anchor-y 0.5)
 
           player-standing-texs (doall (for [type [:pink-stand-1 :pink-stand-2
                                                   :pink-stand-3 :pink-stand-4]]
@@ -186,6 +192,19 @@
           tufts (for [i (range 3)]
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
+          star-tex (gfx/get-texture :pickup-star-1)
+          pickups (for [i (range 20)]
+                    (let [s (sprite/make-sprite star-tex)
+                          shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
+
+                          ;; offscreen
+                          _ (sprite/set-pos! s 10000 10000)
+                          _ (sprite/set-pos! shadow 10000 10000)
+                          ]
+                      {:sprite s
+                       :pos [(rand-between -1000 1000) (rand-between -1000 1000)]
+                       :shadow shadow}))
+
           depth-compare (fn [a b]
                           ;(log "comp" (.-position.y a) (.-position.y b))
                           (cond
@@ -197,7 +216,30 @@
                            (< (.-position.y a) (.-position.y b)) -1
                            (< (.-position.y b) (.-position.y a)) 1
                            :default 0))
-          
+
+          polar-object-coords
+          (fn [obj-pos obj-sprite player-x player-y rhx rhy]
+            (let [
+                  ;; absolute tree location
+                  [ox oy] obj-pos
+
+                  ;; vector from player to tree
+                  p->t [(- ox player-x) (- oy player-y)]
+                  [p->t-x p->t-y] p->t
+
+                  ;; rotate this p->t
+                  [rx ry] [
+                           (+ (* rhx p->t-y) (* rhy p->t-x))
+                           (- (* rhx p->t-x) (* rhy p->t-y))
+                           ]
+
+                  ;; now add to the the player loc
+                  fx (+ rx player-x)
+                  fy (+ (/ ry isometric-factor) player-y)
+                  ]
+              [fx fy])
+            )
+
           game-map (spatial/make-map-from-tilemap
                         tilemap
                         {
@@ -226,7 +268,7 @@
                                   ;(assets/make-range "static-tuft-" 3)
                                   ))
                          ; grass
-                         4 (vec (concat 
+                         4 (vec (concat
                                   ;(assets/make-range "static-tuft-" 3)
                                   [:static-schrub-1]
                                   [:static-lump-1 :static-lump-3]
@@ -314,6 +356,12 @@
       ;; the little chatterbox guy
       (rex/launch-rex ui-stage)
 
+      ;; add the stars
+      (doseq [pickup pickups]
+        (.addChild main-stage (:sprite pickup))
+        (.addChild main-stage (:shadow pickup))
+        )
+
       (<! (timeout 1000))
       (log "adding player")
       (doto player
@@ -361,7 +409,8 @@
 
       (.sort (.-children main-stage) depth-compare)
 
-      (loop [pos [0 0]
+      (loop [frame-num 0
+             pos [0 0]
              speed 0
              theta 0
              cells #{[0 0]}
@@ -450,28 +499,30 @@
           (doseq [cell cells]
             (doseq [obj (game-space cell)]
               ;(println "->" obj)
-              (let [
-                    ;; absolute tree location
-                    [ox oy] (:pos obj)
+              (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
+                                       x y
+                                       rhx rhy)]
+                (sprite/set-pos! (:sprite obj) x y))
+              ))
 
-                    ;; vector from player to tree
-                    p->t [(- ox x) (- oy y)]
-                    [p->t.x p->t.y] p->t
+          ;; do the same to the pickups
+          (doseq [pickup pickups]
+            (let [[x y] (polar-object-coords (:pos pickup)
+                                             (:sprite pickup)
+                                             x y
+                                             rhx rhy)]
+              (sprite/set-pos! (:sprite pickup) x y)
+              (sprite/set-pos! (:shadow pickup) x y)
 
-                    ;; rotate this p->t
-                    [rx ry] [
-                             (+ (* rhx p->t.y) (* rhy p->t.x))
-                             (- (* rhx p->t.x) (* rhy p->t.y))
-                             ]
-
-                    ;; now add to the the player loc
-                    fx (+ rx x)
-                    fy (+ (/ ry isometric-factor) y)
-                    ]
-                (doto (:sprite obj)
-                  (sprite/set-pos!
-                   fx  fy
-                   )))))
+              ;; oscillate pickup
+              (sprite/set-pivot!
+               (:sprite pickup) 0
+               (+ pickup-vertical-offset
+                  (* pickup-bounce-height
+                     (+ 1 (Math/sin
+                           (* frame-num pickup-bounce-speed))))))
+              )
+            )
 
           ;; move cetnter of render to be on player
           (sprite/set-pivot! main-stage x y)
@@ -486,6 +537,9 @@
           (.sort (.-children main-stage) depth-compare)
           (<! (events/next-frame))
           (recur
+           ;; new frame-num
+           (inc frame-num)
+
            ;; new position
            [(- x vx) (- y vy)]
 
@@ -521,4 +575,3 @@
 (defn main []
 
 )
-
