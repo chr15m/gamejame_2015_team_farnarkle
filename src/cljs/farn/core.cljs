@@ -170,8 +170,10 @@
           player-walking-texs [(gfx/get-texture :pink-walk-1)
                                (gfx/get-texture :pink-walk-2)]
 
+          star-tex (gfx/get-texture :pickup-star-1)
+          player-stars-icon (sprite/make-sprite star-tex)
           player-stars-text (font/make-text "400 20pt Varela Round"
-                                            (str "★  " @player-stars)
+                                            (str @player-stars)
                                             :weight 400
                                             :fill "#ffffff"
                                             :dropShadow true
@@ -193,7 +195,7 @@
           tufts (for [i (range 3)]
                   (gfx/get-texture (keyword (str "static-tuft-" (inc i)))))
 
-          star-tex (gfx/get-texture :pickup-star-1)
+
           pickups (for [i (range 20)]
                     (let [s (sprite/make-sprite star-tex)
                           shadow (sprite/make-sprite shadow-tex :anchor-x 0.5 :anchor-y 0.5)
@@ -348,7 +350,10 @@
         )
 
       ;; player star count text
+      (sprite/set-anchor! player-stars-icon 0 0)
+      (sprite/set-scale! player-stars-icon 0.7)
       (sprite/set-anchor! player-stars-text 0 0)
+      (.addChild ui-stage player-stars-icon)
       (.addChild ui-stage player-stars-text)
       (go
         (let [rc (events/new-resize-chan)]
@@ -357,7 +362,8 @@
                   h (.-innerHeight js/window)
                   hw (/ w 2)
                   hh (/ h 2)]
-              (sprite/set-pos! player-stars-text (+ (- hw) 5) (+ (- hh) 5))
+              (sprite/set-pos! player-stars-icon (+ (- hw) 5) (+ (- hh) 5))
+              (sprite/set-pos! player-stars-text (+ (- hw) 45) (+ (- hh) 5))
               (<! rc)
               )
             )
@@ -367,7 +373,8 @@
       ;; add a watcher that updates the count
       (add-watch player-stars :add
                  (fn [key ref old new]
-                   (log "STARS:" new)))
+                   (.setText player-stars-text (str new))
+                   ))
 
       ;; the little chatterbox guy
       (rex/launch-rex ui-stage)
