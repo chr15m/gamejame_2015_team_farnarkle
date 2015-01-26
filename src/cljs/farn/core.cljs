@@ -139,7 +139,6 @@
       (<! (gfx/fadein b :duration fade-in))
 
       ;; show load progress
-      (log "load" (str options))
       (<! (apply (partial gfx/load-urls urls b) options))
 
       ;; load is done. return message
@@ -196,10 +195,10 @@
 (go
   ; kick off the music
   (go
-      (println "pre sound lel")
+      ;(println "pre sound lel")
     (let [music-track (<! (sound/load-sound "music/bu-ogre-of-a-simplex.ogg"))]
-      (println "we has sound lel")
-      (.log js/console music-track)
+      ;(println "we has sound lel")
+      ;(.log js/console music-track)
       (sound/play-sound music-track 0.9 true)
       )
     )
@@ -214,16 +213,16 @@
               :fade-in 0.2
               :fade-out 2)
         perlin-channel (perlin-map/perlin-map-generator)]
-    (log "pulling")
+    ;(log "pulling")
     (<! loader)
-    (log "pulled")
+    ;(log "pulled")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 48)
           varela (font/make-tiled-font "Varela Round" 400 24)
           wait (<! (timeout 1000))
-          _ (log "perlin channel - start")
+          ;_ (log "perlin channel - start")
           tilemap (<! perlin-channel)
-          _ (log "perlin channel - done")
+          ;_ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
           title-text (font/make-text "400 48pt Lobster"
                                      "Alien Forest Explorer"
@@ -564,13 +563,13 @@
             (when-let [pickup (some cull-distance? @pickup-store)]
               (.removeChild main-stage (:sprite pickup))
               (.removeChild main-stage (:shadow pickup))
-              (log "REMOVING" (str pickup))
+              ;(log "REMOVING" (str pickup))
               (swap! pickup-store disj pickup)
               )
             )))
 
       (<! (timeout 1000))
-      (log "adding player")
+      ;(log "adding player")
       (doto player
         (sprite/set-scale! 0.5))
       (.addChild main-stage player)
@@ -625,8 +624,8 @@
              sprite-count 0
              player-hit 0
              ]
-        (when (not= sprite-count (.-children.length main-stage))
-          (log "SPRITE COUNT:" (.-children.length main-stage)))
+        ;; (when (not= sprite-count (.-children.length main-stage))
+        ;;   (log "SPRITE COUNT:" (.-children.length main-stage)))
 
         (let [[x y] pos
               calc-theta (+ theta Math/PI)
