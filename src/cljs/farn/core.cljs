@@ -12,7 +12,7 @@
             [farn.assets :as assets]
             [farn.rex :as rex]
             [farn.query-string :as query-string]
-            [farn.utils :refer [log rand-between ends-with?]]
+            [farn.utils :refer [log rand-between ends-with? limit]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
             [dommy.core :as dommy :refer-macros [sel1]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]])
@@ -36,14 +36,17 @@
 (def player-turn-speed 0.03)
 (def player-bound-height 30)
 (def player-bound-length 30)
+(def player-wins-rotate-speed 0.01)
 
 ;; this atom is so other go blocks can read the players last position
 (def last-player-position (atom [0 0]))
 (def last-player-rh (atom [0 0]))
+(def last-player-theta (atom 0))
+(def baby-position (atom [0 0]))
 
 ;; pickups
-(def pickup-bounce-height 5)
-(def pickup-bounce-speed 0.1)
+(def pickup-bounce-height 15)
+(def pickup-bounce-speed 0.15)
 (def pickup-vertical-offset 25)
 (def max-pickups 100)
 (def pickup-cull-distance 4000)
@@ -66,10 +69,21 @@
 ;; all the stars on the game atm
 (def pickup-store (atom #{}))
 
-(defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare]
+(defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare baby-sprite]
+
+  ;; make a column of light
+
+  ;; rise the baby up
+  (go
+    (loop [y 1]
+      (<! (events/next-frame))
+      (sprite/set-anchor! baby-sprite 0 y)
+      (recur (+ y 0.01))
+      ))
+
   (go
     (while true
-      (loop [theta 0 frame-num 0]
+      (loop [theta @last-player-theta frame-num 0]
         (let [calc-theta (+ theta Math/PI)
 
               ;; his heading unit vector
@@ -112,14 +126,14 @@
                      (+ 1 (Math/sin
                            (* frame-num pickup-bounce-speed))))))
               )))
-        (recur (+ theta 0.03) (inc frame-num)))))
+        (recur (+ theta player-wins-rotate-speed) (inc frame-num)))))
 
   (go
     (while true
       (doseq [a (range 10)]
-        (doseq [i (range 10)]
+        (doseq [i (range 20)]
           (stars/make main-stage star-tex shadow-tex x y))
-        (<! (timeout 430)))
+        (<! (timeout 1000)))
       (<! (timeout 3000))
       (doseq [i (range 100)]
         (stars/make main-stage star-tex shadow-tex x y)
@@ -139,7 +153,6 @@
       (<! (gfx/fadein b :duration fade-in))
 
       ;; show load progress
-      (log "load" (str options))
       (<! (apply (partial gfx/load-urls urls b) options))
 
       ;; load is done. return message
@@ -196,10 +209,10 @@
 (go
   ; kick off the music
   (go
-      (println "pre sound lel")
+      ;(println "pre sound lel")
     (let [music-track (<! (sound/load-sound "music/bu-ogre-of-a-simplex.ogg"))]
-      (println "we has sound lel")
-      (.log js/console music-track)
+      ;(println "we has sound lel")
+      ;(.log js/console music-track)
       (sound/play-sound music-track 0.9 true)
       )
     )
@@ -214,16 +227,16 @@
               :fade-in 0.2
               :fade-out 2)
         perlin-channel (perlin-map/perlin-map-generator)]
-    (log "pulling")
+    ;(log "pulling")
     (<! loader)
-    (log "pulled")
+    ;(log "pulled")
     (let [
           lobster-big (font/make-tiled-font "Lobster" 400 48)
           varela (font/make-tiled-font "Varela Round" 400 24)
           wait (<! (timeout 1000))
-          _ (log "perlin channel - start")
+          ;_ (log "perlin channel - start")
           tilemap (<! perlin-channel)
-          _ (log "perlin channel - done")
+          ;_ (log "perlin channel - done")
           ;title-text (font/font-make-batch lobster-big "Alien Forest Explorer")
           title-text (font/make-text "400 48pt Lobster"
                                      "Alien Forest Explorer"
@@ -531,13 +544,14 @@
         ;; add an alien baby!
         (let [pickup (make-pickup [0 0] 10000 :pickup-baby-1 2000)]
               (swap! pickup-store conj pickup)
+              (reset! baby-position (:pos pickup))
               (sprite/set-scale! (:sprite pickup)  (:scale pickup))
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))
           )
         ;; also add the rest of the things
         (while true
-          (<! (timeout 333))
+          (<! (timeout 150))
 
           ;; add a pickup if theres not too many
           (when (< (count @pickup-store) max-pickups)
@@ -562,15 +576,16 @@
 
             ;; remove some remote pickups
             (when-let [pickup (some cull-distance? @pickup-store)]
-              (.removeChild main-stage (:sprite pickup))
-              (.removeChild main-stage (:shadow pickup))
-              (log "REMOVING" (str pickup))
-              (swap! pickup-store disj pickup)
+              (when (not= :pickup-baby-1 (:type pickup))
+                (.removeChild main-stage (:sprite pickup))
+                (.removeChild main-stage (:shadow pickup))
+                (log "REMOVING" (str pickup))
+                (swap! pickup-store disj pickup))
               )
             )))
 
       (<! (timeout 1000))
-      (log "adding player")
+      ;(log "adding player")
       (doto player
         (sprite/set-scale! 0.5))
       (.addChild main-stage player)
@@ -620,12 +635,13 @@
              pos [0 0]
              speed 0
              theta 0
+             d-theta 0
              cells #{[0 0]}
              sprite-count 0
              player-hit 0
              ]
-        (when (not= sprite-count (.-children.length main-stage))
-          (log "SPRITE COUNT:" (.-children.length main-stage)))
+        ;; (when (not= sprite-count (.-children.length main-stage))
+        ;;   (log "SPRITE COUNT:" (.-children.length main-stage)))
 
         (let [[x y] pos
               calc-theta (+ theta Math/PI)
@@ -648,40 +664,54 @@
               player-cell (spatial/which-cell pos cell-size)
               [player-cell-x player-cell-y] player-cell
 
+              render-distance  (int (+ 1 (/
+                                          (max (.-innerWidth js/window)
+                                               (* isometric-factor (.-innerHeight js/window)))
+                                          2
+                                          cell-size)))
+
+              render-range (range (- render-distance) (inc render-distance))
+
               ;; we need surrounding cells too
-              player-and-surrounds (for [dx [-2 -1 0 1 2]
-                                         dy [-2 -1 0 1 2]]
-                                     [(+ dx player-cell-x) (+ dy player-cell-y)])
+              player-and-surrounds (doall (for [dx render-range
+                                                dy render-range]
+                                            [(+ dx player-cell-x) (+ dy player-cell-y)]))
+
 
               ;; a function to take a cell coord and if its not added, add it
               ;; returns the new set with added cells
               process-add-cell (fn [test-cell cells]
-                                 (if-not (some #(= % test-cell) cells)
-                                   (do
-                                     (add-cell! test-cell)
-                                     (conj cells test-cell)
-                                     )
+                                 ;; if test cell not in cells, add the cell objects to world
+                                 (if-not (contains? cells test-cell)
+                                   (do (add-cell! test-cell)
+                                       (conj cells test-cell))
+
                                    cells))
 
               ;; if the present cell isn't in cells, lets load it in
-              new-cells (loop [done cells
+              new-cells (loop [accum cells
                                [h & t] player-and-surrounds]
                           (if (nil? h)
-                            done
-                            (recur (process-add-cell h done) t)
+                            accum
+                            (recur (process-add-cell h accum)
+                             ;nil
+                             t
+                             )
                             )
                           )
 
               ;; remove cells that are too far away from player
+              cull-dist (+ 2 render-distance)
+
               cull-cells
               (filter #(not (nil? %))
                       (for [c cells]
                         (let [[cx cy] c
                               dx (Math/abs (- cx player-cell-x))
                               dy (Math/abs (- cy player-cell-y))
-                              d-squared (+ (* dx dx) (* dy dy))
                               ]
-                          (if (> d-squared 25)
+                          (if (or (> dx cull-dist)
+                                  (> dy cull-dist))
                             c
                             nil))))
 
@@ -702,13 +732,13 @@
                   (if (sprite/overlap? player (:sprite pickup))
                     (if (= (:type pickup) :pickup-baby-1)
                       (do
-                        (.removeChild main-stage (:sprite pickup))
+                        ;(.removeChild main-stage (:sprite pickup))
                         (.removeChild main-stage (:shadow pickup))
                         (reset! player-animation :standing)
-                        (let [[bx by] pos]
+                        (let [[bx by] @last-player-position]
                           (<! (game-completed main-stage star-tex shadow-tex bx by
                                               polar-object-coords post-remove-cells
-                                              game-space depth-compare))
+                                              game-space depth-compare (:sprite pickup)))
                         )
                         )
                       ;(js/alert "BABY PIKCUP")
@@ -759,7 +789,7 @@
           (sprite/set-pos! player-shadow pos)
 
           ;; set the static world sprites to the correct orientation (rotate trees)
-          (doseq [cell cells]
+          #_ (doseq [cell cells]
             (doseq [obj (game-space cell)]
               ;(println "->" obj)
               (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
@@ -767,6 +797,23 @@
                                        rhx rhy)]
                 (sprite/set-pos! (:sprite obj) x y))
               ))
+
+          ;(log "=>" (str (game-space cells)))
+
+          (doseq [cell cells]
+            (let [objs (game-space cell)
+
+                  n (count objs)]
+              (when (> n 0)
+                (loop [i 0]
+                  (let [obj (objs i)]          ;(println "->" obj)
+                    (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
+                                                     x y
+                                                     rhx rhy)]
+                      (sprite/set-pos! (:sprite obj) x y))
+                    (when (< i (dec n))
+                      (recur (inc i))))
+                  ))))
 
           ;;
           ;; PICKUPS
@@ -817,6 +864,7 @@
           ;; other go blocks need the players position
           (reset! last-player-position [x y])
           (reset! last-player-rh [rhx rhy])
+          (reset! last-player-theta theta)
 
           ;; switch the player animation
           (if (or (> (Math/abs vx) 2)
@@ -849,6 +897,7 @@
            ;;     [(- x vx) (- y vy)]
            ;;     [x y]))
 
+
            ;; new speed
            (cond
             ;; at end of bounce speed should be 0
@@ -864,11 +913,16 @@
               (max (* speed player-drag) 0)))
 
            ;; new heading
+           (+ theta d-theta)
+
+           ;; next rate of change of theta
            (if (events/is-pressed? :left)
-             (+ theta player-turn-speed)
+             (min (+ d-theta 0.01) player-turn-speed)
              (if (events/is-pressed? :right)
-               (- theta player-turn-speed)
-               theta))
+               (max (- d-theta 0.01) (- player-turn-speed))
+
+               ;; no key pressed slow to 0
+               (* 0.5 d-theta)))
 
            ;; pass through new cell list
            post-remove-cells

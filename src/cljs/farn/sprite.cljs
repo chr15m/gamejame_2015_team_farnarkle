@@ -7,11 +7,6 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
 )
 
-(defn make-sprite [tex & {:keys [anchor-x anchor-y] :or {anchor-x 0.5 anchor-y 1}}]
-  (let [s (gfx/make-sprite tex)]
-    (set-anchor! s anchor-x anchor-y)
-    s))
-
 (defn set-pos!
   ([sprite x y]
    (set! (.-position.x sprite) x)
@@ -21,6 +16,11 @@
 
 (defn set-anchor! [sprite x y]
   (set! (.-anchor sprite) (gfx/make-point x y)))
+
+(defn make-sprite [tex & {:keys [anchor-x anchor-y] :or {anchor-x 0.5 anchor-y 1}}]
+  (let [s (gfx/make-sprite tex)]
+    (set-anchor! s anchor-x anchor-y)
+    s))
 
 (defn set-pivot! [sprite x y]
   (set! (.-pivot.x sprite) x)
@@ -51,6 +51,17 @@
   [(.-position.x sprite)
    (.-position.y sprite)])
 
+(defn move! [sprite dx dy]
+  (set-pos! sprite
+            (+ dx (.-position.x sprite))
+            (+ dy (.-position.y sprite))))
+
+(defn move-pivot! [sprite dx dy]
+  (set-pivot! sprite
+              (+ dx (.-pivot.x sprite))
+              (+ dy (.-pivot.y sprite))
+              )
+  )
 
 ;;
 ;; collision detection
