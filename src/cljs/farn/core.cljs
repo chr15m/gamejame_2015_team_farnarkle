@@ -648,10 +648,19 @@
               player-cell (spatial/which-cell pos cell-size)
               [player-cell-x player-cell-y] player-cell
 
+              render-distance  (int (+ 1 (/
+                                          (max (.-innerWidth js/window)
+                                               (* isometric-factor (.-innerHeight js/window)))
+                                          2
+                                          cell-size)))
+
+              render-range (range (- render-distance) (inc render-distance))
+
               ;; we need surrounding cells too
-              player-and-surrounds (for [dx (range -3 4)
-                                         dy (range -3 4)]
-                                     [(+ dx player-cell-x) (+ dy player-cell-y)])
+              player-and-surrounds (doall (for [dx render-range
+                                                dy render-range]
+                                            [(+ dx player-cell-x) (+ dy player-cell-y)]))
+
 
               ;; a function to take a cell coord and if its not added, add it
               ;; returns the new set with added cells
@@ -673,15 +682,17 @@
                           )
 
               ;; remove cells that are too far away from player
+              cull-dist (+ 2 render-distance)
+
               cull-cells
               (filter #(not (nil? %))
                       (for [c cells]
                         (let [[cx cy] c
                               dx (Math/abs (- cx player-cell-x))
                               dy (Math/abs (- cy player-cell-y))
-                              d-squared (+ (* dx dx) (* dy dy))
                               ]
-                          (if (> d-squared 25)
+                          (if (or (> dx cull-dist)
+                                  (> dy cull-dist))
                             c
                             nil))))
 
