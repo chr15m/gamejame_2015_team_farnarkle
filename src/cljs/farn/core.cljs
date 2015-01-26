@@ -665,11 +665,11 @@
               ;; a function to take a cell coord and if its not added, add it
               ;; returns the new set with added cells
               process-add-cell (fn [test-cell cells]
-                                 (if-not (some #(= % test-cell) cells)
-                                   (do
-                                     (add-cell! test-cell)
-                                     (conj cells test-cell)
-                                     )
+                                 ;; if test cell not in cells, add the cell objects to world
+                                 (if-not (contains? cells test-cell)
+                                   (do (add-cell! test-cell)
+                                       (conj cells test-cell))
+
                                    cells))
 
               ;; if the present cell isn't in cells, lets load it in
