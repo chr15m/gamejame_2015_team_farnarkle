@@ -36,10 +36,13 @@
 (def player-turn-speed 0.03)
 (def player-bound-height 30)
 (def player-bound-length 30)
+(def player-wins-rotate-speed 0.01)
 
 ;; this atom is so other go blocks can read the players last position
 (def last-player-position (atom [0 0]))
 (def last-player-rh (atom [0 0]))
+(def last-player-theta (atom 0))
+
 
 ;; pickups
 (def pickup-bounce-height 15)
@@ -69,7 +72,7 @@
 (defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare]
   (go
     (while true
-      (loop [theta 0 frame-num 0]
+      (loop [theta @last-player-theta frame-num 0]
         (let [calc-theta (+ theta Math/PI)
 
               ;; his heading unit vector
@@ -112,7 +115,7 @@
                      (+ 1 (Math/sin
                            (* frame-num pickup-bounce-speed))))))
               )))
-        (recur (+ theta 0.03) (inc frame-num)))))
+        (recur (+ theta player-wins-rotate-speed) (inc frame-num)))))
 
   (go
     (while true
@@ -849,6 +852,7 @@
           ;; other go blocks need the players position
           (reset! last-player-position [x y])
           (reset! last-player-rh [rhx rhy])
+          (reset! last-player-theta theta)
 
           ;; switch the player animation
           (if (or (> (Math/abs vx) 2)
