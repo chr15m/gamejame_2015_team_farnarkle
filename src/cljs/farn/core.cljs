@@ -782,6 +782,23 @@
                 (sprite/set-pos! (:sprite obj) x y))
               ))
 
+          ;(log "=>" (str (game-space cells)))
+
+          (doseq [cell cells]
+            (let [objs (game-space cell)
+
+                  n (count objs)]
+              (when (> n 0)
+                (loop [i 0]
+                  (let [obj (objs i)]          ;(println "->" obj)
+                    (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
+                                                     x y
+                                                     rhx rhy)]
+                      (sprite/set-pos! (:sprite obj) x y))
+                    (when (< i (dec n))
+                      (recur (inc i))))
+                  ))))
+
           ;;
           ;; PICKUPS
           ;;
