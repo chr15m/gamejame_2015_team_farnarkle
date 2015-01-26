@@ -42,8 +42,8 @@
 (def last-player-rh (atom [0 0]))
 
 ;; pickups
-(def pickup-bounce-height 5)
-(def pickup-bounce-speed 0.1)
+(def pickup-bounce-height 15)
+(def pickup-bounce-speed 0.15)
 (def pickup-vertical-offset 25)
 (def max-pickups 100)
 (def pickup-cull-distance 4000)
