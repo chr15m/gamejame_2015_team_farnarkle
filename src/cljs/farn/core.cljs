@@ -650,8 +650,8 @@
               [player-cell-x player-cell-y] player-cell
 
               ;; we need surrounding cells too
-              player-and-surrounds (for [dx [-2 -1 0 1 2]
-                                         dy [-2 -1 0 1 2]]
+              player-and-surrounds (for [dx (range -3 4)
+                                         dy (range -3 4)]
                                      [(+ dx player-cell-x) (+ dy player-cell-y)])
 
               ;; a function to take a cell coord and if its not added, add it
