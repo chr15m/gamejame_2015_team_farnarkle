@@ -69,7 +69,18 @@
 ;; all the stars on the game atm
 (def pickup-store (atom #{}))
 
-(defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare]
+(defn game-completed [main-stage star-tex shadow-tex x y polar-object-coords cells game-space depth-compare baby-sprite]
+
+  ;; make a column of light
+
+  ;; rise the baby up
+  (go
+    (loop [y 1]
+      (<! (events/next-frame))
+      (sprite/set-anchor! baby-sprite 0 y)
+      (recur (+ y 0.01))
+      ))
+
   (go
     (while true
       (loop [theta @last-player-theta frame-num 0]
@@ -721,13 +732,13 @@
                   (if (sprite/overlap? player (:sprite pickup))
                     (if (= (:type pickup) :pickup-baby-1)
                       (do
-                        (.removeChild main-stage (:sprite pickup))
+                        ;(.removeChild main-stage (:sprite pickup))
                         (.removeChild main-stage (:shadow pickup))
                         (reset! player-animation :standing)
-                        (let [[bx by] pos]
+                        (let [[bx by] @last-player-position]
                           (<! (game-completed main-stage star-tex shadow-tex bx by
                                               polar-object-coords post-remove-cells
-                                              game-space depth-compare))
+                                              game-space depth-compare (:sprite pickup)))
                         )
                         )
                       ;(js/alert "BABY PIKCUP")
