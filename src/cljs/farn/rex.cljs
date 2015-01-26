@@ -176,7 +176,7 @@
         ;; rex has a life of his own
         (go
           (.setTexture rex (rand-nth rex-does-nothing))
-          (<! (timeout 2000))
+          (<! (timeout 5000))
           (<! (say rex rex-talks ui-stage rex-opener))
           (while true
             (.setTexture rex (rand-nth rex-does-nothing))
