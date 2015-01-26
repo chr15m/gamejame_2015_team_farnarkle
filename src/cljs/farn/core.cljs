@@ -561,10 +561,11 @@
 
             ;; remove some remote pickups
             (when-let [pickup (some cull-distance? @pickup-store)]
-              (.removeChild main-stage (:sprite pickup))
-              (.removeChild main-stage (:shadow pickup))
-              ;(log "REMOVING" (str pickup))
-              (swap! pickup-store disj pickup)
+              (when (not= :pickup-baby-1 (:type pickup))
+                (.removeChild main-stage (:sprite pickup))
+                (.removeChild main-stage (:shadow pickup))
+                (log "REMOVING" (str pickup))
+                (swap! pickup-store disj pickup))
               )
             )))
 
