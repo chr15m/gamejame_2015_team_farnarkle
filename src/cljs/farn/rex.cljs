@@ -60,7 +60,7 @@
 
    [-1 40 0 ["Well done! You found our missing infant!"
            "I think someone's getting a medal!"
-           "Just wait until the great Blurg hears of your success!"
+           "Just wait until The Great Blurg hears of your success!"
            "It's times like these I'm proud to call you my friend!"
            "Is there anything else to do on this planet... while were here?"
            "The great council has sent their warmest thanks!"]]])
