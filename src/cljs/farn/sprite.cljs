@@ -51,6 +51,17 @@
   [(.-position.x sprite)
    (.-position.y sprite)])
 
+(defn move! [sprite dx dy]
+  (set-pos! sprite
+            (+ dx (.-position.x sprite))
+            (+ dy (.-position.y sprite))))
+
+(defn move-pivot! [sprite dx dy]
+  (set-pivot! sprite
+              (+ dx (.-pivot.x sprite))
+              (+ dy (.-pivot.y sprite))
+              )
+  )
 
 ;;
 ;; collision detection
