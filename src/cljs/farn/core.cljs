@@ -131,9 +131,9 @@
   (go
     (while true
       (doseq [a (range 10)]
-        (doseq [i (range 10)]
+        (doseq [i (range 20)]
           (stars/make main-stage star-tex shadow-tex x y))
-        (<! (timeout 430)))
+        (<! (timeout 1000)))
       (<! (timeout 3000))
       (doseq [i (range 100)]
         (stars/make main-stage star-tex shadow-tex x y)
