@@ -773,7 +773,7 @@
           (sprite/set-pos! player-shadow pos)
 
           ;; set the static world sprites to the correct orientation (rotate trees)
-          (doseq [cell cells]
+          #_ (doseq [cell cells]
             (doseq [obj (game-space cell)]
               ;(println "->" obj)
               (let [[x y] (polar-object-coords (:pos obj) (:sprite obj)
