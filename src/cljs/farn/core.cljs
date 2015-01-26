@@ -551,7 +551,7 @@
           )
         ;; also add the rest of the things
         (while true
-          (<! (timeout 333))
+          (<! (timeout 150))
 
           ;; add a pickup if theres not too many
           (when (< (count @pickup-store) max-pickups)
