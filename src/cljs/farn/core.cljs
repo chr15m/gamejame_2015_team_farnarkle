@@ -673,11 +673,14 @@
                                    cells))
 
               ;; if the present cell isn't in cells, lets load it in
-              new-cells (loop [done cells
+              new-cells (loop [accum cells
                                [h & t] player-and-surrounds]
                           (if (nil? h)
-                            done
-                            (recur (process-add-cell h done) t)
+                            accum
+                            (recur (process-add-cell h accum)
+                             ;nil
+                             t
+                             )
                             )
                           )
 
