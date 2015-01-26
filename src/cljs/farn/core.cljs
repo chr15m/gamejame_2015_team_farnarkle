@@ -42,7 +42,7 @@
 (def last-player-position (atom [0 0]))
 (def last-player-rh (atom [0 0]))
 (def last-player-theta (atom 0))
-
+(def baby-position (atom [0 0]))
 
 ;; pickups
 (def pickup-bounce-height 15)
@@ -533,6 +533,7 @@
         ;; add an alien baby!
         (let [pickup (make-pickup [0 0] 10000 :pickup-baby-1 2000)]
               (swap! pickup-store conj pickup)
+              (reset! baby-position (:pos pickup))
               (sprite/set-scale! (:sprite pickup)  (:scale pickup))
               (.addChild main-stage (:sprite pickup))
               (.addChild main-stage (:shadow pickup))

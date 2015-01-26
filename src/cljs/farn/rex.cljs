@@ -9,16 +9,15 @@
   (:require-macros [cljs.core.async.macros :refer [go alt!]])
   )
 
+
 ;; rex stuff
 (def word-exit-speed 2)
 (def word-entry-speed 1.6)
-(def rex-phrases ["What do we do now?"
-                  "I'm sick of asking!"
+(def rex-chatter ["What do we do now?"
                   "Who knows!"
                   "Maybe theres an alien baby lost in these woods..."
                   "I can hear that baby crying!"
                   "Why don't you go find the source of that sobbing?"
-                  "Is there anything else to do on this planet?"
                   "These human brains are puny... but tasty!"
                   "Scenario brothers galaxy woohoo!"
                   "Nee mee nee mee nee."
@@ -27,11 +26,69 @@
                   "What is the sound of one baby crying? hint, hint..."
                   "These plants are very perculiar. Our leader will be pleased!"
                   "Try and make contact with the flowers"
-                  "Ramma Lamma Ding Dong!"
                   "The hive mind is calling me home."
                   "Once the baby is recovered, this planet can be purged"
-
                   ])
+
+;; [minval maxval chatty-probability choices]
+(def rex-getting-close
+  [
+   [8000 20000 0.5 ["Cold..."
+                 "You're so far off the mark"
+                 "Maybe go for a bound and see what you can find"
+                 "We're not getting any younger"
+                 ]]
+
+   [5000 8000 0.4 ["Now you are warming up!"
+               "Warmer..."
+               "I think you are on the right track"]]
+
+   [2000 5000 0.3 ["I can sense an alien presence near where you are!"
+               "I think the baby is closer"
+               "OK you're getting hot now"
+               "Hotter..."]]
+
+   [1000 2000 0.2 ["Hot!"
+               "I sense you are very close!"
+               "...almost there..."
+               "I think you're really close now!"
+               ]]
+
+   [40 1000 0.1 ["There it is!"
+              "Quick! Save the baby!"
+              "You've found it!"]]
+
+   [-1 40 0 ["Well done! You found our missing infant!"
+           "I think someone's getting a medal!"
+           "Just wait until the great Blurg hears of your success!"
+           "It's times like these I'm proud to call you my friend!"
+           "Is there anything else to do on this planet... while were here?"
+           "The great council has sent their warmest thanks!"]]])
+
+(defn square [n]
+  (* n n))
+
+(defn get-rex-phrase []
+  (let [[bx by] @farn.core/baby-position
+        [x y] @farn.core/last-player-position
+        distance (Math/sqrt
+                  (+
+                   (square (- bx x))
+                   (square (- by y))))]
+    (loop [[[bot top chat-prob choices] & t] rex-getting-close]
+      (if (< bot distance top)
+        ;; work out what to say
+        (if (< (rand) chat-prob)
+          (rand-nth rex-chatter)
+          (rand-nth choices))
+
+        ;;recurse if theres more left
+        (if-not (empty? t)
+          (recur t)
+
+          ;; rex wants to help but you are completely outside all ranges
+          "How on earth did you get out there?"
+          )))))
 
 (defn launch-rex [ui-stage]
   (let [rex-talks
@@ -68,13 +125,13 @@
         (go
           (while true
             (.setTexture rex (rand-nth rex-does-nothing))
-            (<! (timeout 10000))
+            (<! (timeout 3000))
 
             ;; text scroll out
             (go
               (let [
-                    phrases rex-phrases
-                    phrase (rand-nth phrases)
+                    phrase (get-rex-phrase)
+
                     phrase-spr (font/make-text "400 24pt Varela Round"
                                      phrase
                                      :weight 400 :fill "#ffffff"
