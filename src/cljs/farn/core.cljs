@@ -12,7 +12,7 @@
             [farn.assets :as assets]
             [farn.rex :as rex]
             [farn.query-string :as query-string]
-            [farn.utils :refer [log rand-between ends-with?]]
+            [farn.utils :refer [log rand-between ends-with? limit]]
             [cljs.core.async :refer [put! chan <! >! alts! timeout close!]]
             [dommy.core :as dommy :refer-macros [sel1]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]])
