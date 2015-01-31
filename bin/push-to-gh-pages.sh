@@ -19,7 +19,7 @@ mkdir -p gh-pages-build && \
 rsync -a --progress resources/public/ $OUTDIR && \
 echo "Running 'lein dump-index-html'"
 lein dump-index-html > $OUTDIR/index.html
-rpl '/js' 'js' index.html
+rpl '/js' 'js' $OUTDIR/index.html
 echo "Checking out gh-pages branch and syncing."
 git checkout gh-pages && \
 rsync -a --progress $OUTDIR . && \
