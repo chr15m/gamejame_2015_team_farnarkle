@@ -6,42 +6,12 @@ goog.require('farn.gfx');
 goog.require('farn.events');
 goog.require('cljs.core.async');
 goog.require('dommy.core');
-/**
-* @param {...*} var_args
-*/
-farn.sprite.make_sprite = (function() { 
-var make_sprite__delegate = function (tex,p__9980){
-var map__9982 = p__9980;
-var map__9982__$1 = ((cljs.core.seq_QMARK_.call(null,map__9982))?cljs.core.apply.call(null,cljs.core.hash_map,map__9982):map__9982);
-var anchor_y = cljs.core.get.call(null,map__9982__$1,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),(1));
-var anchor_x = cljs.core.get.call(null,map__9982__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5);
-var s = farn.gfx.make_sprite.call(null,tex);
-farn.sprite.set_anchor_BANG_.call(null,s,anchor_x,anchor_y);
-
-return s;
-};
-var make_sprite = function (tex,var_args){
-var p__9980 = null;
-if (arguments.length > 1) {
-  p__9980 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);
-} 
-return make_sprite__delegate.call(this,tex,p__9980);};
-make_sprite.cljs$lang$maxFixedArity = 1;
-make_sprite.cljs$lang$applyTo = (function (arglist__9983){
-var tex = cljs.core.first(arglist__9983);
-var p__9980 = cljs.core.rest(arglist__9983);
-return make_sprite__delegate(tex,p__9980);
-});
-make_sprite.cljs$core$IFn$_invoke$arity$variadic = make_sprite__delegate;
-return make_sprite;
-})()
-;
 farn.sprite.set_pos_BANG_ = (function() {
 var set_pos_BANG_ = null;
-var set_pos_BANG___2 = (function (sprite,p__9984){
-var vec__9986 = p__9984;
-var x = cljs.core.nth.call(null,vec__9986,(0),null);
-var y = cljs.core.nth.call(null,vec__9986,(1),null);
+var set_pos_BANG___2 = (function (sprite,p__9980){
+var vec__9982 = p__9980;
+var x = cljs.core.nth.call(null,vec__9982,(0),null);
+var y = cljs.core.nth.call(null,vec__9982,(1),null);
 return set_pos_BANG_.call(null,sprite,x,y);
 });
 var set_pos_BANG___3 = (function (sprite,x,y){
@@ -66,6 +36,36 @@ return set_pos_BANG_;
 farn.sprite.set_anchor_BANG_ = (function set_anchor_BANG_(sprite,x,y){
 return sprite.anchor = farn.gfx.make_point.call(null,x,y);
 });
+/**
+* @param {...*} var_args
+*/
+farn.sprite.make_sprite = (function() { 
+var make_sprite__delegate = function (tex,p__9983){
+var map__9985 = p__9983;
+var map__9985__$1 = ((cljs.core.seq_QMARK_.call(null,map__9985))?cljs.core.apply.call(null,cljs.core.hash_map,map__9985):map__9985);
+var anchor_y = cljs.core.get.call(null,map__9985__$1,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),(1));
+var anchor_x = cljs.core.get.call(null,map__9985__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5);
+var s = farn.gfx.make_sprite.call(null,tex);
+farn.sprite.set_anchor_BANG_.call(null,s,anchor_x,anchor_y);
+
+return s;
+};
+var make_sprite = function (tex,var_args){
+var p__9983 = null;
+if (arguments.length > 1) {
+  p__9983 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);
+} 
+return make_sprite__delegate.call(this,tex,p__9983);};
+make_sprite.cljs$lang$maxFixedArity = 1;
+make_sprite.cljs$lang$applyTo = (function (arglist__9986){
+var tex = cljs.core.first(arglist__9986);
+var p__9983 = cljs.core.rest(arglist__9986);
+return make_sprite__delegate(tex,p__9983);
+});
+make_sprite.cljs$core$IFn$_invoke$arity$variadic = make_sprite__delegate;
+return make_sprite;
+})()
+;
 farn.sprite.set_pivot_BANG_ = (function set_pivot_BANG_(sprite,x,y){
 sprite.pivot.x = x;
 
@@ -94,6 +94,12 @@ return sprite.position.y;
 });
 farn.sprite.get_pos = (function get_pos(sprite){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sprite.position.x,sprite.position.y], null);
+});
+farn.sprite.move_BANG_ = (function move_BANG_(sprite,dx,dy){
+return farn.sprite.set_pos_BANG_.call(null,sprite,(dx + sprite.position.x),(dy + sprite.position.y));
+});
+farn.sprite.move_pivot_BANG_ = (function move_pivot_BANG_(sprite,dx,dy){
+return farn.sprite.set_pivot_BANG_.call(null,sprite,(dx + sprite.pivot.x),(dy + sprite.pivot.y));
 });
 /**
 * pass in a PIXI Rectangle, and this returns the vector

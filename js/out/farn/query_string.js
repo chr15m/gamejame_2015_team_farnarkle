@@ -8,11 +8,11 @@ goog.require('goog.Uri');
 */
 farn.query_string.parse_query_params = (function parse_query_params(s){
 if(cljs.core.not.call(null,clojure.string.blank_QMARK_.call(null,s))){
-return cljs.core.reduce.call(null,(function (p1__15142_SHARP_,p2__15141_SHARP_){
-var vec__15144 = clojure.string.split.call(null,p2__15141_SHARP_,/=/);
-var k = cljs.core.nth.call(null,vec__15144,(0),null);
-var v = cljs.core.nth.call(null,vec__15144,(1),null);
-return cljs.core.assoc.call(null,p1__15142_SHARP_,cljs.core.keyword.call(null,k),v);
+return cljs.core.reduce.call(null,(function (p1__15260_SHARP_,p2__15259_SHARP_){
+var vec__15262 = clojure.string.split.call(null,p2__15259_SHARP_,/=/);
+var k = cljs.core.nth.call(null,vec__15262,(0),null);
+var v = cljs.core.nth.call(null,vec__15262,(1),null);
+return cljs.core.assoc.call(null,p1__15260_SHARP_,cljs.core.keyword.call(null,k),v);
 }),cljs.core.PersistentArrayMap.EMPTY,clojure.string.split.call(null,[cljs.core.str(s)].join(''),/&/));
 } else {
 return null;

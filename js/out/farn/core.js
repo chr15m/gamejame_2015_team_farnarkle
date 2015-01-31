@@ -28,10 +28,13 @@ farn.core.player_drag = 0.95;
 farn.core.player_turn_speed = 0.03;
 farn.core.player_bound_height = (30);
 farn.core.player_bound_length = (30);
+farn.core.player_wins_rotate_speed = 0.01;
 farn.core.last_player_position = cljs.core.atom.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(0),(0)], null));
 farn.core.last_player_rh = cljs.core.atom.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(0),(0)], null));
-farn.core.pickup_bounce_height = (5);
-farn.core.pickup_bounce_speed = 0.1;
+farn.core.last_player_theta = cljs.core.atom.call(null,(0));
+farn.core.baby_position = cljs.core.atom.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(0),(0)], null));
+farn.core.pickup_bounce_height = (15);
+farn.core.pickup_bounce_speed = 0.15;
 farn.core.pickup_vertical_offset = (25);
 farn.core.max_pickups = (100);
 farn.core.pickup_cull_distance = (4000);
@@ -45,1105 +48,1238 @@ farn.core.fonts = new cljs.core.PersistentVector(null, 3, 5, cljs.core.Persisten
 farn.core.player_animation = cljs.core.atom.call(null,new cljs.core.Keyword(null,"standing","standing",-1248340762));
 farn.core.player_stars = cljs.core.atom.call(null,(0));
 farn.core.pickup_store = cljs.core.atom.call(null,cljs.core.PersistentHashSet.EMPTY);
-farn.core.game_completed = (function game_completed(main_stage,star_tex,shadow_tex,x,y,polar_object_coords,cells,game_space,depth_compare){
-var c__6459__auto___11989 = cljs.core.async.chan.call(null,(1));
-cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___11989){
+farn.core.game_completed = (function game_completed(main_stage,star_tex,shadow_tex,x,y,polar_object_coords,cells,game_space,depth_compare,baby_sprite){
+var c__6459__auto___12107 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12107){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___11989){
-return (function (state_11581){
-var state_val_11582 = (state_11581[(1)]);
-if((state_val_11582 === (7))){
-var inst_11338 = (state_11581[(7)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11327 = (state_11581[(9)]);
-var inst_11330 = (inst_11327 + Math.PI);
-var inst_11331 = Math.cos.call(null,inst_11330);
-var inst_11332 = Math.sin.call(null,inst_11330);
-var inst_11333 = ((2) * Math.PI);
-var inst_11334 = (inst_11333 - inst_11330);
-var inst_11335__$1 = Math.cos.call(null,inst_11334);
-var inst_11336 = ((2) * Math.PI);
-var inst_11337 = (inst_11336 - inst_11330);
-var inst_11338__$1 = Math.sin.call(null,inst_11337);
-var inst_11339 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_11340 = [inst_11335__$1,inst_11338__$1];
-var inst_11341 = (new cljs.core.PersistentVector(null,2,(5),inst_11339,inst_11340,null));
-var inst_11342 = cljs.core.reset_BANG_.call(null,farn.core.last_player_rh,inst_11341);
-var inst_11343 = main_stage.children;
-var inst_11344 = inst_11343.sort(depth_compare);
-var inst_11345 = farn.events.next_frame.call(null);
-var state_11581__$1 = (function (){var statearr_11583 = state_11581;
-(statearr_11583[(10)] = inst_11331);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12107){
+return (function (state_11429){
+var state_val_11430 = (state_11429[(1)]);
+if((state_val_11430 === (4))){
+var inst_11418 = (state_11429[(7)]);
+var inst_11422 = (state_11429[(2)]);
+var inst_11423 = farn.sprite.set_anchor_BANG_.call(null,baby_sprite,(0),inst_11418);
+var inst_11424 = (inst_11418 + 0.01);
+var inst_11418__$1 = inst_11424;
+var state_11429__$1 = (function (){var statearr_11431 = state_11429;
+(statearr_11431[(7)] = inst_11418__$1);
 
-(statearr_11583[(11)] = inst_11342);
+(statearr_11431[(8)] = inst_11422);
 
-(statearr_11583[(7)] = inst_11338__$1);
+(statearr_11431[(9)] = inst_11423);
 
-(statearr_11583[(12)] = inst_11332);
-
-(statearr_11583[(13)] = inst_11344);
-
-(statearr_11583[(8)] = inst_11335__$1);
-
-return statearr_11583;
+return statearr_11431;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11581__$1,(9),inst_11345);
+var statearr_11432_12108 = state_11429__$1;
+(statearr_11432_12108[(2)] = null);
+
+(statearr_11432_12108[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (20))){
-var inst_11388 = (state_11581[(14)]);
-var inst_11390 = cljs.core.chunked_seq_QMARK_.call(null,inst_11388);
-var state_11581__$1 = state_11581;
-if(inst_11390){
-var statearr_11584_11990 = state_11581__$1;
-(statearr_11584_11990[(1)] = (23));
+if((state_val_11430 === (3))){
+var inst_11427 = (state_11429[(2)]);
+var state_11429__$1 = state_11429;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_11429__$1,inst_11427);
+} else {
+if((state_val_11430 === (2))){
+var inst_11420 = farn.events.next_frame.call(null);
+var state_11429__$1 = state_11429;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11429__$1,(4),inst_11420);
+} else {
+if((state_val_11430 === (1))){
+var inst_11418 = (1);
+var state_11429__$1 = (function (){var statearr_11433 = state_11429;
+(statearr_11433[(7)] = inst_11418);
+
+return statearr_11433;
+})();
+var statearr_11434_12109 = state_11429__$1;
+(statearr_11434_12109[(2)] = null);
+
+(statearr_11434_12109[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+return null;
+}
+}
+}
+}
+});})(c__6459__auto___12107))
+;
+return ((function (switch__6444__auto__,c__6459__auto___12107){
+return (function() {
+var state_machine__6445__auto__ = null;
+var state_machine__6445__auto____0 = (function (){
+var statearr_11438 = [null,null,null,null,null,null,null,null,null,null];
+(statearr_11438[(0)] = state_machine__6445__auto__);
+
+(statearr_11438[(1)] = (1));
+
+return statearr_11438;
+});
+var state_machine__6445__auto____1 = (function (state_11429){
+while(true){
+var ret_value__6446__auto__ = (function (){try{while(true){
+var result__6447__auto__ = switch__6444__auto__.call(null,state_11429);
+if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+continue;
+} else {
+return result__6447__auto__;
+}
+break;
+}
+}catch (e11439){if((e11439 instanceof Object)){
+var ex__6448__auto__ = e11439;
+var statearr_11440_12110 = state_11429;
+(statearr_11440_12110[(5)] = ex__6448__auto__);
+
+
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_11429);
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+throw e11439;
+
+}
+}})();
+if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+var G__12111 = state_11429;
+state_11429 = G__12111;
+continue;
+} else {
+return ret_value__6446__auto__;
+}
+break;
+}
+});
+state_machine__6445__auto__ = function(state_11429){
+switch(arguments.length){
+case 0:
+return state_machine__6445__auto____0.call(this);
+case 1:
+return state_machine__6445__auto____1.call(this,state_11429);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
+return state_machine__6445__auto__;
+})()
+;})(switch__6444__auto__,c__6459__auto___12107))
+})();
+var state__6461__auto__ = (function (){var statearr_11441 = f__6460__auto__.call(null);
+(statearr_11441[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12107);
+
+return statearr_11441;
+})();
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
+});})(c__6459__auto___12107))
+);
+
+
+var c__6459__auto___12112 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12112){
+return (function (){
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12112){
+return (function (state_11699){
+var state_val_11700 = (state_11699[(1)]);
+if((state_val_11700 === (7))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11445 = (state_11699[(8)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11448 = (inst_11445 + Math.PI);
+var inst_11449 = Math.cos.call(null,inst_11448);
+var inst_11450 = Math.sin.call(null,inst_11448);
+var inst_11451 = ((2) * Math.PI);
+var inst_11452 = (inst_11451 - inst_11448);
+var inst_11453__$1 = Math.cos.call(null,inst_11452);
+var inst_11454 = ((2) * Math.PI);
+var inst_11455 = (inst_11454 - inst_11448);
+var inst_11456__$1 = Math.sin.call(null,inst_11455);
+var inst_11457 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_11458 = [inst_11453__$1,inst_11456__$1];
+var inst_11459 = (new cljs.core.PersistentVector(null,2,(5),inst_11457,inst_11458,null));
+var inst_11460 = cljs.core.reset_BANG_.call(null,farn.core.last_player_rh,inst_11459);
+var inst_11461 = main_stage.children;
+var inst_11462 = inst_11461.sort(depth_compare);
+var inst_11463 = farn.events.next_frame.call(null);
+var state_11699__$1 = (function (){var statearr_11701 = state_11699;
+(statearr_11701[(10)] = inst_11449);
+
+(statearr_11701[(7)] = inst_11453__$1);
+
+(statearr_11701[(11)] = inst_11460);
+
+(statearr_11701[(12)] = inst_11462);
+
+(statearr_11701[(13)] = inst_11450);
+
+(statearr_11701[(9)] = inst_11456__$1);
+
+return statearr_11701;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11699__$1,(9),inst_11463);
+} else {
+if((state_val_11700 === (20))){
+var inst_11506 = (state_11699[(14)]);
+var inst_11508 = cljs.core.chunked_seq_QMARK_.call(null,inst_11506);
+var state_11699__$1 = state_11699;
+if(inst_11508){
+var statearr_11702_12113 = state_11699__$1;
+(statearr_11702_12113[(1)] = (23));
 
 } else {
-var statearr_11585_11991 = state_11581__$1;
-(statearr_11585_11991[(1)] = (24));
+var statearr_11703_12114 = state_11699__$1;
+(statearr_11703_12114[(1)] = (24));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (27))){
-var state_11581__$1 = state_11581;
-var statearr_11586_11992 = state_11581__$1;
-(statearr_11586_11992[(2)] = null);
+if((state_val_11700 === (27))){
+var state_11699__$1 = state_11699;
+var statearr_11704_12115 = state_11699__$1;
+(statearr_11704_12115[(2)] = null);
 
-(statearr_11586_11992[(1)] = (28));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (1))){
-var state_11581__$1 = state_11581;
-var statearr_11587_11993 = state_11581__$1;
-(statearr_11587_11993[(2)] = null);
-
-(statearr_11587_11993[(1)] = (2));
+(statearr_11704_12115[(1)] = (28));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (24))){
-var inst_11338 = (state_11581[(7)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11388 = (state_11581[(14)]);
-var inst_11397 = cljs.core.first.call(null,inst_11388);
-var inst_11399 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11397);
-var inst_11400 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11397);
-var inst_11401 = polar_object_coords.call(null,inst_11399,inst_11400,x,y,inst_11335,inst_11338);
-var inst_11402 = cljs.core.nth.call(null,inst_11401,(0),null);
-var inst_11403 = cljs.core.nth.call(null,inst_11401,(1),null);
-var inst_11404 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11397);
-var inst_11405 = farn.sprite.set_pos_BANG_.call(null,inst_11404,inst_11402,inst_11403);
-var inst_11406 = cljs.core.next.call(null,inst_11388);
-var inst_11368 = inst_11406;
-var inst_11369 = null;
-var inst_11370 = (0);
-var inst_11371 = (0);
-var state_11581__$1 = (function (){var statearr_11588 = state_11581;
-(statearr_11588[(15)] = inst_11368);
+if((state_val_11700 === (1))){
+var state_11699__$1 = state_11699;
+var statearr_11705_12116 = state_11699__$1;
+(statearr_11705_12116[(2)] = null);
 
-(statearr_11588[(16)] = inst_11370);
+(statearr_11705_12116[(1)] = (2));
 
-(statearr_11588[(17)] = inst_11369);
 
-(statearr_11588[(18)] = inst_11371);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (24))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11506 = (state_11699[(14)]);
+var inst_11515 = cljs.core.first.call(null,inst_11506);
+var inst_11517 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11515);
+var inst_11518 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11515);
+var inst_11519 = polar_object_coords.call(null,inst_11517,inst_11518,x,y,inst_11453,inst_11456);
+var inst_11520 = cljs.core.nth.call(null,inst_11519,(0),null);
+var inst_11521 = cljs.core.nth.call(null,inst_11519,(1),null);
+var inst_11522 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11515);
+var inst_11523 = farn.sprite.set_pos_BANG_.call(null,inst_11522,inst_11520,inst_11521);
+var inst_11524 = cljs.core.next.call(null,inst_11506);
+var inst_11486 = inst_11524;
+var inst_11487 = null;
+var inst_11488 = (0);
+var inst_11489 = (0);
+var state_11699__$1 = (function (){var statearr_11706 = state_11699;
+(statearr_11706[(15)] = inst_11488);
 
-(statearr_11588[(19)] = inst_11405);
+(statearr_11706[(16)] = inst_11523);
 
-return statearr_11588;
+(statearr_11706[(17)] = inst_11486);
+
+(statearr_11706[(18)] = inst_11487);
+
+(statearr_11706[(19)] = inst_11489);
+
+return statearr_11706;
 })();
-var statearr_11589_11994 = state_11581__$1;
-(statearr_11589_11994[(2)] = null);
+var statearr_11707_12117 = state_11699__$1;
+(statearr_11707_12117[(2)] = null);
 
-(statearr_11589_11994[(1)] = (15));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (39))){
-var inst_11480 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11590_11995 = state_11581__$1;
-(statearr_11590_11995[(2)] = inst_11480);
-
-(statearr_11590_11995[(1)] = (36));
+(statearr_11707_12117[(1)] = (15));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (46))){
-var inst_11502 = (state_11581[(20)]);
-var inst_11531 = (state_11581[(21)]);
-var inst_11531__$1 = cljs.core.seq.call(null,inst_11502);
-var state_11581__$1 = (function (){var statearr_11591 = state_11581;
-(statearr_11591[(21)] = inst_11531__$1);
+if((state_val_11700 === (39))){
+var inst_11598 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11708_12118 = state_11699__$1;
+(statearr_11708_12118[(2)] = inst_11598);
 
-return statearr_11591;
+(statearr_11708_12118[(1)] = (36));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (46))){
+var inst_11620 = (state_11699[(20)]);
+var inst_11649 = (state_11699[(21)]);
+var inst_11649__$1 = cljs.core.seq.call(null,inst_11620);
+var state_11699__$1 = (function (){var statearr_11709 = state_11699;
+(statearr_11709[(21)] = inst_11649__$1);
+
+return statearr_11709;
 })();
-if(inst_11531__$1){
-var statearr_11592_11996 = state_11581__$1;
-(statearr_11592_11996[(1)] = (48));
+if(inst_11649__$1){
+var statearr_11710_12119 = state_11699__$1;
+(statearr_11710_12119[(1)] = (48));
 
 } else {
-var statearr_11593_11997 = state_11581__$1;
-(statearr_11593_11997[(1)] = (49));
+var statearr_11711_12120 = state_11699__$1;
+(statearr_11711_12120[(1)] = (49));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (4))){
-var inst_11327 = (0);
-var inst_11328 = (0);
-var state_11581__$1 = (function (){var statearr_11594 = state_11581;
-(statearr_11594[(22)] = inst_11328);
+if((state_val_11700 === (4))){
+var inst_11444 = cljs.core.deref.call(null,farn.core.last_player_theta);
+var inst_11445 = inst_11444;
+var inst_11446 = (0);
+var state_11699__$1 = (function (){var statearr_11712 = state_11699;
+(statearr_11712[(8)] = inst_11445);
 
-(statearr_11594[(9)] = inst_11327);
+(statearr_11712[(22)] = inst_11446);
 
-return statearr_11594;
+return statearr_11712;
 })();
-var statearr_11595_11998 = state_11581__$1;
-(statearr_11595_11998[(2)] = null);
+var statearr_11713_12121 = state_11699__$1;
+(statearr_11713_12121[(2)] = null);
 
-(statearr_11595_11998[(1)] = (7));
+(statearr_11713_12121[(1)] = (7));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (15))){
-var inst_11370 = (state_11581[(16)]);
-var inst_11371 = (state_11581[(18)]);
-var inst_11373 = (inst_11371 < inst_11370);
-var inst_11374 = inst_11373;
-var state_11581__$1 = state_11581;
-if(cljs.core.truth_(inst_11374)){
-var statearr_11596_11999 = state_11581__$1;
-(statearr_11596_11999[(1)] = (17));
+if((state_val_11700 === (15))){
+var inst_11488 = (state_11699[(15)]);
+var inst_11489 = (state_11699[(19)]);
+var inst_11491 = (inst_11489 < inst_11488);
+var inst_11492 = inst_11491;
+var state_11699__$1 = state_11699;
+if(cljs.core.truth_(inst_11492)){
+var statearr_11714_12122 = state_11699__$1;
+(statearr_11714_12122[(1)] = (17));
 
 } else {
-var statearr_11597_12000 = state_11581__$1;
-(statearr_11597_12000[(1)] = (18));
+var statearr_11715_12123 = state_11699__$1;
+(statearr_11715_12123[(1)] = (18));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (48))){
-var inst_11531 = (state_11581[(21)]);
-var inst_11533 = cljs.core.chunked_seq_QMARK_.call(null,inst_11531);
-var state_11581__$1 = state_11581;
-if(inst_11533){
-var statearr_11598_12001 = state_11581__$1;
-(statearr_11598_12001[(1)] = (51));
+if((state_val_11700 === (48))){
+var inst_11649 = (state_11699[(21)]);
+var inst_11651 = cljs.core.chunked_seq_QMARK_.call(null,inst_11649);
+var state_11699__$1 = state_11699;
+if(inst_11651){
+var statearr_11716_12124 = state_11699__$1;
+(statearr_11716_12124[(1)] = (51));
 
 } else {
-var statearr_11599_12002 = state_11581__$1;
-(statearr_11599_12002[(1)] = (52));
+var statearr_11717_12125 = state_11699__$1;
+(statearr_11717_12125[(1)] = (52));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (50))){
-var inst_11564 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11600_12003 = state_11581__$1;
-(statearr_11600_12003[(2)] = inst_11564);
+if((state_val_11700 === (50))){
+var inst_11682 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11718_12126 = state_11699__$1;
+(statearr_11718_12126[(2)] = inst_11682);
 
-(statearr_11600_12003[(1)] = (47));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (21))){
-var state_11581__$1 = state_11581;
-var statearr_11601_12004 = state_11581__$1;
-(statearr_11601_12004[(2)] = null);
-
-(statearr_11601_12004[(1)] = (22));
+(statearr_11718_12126[(1)] = (47));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (31))){
-var inst_11488 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11602_12005 = state_11581__$1;
-(statearr_11602_12005[(2)] = inst_11488);
+if((state_val_11700 === (21))){
+var state_11699__$1 = state_11699;
+var statearr_11719_12127 = state_11699__$1;
+(statearr_11719_12127[(2)] = null);
 
-(statearr_11602_12005[(1)] = (28));
+(statearr_11719_12127[(1)] = (22));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (32))){
-var inst_11438 = (state_11581[(23)]);
-var inst_11439 = (state_11581[(24)]);
-var inst_11441 = (inst_11439 < inst_11438);
-var inst_11442 = inst_11441;
-var state_11581__$1 = state_11581;
-if(cljs.core.truth_(inst_11442)){
-var statearr_11603_12006 = state_11581__$1;
-(statearr_11603_12006[(1)] = (34));
+if((state_val_11700 === (31))){
+var inst_11606 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11720_12128 = state_11699__$1;
+(statearr_11720_12128[(2)] = inst_11606);
+
+(statearr_11720_12128[(1)] = (28));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (32))){
+var inst_11556 = (state_11699[(23)]);
+var inst_11557 = (state_11699[(24)]);
+var inst_11559 = (inst_11557 < inst_11556);
+var inst_11560 = inst_11559;
+var state_11699__$1 = state_11699;
+if(cljs.core.truth_(inst_11560)){
+var statearr_11721_12129 = state_11699__$1;
+(statearr_11721_12129[(1)] = (34));
 
 } else {
-var statearr_11604_12007 = state_11581__$1;
-(statearr_11604_12007[(1)] = (35));
+var statearr_11722_12130 = state_11699__$1;
+(statearr_11722_12130[(1)] = (35));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (40))){
-var inst_11456 = (state_11581[(25)]);
-var inst_11460 = cljs.core.chunk_first.call(null,inst_11456);
-var inst_11461 = cljs.core.chunk_rest.call(null,inst_11456);
-var inst_11462 = cljs.core.count.call(null,inst_11460);
-var inst_11436 = inst_11461;
-var inst_11437 = inst_11460;
-var inst_11438 = inst_11462;
-var inst_11439 = (0);
-var state_11581__$1 = (function (){var statearr_11605 = state_11581;
-(statearr_11605[(23)] = inst_11438);
+if((state_val_11700 === (40))){
+var inst_11574 = (state_11699[(25)]);
+var inst_11578 = cljs.core.chunk_first.call(null,inst_11574);
+var inst_11579 = cljs.core.chunk_rest.call(null,inst_11574);
+var inst_11580 = cljs.core.count.call(null,inst_11578);
+var inst_11554 = inst_11579;
+var inst_11555 = inst_11578;
+var inst_11556 = inst_11580;
+var inst_11557 = (0);
+var state_11699__$1 = (function (){var statearr_11723 = state_11699;
+(statearr_11723[(23)] = inst_11556);
 
-(statearr_11605[(24)] = inst_11439);
+(statearr_11723[(24)] = inst_11557);
 
-(statearr_11605[(26)] = inst_11437);
+(statearr_11723[(26)] = inst_11554);
 
-(statearr_11605[(27)] = inst_11436);
+(statearr_11723[(27)] = inst_11555);
 
-return statearr_11605;
+return statearr_11723;
 })();
-var statearr_11606_12008 = state_11581__$1;
-(statearr_11606_12008[(2)] = null);
+var statearr_11724_12131 = state_11699__$1;
+(statearr_11724_12131[(2)] = null);
 
-(statearr_11606_12008[(1)] = (32));
+(statearr_11724_12131[(1)] = (32));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (33))){
-var inst_11420 = (state_11581[(28)]);
-var inst_11484 = (state_11581[(2)]);
-var inst_11485 = cljs.core.next.call(null,inst_11420);
-var inst_11353 = inst_11485;
-var inst_11354 = null;
-var inst_11355 = (0);
-var inst_11356 = (0);
-var state_11581__$1 = (function (){var statearr_11607 = state_11581;
-(statearr_11607[(29)] = inst_11353);
+if((state_val_11700 === (33))){
+var inst_11538 = (state_11699[(28)]);
+var inst_11602 = (state_11699[(2)]);
+var inst_11603 = cljs.core.next.call(null,inst_11538);
+var inst_11471 = inst_11603;
+var inst_11472 = null;
+var inst_11473 = (0);
+var inst_11474 = (0);
+var state_11699__$1 = (function (){var statearr_11725 = state_11699;
+(statearr_11725[(29)] = inst_11474);
 
-(statearr_11607[(30)] = inst_11355);
+(statearr_11725[(30)] = inst_11602);
 
-(statearr_11607[(31)] = inst_11484);
+(statearr_11725[(31)] = inst_11472);
 
-(statearr_11607[(32)] = inst_11354);
+(statearr_11725[(32)] = inst_11471);
 
-(statearr_11607[(33)] = inst_11356);
+(statearr_11725[(33)] = inst_11473);
 
-return statearr_11607;
+return statearr_11725;
 })();
-var statearr_11608_12009 = state_11581__$1;
-(statearr_11608_12009[(2)] = null);
+var statearr_11726_12132 = state_11699__$1;
+(statearr_11726_12132[(2)] = null);
 
-(statearr_11608_12009[(1)] = (10));
+(statearr_11726_12132[(1)] = (10));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (13))){
-var inst_11353 = (state_11581[(29)]);
-var inst_11420 = (state_11581[(28)]);
-var inst_11420__$1 = cljs.core.seq.call(null,inst_11353);
-var state_11581__$1 = (function (){var statearr_11609 = state_11581;
-(statearr_11609[(28)] = inst_11420__$1);
+if((state_val_11700 === (13))){
+var inst_11538 = (state_11699[(28)]);
+var inst_11471 = (state_11699[(32)]);
+var inst_11538__$1 = cljs.core.seq.call(null,inst_11471);
+var state_11699__$1 = (function (){var statearr_11727 = state_11699;
+(statearr_11727[(28)] = inst_11538__$1);
 
-return statearr_11609;
+return statearr_11727;
 })();
-if(inst_11420__$1){
-var statearr_11610_12010 = state_11581__$1;
-(statearr_11610_12010[(1)] = (26));
+if(inst_11538__$1){
+var statearr_11728_12133 = state_11699__$1;
+(statearr_11728_12133[(1)] = (26));
 
 } else {
-var statearr_11611_12011 = state_11581__$1;
-(statearr_11611_12011[(1)] = (27));
+var statearr_11729_12134 = state_11699__$1;
+(statearr_11729_12134[(1)] = (27));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (22))){
-var inst_11412 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11612_12012 = state_11581__$1;
-(statearr_11612_12012[(2)] = inst_11412);
+if((state_val_11700 === (22))){
+var inst_11530 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11730_12135 = state_11699__$1;
+(statearr_11730_12135[(2)] = inst_11530);
 
-(statearr_11612_12012[(1)] = (19));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (36))){
-var inst_11482 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11613_12013 = state_11581__$1;
-(statearr_11613_12013[(2)] = inst_11482);
-
-(statearr_11613_12013[(1)] = (33));
+(statearr_11730_12135[(1)] = (19));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (41))){
-var inst_11338 = (state_11581[(7)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11456 = (state_11581[(25)]);
-var inst_11465 = cljs.core.first.call(null,inst_11456);
-var inst_11467 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11465);
-var inst_11468 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11465);
-var inst_11469 = polar_object_coords.call(null,inst_11467,inst_11468,x,y,inst_11335,inst_11338);
-var inst_11470 = cljs.core.nth.call(null,inst_11469,(0),null);
-var inst_11471 = cljs.core.nth.call(null,inst_11469,(1),null);
-var inst_11472 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11465);
-var inst_11473 = farn.sprite.set_pos_BANG_.call(null,inst_11472,inst_11470,inst_11471);
-var inst_11474 = cljs.core.next.call(null,inst_11456);
-var inst_11436 = inst_11474;
-var inst_11437 = null;
-var inst_11438 = (0);
-var inst_11439 = (0);
-var state_11581__$1 = (function (){var statearr_11614 = state_11581;
-(statearr_11614[(23)] = inst_11438);
+if((state_val_11700 === (36))){
+var inst_11600 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11731_12136 = state_11699__$1;
+(statearr_11731_12136[(2)] = inst_11600);
 
-(statearr_11614[(24)] = inst_11439);
+(statearr_11731_12136[(1)] = (33));
 
-(statearr_11614[(26)] = inst_11437);
 
-(statearr_11614[(34)] = inst_11473);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (41))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11574 = (state_11699[(25)]);
+var inst_11583 = cljs.core.first.call(null,inst_11574);
+var inst_11585 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11583);
+var inst_11586 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11583);
+var inst_11587 = polar_object_coords.call(null,inst_11585,inst_11586,x,y,inst_11453,inst_11456);
+var inst_11588 = cljs.core.nth.call(null,inst_11587,(0),null);
+var inst_11589 = cljs.core.nth.call(null,inst_11587,(1),null);
+var inst_11590 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11583);
+var inst_11591 = farn.sprite.set_pos_BANG_.call(null,inst_11590,inst_11588,inst_11589);
+var inst_11592 = cljs.core.next.call(null,inst_11574);
+var inst_11554 = inst_11592;
+var inst_11555 = null;
+var inst_11556 = (0);
+var inst_11557 = (0);
+var state_11699__$1 = (function (){var statearr_11732 = state_11699;
+(statearr_11732[(34)] = inst_11591);
 
-(statearr_11614[(27)] = inst_11436);
+(statearr_11732[(23)] = inst_11556);
 
-return statearr_11614;
+(statearr_11732[(24)] = inst_11557);
+
+(statearr_11732[(26)] = inst_11554);
+
+(statearr_11732[(27)] = inst_11555);
+
+return statearr_11732;
 })();
-var statearr_11615_12014 = state_11581__$1;
-(statearr_11615_12014[(2)] = null);
+var statearr_11733_12137 = state_11699__$1;
+(statearr_11733_12137[(2)] = null);
 
-(statearr_11615_12014[(1)] = (32));
+(statearr_11733_12137[(1)] = (32));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (43))){
-var inst_11505 = (state_11581[(35)]);
-var inst_11504 = (state_11581[(36)]);
-var inst_11507 = (inst_11505 < inst_11504);
-var inst_11508 = inst_11507;
-var state_11581__$1 = state_11581;
-if(cljs.core.truth_(inst_11508)){
-var statearr_11616_12015 = state_11581__$1;
-(statearr_11616_12015[(1)] = (45));
+if((state_val_11700 === (43))){
+var inst_11623 = (state_11699[(35)]);
+var inst_11622 = (state_11699[(36)]);
+var inst_11625 = (inst_11623 < inst_11622);
+var inst_11626 = inst_11625;
+var state_11699__$1 = state_11699;
+if(cljs.core.truth_(inst_11626)){
+var statearr_11734_12138 = state_11699__$1;
+(statearr_11734_12138[(1)] = (45));
 
 } else {
-var statearr_11617_12016 = state_11581__$1;
-(statearr_11617_12016[(1)] = (46));
+var statearr_11735_12139 = state_11699__$1;
+(statearr_11735_12139[(1)] = (46));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (29))){
-var inst_11420 = (state_11581[(28)]);
-var inst_11424 = cljs.core.chunk_first.call(null,inst_11420);
-var inst_11425 = cljs.core.chunk_rest.call(null,inst_11420);
-var inst_11426 = cljs.core.count.call(null,inst_11424);
-var inst_11353 = inst_11425;
-var inst_11354 = inst_11424;
-var inst_11355 = inst_11426;
-var inst_11356 = (0);
-var state_11581__$1 = (function (){var statearr_11618 = state_11581;
-(statearr_11618[(29)] = inst_11353);
+if((state_val_11700 === (29))){
+var inst_11538 = (state_11699[(28)]);
+var inst_11542 = cljs.core.chunk_first.call(null,inst_11538);
+var inst_11543 = cljs.core.chunk_rest.call(null,inst_11538);
+var inst_11544 = cljs.core.count.call(null,inst_11542);
+var inst_11471 = inst_11543;
+var inst_11472 = inst_11542;
+var inst_11473 = inst_11544;
+var inst_11474 = (0);
+var state_11699__$1 = (function (){var statearr_11736 = state_11699;
+(statearr_11736[(29)] = inst_11474);
 
-(statearr_11618[(30)] = inst_11355);
+(statearr_11736[(31)] = inst_11472);
 
-(statearr_11618[(32)] = inst_11354);
+(statearr_11736[(32)] = inst_11471);
 
-(statearr_11618[(33)] = inst_11356);
+(statearr_11736[(33)] = inst_11473);
 
-return statearr_11618;
+return statearr_11736;
 })();
-var statearr_11619_12017 = state_11581__$1;
-(statearr_11619_12017[(2)] = null);
+var statearr_11737_12140 = state_11699__$1;
+(statearr_11737_12140[(2)] = null);
 
-(statearr_11619_12017[(1)] = (10));
+(statearr_11737_12140[(1)] = (10));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (44))){
-var inst_11328 = (state_11581[(22)]);
-var inst_11327 = (state_11581[(9)]);
-var inst_11568 = (state_11581[(2)]);
-var inst_11569 = (inst_11327 + 0.03);
-var inst_11570 = (inst_11328 + (1));
-var inst_11327__$1 = inst_11569;
-var inst_11328__$1 = inst_11570;
-var state_11581__$1 = (function (){var statearr_11620 = state_11581;
-(statearr_11620[(22)] = inst_11328__$1);
+if((state_val_11700 === (44))){
+var inst_11445 = (state_11699[(8)]);
+var inst_11446 = (state_11699[(22)]);
+var inst_11686 = (state_11699[(2)]);
+var inst_11687 = (inst_11445 + farn.core.player_wins_rotate_speed);
+var inst_11688 = (inst_11446 + (1));
+var inst_11445__$1 = inst_11687;
+var inst_11446__$1 = inst_11688;
+var state_11699__$1 = (function (){var statearr_11738 = state_11699;
+(statearr_11738[(8)] = inst_11445__$1);
 
-(statearr_11620[(37)] = inst_11568);
+(statearr_11738[(22)] = inst_11446__$1);
 
-(statearr_11620[(9)] = inst_11327__$1);
+(statearr_11738[(37)] = inst_11686);
 
-return statearr_11620;
+return statearr_11738;
 })();
-var statearr_11621_12018 = state_11581__$1;
-(statearr_11621_12018[(2)] = null);
+var statearr_11739_12141 = state_11699__$1;
+(statearr_11739_12141[(2)] = null);
 
-(statearr_11621_12018[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (6))){
-var inst_11577 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11622_12019 = state_11581__$1;
-(statearr_11622_12019[(2)] = inst_11577);
-
-(statearr_11622_12019[(1)] = (3));
+(statearr_11739_12141[(1)] = (7));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (28))){
-var inst_11491 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11623_12020 = state_11581__$1;
-(statearr_11623_12020[(2)] = inst_11491);
+if((state_val_11700 === (6))){
+var inst_11695 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11740_12142 = state_11699__$1;
+(statearr_11740_12142[(2)] = inst_11695);
 
-(statearr_11623_12020[(1)] = (14));
+(statearr_11740_12142[(1)] = (3));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (51))){
-var inst_11531 = (state_11581[(21)]);
-var inst_11535 = cljs.core.chunk_first.call(null,inst_11531);
-var inst_11536 = cljs.core.chunk_rest.call(null,inst_11531);
-var inst_11537 = cljs.core.count.call(null,inst_11535);
-var inst_11502 = inst_11536;
-var inst_11503 = inst_11535;
-var inst_11504 = inst_11537;
-var inst_11505 = (0);
-var state_11581__$1 = (function (){var statearr_11627 = state_11581;
-(statearr_11627[(20)] = inst_11502);
+if((state_val_11700 === (28))){
+var inst_11609 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11741_12143 = state_11699__$1;
+(statearr_11741_12143[(2)] = inst_11609);
 
-(statearr_11627[(35)] = inst_11505);
+(statearr_11741_12143[(1)] = (14));
 
-(statearr_11627[(38)] = inst_11503);
 
-(statearr_11627[(36)] = inst_11504);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (51))){
+var inst_11649 = (state_11699[(21)]);
+var inst_11653 = cljs.core.chunk_first.call(null,inst_11649);
+var inst_11654 = cljs.core.chunk_rest.call(null,inst_11649);
+var inst_11655 = cljs.core.count.call(null,inst_11653);
+var inst_11620 = inst_11654;
+var inst_11621 = inst_11653;
+var inst_11622 = inst_11655;
+var inst_11623 = (0);
+var state_11699__$1 = (function (){var statearr_11745 = state_11699;
+(statearr_11745[(20)] = inst_11620);
 
-return statearr_11627;
+(statearr_11745[(35)] = inst_11623);
+
+(statearr_11745[(36)] = inst_11622);
+
+(statearr_11745[(38)] = inst_11621);
+
+return statearr_11745;
 })();
-var statearr_11628_12021 = state_11581__$1;
-(statearr_11628_12021[(2)] = null);
+var statearr_11746_12144 = state_11699__$1;
+(statearr_11746_12144[(2)] = null);
 
-(statearr_11628_12021[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (25))){
-var inst_11409 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11632_12022 = state_11581__$1;
-(statearr_11632_12022[(2)] = inst_11409);
-
-(statearr_11632_12022[(1)] = (22));
+(statearr_11746_12144[(1)] = (43));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (34))){
-var inst_11438 = (state_11581[(23)]);
-var inst_11338 = (state_11581[(7)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11439 = (state_11581[(24)]);
-var inst_11437 = (state_11581[(26)]);
-var inst_11436 = (state_11581[(27)]);
-var inst_11444 = cljs.core._nth.call(null,inst_11437,inst_11439);
-var inst_11446 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11444);
-var inst_11447 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11444);
-var inst_11448 = polar_object_coords.call(null,inst_11446,inst_11447,x,y,inst_11335,inst_11338);
-var inst_11449 = cljs.core.nth.call(null,inst_11448,(0),null);
-var inst_11450 = cljs.core.nth.call(null,inst_11448,(1),null);
-var inst_11451 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11444);
-var inst_11452 = farn.sprite.set_pos_BANG_.call(null,inst_11451,inst_11449,inst_11450);
-var inst_11453 = (inst_11439 + (1));
-var tmp11624 = inst_11438;
-var tmp11625 = inst_11437;
-var tmp11626 = inst_11436;
-var inst_11436__$1 = tmp11626;
-var inst_11437__$1 = tmp11625;
-var inst_11438__$1 = tmp11624;
-var inst_11439__$1 = inst_11453;
-var state_11581__$1 = (function (){var statearr_11633 = state_11581;
-(statearr_11633[(23)] = inst_11438__$1);
+if((state_val_11700 === (25))){
+var inst_11527 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11750_12145 = state_11699__$1;
+(statearr_11750_12145[(2)] = inst_11527);
 
-(statearr_11633[(39)] = inst_11452);
+(statearr_11750_12145[(1)] = (22));
 
-(statearr_11633[(24)] = inst_11439__$1);
 
-(statearr_11633[(26)] = inst_11437__$1);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (34))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11556 = (state_11699[(23)]);
+var inst_11557 = (state_11699[(24)]);
+var inst_11554 = (state_11699[(26)]);
+var inst_11555 = (state_11699[(27)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11562 = cljs.core._nth.call(null,inst_11555,inst_11557);
+var inst_11564 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11562);
+var inst_11565 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11562);
+var inst_11566 = polar_object_coords.call(null,inst_11564,inst_11565,x,y,inst_11453,inst_11456);
+var inst_11567 = cljs.core.nth.call(null,inst_11566,(0),null);
+var inst_11568 = cljs.core.nth.call(null,inst_11566,(1),null);
+var inst_11569 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11562);
+var inst_11570 = farn.sprite.set_pos_BANG_.call(null,inst_11569,inst_11567,inst_11568);
+var inst_11571 = (inst_11557 + (1));
+var tmp11742 = inst_11556;
+var tmp11743 = inst_11554;
+var tmp11744 = inst_11555;
+var inst_11554__$1 = tmp11743;
+var inst_11555__$1 = tmp11744;
+var inst_11556__$1 = tmp11742;
+var inst_11557__$1 = inst_11571;
+var state_11699__$1 = (function (){var statearr_11751 = state_11699;
+(statearr_11751[(23)] = inst_11556__$1);
 
-(statearr_11633[(27)] = inst_11436__$1);
+(statearr_11751[(24)] = inst_11557__$1);
 
-return statearr_11633;
+(statearr_11751[(26)] = inst_11554__$1);
+
+(statearr_11751[(27)] = inst_11555__$1);
+
+(statearr_11751[(39)] = inst_11570);
+
+return statearr_11751;
 })();
-var statearr_11634_12023 = state_11581__$1;
-(statearr_11634_12023[(2)] = null);
+var statearr_11752_12146 = state_11699__$1;
+(statearr_11752_12146[(2)] = null);
 
-(statearr_11634_12023[(1)] = (32));
+(statearr_11752_12146[(1)] = (32));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (17))){
-var inst_11368 = (state_11581[(15)]);
-var inst_11338 = (state_11581[(7)]);
-var inst_11370 = (state_11581[(16)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11369 = (state_11581[(17)]);
-var inst_11371 = (state_11581[(18)]);
-var inst_11376 = cljs.core._nth.call(null,inst_11369,inst_11371);
-var inst_11378 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11376);
-var inst_11379 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11376);
-var inst_11380 = polar_object_coords.call(null,inst_11378,inst_11379,x,y,inst_11335,inst_11338);
-var inst_11381 = cljs.core.nth.call(null,inst_11380,(0),null);
-var inst_11382 = cljs.core.nth.call(null,inst_11380,(1),null);
-var inst_11383 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11376);
-var inst_11384 = farn.sprite.set_pos_BANG_.call(null,inst_11383,inst_11381,inst_11382);
-var inst_11385 = (inst_11371 + (1));
-var tmp11629 = inst_11368;
-var tmp11630 = inst_11370;
-var tmp11631 = inst_11369;
-var inst_11368__$1 = tmp11629;
-var inst_11369__$1 = tmp11631;
-var inst_11370__$1 = tmp11630;
-var inst_11371__$1 = inst_11385;
-var state_11581__$1 = (function (){var statearr_11635 = state_11581;
-(statearr_11635[(15)] = inst_11368__$1);
+if((state_val_11700 === (17))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11488 = (state_11699[(15)]);
+var inst_11486 = (state_11699[(17)]);
+var inst_11487 = (state_11699[(18)]);
+var inst_11489 = (state_11699[(19)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11494 = cljs.core._nth.call(null,inst_11487,inst_11489);
+var inst_11496 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11494);
+var inst_11497 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11494);
+var inst_11498 = polar_object_coords.call(null,inst_11496,inst_11497,x,y,inst_11453,inst_11456);
+var inst_11499 = cljs.core.nth.call(null,inst_11498,(0),null);
+var inst_11500 = cljs.core.nth.call(null,inst_11498,(1),null);
+var inst_11501 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11494);
+var inst_11502 = farn.sprite.set_pos_BANG_.call(null,inst_11501,inst_11499,inst_11500);
+var inst_11503 = (inst_11489 + (1));
+var tmp11747 = inst_11488;
+var tmp11748 = inst_11486;
+var tmp11749 = inst_11487;
+var inst_11486__$1 = tmp11748;
+var inst_11487__$1 = tmp11749;
+var inst_11488__$1 = tmp11747;
+var inst_11489__$1 = inst_11503;
+var state_11699__$1 = (function (){var statearr_11753 = state_11699;
+(statearr_11753[(40)] = inst_11502);
 
-(statearr_11635[(16)] = inst_11370__$1);
+(statearr_11753[(15)] = inst_11488__$1);
 
-(statearr_11635[(17)] = inst_11369__$1);
+(statearr_11753[(17)] = inst_11486__$1);
 
-(statearr_11635[(40)] = inst_11384);
+(statearr_11753[(18)] = inst_11487__$1);
 
-(statearr_11635[(18)] = inst_11371__$1);
+(statearr_11753[(19)] = inst_11489__$1);
 
-return statearr_11635;
+return statearr_11753;
 })();
-var statearr_11636_12024 = state_11581__$1;
-(statearr_11636_12024[(2)] = null);
+var statearr_11754_12147 = state_11699__$1;
+(statearr_11754_12147[(2)] = null);
 
-(statearr_11636_12024[(1)] = (15));
+(statearr_11754_12147[(1)] = (15));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (3))){
-var inst_11579 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_11581__$1,inst_11579);
+if((state_val_11700 === (3))){
+var inst_11697 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_11699__$1,inst_11697);
 } else {
-if((state_val_11582 === (12))){
-var inst_11354 = (state_11581[(32)]);
-var inst_11356 = (state_11581[(33)]);
-var inst_11361 = cljs.core._nth.call(null,inst_11354,inst_11356);
-var inst_11366 = game_space.call(null,inst_11361);
-var inst_11367 = cljs.core.seq.call(null,inst_11366);
-var inst_11368 = inst_11367;
-var inst_11369 = null;
-var inst_11370 = (0);
-var inst_11371 = (0);
-var state_11581__$1 = (function (){var statearr_11637 = state_11581;
-(statearr_11637[(15)] = inst_11368);
+if((state_val_11700 === (12))){
+var inst_11474 = (state_11699[(29)]);
+var inst_11472 = (state_11699[(31)]);
+var inst_11479 = cljs.core._nth.call(null,inst_11472,inst_11474);
+var inst_11484 = game_space.call(null,inst_11479);
+var inst_11485 = cljs.core.seq.call(null,inst_11484);
+var inst_11486 = inst_11485;
+var inst_11487 = null;
+var inst_11488 = (0);
+var inst_11489 = (0);
+var state_11699__$1 = (function (){var statearr_11755 = state_11699;
+(statearr_11755[(15)] = inst_11488);
 
-(statearr_11637[(16)] = inst_11370);
+(statearr_11755[(17)] = inst_11486);
 
-(statearr_11637[(17)] = inst_11369);
+(statearr_11755[(18)] = inst_11487);
 
-(statearr_11637[(18)] = inst_11371);
+(statearr_11755[(19)] = inst_11489);
 
-return statearr_11637;
+return statearr_11755;
 })();
-var statearr_11638_12025 = state_11581__$1;
-(statearr_11638_12025[(2)] = null);
+var statearr_11756_12148 = state_11699__$1;
+(statearr_11756_12148[(2)] = null);
 
-(statearr_11638_12025[(1)] = (15));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (2))){
-var state_11581__$1 = state_11581;
-var statearr_11639_12026 = state_11581__$1;
-(statearr_11639_12026[(1)] = (4));
-
+(statearr_11756_12148[(1)] = (15));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (23))){
-var inst_11388 = (state_11581[(14)]);
-var inst_11392 = cljs.core.chunk_first.call(null,inst_11388);
-var inst_11393 = cljs.core.chunk_rest.call(null,inst_11388);
-var inst_11394 = cljs.core.count.call(null,inst_11392);
-var inst_11368 = inst_11393;
-var inst_11369 = inst_11392;
-var inst_11370 = inst_11394;
-var inst_11371 = (0);
-var state_11581__$1 = (function (){var statearr_11641 = state_11581;
-(statearr_11641[(15)] = inst_11368);
+if((state_val_11700 === (2))){
+var state_11699__$1 = state_11699;
+var statearr_11757_12149 = state_11699__$1;
+(statearr_11757_12149[(1)] = (4));
 
-(statearr_11641[(16)] = inst_11370);
 
-(statearr_11641[(17)] = inst_11369);
 
-(statearr_11641[(18)] = inst_11371);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (23))){
+var inst_11506 = (state_11699[(14)]);
+var inst_11510 = cljs.core.chunk_first.call(null,inst_11506);
+var inst_11511 = cljs.core.chunk_rest.call(null,inst_11506);
+var inst_11512 = cljs.core.count.call(null,inst_11510);
+var inst_11486 = inst_11511;
+var inst_11487 = inst_11510;
+var inst_11488 = inst_11512;
+var inst_11489 = (0);
+var state_11699__$1 = (function (){var statearr_11759 = state_11699;
+(statearr_11759[(15)] = inst_11488);
 
-return statearr_11641;
+(statearr_11759[(17)] = inst_11486);
+
+(statearr_11759[(18)] = inst_11487);
+
+(statearr_11759[(19)] = inst_11489);
+
+return statearr_11759;
 })();
-var statearr_11642_12027 = state_11581__$1;
-(statearr_11642_12027[(2)] = null);
+var statearr_11760_12150 = state_11699__$1;
+(statearr_11760_12150[(2)] = null);
 
-(statearr_11642_12027[(1)] = (15));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (47))){
-var inst_11566 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11643_12028 = state_11581__$1;
-(statearr_11643_12028[(2)] = inst_11566);
-
-(statearr_11643_12028[(1)] = (44));
+(statearr_11760_12150[(1)] = (15));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (35))){
-var inst_11456 = (state_11581[(25)]);
-var inst_11436 = (state_11581[(27)]);
-var inst_11456__$1 = cljs.core.seq.call(null,inst_11436);
-var state_11581__$1 = (function (){var statearr_11644 = state_11581;
-(statearr_11644[(25)] = inst_11456__$1);
+if((state_val_11700 === (47))){
+var inst_11684 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11761_12151 = state_11699__$1;
+(statearr_11761_12151[(2)] = inst_11684);
 
-return statearr_11644;
+(statearr_11761_12151[(1)] = (44));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (35))){
+var inst_11554 = (state_11699[(26)]);
+var inst_11574 = (state_11699[(25)]);
+var inst_11574__$1 = cljs.core.seq.call(null,inst_11554);
+var state_11699__$1 = (function (){var statearr_11762 = state_11699;
+(statearr_11762[(25)] = inst_11574__$1);
+
+return statearr_11762;
 })();
-if(inst_11456__$1){
-var statearr_11645_12029 = state_11581__$1;
-(statearr_11645_12029[(1)] = (37));
+if(inst_11574__$1){
+var statearr_11763_12152 = state_11699__$1;
+(statearr_11763_12152[(1)] = (37));
 
 } else {
-var statearr_11646_12030 = state_11581__$1;
-(statearr_11646_12030[(1)] = (38));
+var statearr_11764_12153 = state_11699__$1;
+(statearr_11764_12153[(1)] = (38));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (19))){
-var inst_11414 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11647_12031 = state_11581__$1;
-(statearr_11647_12031[(2)] = inst_11414);
+if((state_val_11700 === (19))){
+var inst_11532 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11765_12154 = state_11699__$1;
+(statearr_11765_12154[(2)] = inst_11532);
 
-(statearr_11647_12031[(1)] = (16));
+(statearr_11765_12154[(1)] = (16));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (11))){
-var inst_11495 = (state_11581[(2)]);
-var inst_11500 = cljs.core.deref.call(null,farn.core.pickup_store);
-var inst_11501 = cljs.core.seq.call(null,inst_11500);
-var inst_11502 = inst_11501;
-var inst_11503 = null;
-var inst_11504 = (0);
-var inst_11505 = (0);
-var state_11581__$1 = (function (){var statearr_11648 = state_11581;
-(statearr_11648[(20)] = inst_11502);
+if((state_val_11700 === (11))){
+var inst_11613 = (state_11699[(2)]);
+var inst_11618 = cljs.core.deref.call(null,farn.core.pickup_store);
+var inst_11619 = cljs.core.seq.call(null,inst_11618);
+var inst_11620 = inst_11619;
+var inst_11621 = null;
+var inst_11622 = (0);
+var inst_11623 = (0);
+var state_11699__$1 = (function (){var statearr_11766 = state_11699;
+(statearr_11766[(20)] = inst_11620);
 
-(statearr_11648[(35)] = inst_11505);
+(statearr_11766[(41)] = inst_11613);
 
-(statearr_11648[(41)] = inst_11495);
+(statearr_11766[(35)] = inst_11623);
 
-(statearr_11648[(38)] = inst_11503);
+(statearr_11766[(36)] = inst_11622);
 
-(statearr_11648[(36)] = inst_11504);
+(statearr_11766[(38)] = inst_11621);
 
-return statearr_11648;
+return statearr_11766;
 })();
-var statearr_11649_12032 = state_11581__$1;
-(statearr_11649_12032[(2)] = null);
+var statearr_11767_12155 = state_11699__$1;
+(statearr_11767_12155[(2)] = null);
 
-(statearr_11649_12032[(1)] = (43));
+(statearr_11767_12155[(1)] = (43));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (9))){
-var inst_11347 = (state_11581[(2)]);
-var inst_11352 = cljs.core.seq.call(null,cells);
-var inst_11353 = inst_11352;
-var inst_11354 = null;
-var inst_11355 = (0);
-var inst_11356 = (0);
-var state_11581__$1 = (function (){var statearr_11650 = state_11581;
-(statearr_11650[(29)] = inst_11353);
+if((state_val_11700 === (9))){
+var inst_11465 = (state_11699[(2)]);
+var inst_11470 = cljs.core.seq.call(null,cells);
+var inst_11471 = inst_11470;
+var inst_11472 = null;
+var inst_11473 = (0);
+var inst_11474 = (0);
+var state_11699__$1 = (function (){var statearr_11768 = state_11699;
+(statearr_11768[(29)] = inst_11474);
 
-(statearr_11650[(30)] = inst_11355);
+(statearr_11768[(31)] = inst_11472);
 
-(statearr_11650[(32)] = inst_11354);
+(statearr_11768[(32)] = inst_11471);
 
-(statearr_11650[(33)] = inst_11356);
+(statearr_11768[(42)] = inst_11465);
 
-(statearr_11650[(42)] = inst_11347);
+(statearr_11768[(33)] = inst_11473);
 
-return statearr_11650;
+return statearr_11768;
 })();
-var statearr_11651_12033 = state_11581__$1;
-(statearr_11651_12033[(2)] = null);
+var statearr_11769_12156 = state_11699__$1;
+(statearr_11769_12156[(2)] = null);
 
-(statearr_11651_12033[(1)] = (10));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (5))){
-var state_11581__$1 = state_11581;
-var statearr_11655_12034 = state_11581__$1;
-(statearr_11655_12034[(2)] = null);
-
-(statearr_11655_12034[(1)] = (6));
+(statearr_11769_12156[(1)] = (10));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (14))){
-var inst_11493 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11656_12035 = state_11581__$1;
-(statearr_11656_12035[(2)] = inst_11493);
+if((state_val_11700 === (5))){
+var state_11699__$1 = state_11699;
+var statearr_11773_12157 = state_11699__$1;
+(statearr_11773_12157[(2)] = null);
 
-(statearr_11656_12035[(1)] = (11));
+(statearr_11773_12157[(1)] = (6));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (45))){
-var inst_11328 = (state_11581[(22)]);
-var inst_11502 = (state_11581[(20)]);
-var inst_11338 = (state_11581[(7)]);
-var inst_11505 = (state_11581[(35)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11503 = (state_11581[(38)]);
-var inst_11504 = (state_11581[(36)]);
-var inst_11510 = cljs.core._nth.call(null,inst_11503,inst_11505);
-var inst_11512 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11510);
-var inst_11513 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11510);
-var inst_11514 = polar_object_coords.call(null,inst_11512,inst_11513,x,y,inst_11335,inst_11338);
-var inst_11515 = cljs.core.nth.call(null,inst_11514,(0),null);
-var inst_11516 = cljs.core.nth.call(null,inst_11514,(1),null);
-var inst_11517 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11510);
-var inst_11518 = farn.sprite.set_pos_BANG_.call(null,inst_11517,inst_11515,inst_11516);
-var inst_11519 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_11510);
-var inst_11520 = farn.sprite.set_pos_BANG_.call(null,inst_11519,inst_11515,inst_11516);
-var inst_11521 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11510);
-var inst_11522 = (inst_11328 * farn.core.pickup_bounce_speed);
-var inst_11523 = Math.sin.call(null,inst_11522);
-var inst_11524 = ((1) + inst_11523);
-var inst_11525 = (farn.core.pickup_bounce_height * inst_11524);
-var inst_11526 = (farn.core.pickup_vertical_offset + inst_11525);
-var inst_11527 = farn.sprite.set_pivot_BANG_.call(null,inst_11521,(0),inst_11526);
-var inst_11528 = (inst_11505 + (1));
-var tmp11652 = inst_11502;
-var tmp11653 = inst_11503;
-var tmp11654 = inst_11504;
-var inst_11502__$1 = tmp11652;
-var inst_11503__$1 = tmp11653;
-var inst_11504__$1 = tmp11654;
-var inst_11505__$1 = inst_11528;
-var state_11581__$1 = (function (){var statearr_11657 = state_11581;
-(statearr_11657[(20)] = inst_11502__$1);
+if((state_val_11700 === (14))){
+var inst_11611 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11774_12158 = state_11699__$1;
+(statearr_11774_12158[(2)] = inst_11611);
 
-(statearr_11657[(43)] = inst_11527);
+(statearr_11774_12158[(1)] = (11));
 
-(statearr_11657[(35)] = inst_11505__$1);
 
-(statearr_11657[(44)] = inst_11518);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (45))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11620 = (state_11699[(20)]);
+var inst_11623 = (state_11699[(35)]);
+var inst_11446 = (state_11699[(22)]);
+var inst_11622 = (state_11699[(36)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11621 = (state_11699[(38)]);
+var inst_11628 = cljs.core._nth.call(null,inst_11621,inst_11623);
+var inst_11630 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11628);
+var inst_11631 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11628);
+var inst_11632 = polar_object_coords.call(null,inst_11630,inst_11631,x,y,inst_11453,inst_11456);
+var inst_11633 = cljs.core.nth.call(null,inst_11632,(0),null);
+var inst_11634 = cljs.core.nth.call(null,inst_11632,(1),null);
+var inst_11635 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11628);
+var inst_11636 = farn.sprite.set_pos_BANG_.call(null,inst_11635,inst_11633,inst_11634);
+var inst_11637 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_11628);
+var inst_11638 = farn.sprite.set_pos_BANG_.call(null,inst_11637,inst_11633,inst_11634);
+var inst_11639 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11628);
+var inst_11640 = (inst_11446 * farn.core.pickup_bounce_speed);
+var inst_11641 = Math.sin.call(null,inst_11640);
+var inst_11642 = ((1) + inst_11641);
+var inst_11643 = (farn.core.pickup_bounce_height * inst_11642);
+var inst_11644 = (farn.core.pickup_vertical_offset + inst_11643);
+var inst_11645 = farn.sprite.set_pivot_BANG_.call(null,inst_11639,(0),inst_11644);
+var inst_11646 = (inst_11623 + (1));
+var tmp11770 = inst_11620;
+var tmp11771 = inst_11622;
+var tmp11772 = inst_11621;
+var inst_11620__$1 = tmp11770;
+var inst_11621__$1 = tmp11772;
+var inst_11622__$1 = tmp11771;
+var inst_11623__$1 = inst_11646;
+var state_11699__$1 = (function (){var statearr_11775 = state_11699;
+(statearr_11775[(20)] = inst_11620__$1);
 
-(statearr_11657[(45)] = inst_11520);
+(statearr_11775[(43)] = inst_11645);
 
-(statearr_11657[(38)] = inst_11503__$1);
+(statearr_11775[(35)] = inst_11623__$1);
 
-(statearr_11657[(36)] = inst_11504__$1);
+(statearr_11775[(36)] = inst_11622__$1);
 
-return statearr_11657;
+(statearr_11775[(44)] = inst_11638);
+
+(statearr_11775[(38)] = inst_11621__$1);
+
+(statearr_11775[(45)] = inst_11636);
+
+return statearr_11775;
 })();
-var statearr_11658_12036 = state_11581__$1;
-(statearr_11658_12036[(2)] = null);
+var statearr_11776_12159 = state_11699__$1;
+(statearr_11776_12159[(2)] = null);
 
-(statearr_11658_12036[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (53))){
-var inst_11561 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11662_12037 = state_11581__$1;
-(statearr_11662_12037[(2)] = inst_11561);
-
-(statearr_11662_12037[(1)] = (50));
+(statearr_11776_12159[(1)] = (43));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (26))){
-var inst_11420 = (state_11581[(28)]);
-var inst_11422 = cljs.core.chunked_seq_QMARK_.call(null,inst_11420);
-var state_11581__$1 = state_11581;
-if(inst_11422){
-var statearr_11663_12038 = state_11581__$1;
-(statearr_11663_12038[(1)] = (29));
+if((state_val_11700 === (53))){
+var inst_11679 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11780_12160 = state_11699__$1;
+(statearr_11780_12160[(2)] = inst_11679);
+
+(statearr_11780_12160[(1)] = (50));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (26))){
+var inst_11538 = (state_11699[(28)]);
+var inst_11540 = cljs.core.chunked_seq_QMARK_.call(null,inst_11538);
+var state_11699__$1 = state_11699;
+if(inst_11540){
+var statearr_11781_12161 = state_11699__$1;
+(statearr_11781_12161[(1)] = (29));
 
 } else {
-var statearr_11664_12039 = state_11581__$1;
-(statearr_11664_12039[(1)] = (30));
+var statearr_11782_12162 = state_11699__$1;
+(statearr_11782_12162[(1)] = (30));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (16))){
-var inst_11353 = (state_11581[(29)]);
-var inst_11355 = (state_11581[(30)]);
-var inst_11354 = (state_11581[(32)]);
-var inst_11356 = (state_11581[(33)]);
-var inst_11416 = (state_11581[(2)]);
-var inst_11417 = (inst_11356 + (1));
-var tmp11659 = inst_11353;
-var tmp11660 = inst_11355;
-var tmp11661 = inst_11354;
-var inst_11353__$1 = tmp11659;
-var inst_11354__$1 = tmp11661;
-var inst_11355__$1 = tmp11660;
-var inst_11356__$1 = inst_11417;
-var state_11581__$1 = (function (){var statearr_11665 = state_11581;
-(statearr_11665[(29)] = inst_11353__$1);
+if((state_val_11700 === (16))){
+var inst_11474 = (state_11699[(29)]);
+var inst_11472 = (state_11699[(31)]);
+var inst_11471 = (state_11699[(32)]);
+var inst_11473 = (state_11699[(33)]);
+var inst_11534 = (state_11699[(2)]);
+var inst_11535 = (inst_11474 + (1));
+var tmp11777 = inst_11472;
+var tmp11778 = inst_11471;
+var tmp11779 = inst_11473;
+var inst_11471__$1 = tmp11778;
+var inst_11472__$1 = tmp11777;
+var inst_11473__$1 = tmp11779;
+var inst_11474__$1 = inst_11535;
+var state_11699__$1 = (function (){var statearr_11783 = state_11699;
+(statearr_11783[(29)] = inst_11474__$1);
 
-(statearr_11665[(30)] = inst_11355__$1);
+(statearr_11783[(31)] = inst_11472__$1);
 
-(statearr_11665[(32)] = inst_11354__$1);
+(statearr_11783[(32)] = inst_11471__$1);
 
-(statearr_11665[(33)] = inst_11356__$1);
+(statearr_11783[(46)] = inst_11534);
 
-(statearr_11665[(46)] = inst_11416);
+(statearr_11783[(33)] = inst_11473__$1);
 
-return statearr_11665;
+return statearr_11783;
 })();
-var statearr_11666_12040 = state_11581__$1;
-(statearr_11666_12040[(2)] = null);
+var statearr_11784_12163 = state_11699__$1;
+(statearr_11784_12163[(2)] = null);
 
-(statearr_11666_12040[(1)] = (10));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (38))){
-var state_11581__$1 = state_11581;
-var statearr_11667_12041 = state_11581__$1;
-(statearr_11667_12041[(2)] = null);
-
-(statearr_11667_12041[(1)] = (39));
+(statearr_11784_12163[(1)] = (10));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (30))){
-var inst_11420 = (state_11581[(28)]);
-var inst_11429 = cljs.core.first.call(null,inst_11420);
-var inst_11434 = game_space.call(null,inst_11429);
-var inst_11435 = cljs.core.seq.call(null,inst_11434);
-var inst_11436 = inst_11435;
-var inst_11437 = null;
-var inst_11438 = (0);
-var inst_11439 = (0);
-var state_11581__$1 = (function (){var statearr_11668 = state_11581;
-(statearr_11668[(23)] = inst_11438);
+if((state_val_11700 === (38))){
+var state_11699__$1 = state_11699;
+var statearr_11785_12164 = state_11699__$1;
+(statearr_11785_12164[(2)] = null);
 
-(statearr_11668[(24)] = inst_11439);
+(statearr_11785_12164[(1)] = (39));
 
-(statearr_11668[(26)] = inst_11437);
 
-(statearr_11668[(27)] = inst_11436);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (30))){
+var inst_11538 = (state_11699[(28)]);
+var inst_11547 = cljs.core.first.call(null,inst_11538);
+var inst_11552 = game_space.call(null,inst_11547);
+var inst_11553 = cljs.core.seq.call(null,inst_11552);
+var inst_11554 = inst_11553;
+var inst_11555 = null;
+var inst_11556 = (0);
+var inst_11557 = (0);
+var state_11699__$1 = (function (){var statearr_11786 = state_11699;
+(statearr_11786[(23)] = inst_11556);
 
-return statearr_11668;
+(statearr_11786[(24)] = inst_11557);
+
+(statearr_11786[(26)] = inst_11554);
+
+(statearr_11786[(27)] = inst_11555);
+
+return statearr_11786;
 })();
-var statearr_11669_12042 = state_11581__$1;
-(statearr_11669_12042[(2)] = null);
+var statearr_11787_12165 = state_11699__$1;
+(statearr_11787_12165[(2)] = null);
 
-(statearr_11669_12042[(1)] = (32));
+(statearr_11787_12165[(1)] = (32));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (10))){
-var inst_11355 = (state_11581[(30)]);
-var inst_11356 = (state_11581[(33)]);
-var inst_11358 = (inst_11356 < inst_11355);
-var inst_11359 = inst_11358;
-var state_11581__$1 = state_11581;
-if(cljs.core.truth_(inst_11359)){
-var statearr_11670_12043 = state_11581__$1;
-(statearr_11670_12043[(1)] = (12));
+if((state_val_11700 === (10))){
+var inst_11474 = (state_11699[(29)]);
+var inst_11473 = (state_11699[(33)]);
+var inst_11476 = (inst_11474 < inst_11473);
+var inst_11477 = inst_11476;
+var state_11699__$1 = state_11699;
+if(cljs.core.truth_(inst_11477)){
+var statearr_11788_12166 = state_11699__$1;
+(statearr_11788_12166[(1)] = (12));
 
 } else {
-var statearr_11671_12044 = state_11581__$1;
-(statearr_11671_12044[(1)] = (13));
+var statearr_11789_12167 = state_11699__$1;
+(statearr_11789_12167[(1)] = (13));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (18))){
-var inst_11368 = (state_11581[(15)]);
-var inst_11388 = (state_11581[(14)]);
-var inst_11388__$1 = cljs.core.seq.call(null,inst_11368);
-var state_11581__$1 = (function (){var statearr_11672 = state_11581;
-(statearr_11672[(14)] = inst_11388__$1);
+if((state_val_11700 === (18))){
+var inst_11486 = (state_11699[(17)]);
+var inst_11506 = (state_11699[(14)]);
+var inst_11506__$1 = cljs.core.seq.call(null,inst_11486);
+var state_11699__$1 = (function (){var statearr_11790 = state_11699;
+(statearr_11790[(14)] = inst_11506__$1);
 
-return statearr_11672;
+return statearr_11790;
 })();
-if(inst_11388__$1){
-var statearr_11673_12045 = state_11581__$1;
-(statearr_11673_12045[(1)] = (20));
+if(inst_11506__$1){
+var statearr_11791_12168 = state_11699__$1;
+(statearr_11791_12168[(1)] = (20));
 
 } else {
-var statearr_11674_12046 = state_11581__$1;
-(statearr_11674_12046[(1)] = (21));
+var statearr_11792_12169 = state_11699__$1;
+(statearr_11792_12169[(1)] = (21));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (52))){
-var inst_11328 = (state_11581[(22)]);
-var inst_11338 = (state_11581[(7)]);
-var inst_11531 = (state_11581[(21)]);
-var inst_11335 = (state_11581[(8)]);
-var inst_11540 = cljs.core.first.call(null,inst_11531);
-var inst_11542 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11540);
-var inst_11543 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11540);
-var inst_11544 = polar_object_coords.call(null,inst_11542,inst_11543,x,y,inst_11335,inst_11338);
-var inst_11545 = cljs.core.nth.call(null,inst_11544,(0),null);
-var inst_11546 = cljs.core.nth.call(null,inst_11544,(1),null);
-var inst_11547 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11540);
-var inst_11548 = farn.sprite.set_pos_BANG_.call(null,inst_11547,inst_11545,inst_11546);
-var inst_11549 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_11540);
-var inst_11550 = farn.sprite.set_pos_BANG_.call(null,inst_11549,inst_11545,inst_11546);
-var inst_11551 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11540);
-var inst_11552 = (inst_11328 * farn.core.pickup_bounce_speed);
-var inst_11553 = Math.sin.call(null,inst_11552);
-var inst_11554 = ((1) + inst_11553);
-var inst_11555 = (farn.core.pickup_bounce_height * inst_11554);
-var inst_11556 = (farn.core.pickup_vertical_offset + inst_11555);
-var inst_11557 = farn.sprite.set_pivot_BANG_.call(null,inst_11551,(0),inst_11556);
-var inst_11558 = cljs.core.next.call(null,inst_11531);
-var inst_11502 = inst_11558;
-var inst_11503 = null;
-var inst_11504 = (0);
-var inst_11505 = (0);
-var state_11581__$1 = (function (){var statearr_11675 = state_11581;
-(statearr_11675[(20)] = inst_11502);
+if((state_val_11700 === (52))){
+var inst_11453 = (state_11699[(7)]);
+var inst_11446 = (state_11699[(22)]);
+var inst_11649 = (state_11699[(21)]);
+var inst_11456 = (state_11699[(9)]);
+var inst_11658 = cljs.core.first.call(null,inst_11649);
+var inst_11660 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_11658);
+var inst_11661 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11658);
+var inst_11662 = polar_object_coords.call(null,inst_11660,inst_11661,x,y,inst_11453,inst_11456);
+var inst_11663 = cljs.core.nth.call(null,inst_11662,(0),null);
+var inst_11664 = cljs.core.nth.call(null,inst_11662,(1),null);
+var inst_11665 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11658);
+var inst_11666 = farn.sprite.set_pos_BANG_.call(null,inst_11665,inst_11663,inst_11664);
+var inst_11667 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_11658);
+var inst_11668 = farn.sprite.set_pos_BANG_.call(null,inst_11667,inst_11663,inst_11664);
+var inst_11669 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_11658);
+var inst_11670 = (inst_11446 * farn.core.pickup_bounce_speed);
+var inst_11671 = Math.sin.call(null,inst_11670);
+var inst_11672 = ((1) + inst_11671);
+var inst_11673 = (farn.core.pickup_bounce_height * inst_11672);
+var inst_11674 = (farn.core.pickup_vertical_offset + inst_11673);
+var inst_11675 = farn.sprite.set_pivot_BANG_.call(null,inst_11669,(0),inst_11674);
+var inst_11676 = cljs.core.next.call(null,inst_11649);
+var inst_11620 = inst_11676;
+var inst_11621 = null;
+var inst_11622 = (0);
+var inst_11623 = (0);
+var state_11699__$1 = (function (){var statearr_11793 = state_11699;
+(statearr_11793[(47)] = inst_11668);
 
-(statearr_11675[(47)] = inst_11557);
+(statearr_11793[(20)] = inst_11620);
 
-(statearr_11675[(35)] = inst_11505);
+(statearr_11793[(35)] = inst_11623);
 
-(statearr_11675[(48)] = inst_11548);
+(statearr_11793[(48)] = inst_11675);
 
-(statearr_11675[(49)] = inst_11550);
+(statearr_11793[(36)] = inst_11622);
 
-(statearr_11675[(38)] = inst_11503);
+(statearr_11793[(38)] = inst_11621);
 
-(statearr_11675[(36)] = inst_11504);
+(statearr_11793[(49)] = inst_11666);
 
-return statearr_11675;
+return statearr_11793;
 })();
-var statearr_11676_12047 = state_11581__$1;
-(statearr_11676_12047[(2)] = null);
+var statearr_11794_12170 = state_11699__$1;
+(statearr_11794_12170[(2)] = null);
 
-(statearr_11676_12047[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11582 === (42))){
-var inst_11477 = (state_11581[(2)]);
-var state_11581__$1 = state_11581;
-var statearr_11677_12048 = state_11581__$1;
-(statearr_11677_12048[(2)] = inst_11477);
-
-(statearr_11677_12048[(1)] = (39));
+(statearr_11794_12170[(1)] = (43));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (37))){
-var inst_11456 = (state_11581[(25)]);
-var inst_11458 = cljs.core.chunked_seq_QMARK_.call(null,inst_11456);
-var state_11581__$1 = state_11581;
-if(inst_11458){
-var statearr_11678_12049 = state_11581__$1;
-(statearr_11678_12049[(1)] = (40));
+if((state_val_11700 === (42))){
+var inst_11595 = (state_11699[(2)]);
+var state_11699__$1 = state_11699;
+var statearr_11795_12171 = state_11699__$1;
+(statearr_11795_12171[(2)] = inst_11595);
+
+(statearr_11795_12171[(1)] = (39));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11700 === (37))){
+var inst_11574 = (state_11699[(25)]);
+var inst_11576 = cljs.core.chunked_seq_QMARK_.call(null,inst_11574);
+var state_11699__$1 = state_11699;
+if(inst_11576){
+var statearr_11796_12172 = state_11699__$1;
+(statearr_11796_12172[(1)] = (40));
 
 } else {
-var statearr_11679_12050 = state_11581__$1;
-(statearr_11679_12050[(1)] = (41));
+var statearr_11797_12173 = state_11699__$1;
+(statearr_11797_12173[(1)] = (41));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (8))){
-var inst_11573 = (state_11581[(2)]);
-var state_11581__$1 = (function (){var statearr_11680 = state_11581;
-(statearr_11680[(50)] = inst_11573);
+if((state_val_11700 === (8))){
+var inst_11691 = (state_11699[(2)]);
+var state_11699__$1 = (function (){var statearr_11798 = state_11699;
+(statearr_11798[(50)] = inst_11691);
 
-return statearr_11680;
+return statearr_11798;
 })();
-var statearr_11681_12051 = state_11581__$1;
-(statearr_11681_12051[(2)] = null);
+var statearr_11799_12174 = state_11699__$1;
+(statearr_11799_12174[(2)] = null);
 
-(statearr_11681_12051[(1)] = (2));
+(statearr_11799_12174[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11582 === (49))){
-var state_11581__$1 = state_11581;
-var statearr_11682_12052 = state_11581__$1;
-(statearr_11682_12052[(2)] = null);
+if((state_val_11700 === (49))){
+var state_11699__$1 = state_11699;
+var statearr_11800_12175 = state_11699__$1;
+(statearr_11800_12175[(2)] = null);
 
-(statearr_11682_12052[(1)] = (50));
+(statearr_11800_12175[(1)] = (50));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
@@ -1202,23 +1338,23 @@ return null;
 }
 }
 }
-});})(c__6459__auto___11989))
+});})(c__6459__auto___12112))
 ;
-return ((function (switch__6444__auto__,c__6459__auto___11989){
+return ((function (switch__6444__auto__,c__6459__auto___12112){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_11686 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_11686[(0)] = state_machine__6445__auto__);
+var statearr_11804 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_11804[(0)] = state_machine__6445__auto__);
 
-(statearr_11686[(1)] = (1));
+(statearr_11804[(1)] = (1));
 
-return statearr_11686;
+return statearr_11804;
 });
-var state_machine__6445__auto____1 = (function (state_11581){
+var state_machine__6445__auto____1 = (function (state_11699){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_11581);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_11699);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -1226,23 +1362,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e11687){if((e11687 instanceof Object)){
-var ex__6448__auto__ = e11687;
-var statearr_11688_12053 = state_11581;
-(statearr_11688_12053[(5)] = ex__6448__auto__);
+}catch (e11805){if((e11805 instanceof Object)){
+var ex__6448__auto__ = e11805;
+var statearr_11806_12176 = state_11699;
+(statearr_11806_12176[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_11581);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_11699);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e11687;
+throw e11805;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__12054 = state_11581;
-state_11581 = G__12054;
+var G__12177 = state_11699;
+state_11699 = G__12177;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -1250,12 +1386,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_11581){
+state_machine__6445__auto__ = function(state_11699){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_11581);
+return state_machine__6445__auto____1.call(this,state_11699);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -1263,15 +1399,15 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto___11989))
+;})(switch__6444__auto__,c__6459__auto___12112))
 })();
-var state__6461__auto__ = (function (){var statearr_11689 = f__6460__auto__.call(null);
-(statearr_11689[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___11989);
+var state__6461__auto__ = (function (){var statearr_11807 = f__6460__auto__.call(null);
+(statearr_11807[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12112);
 
-return statearr_11689;
+return statearr_11807;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});})(c__6459__auto___11989))
+});})(c__6459__auto___12112))
 );
 
 
@@ -1279,1020 +1415,1020 @@ var c__6459__auto__ = cljs.core.async.chan.call(null,(1));
 cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto__){
 return (function (){
 var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto__){
-return (function (state_11879){
-var state_val_11880 = (state_11879[(1)]);
-if((state_val_11880 === (7))){
-var inst_11701 = (state_11879[(7)]);
-var inst_11700 = (state_11879[(8)]);
-var inst_11703 = (inst_11701 < inst_11700);
-var inst_11704 = inst_11703;
-var state_11879__$1 = state_11879;
-if(cljs.core.truth_(inst_11704)){
-var statearr_11881_12055 = state_11879__$1;
-(statearr_11881_12055[(1)] = (9));
+return (function (state_11997){
+var state_val_11998 = (state_11997[(1)]);
+if((state_val_11998 === (7))){
+var inst_11818 = (state_11997[(7)]);
+var inst_11819 = (state_11997[(8)]);
+var inst_11821 = (inst_11819 < inst_11818);
+var inst_11822 = inst_11821;
+var state_11997__$1 = state_11997;
+if(cljs.core.truth_(inst_11822)){
+var statearr_11999_12178 = state_11997__$1;
+(statearr_11999_12178[(1)] = (9));
 
 } else {
-var statearr_11882_12056 = state_11879__$1;
-(statearr_11882_12056[(1)] = (10));
+var statearr_12000_12179 = state_11997__$1;
+(statearr_12000_12179[(1)] = (10));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11880 === (20))){
-var inst_11726 = (state_11879[(9)]);
-var inst_11730 = cljs.core.chunk_first.call(null,inst_11726);
-var inst_11731 = cljs.core.chunk_rest.call(null,inst_11726);
-var inst_11732 = cljs.core.count.call(null,inst_11730);
-var inst_11713 = inst_11731;
-var inst_11714 = inst_11730;
-var inst_11715 = inst_11732;
-var inst_11716 = (0);
-var state_11879__$1 = (function (){var statearr_11883 = state_11879;
-(statearr_11883[(10)] = inst_11713);
-
-(statearr_11883[(11)] = inst_11714);
-
-(statearr_11883[(12)] = inst_11716);
-
-(statearr_11883[(13)] = inst_11715);
-
-return statearr_11883;
-})();
-var statearr_11884_12057 = state_11879__$1;
-(statearr_11884_12057[(2)] = null);
-
-(statearr_11884_12057[(1)] = (12));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (27))){
-var inst_11754 = (state_11879[(14)]);
-var inst_11758 = cljs.core.chunk_first.call(null,inst_11754);
-var inst_11759 = cljs.core.chunk_rest.call(null,inst_11754);
-var inst_11760 = cljs.core.count.call(null,inst_11758);
-var inst_11698 = inst_11759;
-var inst_11699 = inst_11758;
-var inst_11700 = inst_11760;
-var inst_11701 = (0);
-var state_11879__$1 = (function (){var statearr_11885 = state_11879;
-(statearr_11885[(15)] = inst_11698);
-
-(statearr_11885[(7)] = inst_11701);
-
-(statearr_11885[(16)] = inst_11699);
-
-(statearr_11885[(8)] = inst_11700);
-
-return statearr_11885;
-})();
-var statearr_11886_12058 = state_11879__$1;
-(statearr_11886_12058[(2)] = null);
-
-(statearr_11886_12058[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (1))){
-var state_11879__$1 = state_11879;
-var statearr_11887_12059 = state_11879__$1;
-(statearr_11887_12059[(2)] = null);
-
-(statearr_11887_12059[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (24))){
-var inst_11754 = (state_11879[(14)]);
-var inst_11756 = cljs.core.chunked_seq_QMARK_.call(null,inst_11754);
-var state_11879__$1 = state_11879;
-if(inst_11756){
-var statearr_11888_12060 = state_11879__$1;
-(statearr_11888_12060[(1)] = (27));
-
-} else {
-var statearr_11889_12061 = state_11879__$1;
-(statearr_11889_12061[(1)] = (28));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (55))){
-var inst_11844 = (state_11879[(17)]);
-var inst_11857 = (state_11879[(2)]);
-var inst_11858 = cljs.core.next.call(null,inst_11844);
-var inst_11828 = inst_11858;
-var inst_11829 = null;
-var inst_11830 = (0);
-var inst_11831 = (0);
-var state_11879__$1 = (function (){var statearr_11890 = state_11879;
-(statearr_11890[(18)] = inst_11828);
-
-(statearr_11890[(19)] = inst_11829);
-
-(statearr_11890[(20)] = inst_11857);
-
-(statearr_11890[(21)] = inst_11830);
-
-(statearr_11890[(22)] = inst_11831);
-
-return statearr_11890;
-})();
-var statearr_11891_12062 = state_11879__$1;
-(statearr_11891_12062[(2)] = null);
-
-(statearr_11891_12062[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (39))){
-var inst_11783 = (state_11879[(23)]);
-var inst_11792 = cljs.core.first.call(null,inst_11783);
-var inst_11793 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11794 = cljs.core.next.call(null,inst_11783);
-var inst_11770 = inst_11794;
-var inst_11771 = null;
-var inst_11772 = (0);
-var inst_11773 = (0);
-var state_11879__$1 = (function (){var statearr_11892 = state_11879;
-(statearr_11892[(24)] = inst_11770);
-
-(statearr_11892[(25)] = inst_11773);
-
-(statearr_11892[(26)] = inst_11772);
-
-(statearr_11892[(27)] = inst_11792);
-
-(statearr_11892[(28)] = inst_11793);
-
-(statearr_11892[(29)] = inst_11771);
-
-return statearr_11892;
-})();
-var statearr_11893_12063 = state_11879__$1;
-(statearr_11893_12063[(2)] = null);
-
-(statearr_11893_12063[(1)] = (30));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (46))){
-var inst_11844 = (state_11879[(17)]);
-var inst_11828 = (state_11879[(18)]);
-var inst_11844__$1 = cljs.core.seq.call(null,inst_11828);
-var state_11879__$1 = (function (){var statearr_11894 = state_11879;
-(statearr_11894[(17)] = inst_11844__$1);
-
-return statearr_11894;
-})();
-if(inst_11844__$1){
-var statearr_11895_12064 = state_11879__$1;
-(statearr_11895_12064[(1)] = (49));
-
-} else {
-var statearr_11896_12065 = state_11879__$1;
-(statearr_11896_12065[(1)] = (50));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (4))){
-var inst_11696 = cljs.core.range.call(null,(10));
-var inst_11697 = cljs.core.seq.call(null,inst_11696);
-var inst_11698 = inst_11697;
-var inst_11699 = null;
-var inst_11700 = (0);
-var inst_11701 = (0);
-var state_11879__$1 = (function (){var statearr_11897 = state_11879;
-(statearr_11897[(15)] = inst_11698);
-
-(statearr_11897[(7)] = inst_11701);
-
-(statearr_11897[(16)] = inst_11699);
-
-(statearr_11897[(8)] = inst_11700);
-
-return statearr_11897;
-})();
-var statearr_11898_12066 = state_11879__$1;
-(statearr_11898_12066[(2)] = null);
-
-(statearr_11898_12066[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (54))){
-var inst_11861 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11902_12067 = state_11879__$1;
-(statearr_11902_12067[(2)] = inst_11861);
-
-(statearr_11902_12067[(1)] = (51));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (15))){
-var inst_11713 = (state_11879[(10)]);
-var inst_11726 = (state_11879[(9)]);
-var inst_11726__$1 = cljs.core.seq.call(null,inst_11713);
-var state_11879__$1 = (function (){var statearr_11903 = state_11879;
-(statearr_11903[(9)] = inst_11726__$1);
-
-return statearr_11903;
-})();
-if(inst_11726__$1){
-var statearr_11904_12068 = state_11879__$1;
-(statearr_11904_12068[(1)] = (17));
-
-} else {
-var statearr_11905_12069 = state_11879__$1;
-(statearr_11905_12069[(1)] = (18));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (48))){
-var inst_11828 = (state_11879[(18)]);
-var inst_11829 = (state_11879[(19)]);
-var inst_11830 = (state_11879[(21)]);
-var inst_11831 = (state_11879[(22)]);
-var inst_11840 = (state_11879[(2)]);
-var inst_11841 = (inst_11831 + (1));
-var tmp11899 = inst_11828;
-var tmp11900 = inst_11829;
-var tmp11901 = inst_11830;
-var inst_11828__$1 = tmp11899;
-var inst_11829__$1 = tmp11900;
-var inst_11830__$1 = tmp11901;
-var inst_11831__$1 = inst_11841;
-var state_11879__$1 = (function (){var statearr_11906 = state_11879;
-(statearr_11906[(18)] = inst_11828__$1);
-
-(statearr_11906[(19)] = inst_11829__$1);
-
-(statearr_11906[(21)] = inst_11830__$1);
-
-(statearr_11906[(22)] = inst_11831__$1);
-
-(statearr_11906[(30)] = inst_11840);
-
-return statearr_11906;
-})();
-var statearr_11907_12070 = state_11879__$1;
-(statearr_11907_12070[(2)] = null);
-
-(statearr_11907_12070[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (50))){
-var state_11879__$1 = state_11879;
-var statearr_11908_12071 = state_11879__$1;
-(statearr_11908_12071[(2)] = null);
-
-(statearr_11908_12071[(1)] = (51));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (21))){
-var inst_11726 = (state_11879[(9)]);
-var inst_11735 = cljs.core.first.call(null,inst_11726);
-var inst_11736 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11737 = cljs.core.next.call(null,inst_11726);
-var inst_11713 = inst_11737;
-var inst_11714 = null;
-var inst_11715 = (0);
-var inst_11716 = (0);
-var state_11879__$1 = (function (){var statearr_11912 = state_11879;
-(statearr_11912[(10)] = inst_11713);
-
-(statearr_11912[(31)] = inst_11735);
-
-(statearr_11912[(32)] = inst_11736);
-
-(statearr_11912[(11)] = inst_11714);
-
-(statearr_11912[(12)] = inst_11716);
-
-(statearr_11912[(13)] = inst_11715);
-
-return statearr_11912;
-})();
-var statearr_11913_12072 = state_11879__$1;
-(statearr_11913_12072[(2)] = null);
-
-(statearr_11913_12072[(1)] = (12));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (31))){
-var inst_11804 = (state_11879[(2)]);
-var inst_11805 = cljs.core.async.timeout.call(null,(430));
-var state_11879__$1 = (function (){var statearr_11914 = state_11879;
-(statearr_11914[(33)] = inst_11804);
-
-return statearr_11914;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(41),inst_11805);
-} else {
-if((state_val_11880 === (32))){
-var inst_11770 = (state_11879[(24)]);
-var inst_11773 = (state_11879[(25)]);
-var inst_11772 = (state_11879[(26)]);
-var inst_11771 = (state_11879[(29)]);
-var inst_11778 = cljs.core._nth.call(null,inst_11771,inst_11773);
-var inst_11779 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11780 = (inst_11773 + (1));
-var tmp11909 = inst_11770;
-var tmp11910 = inst_11772;
-var tmp11911 = inst_11771;
-var inst_11770__$1 = tmp11909;
-var inst_11771__$1 = tmp11911;
-var inst_11772__$1 = tmp11910;
-var inst_11773__$1 = inst_11780;
-var state_11879__$1 = (function (){var statearr_11915 = state_11879;
-(statearr_11915[(24)] = inst_11770__$1);
-
-(statearr_11915[(25)] = inst_11773__$1);
-
-(statearr_11915[(26)] = inst_11772__$1);
-
-(statearr_11915[(34)] = inst_11779);
-
-(statearr_11915[(35)] = inst_11778);
-
-(statearr_11915[(29)] = inst_11771__$1);
-
-return statearr_11915;
-})();
-var statearr_11916_12073 = state_11879__$1;
-(statearr_11916_12073[(2)] = null);
-
-(statearr_11916_12073[(1)] = (30));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (40))){
-var inst_11797 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11917_12074 = state_11879__$1;
-(statearr_11917_12074[(2)] = inst_11797);
-
-(statearr_11917_12074[(1)] = (37));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (56))){
-var inst_11871 = (state_11879[(2)]);
-var state_11879__$1 = (function (){var statearr_11918 = state_11879;
-(statearr_11918[(36)] = inst_11871);
-
-return statearr_11918;
-})();
-var statearr_11919_12075 = state_11879__$1;
-(statearr_11919_12075[(2)] = null);
-
-(statearr_11919_12075[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (33))){
-var inst_11770 = (state_11879[(24)]);
-var inst_11783 = (state_11879[(23)]);
-var inst_11783__$1 = cljs.core.seq.call(null,inst_11770);
-var state_11879__$1 = (function (){var statearr_11920 = state_11879;
-(statearr_11920[(23)] = inst_11783__$1);
-
-return statearr_11920;
-})();
-if(inst_11783__$1){
-var statearr_11921_12076 = state_11879__$1;
-(statearr_11921_12076[(1)] = (35));
-
-} else {
-var statearr_11922_12077 = state_11879__$1;
-(statearr_11922_12077[(1)] = (36));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (13))){
-var inst_11747 = (state_11879[(2)]);
-var inst_11748 = cljs.core.async.timeout.call(null,(430));
-var state_11879__$1 = (function (){var statearr_11923 = state_11879;
-(statearr_11923[(37)] = inst_11747);
-
-return statearr_11923;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(23),inst_11748);
-} else {
-if((state_val_11880 === (22))){
-var inst_11740 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11924_12078 = state_11879__$1;
-(statearr_11924_12078[(2)] = inst_11740);
-
-(statearr_11924_12078[(1)] = (19));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (36))){
-var state_11879__$1 = state_11879;
-var statearr_11925_12079 = state_11879__$1;
-(statearr_11925_12079[(2)] = null);
-
-(statearr_11925_12079[(1)] = (37));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (41))){
-var inst_11754 = (state_11879[(14)]);
-var inst_11807 = (state_11879[(2)]);
-var inst_11808 = cljs.core.next.call(null,inst_11754);
-var inst_11698 = inst_11808;
-var inst_11699 = null;
-var inst_11700 = (0);
-var inst_11701 = (0);
-var state_11879__$1 = (function (){var statearr_11926 = state_11879;
-(statearr_11926[(15)] = inst_11698);
-
-(statearr_11926[(7)] = inst_11701);
-
-(statearr_11926[(16)] = inst_11699);
-
-(statearr_11926[(8)] = inst_11700);
-
-(statearr_11926[(38)] = inst_11807);
-
-return statearr_11926;
-})();
-var statearr_11927_12080 = state_11879__$1;
-(statearr_11927_12080[(2)] = null);
-
-(statearr_11927_12080[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (43))){
-var inst_11830 = (state_11879[(21)]);
-var inst_11831 = (state_11879[(22)]);
-var inst_11833 = (inst_11831 < inst_11830);
-var inst_11834 = inst_11833;
-var state_11879__$1 = state_11879;
-if(cljs.core.truth_(inst_11834)){
-var statearr_11928_12081 = state_11879__$1;
-(statearr_11928_12081[(1)] = (45));
-
-} else {
-var statearr_11929_12082 = state_11879__$1;
-(statearr_11929_12082[(1)] = (46));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (29))){
-var inst_11811 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11930_12083 = state_11879__$1;
-(statearr_11930_12083[(2)] = inst_11811);
-
-(statearr_11930_12083[(1)] = (26));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (44))){
-var inst_11868 = (state_11879[(2)]);
-var inst_11869 = cljs.core.async.timeout.call(null,(3000));
-var state_11879__$1 = (function (){var statearr_11931 = state_11879;
-(statearr_11931[(39)] = inst_11868);
-
-return statearr_11931;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(56),inst_11869);
-} else {
-if((state_val_11880 === (6))){
-var inst_11875 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11932_12084 = state_11879__$1;
-(statearr_11932_12084[(2)] = inst_11875);
-
-(statearr_11932_12084[(1)] = (3));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (28))){
-var inst_11754 = (state_11879[(14)]);
-var inst_11763 = cljs.core.first.call(null,inst_11754);
-var inst_11768 = cljs.core.range.call(null,(10));
-var inst_11769 = cljs.core.seq.call(null,inst_11768);
-var inst_11770 = inst_11769;
-var inst_11771 = null;
-var inst_11772 = (0);
-var inst_11773 = (0);
-var state_11879__$1 = (function (){var statearr_11933 = state_11879;
-(statearr_11933[(24)] = inst_11770);
-
-(statearr_11933[(25)] = inst_11773);
-
-(statearr_11933[(26)] = inst_11772);
-
-(statearr_11933[(40)] = inst_11763);
-
-(statearr_11933[(29)] = inst_11771);
-
-return statearr_11933;
-})();
-var statearr_11934_12085 = state_11879__$1;
-(statearr_11934_12085[(2)] = null);
-
-(statearr_11934_12085[(1)] = (30));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (51))){
-var inst_11864 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11935_12086 = state_11879__$1;
-(statearr_11935_12086[(2)] = inst_11864);
-
-(statearr_11935_12086[(1)] = (47));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (25))){
-var state_11879__$1 = state_11879;
-var statearr_11936_12087 = state_11879__$1;
-(statearr_11936_12087[(2)] = null);
-
-(statearr_11936_12087[(1)] = (26));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (34))){
-var inst_11802 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11937_12088 = state_11879__$1;
-(statearr_11937_12088[(2)] = inst_11802);
-
-(statearr_11937_12088[(1)] = (31));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (17))){
-var inst_11726 = (state_11879[(9)]);
-var inst_11728 = cljs.core.chunked_seq_QMARK_.call(null,inst_11726);
-var state_11879__$1 = state_11879;
-if(inst_11728){
-var statearr_11938_12089 = state_11879__$1;
-(statearr_11938_12089[(1)] = (20));
-
-} else {
-var statearr_11939_12090 = state_11879__$1;
-(statearr_11939_12090[(1)] = (21));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (3))){
-var inst_11877 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_11879__$1,inst_11877);
-} else {
-if((state_val_11880 === (12))){
-var inst_11716 = (state_11879[(12)]);
-var inst_11715 = (state_11879[(13)]);
-var inst_11718 = (inst_11716 < inst_11715);
-var inst_11719 = inst_11718;
-var state_11879__$1 = state_11879;
-if(cljs.core.truth_(inst_11719)){
-var statearr_11943_12091 = state_11879__$1;
-(statearr_11943_12091[(1)] = (14));
-
-} else {
-var statearr_11944_12092 = state_11879__$1;
-(statearr_11944_12092[(1)] = (15));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (2))){
-var state_11879__$1 = state_11879;
-var statearr_11945_12093 = state_11879__$1;
-(statearr_11945_12093[(1)] = (4));
-
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (23))){
-var inst_11698 = (state_11879[(15)]);
-var inst_11701 = (state_11879[(7)]);
-var inst_11699 = (state_11879[(16)]);
-var inst_11700 = (state_11879[(8)]);
-var inst_11750 = (state_11879[(2)]);
-var inst_11751 = (inst_11701 + (1));
-var tmp11940 = inst_11698;
-var tmp11941 = inst_11699;
-var tmp11942 = inst_11700;
-var inst_11698__$1 = tmp11940;
-var inst_11699__$1 = tmp11941;
-var inst_11700__$1 = tmp11942;
-var inst_11701__$1 = inst_11751;
-var state_11879__$1 = (function (){var statearr_11947 = state_11879;
-(statearr_11947[(15)] = inst_11698__$1);
-
-(statearr_11947[(7)] = inst_11701__$1);
-
-(statearr_11947[(16)] = inst_11699__$1);
-
-(statearr_11947[(41)] = inst_11750);
-
-(statearr_11947[(8)] = inst_11700__$1);
-
-return statearr_11947;
-})();
-var statearr_11948_12094 = state_11879__$1;
-(statearr_11948_12094[(2)] = null);
-
-(statearr_11948_12094[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (47))){
-var inst_11866 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11949_12095 = state_11879__$1;
-(statearr_11949_12095[(2)] = inst_11866);
-
-(statearr_11949_12095[(1)] = (44));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (35))){
-var inst_11783 = (state_11879[(23)]);
-var inst_11785 = cljs.core.chunked_seq_QMARK_.call(null,inst_11783);
-var state_11879__$1 = state_11879;
-if(inst_11785){
-var statearr_11950_12096 = state_11879__$1;
-(statearr_11950_12096[(1)] = (38));
-
-} else {
-var statearr_11951_12097 = state_11879__$1;
-(statearr_11951_12097[(1)] = (39));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (19))){
-var inst_11743 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11952_12098 = state_11879__$1;
-(statearr_11952_12098[(2)] = inst_11743);
-
-(statearr_11952_12098[(1)] = (16));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (11))){
-var inst_11816 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11953_12099 = state_11879__$1;
-(statearr_11953_12099[(2)] = inst_11816);
-
-(statearr_11953_12099[(1)] = (8));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (9))){
-var inst_11701 = (state_11879[(7)]);
-var inst_11699 = (state_11879[(16)]);
-var inst_11706 = cljs.core._nth.call(null,inst_11699,inst_11701);
-var inst_11711 = cljs.core.range.call(null,(10));
-var inst_11712 = cljs.core.seq.call(null,inst_11711);
-var inst_11713 = inst_11712;
-var inst_11714 = null;
-var inst_11715 = (0);
-var inst_11716 = (0);
-var state_11879__$1 = (function (){var statearr_11957 = state_11879;
-(statearr_11957[(10)] = inst_11713);
-
-(statearr_11957[(42)] = inst_11706);
-
-(statearr_11957[(11)] = inst_11714);
-
-(statearr_11957[(12)] = inst_11716);
-
-(statearr_11957[(13)] = inst_11715);
-
-return statearr_11957;
-})();
-var statearr_11958_12100 = state_11879__$1;
-(statearr_11958_12100[(2)] = null);
-
-(statearr_11958_12100[(1)] = (12));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (5))){
-var state_11879__$1 = state_11879;
-var statearr_11959_12101 = state_11879__$1;
-(statearr_11959_12101[(2)] = null);
-
-(statearr_11959_12101[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (14))){
-var inst_11713 = (state_11879[(10)]);
-var inst_11714 = (state_11879[(11)]);
-var inst_11716 = (state_11879[(12)]);
-var inst_11715 = (state_11879[(13)]);
-var inst_11721 = cljs.core._nth.call(null,inst_11714,inst_11716);
-var inst_11722 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11723 = (inst_11716 + (1));
-var tmp11954 = inst_11713;
-var tmp11955 = inst_11714;
-var tmp11956 = inst_11715;
-var inst_11713__$1 = tmp11954;
-var inst_11714__$1 = tmp11955;
-var inst_11715__$1 = tmp11956;
-var inst_11716__$1 = inst_11723;
-var state_11879__$1 = (function (){var statearr_11960 = state_11879;
-(statearr_11960[(10)] = inst_11713__$1);
-
-(statearr_11960[(43)] = inst_11722);
-
-(statearr_11960[(11)] = inst_11714__$1);
-
-(statearr_11960[(44)] = inst_11721);
-
-(statearr_11960[(12)] = inst_11716__$1);
-
-(statearr_11960[(13)] = inst_11715__$1);
-
-return statearr_11960;
-})();
-var statearr_11961_12102 = state_11879__$1;
-(statearr_11961_12102[(2)] = null);
-
-(statearr_11961_12102[(1)] = (12));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (45))){
-var inst_11829 = (state_11879[(19)]);
-var inst_11831 = (state_11879[(22)]);
-var inst_11836 = cljs.core._nth.call(null,inst_11829,inst_11831);
-var inst_11837 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11838 = cljs.core.async.timeout.call(null,(100));
-var state_11879__$1 = (function (){var statearr_11962 = state_11879;
-(statearr_11962[(45)] = inst_11837);
-
-(statearr_11962[(46)] = inst_11836);
-
-return statearr_11962;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(48),inst_11838);
-} else {
-if((state_val_11880 === (53))){
-var inst_11844 = (state_11879[(17)]);
-var inst_11853 = cljs.core.first.call(null,inst_11844);
-var inst_11854 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
-var inst_11855 = cljs.core.async.timeout.call(null,(100));
-var state_11879__$1 = (function (){var statearr_11963 = state_11879;
-(statearr_11963[(47)] = inst_11853);
-
-(statearr_11963[(48)] = inst_11854);
-
-return statearr_11963;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(55),inst_11855);
-} else {
-if((state_val_11880 === (26))){
-var inst_11814 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11964_12103 = state_11879__$1;
-(statearr_11964_12103[(2)] = inst_11814);
-
-(statearr_11964_12103[(1)] = (11));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (16))){
-var inst_11745 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11965_12104 = state_11879__$1;
-(statearr_11965_12104[(2)] = inst_11745);
-
-(statearr_11965_12104[(1)] = (13));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (38))){
-var inst_11783 = (state_11879[(23)]);
-var inst_11787 = cljs.core.chunk_first.call(null,inst_11783);
-var inst_11788 = cljs.core.chunk_rest.call(null,inst_11783);
-var inst_11789 = cljs.core.count.call(null,inst_11787);
-var inst_11770 = inst_11788;
-var inst_11771 = inst_11787;
-var inst_11772 = inst_11789;
-var inst_11773 = (0);
-var state_11879__$1 = (function (){var statearr_11966 = state_11879;
-(statearr_11966[(24)] = inst_11770);
-
-(statearr_11966[(25)] = inst_11773);
-
-(statearr_11966[(26)] = inst_11772);
-
-(statearr_11966[(29)] = inst_11771);
-
-return statearr_11966;
-})();
-var statearr_11967_12105 = state_11879__$1;
-(statearr_11967_12105[(2)] = null);
-
-(statearr_11967_12105[(1)] = (30));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (30))){
-var inst_11773 = (state_11879[(25)]);
-var inst_11772 = (state_11879[(26)]);
-var inst_11775 = (inst_11773 < inst_11772);
-var inst_11776 = inst_11775;
-var state_11879__$1 = state_11879;
-if(cljs.core.truth_(inst_11776)){
-var statearr_11968_12106 = state_11879__$1;
-(statearr_11968_12106[(1)] = (32));
-
-} else {
-var statearr_11969_12107 = state_11879__$1;
-(statearr_11969_12107[(1)] = (33));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (10))){
-var inst_11698 = (state_11879[(15)]);
-var inst_11754 = (state_11879[(14)]);
-var inst_11754__$1 = cljs.core.seq.call(null,inst_11698);
-var state_11879__$1 = (function (){var statearr_11970 = state_11879;
-(statearr_11970[(14)] = inst_11754__$1);
-
-return statearr_11970;
-})();
-if(inst_11754__$1){
-var statearr_11971_12108 = state_11879__$1;
-(statearr_11971_12108[(1)] = (24));
-
-} else {
-var statearr_11972_12109 = state_11879__$1;
-(statearr_11972_12109[(1)] = (25));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (18))){
-var state_11879__$1 = state_11879;
-var statearr_11973_12110 = state_11879__$1;
-(statearr_11973_12110[(2)] = null);
-
-(statearr_11973_12110[(1)] = (19));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_11880 === (52))){
-var inst_11844 = (state_11879[(17)]);
+if((state_val_11998 === (20))){
+var inst_11844 = (state_11997[(9)]);
 var inst_11848 = cljs.core.chunk_first.call(null,inst_11844);
 var inst_11849 = cljs.core.chunk_rest.call(null,inst_11844);
 var inst_11850 = cljs.core.count.call(null,inst_11848);
-var inst_11828 = inst_11849;
-var inst_11829 = inst_11848;
-var inst_11830 = inst_11850;
-var inst_11831 = (0);
-var state_11879__$1 = (function (){var statearr_11974 = state_11879;
-(statearr_11974[(18)] = inst_11828);
+var inst_11831 = inst_11849;
+var inst_11832 = inst_11848;
+var inst_11833 = inst_11850;
+var inst_11834 = (0);
+var state_11997__$1 = (function (){var statearr_12001 = state_11997;
+(statearr_12001[(10)] = inst_11834);
 
-(statearr_11974[(19)] = inst_11829);
+(statearr_12001[(11)] = inst_11832);
 
-(statearr_11974[(21)] = inst_11830);
+(statearr_12001[(12)] = inst_11833);
 
-(statearr_11974[(22)] = inst_11831);
+(statearr_12001[(13)] = inst_11831);
 
-return statearr_11974;
+return statearr_12001;
 })();
-var statearr_11975_12111 = state_11879__$1;
-(statearr_11975_12111[(2)] = null);
+var statearr_12002_12180 = state_11997__$1;
+(statearr_12002_12180[(2)] = null);
 
-(statearr_11975_12111[(1)] = (43));
+(statearr_12002_12180[(1)] = (12));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11880 === (42))){
-var inst_11821 = (state_11879[(2)]);
-var inst_11826 = cljs.core.range.call(null,(100));
-var inst_11827 = cljs.core.seq.call(null,inst_11826);
-var inst_11828 = inst_11827;
-var inst_11829 = null;
-var inst_11830 = (0);
-var inst_11831 = (0);
-var state_11879__$1 = (function (){var statearr_11976 = state_11879;
-(statearr_11976[(18)] = inst_11828);
+if((state_val_11998 === (27))){
+var inst_11872 = (state_11997[(14)]);
+var inst_11876 = cljs.core.chunk_first.call(null,inst_11872);
+var inst_11877 = cljs.core.chunk_rest.call(null,inst_11872);
+var inst_11878 = cljs.core.count.call(null,inst_11876);
+var inst_11816 = inst_11877;
+var inst_11817 = inst_11876;
+var inst_11818 = inst_11878;
+var inst_11819 = (0);
+var state_11997__$1 = (function (){var statearr_12003 = state_11997;
+(statearr_12003[(7)] = inst_11818);
 
-(statearr_11976[(19)] = inst_11829);
+(statearr_12003[(15)] = inst_11816);
 
-(statearr_11976[(21)] = inst_11830);
+(statearr_12003[(8)] = inst_11819);
 
-(statearr_11976[(22)] = inst_11831);
+(statearr_12003[(16)] = inst_11817);
 
-(statearr_11976[(49)] = inst_11821);
-
-return statearr_11976;
+return statearr_12003;
 })();
-var statearr_11977_12112 = state_11879__$1;
-(statearr_11977_12112[(2)] = null);
+var statearr_12004_12181 = state_11997__$1;
+(statearr_12004_12181[(2)] = null);
 
-(statearr_11977_12112[(1)] = (43));
+(statearr_12004_12181[(1)] = (7));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11880 === (37))){
-var inst_11800 = (state_11879[(2)]);
-var state_11879__$1 = state_11879;
-var statearr_11978_12113 = state_11879__$1;
-(statearr_11978_12113[(2)] = inst_11800);
+if((state_val_11998 === (1))){
+var state_11997__$1 = state_11997;
+var statearr_12005_12182 = state_11997__$1;
+(statearr_12005_12182[(2)] = null);
 
-(statearr_11978_12113[(1)] = (34));
+(statearr_12005_12182[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_11880 === (8))){
-var inst_11818 = (state_11879[(2)]);
-var inst_11819 = cljs.core.async.timeout.call(null,(3000));
-var state_11879__$1 = (function (){var statearr_11979 = state_11879;
-(statearr_11979[(50)] = inst_11818);
+if((state_val_11998 === (24))){
+var inst_11872 = (state_11997[(14)]);
+var inst_11874 = cljs.core.chunked_seq_QMARK_.call(null,inst_11872);
+var state_11997__$1 = state_11997;
+if(inst_11874){
+var statearr_12006_12183 = state_11997__$1;
+(statearr_12006_12183[(1)] = (27));
 
-return statearr_11979;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11879__$1,(42),inst_11819);
 } else {
-if((state_val_11880 === (49))){
-var inst_11844 = (state_11879[(17)]);
+var statearr_12007_12184 = state_11997__$1;
+(statearr_12007_12184[(1)] = (28));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (55))){
+var inst_11962 = (state_11997[(17)]);
+var inst_11975 = (state_11997[(2)]);
+var inst_11976 = cljs.core.next.call(null,inst_11962);
+var inst_11946 = inst_11976;
+var inst_11947 = null;
+var inst_11948 = (0);
+var inst_11949 = (0);
+var state_11997__$1 = (function (){var statearr_12008 = state_11997;
+(statearr_12008[(18)] = inst_11949);
+
+(statearr_12008[(19)] = inst_11947);
+
+(statearr_12008[(20)] = inst_11975);
+
+(statearr_12008[(21)] = inst_11946);
+
+(statearr_12008[(22)] = inst_11948);
+
+return statearr_12008;
+})();
+var statearr_12009_12185 = state_11997__$1;
+(statearr_12009_12185[(2)] = null);
+
+(statearr_12009_12185[(1)] = (43));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (39))){
+var inst_11901 = (state_11997[(23)]);
+var inst_11910 = cljs.core.first.call(null,inst_11901);
+var inst_11911 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11912 = cljs.core.next.call(null,inst_11901);
+var inst_11888 = inst_11912;
+var inst_11889 = null;
+var inst_11890 = (0);
+var inst_11891 = (0);
+var state_11997__$1 = (function (){var statearr_12010 = state_11997;
+(statearr_12010[(24)] = inst_11888);
+
+(statearr_12010[(25)] = inst_11890);
+
+(statearr_12010[(26)] = inst_11889);
+
+(statearr_12010[(27)] = inst_11891);
+
+(statearr_12010[(28)] = inst_11910);
+
+(statearr_12010[(29)] = inst_11911);
+
+return statearr_12010;
+})();
+var statearr_12011_12186 = state_11997__$1;
+(statearr_12011_12186[(2)] = null);
+
+(statearr_12011_12186[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (46))){
+var inst_11946 = (state_11997[(21)]);
+var inst_11962 = (state_11997[(17)]);
+var inst_11962__$1 = cljs.core.seq.call(null,inst_11946);
+var state_11997__$1 = (function (){var statearr_12012 = state_11997;
+(statearr_12012[(17)] = inst_11962__$1);
+
+return statearr_12012;
+})();
+if(inst_11962__$1){
+var statearr_12013_12187 = state_11997__$1;
+(statearr_12013_12187[(1)] = (49));
+
+} else {
+var statearr_12014_12188 = state_11997__$1;
+(statearr_12014_12188[(1)] = (50));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (4))){
+var inst_11814 = cljs.core.range.call(null,(10));
+var inst_11815 = cljs.core.seq.call(null,inst_11814);
+var inst_11816 = inst_11815;
+var inst_11817 = null;
+var inst_11818 = (0);
+var inst_11819 = (0);
+var state_11997__$1 = (function (){var statearr_12015 = state_11997;
+(statearr_12015[(7)] = inst_11818);
+
+(statearr_12015[(15)] = inst_11816);
+
+(statearr_12015[(8)] = inst_11819);
+
+(statearr_12015[(16)] = inst_11817);
+
+return statearr_12015;
+})();
+var statearr_12016_12189 = state_11997__$1;
+(statearr_12016_12189[(2)] = null);
+
+(statearr_12016_12189[(1)] = (7));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (54))){
+var inst_11979 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12020_12190 = state_11997__$1;
+(statearr_12020_12190[(2)] = inst_11979);
+
+(statearr_12020_12190[(1)] = (51));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (15))){
+var inst_11844 = (state_11997[(9)]);
+var inst_11831 = (state_11997[(13)]);
+var inst_11844__$1 = cljs.core.seq.call(null,inst_11831);
+var state_11997__$1 = (function (){var statearr_12021 = state_11997;
+(statearr_12021[(9)] = inst_11844__$1);
+
+return statearr_12021;
+})();
+if(inst_11844__$1){
+var statearr_12022_12191 = state_11997__$1;
+(statearr_12022_12191[(1)] = (17));
+
+} else {
+var statearr_12023_12192 = state_11997__$1;
+(statearr_12023_12192[(1)] = (18));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (48))){
+var inst_11949 = (state_11997[(18)]);
+var inst_11947 = (state_11997[(19)]);
+var inst_11946 = (state_11997[(21)]);
+var inst_11948 = (state_11997[(22)]);
+var inst_11958 = (state_11997[(2)]);
+var inst_11959 = (inst_11949 + (1));
+var tmp12017 = inst_11947;
+var tmp12018 = inst_11946;
+var tmp12019 = inst_11948;
+var inst_11946__$1 = tmp12018;
+var inst_11947__$1 = tmp12017;
+var inst_11948__$1 = tmp12019;
+var inst_11949__$1 = inst_11959;
+var state_11997__$1 = (function (){var statearr_12024 = state_11997;
+(statearr_12024[(18)] = inst_11949__$1);
+
+(statearr_12024[(19)] = inst_11947__$1);
+
+(statearr_12024[(21)] = inst_11946__$1);
+
+(statearr_12024[(30)] = inst_11958);
+
+(statearr_12024[(22)] = inst_11948__$1);
+
+return statearr_12024;
+})();
+var statearr_12025_12193 = state_11997__$1;
+(statearr_12025_12193[(2)] = null);
+
+(statearr_12025_12193[(1)] = (43));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (50))){
+var state_11997__$1 = state_11997;
+var statearr_12026_12194 = state_11997__$1;
+(statearr_12026_12194[(2)] = null);
+
+(statearr_12026_12194[(1)] = (51));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (21))){
+var inst_11844 = (state_11997[(9)]);
+var inst_11853 = cljs.core.first.call(null,inst_11844);
+var inst_11854 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11855 = cljs.core.next.call(null,inst_11844);
+var inst_11831 = inst_11855;
+var inst_11832 = null;
+var inst_11833 = (0);
+var inst_11834 = (0);
+var state_11997__$1 = (function (){var statearr_12030 = state_11997;
+(statearr_12030[(10)] = inst_11834);
+
+(statearr_12030[(11)] = inst_11832);
+
+(statearr_12030[(31)] = inst_11853);
+
+(statearr_12030[(12)] = inst_11833);
+
+(statearr_12030[(13)] = inst_11831);
+
+(statearr_12030[(32)] = inst_11854);
+
+return statearr_12030;
+})();
+var statearr_12031_12195 = state_11997__$1;
+(statearr_12031_12195[(2)] = null);
+
+(statearr_12031_12195[(1)] = (12));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (31))){
+var inst_11922 = (state_11997[(2)]);
+var inst_11923 = cljs.core.async.timeout.call(null,(1000));
+var state_11997__$1 = (function (){var statearr_12032 = state_11997;
+(statearr_12032[(33)] = inst_11922);
+
+return statearr_12032;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(41),inst_11923);
+} else {
+if((state_val_11998 === (32))){
+var inst_11888 = (state_11997[(24)]);
+var inst_11890 = (state_11997[(25)]);
+var inst_11889 = (state_11997[(26)]);
+var inst_11891 = (state_11997[(27)]);
+var inst_11896 = cljs.core._nth.call(null,inst_11889,inst_11891);
+var inst_11897 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11898 = (inst_11891 + (1));
+var tmp12027 = inst_11888;
+var tmp12028 = inst_11890;
+var tmp12029 = inst_11889;
+var inst_11888__$1 = tmp12027;
+var inst_11889__$1 = tmp12029;
+var inst_11890__$1 = tmp12028;
+var inst_11891__$1 = inst_11898;
+var state_11997__$1 = (function (){var statearr_12033 = state_11997;
+(statearr_12033[(24)] = inst_11888__$1);
+
+(statearr_12033[(25)] = inst_11890__$1);
+
+(statearr_12033[(26)] = inst_11889__$1);
+
+(statearr_12033[(27)] = inst_11891__$1);
+
+(statearr_12033[(34)] = inst_11896);
+
+(statearr_12033[(35)] = inst_11897);
+
+return statearr_12033;
+})();
+var statearr_12034_12196 = state_11997__$1;
+(statearr_12034_12196[(2)] = null);
+
+(statearr_12034_12196[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (40))){
+var inst_11915 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12035_12197 = state_11997__$1;
+(statearr_12035_12197[(2)] = inst_11915);
+
+(statearr_12035_12197[(1)] = (37));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (56))){
+var inst_11989 = (state_11997[(2)]);
+var state_11997__$1 = (function (){var statearr_12036 = state_11997;
+(statearr_12036[(36)] = inst_11989);
+
+return statearr_12036;
+})();
+var statearr_12037_12198 = state_11997__$1;
+(statearr_12037_12198[(2)] = null);
+
+(statearr_12037_12198[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (33))){
+var inst_11888 = (state_11997[(24)]);
+var inst_11901 = (state_11997[(23)]);
+var inst_11901__$1 = cljs.core.seq.call(null,inst_11888);
+var state_11997__$1 = (function (){var statearr_12038 = state_11997;
+(statearr_12038[(23)] = inst_11901__$1);
+
+return statearr_12038;
+})();
+if(inst_11901__$1){
+var statearr_12039_12199 = state_11997__$1;
+(statearr_12039_12199[(1)] = (35));
+
+} else {
+var statearr_12040_12200 = state_11997__$1;
+(statearr_12040_12200[(1)] = (36));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (13))){
+var inst_11865 = (state_11997[(2)]);
+var inst_11866 = cljs.core.async.timeout.call(null,(1000));
+var state_11997__$1 = (function (){var statearr_12041 = state_11997;
+(statearr_12041[(37)] = inst_11865);
+
+return statearr_12041;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(23),inst_11866);
+} else {
+if((state_val_11998 === (22))){
+var inst_11858 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12042_12201 = state_11997__$1;
+(statearr_12042_12201[(2)] = inst_11858);
+
+(statearr_12042_12201[(1)] = (19));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (36))){
+var state_11997__$1 = state_11997;
+var statearr_12043_12202 = state_11997__$1;
+(statearr_12043_12202[(2)] = null);
+
+(statearr_12043_12202[(1)] = (37));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (41))){
+var inst_11872 = (state_11997[(14)]);
+var inst_11925 = (state_11997[(2)]);
+var inst_11926 = cljs.core.next.call(null,inst_11872);
+var inst_11816 = inst_11926;
+var inst_11817 = null;
+var inst_11818 = (0);
+var inst_11819 = (0);
+var state_11997__$1 = (function (){var statearr_12044 = state_11997;
+(statearr_12044[(7)] = inst_11818);
+
+(statearr_12044[(15)] = inst_11816);
+
+(statearr_12044[(8)] = inst_11819);
+
+(statearr_12044[(38)] = inst_11925);
+
+(statearr_12044[(16)] = inst_11817);
+
+return statearr_12044;
+})();
+var statearr_12045_12203 = state_11997__$1;
+(statearr_12045_12203[(2)] = null);
+
+(statearr_12045_12203[(1)] = (7));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (43))){
+var inst_11949 = (state_11997[(18)]);
+var inst_11948 = (state_11997[(22)]);
+var inst_11951 = (inst_11949 < inst_11948);
+var inst_11952 = inst_11951;
+var state_11997__$1 = state_11997;
+if(cljs.core.truth_(inst_11952)){
+var statearr_12046_12204 = state_11997__$1;
+(statearr_12046_12204[(1)] = (45));
+
+} else {
+var statearr_12047_12205 = state_11997__$1;
+(statearr_12047_12205[(1)] = (46));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (29))){
+var inst_11929 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12048_12206 = state_11997__$1;
+(statearr_12048_12206[(2)] = inst_11929);
+
+(statearr_12048_12206[(1)] = (26));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (44))){
+var inst_11986 = (state_11997[(2)]);
+var inst_11987 = cljs.core.async.timeout.call(null,(3000));
+var state_11997__$1 = (function (){var statearr_12049 = state_11997;
+(statearr_12049[(39)] = inst_11986);
+
+return statearr_12049;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(56),inst_11987);
+} else {
+if((state_val_11998 === (6))){
+var inst_11993 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12050_12207 = state_11997__$1;
+(statearr_12050_12207[(2)] = inst_11993);
+
+(statearr_12050_12207[(1)] = (3));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (28))){
+var inst_11872 = (state_11997[(14)]);
+var inst_11881 = cljs.core.first.call(null,inst_11872);
+var inst_11886 = cljs.core.range.call(null,(20));
+var inst_11887 = cljs.core.seq.call(null,inst_11886);
+var inst_11888 = inst_11887;
+var inst_11889 = null;
+var inst_11890 = (0);
+var inst_11891 = (0);
+var state_11997__$1 = (function (){var statearr_12051 = state_11997;
+(statearr_12051[(24)] = inst_11888);
+
+(statearr_12051[(25)] = inst_11890);
+
+(statearr_12051[(26)] = inst_11889);
+
+(statearr_12051[(27)] = inst_11891);
+
+(statearr_12051[(40)] = inst_11881);
+
+return statearr_12051;
+})();
+var statearr_12052_12208 = state_11997__$1;
+(statearr_12052_12208[(2)] = null);
+
+(statearr_12052_12208[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (51))){
+var inst_11982 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12053_12209 = state_11997__$1;
+(statearr_12053_12209[(2)] = inst_11982);
+
+(statearr_12053_12209[(1)] = (47));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (25))){
+var state_11997__$1 = state_11997;
+var statearr_12054_12210 = state_11997__$1;
+(statearr_12054_12210[(2)] = null);
+
+(statearr_12054_12210[(1)] = (26));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (34))){
+var inst_11920 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12055_12211 = state_11997__$1;
+(statearr_12055_12211[(2)] = inst_11920);
+
+(statearr_12055_12211[(1)] = (31));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (17))){
+var inst_11844 = (state_11997[(9)]);
 var inst_11846 = cljs.core.chunked_seq_QMARK_.call(null,inst_11844);
-var state_11879__$1 = state_11879;
+var state_11997__$1 = state_11997;
 if(inst_11846){
-var statearr_11980_12114 = state_11879__$1;
-(statearr_11980_12114[(1)] = (52));
+var statearr_12056_12212 = state_11997__$1;
+(statearr_12056_12212[(1)] = (20));
 
 } else {
-var statearr_11981_12115 = state_11879__$1;
-(statearr_11981_12115[(1)] = (53));
+var statearr_12057_12213 = state_11997__$1;
+(statearr_12057_12213[(1)] = (21));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (3))){
+var inst_11995 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_11997__$1,inst_11995);
+} else {
+if((state_val_11998 === (12))){
+var inst_11834 = (state_11997[(10)]);
+var inst_11833 = (state_11997[(12)]);
+var inst_11836 = (inst_11834 < inst_11833);
+var inst_11837 = inst_11836;
+var state_11997__$1 = state_11997;
+if(cljs.core.truth_(inst_11837)){
+var statearr_12061_12214 = state_11997__$1;
+(statearr_12061_12214[(1)] = (14));
+
+} else {
+var statearr_12062_12215 = state_11997__$1;
+(statearr_12062_12215[(1)] = (15));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (2))){
+var state_11997__$1 = state_11997;
+var statearr_12063_12216 = state_11997__$1;
+(statearr_12063_12216[(1)] = (4));
+
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (23))){
+var inst_11818 = (state_11997[(7)]);
+var inst_11816 = (state_11997[(15)]);
+var inst_11819 = (state_11997[(8)]);
+var inst_11817 = (state_11997[(16)]);
+var inst_11868 = (state_11997[(2)]);
+var inst_11869 = (inst_11819 + (1));
+var tmp12058 = inst_11818;
+var tmp12059 = inst_11816;
+var tmp12060 = inst_11817;
+var inst_11816__$1 = tmp12059;
+var inst_11817__$1 = tmp12060;
+var inst_11818__$1 = tmp12058;
+var inst_11819__$1 = inst_11869;
+var state_11997__$1 = (function (){var statearr_12065 = state_11997;
+(statearr_12065[(7)] = inst_11818__$1);
+
+(statearr_12065[(41)] = inst_11868);
+
+(statearr_12065[(15)] = inst_11816__$1);
+
+(statearr_12065[(8)] = inst_11819__$1);
+
+(statearr_12065[(16)] = inst_11817__$1);
+
+return statearr_12065;
+})();
+var statearr_12066_12217 = state_11997__$1;
+(statearr_12066_12217[(2)] = null);
+
+(statearr_12066_12217[(1)] = (7));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (47))){
+var inst_11984 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12067_12218 = state_11997__$1;
+(statearr_12067_12218[(2)] = inst_11984);
+
+(statearr_12067_12218[(1)] = (44));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (35))){
+var inst_11901 = (state_11997[(23)]);
+var inst_11903 = cljs.core.chunked_seq_QMARK_.call(null,inst_11901);
+var state_11997__$1 = state_11997;
+if(inst_11903){
+var statearr_12068_12219 = state_11997__$1;
+(statearr_12068_12219[(1)] = (38));
+
+} else {
+var statearr_12069_12220 = state_11997__$1;
+(statearr_12069_12220[(1)] = (39));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (19))){
+var inst_11861 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12070_12221 = state_11997__$1;
+(statearr_12070_12221[(2)] = inst_11861);
+
+(statearr_12070_12221[(1)] = (16));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (11))){
+var inst_11934 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12071_12222 = state_11997__$1;
+(statearr_12071_12222[(2)] = inst_11934);
+
+(statearr_12071_12222[(1)] = (8));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (9))){
+var inst_11819 = (state_11997[(8)]);
+var inst_11817 = (state_11997[(16)]);
+var inst_11824 = cljs.core._nth.call(null,inst_11817,inst_11819);
+var inst_11829 = cljs.core.range.call(null,(20));
+var inst_11830 = cljs.core.seq.call(null,inst_11829);
+var inst_11831 = inst_11830;
+var inst_11832 = null;
+var inst_11833 = (0);
+var inst_11834 = (0);
+var state_11997__$1 = (function (){var statearr_12075 = state_11997;
+(statearr_12075[(10)] = inst_11834);
+
+(statearr_12075[(11)] = inst_11832);
+
+(statearr_12075[(42)] = inst_11824);
+
+(statearr_12075[(12)] = inst_11833);
+
+(statearr_12075[(13)] = inst_11831);
+
+return statearr_12075;
+})();
+var statearr_12076_12223 = state_11997__$1;
+(statearr_12076_12223[(2)] = null);
+
+(statearr_12076_12223[(1)] = (12));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (5))){
+var state_11997__$1 = state_11997;
+var statearr_12077_12224 = state_11997__$1;
+(statearr_12077_12224[(2)] = null);
+
+(statearr_12077_12224[(1)] = (6));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (14))){
+var inst_11834 = (state_11997[(10)]);
+var inst_11832 = (state_11997[(11)]);
+var inst_11833 = (state_11997[(12)]);
+var inst_11831 = (state_11997[(13)]);
+var inst_11839 = cljs.core._nth.call(null,inst_11832,inst_11834);
+var inst_11840 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11841 = (inst_11834 + (1));
+var tmp12072 = inst_11832;
+var tmp12073 = inst_11833;
+var tmp12074 = inst_11831;
+var inst_11831__$1 = tmp12074;
+var inst_11832__$1 = tmp12072;
+var inst_11833__$1 = tmp12073;
+var inst_11834__$1 = inst_11841;
+var state_11997__$1 = (function (){var statearr_12078 = state_11997;
+(statearr_12078[(10)] = inst_11834__$1);
+
+(statearr_12078[(11)] = inst_11832__$1);
+
+(statearr_12078[(12)] = inst_11833__$1);
+
+(statearr_12078[(13)] = inst_11831__$1);
+
+(statearr_12078[(43)] = inst_11840);
+
+(statearr_12078[(44)] = inst_11839);
+
+return statearr_12078;
+})();
+var statearr_12079_12225 = state_11997__$1;
+(statearr_12079_12225[(2)] = null);
+
+(statearr_12079_12225[(1)] = (12));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (45))){
+var inst_11949 = (state_11997[(18)]);
+var inst_11947 = (state_11997[(19)]);
+var inst_11954 = cljs.core._nth.call(null,inst_11947,inst_11949);
+var inst_11955 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11956 = cljs.core.async.timeout.call(null,(100));
+var state_11997__$1 = (function (){var statearr_12080 = state_11997;
+(statearr_12080[(45)] = inst_11955);
+
+(statearr_12080[(46)] = inst_11954);
+
+return statearr_12080;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(48),inst_11956);
+} else {
+if((state_val_11998 === (53))){
+var inst_11962 = (state_11997[(17)]);
+var inst_11971 = cljs.core.first.call(null,inst_11962);
+var inst_11972 = farn.stars.make.call(null,main_stage,star_tex,shadow_tex,x,y);
+var inst_11973 = cljs.core.async.timeout.call(null,(100));
+var state_11997__$1 = (function (){var statearr_12081 = state_11997;
+(statearr_12081[(47)] = inst_11972);
+
+(statearr_12081[(48)] = inst_11971);
+
+return statearr_12081;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(55),inst_11973);
+} else {
+if((state_val_11998 === (26))){
+var inst_11932 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12082_12226 = state_11997__$1;
+(statearr_12082_12226[(2)] = inst_11932);
+
+(statearr_12082_12226[(1)] = (11));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (16))){
+var inst_11863 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12083_12227 = state_11997__$1;
+(statearr_12083_12227[(2)] = inst_11863);
+
+(statearr_12083_12227[(1)] = (13));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (38))){
+var inst_11901 = (state_11997[(23)]);
+var inst_11905 = cljs.core.chunk_first.call(null,inst_11901);
+var inst_11906 = cljs.core.chunk_rest.call(null,inst_11901);
+var inst_11907 = cljs.core.count.call(null,inst_11905);
+var inst_11888 = inst_11906;
+var inst_11889 = inst_11905;
+var inst_11890 = inst_11907;
+var inst_11891 = (0);
+var state_11997__$1 = (function (){var statearr_12084 = state_11997;
+(statearr_12084[(24)] = inst_11888);
+
+(statearr_12084[(25)] = inst_11890);
+
+(statearr_12084[(26)] = inst_11889);
+
+(statearr_12084[(27)] = inst_11891);
+
+return statearr_12084;
+})();
+var statearr_12085_12228 = state_11997__$1;
+(statearr_12085_12228[(2)] = null);
+
+(statearr_12085_12228[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (30))){
+var inst_11890 = (state_11997[(25)]);
+var inst_11891 = (state_11997[(27)]);
+var inst_11893 = (inst_11891 < inst_11890);
+var inst_11894 = inst_11893;
+var state_11997__$1 = state_11997;
+if(cljs.core.truth_(inst_11894)){
+var statearr_12086_12229 = state_11997__$1;
+(statearr_12086_12229[(1)] = (32));
+
+} else {
+var statearr_12087_12230 = state_11997__$1;
+(statearr_12087_12230[(1)] = (33));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (10))){
+var inst_11872 = (state_11997[(14)]);
+var inst_11816 = (state_11997[(15)]);
+var inst_11872__$1 = cljs.core.seq.call(null,inst_11816);
+var state_11997__$1 = (function (){var statearr_12088 = state_11997;
+(statearr_12088[(14)] = inst_11872__$1);
+
+return statearr_12088;
+})();
+if(inst_11872__$1){
+var statearr_12089_12231 = state_11997__$1;
+(statearr_12089_12231[(1)] = (24));
+
+} else {
+var statearr_12090_12232 = state_11997__$1;
+(statearr_12090_12232[(1)] = (25));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (18))){
+var state_11997__$1 = state_11997;
+var statearr_12091_12233 = state_11997__$1;
+(statearr_12091_12233[(2)] = null);
+
+(statearr_12091_12233[(1)] = (19));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (52))){
+var inst_11962 = (state_11997[(17)]);
+var inst_11966 = cljs.core.chunk_first.call(null,inst_11962);
+var inst_11967 = cljs.core.chunk_rest.call(null,inst_11962);
+var inst_11968 = cljs.core.count.call(null,inst_11966);
+var inst_11946 = inst_11967;
+var inst_11947 = inst_11966;
+var inst_11948 = inst_11968;
+var inst_11949 = (0);
+var state_11997__$1 = (function (){var statearr_12092 = state_11997;
+(statearr_12092[(18)] = inst_11949);
+
+(statearr_12092[(19)] = inst_11947);
+
+(statearr_12092[(21)] = inst_11946);
+
+(statearr_12092[(22)] = inst_11948);
+
+return statearr_12092;
+})();
+var statearr_12093_12234 = state_11997__$1;
+(statearr_12093_12234[(2)] = null);
+
+(statearr_12093_12234[(1)] = (43));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (42))){
+var inst_11939 = (state_11997[(2)]);
+var inst_11944 = cljs.core.range.call(null,(100));
+var inst_11945 = cljs.core.seq.call(null,inst_11944);
+var inst_11946 = inst_11945;
+var inst_11947 = null;
+var inst_11948 = (0);
+var inst_11949 = (0);
+var state_11997__$1 = (function (){var statearr_12094 = state_11997;
+(statearr_12094[(18)] = inst_11949);
+
+(statearr_12094[(19)] = inst_11947);
+
+(statearr_12094[(49)] = inst_11939);
+
+(statearr_12094[(21)] = inst_11946);
+
+(statearr_12094[(22)] = inst_11948);
+
+return statearr_12094;
+})();
+var statearr_12095_12235 = state_11997__$1;
+(statearr_12095_12235[(2)] = null);
+
+(statearr_12095_12235[(1)] = (43));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (37))){
+var inst_11918 = (state_11997[(2)]);
+var state_11997__$1 = state_11997;
+var statearr_12096_12236 = state_11997__$1;
+(statearr_12096_12236[(2)] = inst_11918);
+
+(statearr_12096_12236[(1)] = (34));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_11998 === (8))){
+var inst_11936 = (state_11997[(2)]);
+var inst_11937 = cljs.core.async.timeout.call(null,(3000));
+var state_11997__$1 = (function (){var statearr_12097 = state_11997;
+(statearr_12097[(50)] = inst_11936);
+
+return statearr_12097;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_11997__$1,(42),inst_11937);
+} else {
+if((state_val_11998 === (49))){
+var inst_11962 = (state_11997[(17)]);
+var inst_11964 = cljs.core.chunked_seq_QMARK_.call(null,inst_11962);
+var state_11997__$1 = state_11997;
+if(inst_11964){
+var statearr_12098_12237 = state_11997__$1;
+(statearr_12098_12237[(1)] = (52));
+
+} else {
+var statearr_12099_12238 = state_11997__$1;
+(statearr_12099_12238[(1)] = (53));
 
 }
 
@@ -2361,17 +2497,17 @@ return ((function (switch__6444__auto__,c__6459__auto__){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_11985 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_11985[(0)] = state_machine__6445__auto__);
+var statearr_12103 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_12103[(0)] = state_machine__6445__auto__);
 
-(statearr_11985[(1)] = (1));
+(statearr_12103[(1)] = (1));
 
-return statearr_11985;
+return statearr_12103;
 });
-var state_machine__6445__auto____1 = (function (state_11879){
+var state_machine__6445__auto____1 = (function (state_11997){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_11879);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_11997);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -2379,23 +2515,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e11986){if((e11986 instanceof Object)){
-var ex__6448__auto__ = e11986;
-var statearr_11987_12116 = state_11879;
-(statearr_11987_12116[(5)] = ex__6448__auto__);
+}catch (e12104){if((e12104 instanceof Object)){
+var ex__6448__auto__ = e12104;
+var statearr_12105_12239 = state_11997;
+(statearr_12105_12239[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_11879);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_11997);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e11986;
+throw e12104;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__12117 = state_11879;
-state_11879 = G__12117;
+var G__12240 = state_11997;
+state_11997 = G__12240;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -2403,12 +2539,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_11879){
+state_machine__6445__auto__ = function(state_11997){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_11879);
+return state_machine__6445__auto____1.call(this,state_11997);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -2418,10 +2554,10 @@ return state_machine__6445__auto__;
 })()
 ;})(switch__6444__auto__,c__6459__auto__))
 })();
-var state__6461__auto__ = (function (){var statearr_11988 = f__6460__auto__.call(null);
-(statearr_11988[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto__);
+var state__6461__auto__ = (function (){var statearr_12106 = f__6460__auto__.call(null);
+(statearr_12106[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto__);
 
-return statearr_11988;
+return statearr_12106;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
 });})(c__6459__auto__))
@@ -2433,81 +2569,77 @@ return c__6459__auto__;
 * @param {...*} var_args
 */
 farn.core.load = (function() { 
-var load__delegate = function (s,urls,p__12118){
-var map__12154 = p__12118;
-var map__12154__$1 = ((cljs.core.seq_QMARK_.call(null,map__12154))?cljs.core.apply.call(null,cljs.core.hash_map,map__12154):map__12154);
-var options = map__12154__$1;
-var fade_out = cljs.core.get.call(null,map__12154__$1,new cljs.core.Keyword(null,"fade-out","fade-out",-1200160760),0.5);
-var fade_in = cljs.core.get.call(null,map__12154__$1,new cljs.core.Keyword(null,"fade-in","fade-in",999370239),0.5);
+var load__delegate = function (s,urls,p__12241){
+var map__12275 = p__12241;
+var map__12275__$1 = ((cljs.core.seq_QMARK_.call(null,map__12275))?cljs.core.apply.call(null,cljs.core.hash_map,map__12275):map__12275);
+var options = map__12275__$1;
+var fade_out = cljs.core.get.call(null,map__12275__$1,new cljs.core.Keyword(null,"fade-out","fade-out",-1200160760),0.5);
+var fade_in = cljs.core.get.call(null,map__12275__$1,new cljs.core.Keyword(null,"fade-in","fade-in",999370239),0.5);
 var c = cljs.core.async.chan.call(null);
 var b = farn.gfx.add_prog_bar.call(null,s,options);
-var c__6459__auto___12189 = cljs.core.async.chan.call(null,(1));
-cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in){
+var c__6459__auto___12308 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in){
-return (function (state_12175){
-var state_val_12176 = (state_12175[(1)]);
-if((state_val_12176 === (6))){
-var inst_12171 = (state_12175[(2)]);
-var inst_12172 = s.removeChild(b);
-var inst_12173 = cljs.core.async.close_BANG_.call(null,c);
-var state_12175__$1 = (function (){var statearr_12177 = state_12175;
-(statearr_12177[(7)] = inst_12172);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in){
+return (function (state_12294){
+var state_val_12295 = (state_12294[(1)]);
+if((state_val_12295 === (6))){
+var inst_12290 = (state_12294[(2)]);
+var inst_12291 = s.removeChild(b);
+var inst_12292 = cljs.core.async.close_BANG_.call(null,c);
+var state_12294__$1 = (function (){var statearr_12296 = state_12294;
+(statearr_12296[(7)] = inst_12290);
 
-(statearr_12177[(8)] = inst_12171);
+(statearr_12296[(8)] = inst_12291);
 
-return statearr_12177;
+return statearr_12296;
 })();
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12175__$1,inst_12173);
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12294__$1,inst_12292);
 } else {
-if((state_val_12176 === (5))){
-var inst_12168 = (state_12175[(2)]);
-var inst_12169 = farn.gfx.fadeout.call(null,b,new cljs.core.Keyword(null,"duration","duration",1444101068),fade_out);
-var state_12175__$1 = (function (){var statearr_12178 = state_12175;
-(statearr_12178[(9)] = inst_12168);
+if((state_val_12295 === (5))){
+var inst_12287 = (state_12294[(2)]);
+var inst_12288 = farn.gfx.fadeout.call(null,b,new cljs.core.Keyword(null,"duration","duration",1444101068),fade_out);
+var state_12294__$1 = (function (){var statearr_12297 = state_12294;
+(statearr_12297[(9)] = inst_12287);
 
-return statearr_12178;
+return statearr_12297;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12175__$1,(6),inst_12169);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12294__$1,(6),inst_12288);
 } else {
-if((state_val_12176 === (4))){
-var inst_12165 = (state_12175[(2)]);
-var inst_12166 = cljs.core.async.timeout.call(null,(300));
-var state_12175__$1 = (function (){var statearr_12179 = state_12175;
-(statearr_12179[(10)] = inst_12165);
+if((state_val_12295 === (4))){
+var inst_12284 = (state_12294[(2)]);
+var inst_12285 = cljs.core.async.timeout.call(null,(300));
+var state_12294__$1 = (function (){var statearr_12298 = state_12294;
+(statearr_12298[(10)] = inst_12284);
 
-return statearr_12179;
+return statearr_12298;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12175__$1,(5),inst_12166);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12294__$1,(5),inst_12285);
 } else {
-if((state_val_12176 === (3))){
-var inst_12163 = (state_12175[(2)]);
-var state_12175__$1 = (function (){var statearr_12180 = state_12175;
-(statearr_12180[(11)] = inst_12163);
+if((state_val_12295 === (3))){
+var inst_12282 = (state_12294[(2)]);
+var state_12294__$1 = (function (){var statearr_12299 = state_12294;
+(statearr_12299[(11)] = inst_12282);
 
-return statearr_12180;
+return statearr_12299;
 })();
-return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null,state_12175__$1,(4),c,true);
+return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null,state_12294__$1,(4),c,true);
 } else {
-if((state_val_12176 === (2))){
-var inst_12157 = (state_12175[(2)]);
-var inst_12158 = [cljs.core.str(options)].join('');
-var inst_12159 = farn.utils.log.call(null,"load",inst_12158);
-var inst_12160 = cljs.core.partial.call(null,farn.gfx.load_urls,urls,b);
-var inst_12161 = cljs.core.apply.call(null,inst_12160,options);
-var state_12175__$1 = (function (){var statearr_12181 = state_12175;
-(statearr_12181[(12)] = inst_12157);
+if((state_val_12295 === (2))){
+var inst_12278 = (state_12294[(2)]);
+var inst_12279 = cljs.core.partial.call(null,farn.gfx.load_urls,urls,b);
+var inst_12280 = cljs.core.apply.call(null,inst_12279,options);
+var state_12294__$1 = (function (){var statearr_12300 = state_12294;
+(statearr_12300[(12)] = inst_12278);
 
-(statearr_12181[(13)] = inst_12159);
-
-return statearr_12181;
+return statearr_12300;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12175__$1,(3),inst_12161);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12294__$1,(3),inst_12280);
 } else {
-if((state_val_12176 === (1))){
-var inst_12155 = farn.gfx.fadein.call(null,b,new cljs.core.Keyword(null,"duration","duration",1444101068),fade_in);
-var state_12175__$1 = state_12175;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12175__$1,(2),inst_12155);
+if((state_val_12295 === (1))){
+var inst_12276 = farn.gfx.fadein.call(null,b,new cljs.core.Keyword(null,"duration","duration",1444101068),fade_in);
+var state_12294__$1 = state_12294;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12294__$1,(2),inst_12276);
 } else {
 return null;
 }
@@ -2516,23 +2648,23 @@ return null;
 }
 }
 }
-});})(c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in))
+});})(c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in))
 ;
-return ((function (switch__6444__auto__,c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in){
+return ((function (switch__6444__auto__,c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_12185 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_12185[(0)] = state_machine__6445__auto__);
+var statearr_12304 = [null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_12304[(0)] = state_machine__6445__auto__);
 
-(statearr_12185[(1)] = (1));
+(statearr_12304[(1)] = (1));
 
-return statearr_12185;
+return statearr_12304;
 });
-var state_machine__6445__auto____1 = (function (state_12175){
+var state_machine__6445__auto____1 = (function (state_12294){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12175);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12294);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -2540,23 +2672,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e12186){if((e12186 instanceof Object)){
-var ex__6448__auto__ = e12186;
-var statearr_12187_12190 = state_12175;
-(statearr_12187_12190[(5)] = ex__6448__auto__);
+}catch (e12305){if((e12305 instanceof Object)){
+var ex__6448__auto__ = e12305;
+var statearr_12306_12309 = state_12294;
+(statearr_12306_12309[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12175);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12294);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e12186;
+throw e12305;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__12191 = state_12175;
-state_12175 = G__12191;
+var G__12310 = state_12294;
+state_12294 = G__12310;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -2564,12 +2696,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12175){
+state_machine__6445__auto__ = function(state_12294){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12175);
+return state_machine__6445__auto____1.call(this,state_12294);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -2577,33 +2709,33 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in))
+;})(switch__6444__auto__,c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in))
 })();
-var state__6461__auto__ = (function (){var statearr_12188 = f__6460__auto__.call(null);
-(statearr_12188[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12189);
+var state__6461__auto__ = (function (){var statearr_12307 = f__6460__auto__.call(null);
+(statearr_12307[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12308);
 
-return statearr_12188;
+return statearr_12307;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});})(c__6459__auto___12189,c,b,map__12154,map__12154__$1,options,fade_out,fade_in))
+});})(c__6459__auto___12308,c,b,map__12275,map__12275__$1,options,fade_out,fade_in))
 );
 
 
 return c;
 };
 var load = function (s,urls,var_args){
-var p__12118 = null;
+var p__12241 = null;
 if (arguments.length > 2) {
-  p__12118 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 2),0);
+  p__12241 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 2),0);
 } 
-return load__delegate.call(this,s,urls,p__12118);};
+return load__delegate.call(this,s,urls,p__12241);};
 load.cljs$lang$maxFixedArity = 2;
-load.cljs$lang$applyTo = (function (arglist__12192){
-var s = cljs.core.first(arglist__12192);
-arglist__12192 = cljs.core.next(arglist__12192);
-var urls = cljs.core.first(arglist__12192);
-var p__12118 = cljs.core.rest(arglist__12192);
-return load__delegate(s,urls,p__12118);
+load.cljs$lang$applyTo = (function (arglist__12311){
+var s = cljs.core.first(arglist__12311);
+arglist__12311 = cljs.core.next(arglist__12311);
+var urls = cljs.core.first(arglist__12311);
+var p__12241 = cljs.core.rest(arglist__12311);
+return load__delegate(s,urls,p__12241);
 });
 load.cljs$core$IFn$_invoke$arity$variadic = load__delegate;
 return load;
@@ -2612,78 +2744,78 @@ return load;
 farn.core.world = farn.gfx.init.call(null,new cljs.core.Keyword(null,"background","background",-863952629),farn.core.grass_green,new cljs.core.Keyword(null,"expand","expand",595248157),true,new cljs.core.Keyword(null,"engine","engine",1459054265),new cljs.core.Keyword(null,"auto","auto",-566279492),new cljs.core.Keyword(null,"canvas","canvas",-1798817489),document.getElementById("game"));
 farn.core.main_stage = new cljs.core.Keyword(null,"world","world",-418292623).cljs$core$IFn$_invoke$arity$1(farn.core.world);
 farn.core.ui_stage = new cljs.core.Keyword(null,"ui","ui",-469653645).cljs$core$IFn$_invoke$arity$1(farn.core.world);
-var c__6459__auto___12224 = cljs.core.async.chan.call(null,(1));
-cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12224){
+var c__6459__auto___12343 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___12343){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12224){
-return (function (state_12208){
-var state_val_12209 = (state_12208[(1)]);
-if((state_val_12209 === (7))){
-var inst_12197 = (state_12208[(2)]);
-var inst_12198 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(farn.core.world);
-var inst_12199 = new cljs.core.Keyword(null,"stage","stage",1843544772).cljs$core$IFn$_invoke$arity$1(farn.core.world);
-var inst_12200 = inst_12198.render(inst_12199);
-var state_12208__$1 = (function (){var statearr_12210 = state_12208;
-(statearr_12210[(7)] = inst_12200);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___12343){
+return (function (state_12327){
+var state_val_12328 = (state_12327[(1)]);
+if((state_val_12328 === (7))){
+var inst_12316 = (state_12327[(2)]);
+var inst_12317 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(farn.core.world);
+var inst_12318 = new cljs.core.Keyword(null,"stage","stage",1843544772).cljs$core$IFn$_invoke$arity$1(farn.core.world);
+var inst_12319 = inst_12317.render(inst_12318);
+var state_12327__$1 = (function (){var statearr_12329 = state_12327;
+(statearr_12329[(7)] = inst_12319);
 
-(statearr_12210[(8)] = inst_12197);
+(statearr_12329[(8)] = inst_12316);
 
-return statearr_12210;
+return statearr_12329;
 })();
-var statearr_12211_12225 = state_12208__$1;
-(statearr_12211_12225[(2)] = null);
+var statearr_12330_12344 = state_12327__$1;
+(statearr_12330_12344[(2)] = null);
 
-(statearr_12211_12225[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12209 === (6))){
-var inst_12204 = (state_12208[(2)]);
-var state_12208__$1 = state_12208;
-var statearr_12212_12226 = state_12208__$1;
-(statearr_12212_12226[(2)] = inst_12204);
-
-(statearr_12212_12226[(1)] = (3));
+(statearr_12330_12344[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12209 === (5))){
-var state_12208__$1 = state_12208;
-var statearr_12213_12227 = state_12208__$1;
-(statearr_12213_12227[(2)] = null);
+if((state_val_12328 === (6))){
+var inst_12323 = (state_12327[(2)]);
+var state_12327__$1 = state_12327;
+var statearr_12331_12345 = state_12327__$1;
+(statearr_12331_12345[(2)] = inst_12323);
 
-(statearr_12213_12227[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12209 === (4))){
-var inst_12195 = farn.events.next_frame.call(null);
-var state_12208__$1 = state_12208;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12208__$1,(7),inst_12195);
-} else {
-if((state_val_12209 === (3))){
-var inst_12206 = (state_12208[(2)]);
-var state_12208__$1 = state_12208;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12208__$1,inst_12206);
-} else {
-if((state_val_12209 === (2))){
-var state_12208__$1 = state_12208;
-var statearr_12214_12228 = state_12208__$1;
-(statearr_12214_12228[(1)] = (4));
-
+(statearr_12331_12345[(1)] = (3));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12209 === (1))){
-var state_12208__$1 = state_12208;
-var statearr_12216_12229 = state_12208__$1;
-(statearr_12216_12229[(2)] = null);
+if((state_val_12328 === (5))){
+var state_12327__$1 = state_12327;
+var statearr_12332_12346 = state_12327__$1;
+(statearr_12332_12346[(2)] = null);
 
-(statearr_12216_12229[(1)] = (2));
+(statearr_12332_12346[(1)] = (6));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12328 === (4))){
+var inst_12314 = farn.events.next_frame.call(null);
+var state_12327__$1 = state_12327;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12327__$1,(7),inst_12314);
+} else {
+if((state_val_12328 === (3))){
+var inst_12325 = (state_12327[(2)]);
+var state_12327__$1 = state_12327;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12327__$1,inst_12325);
+} else {
+if((state_val_12328 === (2))){
+var state_12327__$1 = state_12327;
+var statearr_12333_12347 = state_12327__$1;
+(statearr_12333_12347[(1)] = (4));
+
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12328 === (1))){
+var state_12327__$1 = state_12327;
+var statearr_12335_12348 = state_12327__$1;
+(statearr_12335_12348[(2)] = null);
+
+(statearr_12335_12348[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
@@ -2696,23 +2828,23 @@ return null;
 }
 }
 }
-});})(c__6459__auto___12224))
+});})(c__6459__auto___12343))
 ;
-return ((function (switch__6444__auto__,c__6459__auto___12224){
+return ((function (switch__6444__auto__,c__6459__auto___12343){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_12220 = [null,null,null,null,null,null,null,null,null];
-(statearr_12220[(0)] = state_machine__6445__auto__);
+var statearr_12339 = [null,null,null,null,null,null,null,null,null];
+(statearr_12339[(0)] = state_machine__6445__auto__);
 
-(statearr_12220[(1)] = (1));
+(statearr_12339[(1)] = (1));
 
-return statearr_12220;
+return statearr_12339;
 });
-var state_machine__6445__auto____1 = (function (state_12208){
+var state_machine__6445__auto____1 = (function (state_12327){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12208);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12327);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -2720,23 +2852,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e12221){if((e12221 instanceof Object)){
-var ex__6448__auto__ = e12221;
-var statearr_12222_12230 = state_12208;
-(statearr_12222_12230[(5)] = ex__6448__auto__);
+}catch (e12340){if((e12340 instanceof Object)){
+var ex__6448__auto__ = e12340;
+var statearr_12341_12349 = state_12327;
+(statearr_12341_12349[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12208);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12327);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e12221;
+throw e12340;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__12231 = state_12208;
-state_12208 = G__12231;
+var G__12350 = state_12327;
+state_12327 = G__12350;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -2744,12 +2876,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12208){
+state_machine__6445__auto__ = function(state_12327){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12208);
+return state_machine__6445__auto____1.call(this,state_12327);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -2757,42 +2889,42 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto___12224))
+;})(switch__6444__auto__,c__6459__auto___12343))
 })();
-var state__6461__auto__ = (function (){var statearr_12223 = f__6460__auto__.call(null);
-(statearr_12223[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12224);
+var state__6461__auto__ = (function (){var statearr_12342 = f__6460__auto__.call(null);
+(statearr_12342[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___12343);
 
-return statearr_12223;
+return statearr_12342;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});})(c__6459__auto___12224))
+});})(c__6459__auto___12343))
 );
 
 /**
 * @param {...*} var_args
 */
 farn.core.make_sprite = (function() { 
-var make_sprite__delegate = function (tex,p__12232){
-var map__12234 = p__12232;
-var map__12234__$1 = ((cljs.core.seq_QMARK_.call(null,map__12234))?cljs.core.apply.call(null,cljs.core.hash_map,map__12234):map__12234);
-var anchor_y = cljs.core.get.call(null,map__12234__$1,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),(1));
-var anchor_x = cljs.core.get.call(null,map__12234__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5);
+var make_sprite__delegate = function (tex,p__12351){
+var map__12353 = p__12351;
+var map__12353__$1 = ((cljs.core.seq_QMARK_.call(null,map__12353))?cljs.core.apply.call(null,cljs.core.hash_map,map__12353):map__12353);
+var anchor_y = cljs.core.get.call(null,map__12353__$1,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),(1));
+var anchor_x = cljs.core.get.call(null,map__12353__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5);
 var s = farn.gfx.make_sprite.call(null,tex);
 farn.sprite.set_anchor_BANG_.call(null,s,anchor_x,anchor_y);
 
 return s;
 };
 var make_sprite = function (tex,var_args){
-var p__12232 = null;
+var p__12351 = null;
 if (arguments.length > 1) {
-  p__12232 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);
+  p__12351 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);
 } 
-return make_sprite__delegate.call(this,tex,p__12232);};
+return make_sprite__delegate.call(this,tex,p__12351);};
 make_sprite.cljs$lang$maxFixedArity = 1;
-make_sprite.cljs$lang$applyTo = (function (arglist__12235){
-var tex = cljs.core.first(arglist__12235);
-var p__12232 = cljs.core.rest(arglist__12235);
-return make_sprite__delegate(tex,p__12232);
+make_sprite.cljs$lang$applyTo = (function (arglist__12354){
+var tex = cljs.core.first(arglist__12354);
+var p__12351 = cljs.core.rest(arglist__12354);
+return make_sprite__delegate(tex,p__12351);
 });
 make_sprite.cljs$core$IFn$_invoke$arity$variadic = make_sprite__delegate;
 return make_sprite;
@@ -2806,44 +2938,44 @@ cljs.core.println.call(null,"we perlin!");
 } else {
 }
 
-var c_13742 = farn.map.perlin_map_generator.call(null);
-var c__6459__auto___13743 = cljs.core.async.chan.call(null,(1));
-cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___13743,c_13742){
+var c_13797 = farn.map.perlin_map_generator.call(null);
+var c__6459__auto___13798 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___13798,c_13797){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___13743,c_13742){
-return (function (state_12246){
-var state_val_12247 = (state_12246[(1)]);
-if((state_val_12247 === (2))){
-var inst_12242 = (state_12246[(2)]);
-var inst_12243 = inst_12242.length;
-var inst_12244 = cljs.core.println.call(null,"Perlin map done:",inst_12243);
-var state_12246__$1 = state_12246;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12246__$1,inst_12244);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___13798,c_13797){
+return (function (state_12364){
+var state_val_12365 = (state_12364[(1)]);
+if((state_val_12365 === (2))){
+var inst_12360 = (state_12364[(2)]);
+var inst_12361 = inst_12360.length;
+var inst_12362 = cljs.core.println.call(null,"Perlin map done:",inst_12361);
+var state_12364__$1 = state_12364;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12364__$1,inst_12362);
 } else {
-if((state_val_12247 === (1))){
-var state_12246__$1 = state_12246;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12246__$1,(2),c_13742);
+if((state_val_12365 === (1))){
+var state_12364__$1 = state_12364;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12364__$1,(2),c_13797);
 } else {
 return null;
 }
 }
-});})(c__6459__auto___13743,c_13742))
+});})(c__6459__auto___13798,c_13797))
 ;
-return ((function (switch__6444__auto__,c__6459__auto___13743,c_13742){
+return ((function (switch__6444__auto__,c__6459__auto___13798,c_13797){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_12251 = [null,null,null,null,null,null,null];
-(statearr_12251[(0)] = state_machine__6445__auto__);
+var statearr_12369 = [null,null,null,null,null,null,null];
+(statearr_12369[(0)] = state_machine__6445__auto__);
 
-(statearr_12251[(1)] = (1));
+(statearr_12369[(1)] = (1));
 
-return statearr_12251;
+return statearr_12369;
 });
-var state_machine__6445__auto____1 = (function (state_12246){
+var state_machine__6445__auto____1 = (function (state_12364){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12246);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12364);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -2851,23 +2983,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e12252){if((e12252 instanceof Object)){
-var ex__6448__auto__ = e12252;
-var statearr_12253_13744 = state_12246;
-(statearr_12253_13744[(5)] = ex__6448__auto__);
+}catch (e12370){if((e12370 instanceof Object)){
+var ex__6448__auto__ = e12370;
+var statearr_12371_13799 = state_12364;
+(statearr_12371_13799[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12246);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12364);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e12252;
+throw e12370;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13745 = state_12246;
-state_12246 = G__13745;
+var G__13800 = state_12364;
+state_12364 = G__13800;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -2875,12 +3007,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12246){
+state_machine__6445__auto__ = function(state_12364){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12246);
+return state_machine__6445__auto____1.call(this,state_12364);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -2888,323 +3020,365 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto___13743,c_13742))
+;})(switch__6444__auto__,c__6459__auto___13798,c_13797))
 })();
-var state__6461__auto__ = (function (){var statearr_12254 = f__6460__auto__.call(null);
-(statearr_12254[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___13743);
+var state__6461__auto__ = (function (){var statearr_12372 = f__6460__auto__.call(null);
+(statearr_12372[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___13798);
 
-return statearr_12254;
+return statearr_12372;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});})(c__6459__auto___13743,c_13742))
+});})(c__6459__auto___13798,c_13797))
 );
 
 } else {
-var c__6459__auto___13746 = cljs.core.async.chan.call(null,(1));
-cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___13746){
+var c__6459__auto___13801 = cljs.core.async.chan.call(null,(1));
+cljs.core.async.impl.dispatch.run.call(null,((function (c__6459__auto___13801){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___13746){
-return (function (state_13312){
-var state_val_13313 = (state_13312[(1)]);
-if((state_val_13313 === (121))){
-var inst_13244 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13314_13747 = state_13312__$1;
-(statearr_13314_13747[(2)] = inst_13244);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto___13801){
+return (function (state_13385){
+var state_val_13386 = (state_13385[(1)]);
+if((state_val_13386 === (121))){
+var state_13385__$1 = state_13385;
+var statearr_13387_13802 = state_13385__$1;
+(statearr_13387_13802[(1)] = (123));
 
-(statearr_13314_13747[(1)] = (118));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (65))){
-var state_13312__$1 = state_13312;
-var statearr_13315_13748 = state_13312__$1;
-(statearr_13315_13748[(2)] = null);
+if((state_val_13386 === (65))){
+var inst_13113 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13389_13803 = state_13385__$1;
+(statearr_13389_13803[(2)] = inst_13113);
 
-(statearr_13315_13748[(1)] = (66));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (70))){
-var state_13312__$1 = state_13312;
-var statearr_13316_13749 = state_13312__$1;
-(statearr_13316_13749[(2)] = null);
-
-(statearr_13316_13749[(1)] = (71));
+(statearr_13389_13803[(1)] = (63));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (62))){
-var inst_12769 = (state_13312[(7)]);
-var state_13312__$1 = state_13312;
-var statearr_13317_13750 = state_13312__$1;
-(statearr_13317_13750[(2)] = inst_12769);
+if((state_val_13386 === (70))){
+var inst_13218 = (state_13385[(2)]);
+var inst_13223 = cljs.core.deref.call(null,farn.core.pickup_store);
+var inst_13224 = cljs.core.seq.call(null,inst_13223);
+var inst_13225 = inst_13224;
+var inst_13226 = null;
+var inst_13227 = (0);
+var inst_13228 = (0);
+var state_13385__$1 = (function (){var statearr_13390 = state_13385;
+(statearr_13390[(7)] = inst_13225);
 
-(statearr_13317_13750[(1)] = (63));
+(statearr_13390[(8)] = inst_13218);
 
+(statearr_13390[(9)] = inst_13227);
 
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (74))){
-var inst_12475 = (state_13312[(8)]);
-var inst_13012 = (state_13312[(9)]);
-var inst_13010 = (state_13312[(10)]);
-var inst_13017 = cljs.core._nth.call(null,inst_13010,inst_13012);
-var inst_13022 = inst_12475.call(null,inst_13017);
-var inst_13023 = cljs.core.seq.call(null,inst_13022);
-var inst_13024 = inst_13023;
-var inst_13025 = null;
-var inst_13026 = (0);
-var inst_13027 = (0);
-var state_13312__$1 = (function (){var statearr_13318 = state_13312;
-(statearr_13318[(11)] = inst_13025);
+(statearr_13390[(10)] = inst_13226);
 
-(statearr_13318[(12)] = inst_13026);
+(statearr_13390[(11)] = inst_13228);
 
-(statearr_13318[(13)] = inst_13027);
-
-(statearr_13318[(14)] = inst_13024);
-
-return statearr_13318;
+return statearr_13390;
 })();
-var statearr_13319_13751 = state_13312__$1;
-(statearr_13319_13751[(2)] = null);
+var statearr_13391_13804 = state_13385__$1;
+(statearr_13391_13804[(2)] = null);
 
-(statearr_13319_13751[(1)] = (77));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (110))){
-var inst_13187 = (state_13312[(15)]);
-var inst_13189 = cljs.core.chunked_seq_QMARK_.call(null,inst_13187);
-var state_13312__$1 = state_13312;
-if(inst_13189){
-var statearr_13320_13752 = state_13312__$1;
-(statearr_13320_13752[(1)] = (113));
-
-} else {
-var statearr_13321_13753 = state_13312__$1;
-(statearr_13321_13753[(1)] = (114));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (130))){
-var state_13312__$1 = state_13312;
-var statearr_13322_13754 = state_13312__$1;
-(statearr_13322_13754[(1)] = (132));
-
+(statearr_13391_13804[(1)] = (96));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (128))){
-var inst_13001 = (state_13312[(16)]);
-var inst_13273 = (state_13312[(2)]);
-var inst_13274 = ((0) < inst_13001);
-var inst_13275 = (inst_13001 < (5));
-var inst_13276 = (inst_13274) && (inst_13275);
-var state_13312__$1 = (function (){var statearr_13324 = state_13312;
-(statearr_13324[(17)] = inst_13273);
+if((state_val_13386 === (62))){
+var state_13385__$1 = state_13385;
+var statearr_13392_13805 = state_13385__$1;
+(statearr_13392_13805[(2)] = null);
 
-return statearr_13324;
+(statearr_13392_13805[(1)] = (63));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (74))){
+var inst_13143 = (0);
+var state_13385__$1 = (function (){var statearr_13393 = state_13385;
+(statearr_13393[(12)] = inst_13143);
+
+return statearr_13393;
 })();
-if(cljs.core.truth_(inst_13276)){
-var statearr_13325_13755 = state_13312__$1;
-(statearr_13325_13755[(1)] = (129));
+var statearr_13394_13806 = state_13385__$1;
+(statearr_13394_13806[(2)] = null);
+
+(statearr_13394_13806[(1)] = (77));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (110))){
+var inst_13307 = (state_13385[(13)]);
+var state_13385__$1 = state_13385;
+var statearr_13395_13807 = state_13385__$1;
+(statearr_13395_13807[(2)] = inst_13307);
+
+(statearr_13395_13807[(1)] = (112));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (130))){
+var inst_13368 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"right","right",-452581833));
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13368)){
+var statearr_13396_13808 = state_13385__$1;
+(statearr_13396_13808[(1)] = (132));
 
 } else {
-var statearr_13326_13756 = state_13312__$1;
-(statearr_13326_13756[(1)] = (130));
+var statearr_13397_13809 = state_13385__$1;
+(statearr_13397_13809[(1)] = (133));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (7))){
-var inst_12348 = (state_13312[(18)]);
-var inst_12353 = [cljs.core.str("sfx/pickup-"),cljs.core.str(inst_12348),cljs.core.str(".ogg")].join('');
-var inst_12354 = farn.sound.load_sound.call(null,inst_12353);
-var state_13312__$1 = state_13312;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(10),inst_12354);
-} else {
-if((state_val_13313 === (59))){
-var inst_12966 = (state_13312[(19)]);
-var state_13312__$1 = state_13312;
-var statearr_13327_13757 = state_13312__$1;
-(statearr_13327_13757[(2)] = inst_12966);
+if((state_val_13386 === (128))){
+var inst_13356 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13398_13810 = state_13385__$1;
+(statearr_13398_13810[(2)] = inst_13356);
 
-(statearr_13327_13757[(1)] = (60));
+(statearr_13398_13810[(1)] = (125));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (86))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13044 = (state_13312[(25)]);
-var inst_13053 = cljs.core.first.call(null,inst_13044);
-var inst_13055 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13053);
-var inst_13056 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13053);
-var inst_13057 = inst_12392.call(null,inst_13055,inst_13056,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13058 = cljs.core.nth.call(null,inst_13057,(0),null);
-var inst_13059 = cljs.core.nth.call(null,inst_13057,(1),null);
-var inst_13060 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13053);
-var inst_13061 = farn.sprite.set_pos_BANG_.call(null,inst_13060,inst_13058,inst_13059);
-var inst_13062 = cljs.core.next.call(null,inst_13044);
-var inst_13024 = inst_13062;
-var inst_13025 = null;
-var inst_13026 = (0);
-var inst_13027 = (0);
-var state_13312__$1 = (function (){var statearr_13328 = state_13312;
-(statearr_13328[(11)] = inst_13025);
+if((state_val_13386 === (7))){
+var inst_12459 = (state_13385[(14)]);
+var inst_12464 = [cljs.core.str("sfx/pickup-"),cljs.core.str(inst_12459),cljs.core.str(".ogg")].join('');
+var inst_12465 = farn.sound.load_sound.call(null,inst_12464);
+var state_13385__$1 = state_13385;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(10),inst_12465);
+} else {
+if((state_val_13386 === (59))){
+var inst_12888 = (state_13385[(15)]);
+var state_13385__$1 = state_13385;
+var statearr_13399_13811 = state_13385__$1;
+(statearr_13399_13811[(2)] = inst_12888);
 
-(statearr_13328[(12)] = inst_13026);
+(statearr_13399_13811[(1)] = (60));
 
-(statearr_13328[(13)] = inst_13027);
 
-(statearr_13328[(26)] = inst_13061);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (86))){
+var inst_13180 = (state_13385[(16)]);
+var inst_13181 = (state_13385[(17)]);
+var inst_13170 = (state_13385[(18)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_13179 = cljs.core.first.call(null,inst_13170);
+var inst_13180__$1 = inst_12586.call(null,inst_13179);
+var inst_13181__$1 = cljs.core.count.call(null,inst_13180__$1);
+var inst_13182 = (inst_13181__$1 > (0));
+var state_13385__$1 = (function (){var statearr_13400 = state_13385;
+(statearr_13400[(16)] = inst_13180__$1);
 
-(statearr_13328[(14)] = inst_13024);
+(statearr_13400[(17)] = inst_13181__$1);
 
-return statearr_13328;
+return statearr_13400;
 })();
-var statearr_13329_13758 = state_13312__$1;
-(statearr_13329_13758[(2)] = null);
-
-(statearr_13329_13758[(1)] = (77));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (20))){
-var inst_12774 = farn.core.main_stage.children.length;
-var inst_12775 = farn.utils.log.call(null,"SPRITE COUNT:",inst_12774);
-var state_13312__$1 = state_13312;
-var statearr_13330_13759 = state_13312__$1;
-(statearr_13330_13759[(2)] = inst_12775);
-
-(statearr_13330_13759[(1)] = (22));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (72))){
-var inst_13011 = (state_13312[(27)]);
-var inst_13012 = (state_13312[(9)]);
-var inst_13014 = (inst_13012 < inst_13011);
-var inst_13015 = inst_13014;
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13015)){
-var statearr_13331_13760 = state_13312__$1;
-(statearr_13331_13760[(1)] = (74));
+if(cljs.core.truth_(inst_13182)){
+var statearr_13401_13812 = state_13385__$1;
+(statearr_13401_13812[(1)] = (88));
 
 } else {
-var statearr_13332_13761 = state_13312__$1;
-(statearr_13332_13761[(1)] = (75));
+var statearr_13402_13813 = state_13385__$1;
+(statearr_13402_13813[(1)] = (89));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (58))){
-var inst_12965 = (state_13312[(28)]);
-var state_13312__$1 = state_13312;
-var statearr_13333_13762 = state_13312__$1;
-(statearr_13333_13762[(2)] = inst_12965);
+if((state_val_13386 === (20))){
+var inst_12939 = (state_13385[(20)]);
+var inst_12936 = (state_13385[(21)]);
+var inst_12939__$1 = cljs.core.nth.call(null,inst_12936,(0),null);
+var inst_12940 = cljs.core.nthnext.call(null,inst_12936,(1));
+var inst_12941 = (inst_12939__$1 == null);
+var state_13385__$1 = (function (){var statearr_13403 = state_13385;
+(statearr_13403[(20)] = inst_12939__$1);
 
-(statearr_13333_13762[(1)] = (60));
+(statearr_13403[(22)] = inst_12940);
 
+return statearr_13403;
+})();
+if(cljs.core.truth_(inst_12941)){
+var statearr_13404_13814 = state_13385__$1;
+(statearr_13404_13814[(1)] = (22));
 
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (60))){
-var inst_12970 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_12970)){
-var statearr_13334_13763 = state_13312__$1;
-(statearr_13334_13763[(1)] = (61));
-
-} else {
-var statearr_13335_13764 = state_13312__$1;
-(statearr_13335_13764[(1)] = (62));
+var statearr_13405_13815 = state_13385__$1;
+(statearr_13405_13815[(1)] = (23));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (27))){
-var inst_12827 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13336_13765 = state_13312__$1;
-(statearr_13336_13765[(2)] = inst_12827);
+if((state_val_13386 === (72))){
+var inst_13130 = (state_13385[(23)]);
+var inst_13170 = (state_13385[(18)]);
+var inst_13170__$1 = cljs.core.seq.call(null,inst_13130);
+var state_13385__$1 = (function (){var statearr_13406 = state_13385;
+(statearr_13406[(18)] = inst_13170__$1);
 
-(statearr_13336_13765[(1)] = (24));
+return statearr_13406;
+})();
+if(inst_13170__$1){
+var statearr_13407_13816 = state_13385__$1;
+(statearr_13407_13816[(1)] = (82));
+
+} else {
+var statearr_13408_13817 = state_13385__$1;
+(statearr_13408_13817[(1)] = (83));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (58))){
+var inst_13097 = (state_13385[(24)]);
+var inst_12882 = (state_13385[(25)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_13093 = cljs.core.rand_nth.call(null,inst_12501);
+var inst_13094 = farn.sound.play_sound.call(null,inst_13093,0.5);
+var inst_13096 = cljs.core.deref.call(null,farn.core.player_stars);
+var inst_13097__$1 = (((30) < inst_13096) ? (30) : inst_13096);
+var inst_13098 = cljs.core.nth.call(null,inst_12882,(0),null);
+var inst_13099 = cljs.core.nth.call(null,inst_12882,(1),null);
+var inst_13100 = (inst_13097__$1 > (0));
+var state_13385__$1 = (function (){var statearr_13409 = state_13385;
+(statearr_13409[(24)] = inst_13097__$1);
+
+(statearr_13409[(27)] = inst_13098);
+
+(statearr_13409[(28)] = inst_13099);
+
+(statearr_13409[(29)] = inst_13094);
+
+return statearr_13409;
+})();
+if(cljs.core.truth_(inst_13100)){
+var statearr_13410_13818 = state_13385__$1;
+(statearr_13410_13818[(1)] = (61));
+
+} else {
+var statearr_13411_13819 = state_13385__$1;
+(statearr_13411_13819[(1)] = (62));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (60))){
+var inst_12882 = (state_13385[(25)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12886 = (state_13385[(32)]);
+var inst_13122 = (state_13385[(2)]);
+var inst_13123 = farn.sprite.set_pos_BANG_.call(null,inst_12396,inst_12882);
+var inst_13124 = farn.sprite.set_pos_BANG_.call(null,inst_12398,inst_12882);
+var inst_13129 = cljs.core.seq.call(null,inst_12886);
+var inst_13130 = inst_13129;
+var inst_13131 = null;
+var inst_13132 = (0);
+var inst_13133 = (0);
+var state_13385__$1 = (function (){var statearr_13412 = state_13385;
+(statearr_13412[(33)] = inst_13131);
+
+(statearr_13412[(34)] = inst_13133);
+
+(statearr_13412[(35)] = inst_13123);
+
+(statearr_13412[(23)] = inst_13130);
+
+(statearr_13412[(36)] = inst_13132);
+
+(statearr_13412[(37)] = inst_13122);
+
+(statearr_13412[(38)] = inst_13124);
+
+return statearr_13412;
+})();
+var statearr_13413_13820 = state_13385__$1;
+(statearr_13413_13820[(2)] = null);
+
+(statearr_13413_13820[(1)] = (69));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (1))){
-var inst_12268 = (state_13312[(29)]);
-var inst_12265 = cljs.core.async.chan.call(null,(1));
-var inst_12266 = (function (){var c__6459__auto____$1 = inst_12265;
-return ((function (c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746){
+if((state_val_13386 === (27))){
+var inst_12969 = (state_13385[(39)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12965 = (state_13385[(41)]);
+var inst_12968 = (state_13385[(42)]);
+var inst_12973 = inst_12591.call(null,inst_12968);
+var inst_12974 = cljs.core.disj.call(null,inst_12965,inst_12968);
+var inst_12964 = inst_12969;
+var inst_12965__$1 = inst_12974;
+var state_13385__$1 = (function (){var statearr_13414 = state_13385;
+(statearr_13414[(43)] = inst_12964);
+
+(statearr_13414[(41)] = inst_12965__$1);
+
+(statearr_13414[(44)] = inst_12973);
+
+return statearr_13414;
+})();
+var statearr_13415_13821 = state_13385__$1;
+(statearr_13415_13821[(2)] = null);
+
+(statearr_13415_13821[(1)] = (25));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (1))){
+var inst_12383 = (state_13385[(45)]);
+var inst_12380 = cljs.core.async.chan.call(null,(1));
+var inst_12381 = (function (){var c__6459__auto____$1 = inst_12380;
+return ((function (c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746){
-return (function (state_12263){
-var state_val_12264 = (state_12263[(1)]);
-if((state_val_12264 === (2))){
-var inst_12258 = (state_12263[(2)]);
-var inst_12259 = cljs.core.println.call(null,"we has sound lel");
-var inst_12260 = console.log(inst_12258);
-var inst_12261 = farn.sound.play_sound.call(null,inst_12258,0.9,true);
-var state_12263__$1 = (function (){var statearr_13337 = state_12263;
-(statearr_13337[(7)] = inst_12259);
-
-(statearr_13337[(8)] = inst_12260);
-
-return statearr_13337;
-})();
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12263__$1,inst_12261);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801){
+return (function (state_12378){
+var state_val_12379 = (state_12378[(1)]);
+if((state_val_12379 === (2))){
+var inst_12375 = (state_12378[(2)]);
+var inst_12376 = farn.sound.play_sound.call(null,inst_12375,0.9,true);
+var state_12378__$1 = state_12378;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12378__$1,inst_12376);
 } else {
-if((state_val_12264 === (1))){
-var inst_12255 = cljs.core.println.call(null,"pre sound lel");
-var inst_12256 = farn.sound.load_sound.call(null,"music/bu-ogre-of-a-simplex.ogg");
-var state_12263__$1 = (function (){var statearr_13338 = state_12263;
-(statearr_13338[(9)] = inst_12255);
-
-return statearr_13338;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12263__$1,(2),inst_12256);
+if((state_val_12379 === (1))){
+var inst_12373 = farn.sound.load_sound.call(null,"music/bu-ogre-of-a-simplex.ogg");
+var state_12378__$1 = state_12378;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12378__$1,(2),inst_12373);
 } else {
 return null;
 }
 }
-});})(c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746))
+});})(c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801))
 ;
-return ((function (switch__6444__auto__,c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746){
+return ((function (switch__6444__auto__,c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_13342 = [null,null,null,null,null,null,null,null,null,null];
-(statearr_13342[(0)] = state_machine__6445__auto__);
+var statearr_13419 = [null,null,null,null,null,null,null];
+(statearr_13419[(0)] = state_machine__6445__auto__);
 
-(statearr_13342[(1)] = (1));
+(statearr_13419[(1)] = (1));
 
-return statearr_13342;
+return statearr_13419;
 });
-var state_machine__6445__auto____1 = (function (state_12263){
+var state_machine__6445__auto____1 = (function (state_12378){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12263);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12378);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -3212,23 +3386,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e13343){if((e13343 instanceof Object)){
-var ex__6448__auto__ = e13343;
-var statearr_13344_13766 = state_12263;
-(statearr_13344_13766[(5)] = ex__6448__auto__);
+}catch (e13420){if((e13420 instanceof Object)){
+var ex__6448__auto__ = e13420;
+var statearr_13421_13822 = state_12378;
+(statearr_13421_13822[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12263);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12378);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e13343;
+throw e13420;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13767 = state_12263;
-state_12263 = G__13767;
+var G__13823 = state_12378;
+state_12378 = G__13823;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -3236,12 +3410,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12263){
+state_machine__6445__auto__ = function(state_12378){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12263);
+return state_machine__6445__auto____1.call(this,state_12378);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -3249,281 +3423,257 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746))
+;})(switch__6444__auto__,c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801))
 })();
-var state__6461__auto__ = (function (){var statearr_13345 = f__6460__auto__.call(null);
-(statearr_13345[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
+var state__6461__auto__ = (function (){var statearr_13422 = f__6460__auto__.call(null);
+(statearr_13422[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
 
-return statearr_13345;
+return statearr_13422;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
 });
-;})(c__6459__auto____$1,inst_12268,inst_12265,state_val_13313,c__6459__auto___13746))
+;})(c__6459__auto____$1,inst_12383,inst_12380,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12267 = cljs.core.async.impl.dispatch.run.call(null,inst_12266);
-var inst_12268__$1 = farn.core.load.call(null,farn.core.ui_stage,farn.assets._EQ_assets_EQ_,new cljs.core.Keyword(null,"full-colour","full-colour",50761434),(3170336),new cljs.core.Keyword(null,"highlight","highlight",-800930873),(8454016),new cljs.core.Keyword(null,"lowlight","lowlight",2143243768),(1060880),new cljs.core.Keyword(null,"empty-colour","empty-colour",-1488420524),(0),new cljs.core.Keyword(null,"fade-in","fade-in",999370239),0.2,new cljs.core.Keyword(null,"fade-out","fade-out",-1200160760),(2));
-var inst_12269 = farn.map.perlin_map_generator.call(null);
-var inst_12270 = farn.utils.log.call(null,"pulling");
-var state_13312__$1 = (function (){var statearr_13346 = state_13312;
-(statearr_13346[(29)] = inst_12268__$1);
+var inst_12382 = cljs.core.async.impl.dispatch.run.call(null,inst_12381);
+var inst_12383__$1 = farn.core.load.call(null,farn.core.ui_stage,farn.assets._EQ_assets_EQ_,new cljs.core.Keyword(null,"full-colour","full-colour",50761434),(3170336),new cljs.core.Keyword(null,"highlight","highlight",-800930873),(8454016),new cljs.core.Keyword(null,"lowlight","lowlight",2143243768),(1060880),new cljs.core.Keyword(null,"empty-colour","empty-colour",-1488420524),(0),new cljs.core.Keyword(null,"fade-in","fade-in",999370239),0.2,new cljs.core.Keyword(null,"fade-out","fade-out",-1200160760),(2));
+var inst_12384 = farn.map.perlin_map_generator.call(null);
+var state_13385__$1 = (function (){var statearr_13423 = state_13385;
+(statearr_13423[(45)] = inst_12383__$1);
 
-(statearr_13346[(30)] = inst_12270);
+(statearr_13423[(46)] = inst_12382);
 
-(statearr_13346[(31)] = inst_12267);
+(statearr_13423[(47)] = inst_12384);
 
-(statearr_13346[(32)] = inst_12269);
-
-return statearr_13346;
+return statearr_13423;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(2),inst_12268__$1);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(2),inst_12383__$1);
 } else {
-if((state_val_13313 === (69))){
-var inst_12981 = (state_13312[(33)]);
-var inst_12986 = (inst_12981 - (1));
-var inst_12981__$1 = inst_12986;
-var state_13312__$1 = (function (){var statearr_13347 = state_13312;
-(statearr_13347[(33)] = inst_12981__$1);
+if((state_val_13386 === (69))){
+var inst_13133 = (state_13385[(34)]);
+var inst_13132 = (state_13385[(36)]);
+var inst_13135 = (inst_13133 < inst_13132);
+var inst_13136 = inst_13135;
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13136)){
+var statearr_13424_13824 = state_13385__$1;
+(statearr_13424_13824[(1)] = (71));
 
-return statearr_13347;
-})();
-var statearr_13348_13768 = state_13312__$1;
-(statearr_13348_13768[(2)] = null);
-
-(statearr_13348_13768[(1)] = (67));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (101))){
-var inst_13136 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13349_13769 = state_13312__$1;
-(statearr_13349_13769[(2)] = inst_13136);
+var statearr_13425_13825 = state_13385__$1;
+(statearr_13425_13825[(1)] = (72));
 
-(statearr_13349_13769[(1)] = (98));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (24))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12795 = (state_13312[(36)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12768 = (state_13312[(39)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12474 = (state_13312[(41)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12796 = (state_13312[(43)]);
-var inst_12765 = (state_13312[(44)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12390 = (state_13312[(46)]);
-var inst_12467 = (state_13312[(47)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_12763 = (state_13312[(48)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_12783 = (state_13312[(52)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12363 = (state_13312[(55)]);
-var inst_12797 = (state_13312[(56)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12395 = (state_13312[(60)]);
-var inst_12766 = (state_13312[(61)]);
-var inst_12282 = (state_13312[(68)]);
-var inst_12769 = (state_13312[(7)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12808 = (state_13312[(70)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12837 = (state_13312[(62)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12794 = (state_13312[(73)]);
-var inst_12479 = (state_13312[(74)]);
-var inst_12809 = (state_13312[(75)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12784 = (state_13312[(79)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12767 = (state_13312[(81)]);
-var inst_12829 = (state_13312[(67)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_12478 = (state_13312[(83)]);
-var inst_12785 = (state_13312[(84)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12336 = (state_13312[(86)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12829__$1 = (state_13312[(2)]);
-var inst_12830 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795;
-var vec__12780 = inst_12795;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794;
-var y = inst_12782;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797;
-var player_cell_x = inst_12796;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var player_and_surrounds = inst_12808;
-var rhx = inst_12788;
-var rhy = inst_12791;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var process_add_cell = inst_12809;
-var _ = inst_12282;
-var tex = inst_12284;
-var speed = inst_12765;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var new_cells = inst_12829__$1;
-var hy = inst_12785;
-var wait = inst_12278;
-var hx = inst_12784;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,state_val_13313,c__6459__auto___13746){
-return (function (p1__12238_SHARP_){
-return !((p1__12238_SHARP_ == null));
-});
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12835 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795;
-var vec__12780 = inst_12795;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794;
-var y = inst_12782;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797;
-var player_cell_x = inst_12796;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var player_and_surrounds = inst_12808;
-var rhx = inst_12788;
-var rhy = inst_12791;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var process_add_cell = inst_12809;
-var _ = inst_12282;
-var tex = inst_12284;
-var speed = inst_12765;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var new_cells = inst_12829__$1;
-var hy = inst_12785;
-var wait = inst_12278;
-var hx = inst_12784;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,inst_12830,state_val_13313,c__6459__auto___13746){
-return (function iter__12831(s__12832){
-return (new cljs.core.LazySeq(null,((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,inst_12830,state_val_13313,c__6459__auto___13746){
-return (function (){
-var s__12832__$1 = s__12832;
-while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12832__$1);
-if(temp__4126__auto__){
-var s__12832__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12832__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12832__$2);
-var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12834 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12833 = (0);
-while(true){
-if((i__12833 < size__4385__auto__)){
-var c = cljs.core._nth.call(null,c__4384__auto__,i__12833);
-cljs.core.chunk_append.call(null,b__12834,(function (){var vec__13352 = c;
-var cx = cljs.core.nth.call(null,vec__13352,(0),null);
-var cy = cljs.core.nth.call(null,vec__13352,(1),null);
-var dx = Math.abs.call(null,(cx - player_cell_x));
-var dy = Math.abs.call(null,(cy - player_cell_y));
-var d_squared = ((dx * dx) + (dy * dy));
-if((d_squared > (25))){
-return c;
-} else {
-return null;
 }
-})());
 
-var G__13770 = (i__12833 + (1));
-i__12833 = G__13770;
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (101))){
+var inst_13254 = (state_13385[(48)]);
+var inst_13256 = cljs.core.chunked_seq_QMARK_.call(null,inst_13254);
+var state_13385__$1 = state_13385;
+if(inst_13256){
+var statearr_13426_13826 = state_13385__$1;
+(statearr_13426_13826[(1)] = (104));
+
+} else {
+var statearr_13427_13827 = state_13385__$1;
+(statearr_13427_13827[(1)] = (105));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (24))){
+var inst_12947 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13428_13828 = state_13385__$1;
+(statearr_13428_13828[(2)] = inst_12947);
+
+(statearr_13428_13828[(1)] = (21));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (102))){
+var state_13385__$1 = state_13385;
+var statearr_13429_13829 = state_13385__$1;
+(statearr_13429_13829[(2)] = null);
+
+(statearr_13429_13829[(1)] = (103));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (55))){
+var inst_13086 = (state_13385[(49)]);
+var state_13385__$1 = state_13385;
+var statearr_13430_13830 = state_13385__$1;
+(statearr_13430_13830[(2)] = inst_13086);
+
+(statearr_13430_13830[(1)] = (57));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (85))){
+var inst_13170 = (state_13385[(18)]);
+var inst_13174 = cljs.core.chunk_first.call(null,inst_13170);
+var inst_13175 = cljs.core.chunk_rest.call(null,inst_13170);
+var inst_13176 = cljs.core.count.call(null,inst_13174);
+var inst_13130 = inst_13175;
+var inst_13131 = inst_13174;
+var inst_13132 = inst_13176;
+var inst_13133 = (0);
+var state_13385__$1 = (function (){var statearr_13431 = state_13385;
+(statearr_13431[(33)] = inst_13131);
+
+(statearr_13431[(34)] = inst_13133);
+
+(statearr_13431[(23)] = inst_13130);
+
+(statearr_13431[(36)] = inst_13132);
+
+return statearr_13431;
+})();
+var statearr_13432_13831 = state_13385__$1;
+(statearr_13432_13831[(2)] = null);
+
+(statearr_13432_13831[(1)] = (69));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (39))){
+var inst_12995 = (state_13385[(50)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_13014 = cljs.core.rand_nth.call(null,inst_12474);
+var inst_13015 = farn.sound.play_sound.call(null,inst_13014,0.4);
+var inst_13016 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12995);
+var inst_13017 = farn.core.main_stage.removeChild(inst_13016);
+var inst_13018 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12995);
+var inst_13019 = farn.core.main_stage.removeChild(inst_13018);
+var inst_13020 = cljs.core.swap_BANG_.call(null,farn.core.player_stars,cljs.core.inc);
+var inst_13021 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_12995);
+var state_13385__$1 = (function (){var statearr_13433 = state_13385;
+(statearr_13433[(52)] = inst_13019);
+
+(statearr_13433[(53)] = inst_13015);
+
+(statearr_13433[(54)] = inst_13020);
+
+(statearr_13433[(55)] = inst_13017);
+
+(statearr_13433[(56)] = inst_13021);
+
+return statearr_13433;
+})();
+var statearr_13434_13832 = state_13385__$1;
+(statearr_13434_13832[(2)] = null);
+
+(statearr_13434_13832[(1)] = (40));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (88))){
+var inst_13184 = (0);
+var state_13385__$1 = (function (){var statearr_13435 = state_13385;
+(statearr_13435[(57)] = inst_13184);
+
+return statearr_13435;
+})();
+var statearr_13436_13833 = state_13385__$1;
+(statearr_13436_13833[(2)] = null);
+
+(statearr_13436_13833[(1)] = (91));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (46))){
+var inst_12396 = (state_13385[(30)]);
+var inst_13030 = (state_13385[(58)]);
+var inst_13039 = (state_13385[(59)]);
+var inst_13039__$1 = cljs.core.first.call(null,inst_13030);
+var inst_13040 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13039__$1);
+var inst_13041 = farn.sprite.overlap_QMARK_.call(null,inst_12396,inst_13040);
+var state_13385__$1 = (function (){var statearr_13437 = state_13385;
+(statearr_13437[(59)] = inst_13039__$1);
+
+return statearr_13437;
+})();
+if(inst_13041){
+var statearr_13438_13834 = state_13385__$1;
+(statearr_13438_13834[(1)] = (48));
+
+} else {
+var statearr_13439_13835 = state_13385__$1;
+(statearr_13439_13835[(1)] = (49));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (4))){
+var inst_12427 = (state_13385[(60)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12393__$1 = (state_13385[(2)]);
+var inst_12394__$1 = farn.font.make_text.call(null,"400 48pt Lobster","Alien Forest Explorer",new cljs.core.Keyword(null,"weight","weight",-1262796205),(400),new cljs.core.Keyword(null,"fill","fill",883462889),"#7FCACD",new cljs.core.Keyword(null,"dropShadow","dropShadow",1001370187),true,new cljs.core.Keyword(null,"dropShadowColor","dropShadowColor",-318037852),"#333333");
+var inst_12395__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-stand-4","pink-stand-4",695656413));
+var inst_12396__$1 = farn.sprite.make_sprite.call(null,inst_12395__$1);
+var inst_12397__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"shadow-1","shadow-1",-1417857329));
+var inst_12398__$1 = farn.sprite.make_sprite.call(null,inst_12397__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),0.5);
+var inst_12403 = (function (){var player_shadow = inst_12398__$1;
+var loader = inst_12383;
+var shadow_tex = inst_12397__$1;
+var tex = inst_12395__$1;
+var lobster_big = inst_12387;
+var perlin_channel = inst_12384;
+var title_text = inst_12394__$1;
+var tilemap = inst_12393__$1;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396__$1;
+return ((function (player_shadow,loader,shadow_tex,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12399(s__12400){
+return (new cljs.core.LazySeq(null,((function (player_shadow,loader,shadow_tex,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,state_val_13386,c__6459__auto___13801){
+return (function (){
+var s__12400__$1 = s__12400;
+while(true){
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12400__$1);
+if(temp__4126__auto__){
+var s__12400__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12400__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12400__$2);
+var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
+var b__12402 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12401 = (0);
+while(true){
+if((i__12401 < size__4385__auto__)){
+var type = cljs.core._nth.call(null,c__4384__auto__,i__12401);
+cljs.core.chunk_append.call(null,b__12402,farn.gfx.get_texture.call(null,type));
+
+var G__13836 = (i__12401 + (1));
+i__12401 = G__13836;
 continue;
 } else {
 return true;
@@ -3531,265 +3681,92 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12834),iter__12831.call(null,cljs.core.chunk_rest.call(null,s__12832__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12402),iter__12399.call(null,cljs.core.chunk_rest.call(null,s__12400__$2)));
 } else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12834),null);
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12402),null);
 }
 } else {
-var c = cljs.core.first.call(null,s__12832__$2);
-return cljs.core.cons.call(null,(function (){var vec__13353 = c;
-var cx = cljs.core.nth.call(null,vec__13353,(0),null);
-var cy = cljs.core.nth.call(null,vec__13353,(1),null);
-var dx = Math.abs.call(null,(cx - player_cell_x));
-var dy = Math.abs.call(null,(cy - player_cell_y));
-var d_squared = ((dx * dx) + (dy * dy));
-if((d_squared > (25))){
-return c;
-} else {
-return null;
-}
-})(),iter__12831.call(null,cljs.core.rest.call(null,s__12832__$2)));
+var type = cljs.core.first.call(null,s__12400__$2);
+return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,type),iter__12399.call(null,cljs.core.rest.call(null,s__12400__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,inst_12830,state_val_13313,c__6459__auto___13746))
+});})(player_shadow,loader,shadow_tex,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,state_val_13386,c__6459__auto___13801))
 ,null,null));
 });
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12829__$1,inst_12830,state_val_13313,c__6459__auto___13746))
+;})(player_shadow,loader,shadow_tex,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12836 = inst_12835.call(null,inst_12767);
-var inst_12837__$1 = cljs.core.filter.call(null,inst_12830,inst_12836);
-var inst_12841 = cljs.core.nth.call(null,inst_12837__$1,(0),null);
-var inst_12842 = cljs.core.nthnext.call(null,inst_12837__$1,(1));
-var inst_12843 = inst_12837__$1;
-var inst_12844 = inst_12829__$1;
-var state_13312__$1 = (function (){var statearr_13354 = state_13312;
-(statearr_13354[(62)] = inst_12837__$1);
-
-(statearr_13354[(63)] = inst_12841);
-
-(statearr_13354[(64)] = inst_12844);
-
-(statearr_13354[(65)] = inst_12843);
-
-(statearr_13354[(66)] = inst_12842);
-
-(statearr_13354[(67)] = inst_12829__$1);
-
-return statearr_13354;
-})();
-var statearr_13355_13771 = state_13312__$1;
-(statearr_13355_13771[(2)] = null);
-
-(statearr_13355_13771[(1)] = (28));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (102))){
-var inst_13112 = (state_13312[(88)]);
-var inst_13116 = cljs.core.chunk_first.call(null,inst_13112);
-var inst_13117 = cljs.core.chunk_rest.call(null,inst_13112);
-var inst_13118 = cljs.core.count.call(null,inst_13116);
-var inst_13092 = inst_13117;
-var inst_13093 = inst_13116;
-var inst_13094 = inst_13118;
-var inst_13095 = (0);
-var state_13312__$1 = (function (){var statearr_13356 = state_13312;
-(statearr_13356[(89)] = inst_13095);
-
-(statearr_13356[(90)] = inst_13094);
-
-(statearr_13356[(91)] = inst_13093);
-
-(statearr_13356[(92)] = inst_13092);
-
-return statearr_13356;
-})();
-var statearr_13357_13772 = state_13312__$1;
-(statearr_13357_13772[(2)] = null);
-
-(statearr_13357_13772[(1)] = (94));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (135))){
-var inst_12765 = (state_13312[(44)]);
-var inst_13282 = (inst_12765 + farn.core.player_acceleration);
-var inst_13283 = ((inst_13282 < farn.core.player_max_speed) ? inst_13282 : farn.core.player_max_speed);
-var state_13312__$1 = state_13312;
-var statearr_13358_13773 = state_13312__$1;
-(statearr_13358_13773[(2)] = inst_13283);
-
-(statearr_13358_13773[(1)] = (137));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (55))){
-var inst_12363 = (state_13312[(55)]);
-var inst_12918 = (state_13312[(93)]);
-var inst_12937 = cljs.core.rand_nth.call(null,inst_12363);
-var inst_12938 = farn.sound.play_sound.call(null,inst_12937,0.4);
-var inst_12939 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12918);
-var inst_12940 = farn.core.main_stage.removeChild(inst_12939);
-var inst_12941 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12918);
-var inst_12942 = farn.core.main_stage.removeChild(inst_12941);
-var inst_12943 = cljs.core.swap_BANG_.call(null,farn.core.player_stars,cljs.core.inc);
-var inst_12944 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_12918);
-var state_13312__$1 = (function (){var statearr_13359 = state_13312;
-(statearr_13359[(94)] = inst_12938);
-
-(statearr_13359[(95)] = inst_12944);
-
-(statearr_13359[(96)] = inst_12940);
-
-(statearr_13359[(97)] = inst_12942);
-
-(statearr_13359[(98)] = inst_12943);
-
-return statearr_13359;
-})();
-var statearr_13360_13774 = state_13312__$1;
-(statearr_13360_13774[(2)] = null);
-
-(statearr_13360_13774[(1)] = (56));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (85))){
-var inst_13044 = (state_13312[(25)]);
-var inst_13048 = cljs.core.chunk_first.call(null,inst_13044);
-var inst_13049 = cljs.core.chunk_rest.call(null,inst_13044);
-var inst_13050 = cljs.core.count.call(null,inst_13048);
-var inst_13024 = inst_13049;
-var inst_13025 = inst_13048;
-var inst_13026 = inst_13050;
-var inst_13027 = (0);
-var state_13312__$1 = (function (){var statearr_13361 = state_13312;
-(statearr_13361[(11)] = inst_13025);
-
-(statearr_13361[(12)] = inst_13026);
-
-(statearr_13361[(13)] = inst_13027);
-
-(statearr_13361[(14)] = inst_13024);
-
-return statearr_13361;
-})();
-var statearr_13362_13775 = state_13312__$1;
-(statearr_13362_13775[(2)] = null);
-
-(statearr_13362_13775[(1)] = (77));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (39))){
-var state_13312__$1 = state_13312;
-var statearr_13363_13776 = state_13312__$1;
-(statearr_13363_13776[(2)] = null);
-
-(statearr_13363_13776[(1)] = (40));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (88))){
-var inst_13076 = (state_13312[(99)]);
-var inst_13078 = cljs.core.chunked_seq_QMARK_.call(null,inst_13076);
-var state_13312__$1 = state_13312;
-if(inst_13078){
-var statearr_13364_13777 = state_13312__$1;
-(statearr_13364_13777[(1)] = (91));
-
-} else {
-var statearr_13365_13778 = state_13312__$1;
-(statearr_13365_13778[(1)] = (92));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (46))){
-var state_13312__$1 = state_13312;
-var statearr_13366_13779 = state_13312__$1;
-(statearr_13366_13779[(2)] = null);
-
-(statearr_13366_13779[(1)] = (47));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (4))){
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12282 = (state_13312[(68)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12281__$1 = (state_13312[(2)]);
-var inst_12282__$1 = farn.utils.log.call(null,"perlin channel - done");
-var inst_12283__$1 = farn.font.make_text.call(null,"400 48pt Lobster","Alien Forest Explorer",new cljs.core.Keyword(null,"weight","weight",-1262796205),(400),new cljs.core.Keyword(null,"fill","fill",883462889),"#7FCACD",new cljs.core.Keyword(null,"dropShadow","dropShadow",1001370187),true,new cljs.core.Keyword(null,"dropShadowColor","dropShadowColor",-318037852),"#333333");
-var inst_12284__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-stand-4","pink-stand-4",695656413));
-var inst_12285__$1 = farn.sprite.make_sprite.call(null,inst_12284__$1);
-var inst_12286__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"shadow-1","shadow-1",-1417857329));
-var inst_12287__$1 = farn.sprite.make_sprite.call(null,inst_12286__$1,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),0.5);
-var inst_12292 = (function (){var player_shadow = inst_12287__$1;
-var loader = inst_12268;
-var shadow_tex = inst_12286__$1;
-var _ = inst_12282__$1;
-var tex = inst_12284__$1;
-var lobster_big = inst_12274;
-var perlin_channel = inst_12269;
-var title_text = inst_12283__$1;
-var tilemap = inst_12281__$1;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285__$1;
-return ((function (player_shadow,loader,shadow_tex,_,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12288(s__12289){
-return (new cljs.core.LazySeq(null,((function (player_shadow,loader,shadow_tex,_,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,state_val_13313,c__6459__auto___13746){
+var inst_12404 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12405 = [new cljs.core.Keyword(null,"pink-stand-1","pink-stand-1",1440110735),new cljs.core.Keyword(null,"pink-stand-2","pink-stand-2",376064840),new cljs.core.Keyword(null,"pink-stand-3","pink-stand-3",676644618),new cljs.core.Keyword(null,"pink-stand-4","pink-stand-4",695656413)];
+var inst_12406 = (new cljs.core.PersistentVector(null,4,(5),inst_12404,inst_12405,null));
+var inst_12407 = inst_12403.call(null,inst_12406);
+var inst_12408__$1 = cljs.core.doall.call(null,inst_12407);
+var inst_12409 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12410 = [(0),(-4),(0),(4)];
+var inst_12411__$1 = (new cljs.core.PersistentVector(null,4,(5),inst_12409,inst_12410,null));
+var inst_12412 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12413 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-walk-1","pink-walk-1",-1200475595));
+var inst_12414 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-walk-2","pink-walk-2",2040805893));
+var inst_12415 = [inst_12413,inst_12414];
+var inst_12416__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12412,inst_12415,null));
+var inst_12417__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pickup-star-1","pickup-star-1",-1674863964));
+var inst_12418__$1 = farn.sprite.make_sprite.call(null,inst_12417__$1);
+var inst_12419 = cljs.core.deref.call(null,farn.core.player_stars);
+var inst_12420 = [cljs.core.str(inst_12419)].join('');
+var inst_12421__$1 = farn.font.make_text.call(null,"400 20pt Varela Round",inst_12420,new cljs.core.Keyword(null,"weight","weight",-1262796205),(400),new cljs.core.Keyword(null,"fill","fill",883462889),"#ffffff",new cljs.core.Keyword(null,"dropShadow","dropShadow",1001370187),true,new cljs.core.Keyword(null,"dropShadowColor","dropShadowColor",-318037852),"#000000");
+var inst_12422 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12423 = [new cljs.core.Keyword(null,"pickup-star-1","pickup-star-1",-1674863964),new cljs.core.Keyword(null,"pickup-mushroom-1","pickup-mushroom-1",-338548111)];
+var inst_12424__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12422,inst_12423,null));
+var inst_12425 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12426 = [new cljs.core.Keyword(null,"static-floor-path-big","static-floor-path-big",-1637038697),new cljs.core.Keyword(null,"static-floor-path-medium","static-floor-path-medium",-46847685),new cljs.core.Keyword(null,"static-floor-path-small","static-floor-path-small",477685180),new cljs.core.Keyword(null,"static-floor-sand-big","static-floor-sand-big",953875278),new cljs.core.Keyword(null,"static-floor-sand-medium","static-floor-sand-medium",104159128),new cljs.core.Keyword(null,"static-floor-sand-small","static-floor-sand-small",-214159250),new cljs.core.Keyword(null,"static-floor-water-big","static-floor-water-big",1588138738),new cljs.core.Keyword(null,"static-floor-water-medium","static-floor-water-medium",1136261079),new cljs.core.Keyword(null,"static-floor-water-small","static-floor-water-small",1080050532)];
+var inst_12427__$1 = (new cljs.core.PersistentVector(null,9,(5),inst_12425,inst_12426,null));
+var inst_12428 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12429 = [new cljs.core.Keyword(null,"static-tree-1","static-tree-1",-1951953537),new cljs.core.Keyword(null,"static-tree-2","static-tree-2",-27985141),new cljs.core.Keyword(null,"static-tree-3","static-tree-3",378870117),new cljs.core.Keyword(null,"static-tree-4","static-tree-4",-1003799420),new cljs.core.Keyword(null,"static-tree-5","static-tree-5",154248249),new cljs.core.Keyword(null,"static-tree-6","static-tree-6",-500626901),new cljs.core.Keyword(null,"static-tree-7","static-tree-7",1865082789),new cljs.core.Keyword(null,"static-tree-8","static-tree-8",-708259882),new cljs.core.Keyword(null,"static-tree-9","static-tree-9",729041102),new cljs.core.Keyword(null,"static-tree-10","static-tree-10",225886540),new cljs.core.Keyword(null,"static-tree-11","static-tree-11",-461585621),new cljs.core.Keyword(null,"static-tree-12","static-tree-12",-1331568669),new cljs.core.Keyword(null,"static-tree-13","static-tree-13",1696371732),new cljs.core.Keyword(null,"static-tree-14","static-tree-14",-890945489),new cljs.core.Keyword(null,"static-tree-15","static-tree-15",-25295839),new cljs.core.Keyword(null,"static-tree-16","static-tree-16",847489456),new cljs.core.Keyword(null,"static-tree-17","static-tree-17",-1292342697),new cljs.core.Keyword(null,"static-tree-18","static-tree-18",-378591927),new cljs.core.Keyword(null,"static-tree-19","static-tree-19",425360659),new cljs.core.Keyword(null,"static-tree-20","static-tree-20",155885611),new cljs.core.Keyword(null,"static-castle-1","static-castle-1",1559541979),new cljs.core.Keyword(null,"static-giant-schroom-1","static-giant-schroom-1",371680418),new cljs.core.Keyword(null,"static-giant-schroom-2","static-giant-schroom-2",1230929171),new cljs.core.Keyword(null,"static-cactus-1","static-cactus-1",368350727),new cljs.core.Keyword(null,"static-cactus-2","static-cactus-2",2022050580),new cljs.core.Keyword(null,"static-cactus-3","static-cactus-3",1331250244)];
+var inst_12430__$1 = (new cljs.core.PersistentVector(null,26,(5),inst_12428,inst_12429,null));
+var inst_12435 = (function (){var player_stars_text = inst_12421__$1;
+var player_standing_texs = inst_12408__$1;
+var player_shadow = inst_12398__$1;
+var obstacle_types = inst_12430__$1;
+var player_standing_sway = inst_12411__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416__$1;
+var shadow_tex = inst_12397__$1;
+var tex = inst_12395__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417__$1;
+var pickup_textures = inst_12424__$1;
+var perlin_channel = inst_12384;
+var title_text = inst_12394__$1;
+var floor_objects = inst_12427__$1;
+var tilemap = inst_12393__$1;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396__$1;
+var player_stars_icon = inst_12418__$1;
+return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12431(s__12432){
+return (new cljs.core.LazySeq(null,((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,state_val_13386,c__6459__auto___13801){
 return (function (){
-var s__12289__$1 = s__12289;
+var s__12432__$1 = s__12432;
 while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12289__$1);
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12432__$1);
 if(temp__4126__auto__){
-var s__12289__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12289__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12289__$2);
+var s__12432__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12432__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12432__$2);
 var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12291 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12290 = (0);
+var b__12434 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12433 = (0);
 while(true){
-if((i__12290 < size__4385__auto__)){
-var type = cljs.core._nth.call(null,c__4384__auto__,i__12290);
-cljs.core.chunk_append.call(null,b__12291,farn.gfx.get_texture.call(null,type));
+if((i__12433 < size__4385__auto__)){
+var i = cljs.core._nth.call(null,c__4384__auto__,i__12433);
+cljs.core.chunk_append.call(null,b__12434,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tree-"),cljs.core.str((i + (1)))].join(''))));
 
-var G__13780 = (i__12290 + (1));
-i__12290 = G__13780;
+var G__13837 = (i__12433 + (1));
+i__12433 = G__13837;
 continue;
 } else {
 return true;
@@ -3797,93 +3774,68 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12291),iter__12288.call(null,cljs.core.chunk_rest.call(null,s__12289__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12434),iter__12431.call(null,cljs.core.chunk_rest.call(null,s__12432__$2)));
 } else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12291),null);
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12434),null);
 }
 } else {
-var type = cljs.core.first.call(null,s__12289__$2);
-return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,type),iter__12288.call(null,cljs.core.rest.call(null,s__12289__$2)));
+var i = cljs.core.first.call(null,s__12432__$2);
+return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tree-"),cljs.core.str((i + (1)))].join(''))),iter__12431.call(null,cljs.core.rest.call(null,s__12432__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(player_shadow,loader,shadow_tex,_,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,state_val_13313,c__6459__auto___13746))
+});})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,state_val_13386,c__6459__auto___13801))
 ,null,null));
 });
-;})(player_shadow,loader,shadow_tex,_,tex,lobster_big,perlin_channel,title_text,tilemap,varela,wait,player,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,state_val_13313,c__6459__auto___13746))
+;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12293 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12294 = [new cljs.core.Keyword(null,"pink-stand-1","pink-stand-1",1440110735),new cljs.core.Keyword(null,"pink-stand-2","pink-stand-2",376064840),new cljs.core.Keyword(null,"pink-stand-3","pink-stand-3",676644618),new cljs.core.Keyword(null,"pink-stand-4","pink-stand-4",695656413)];
-var inst_12295 = (new cljs.core.PersistentVector(null,4,(5),inst_12293,inst_12294,null));
-var inst_12296 = inst_12292.call(null,inst_12295);
-var inst_12297__$1 = cljs.core.doall.call(null,inst_12296);
-var inst_12298 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12299 = [(0),(-4),(0),(4)];
-var inst_12300__$1 = (new cljs.core.PersistentVector(null,4,(5),inst_12298,inst_12299,null));
-var inst_12301 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12302 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-walk-1","pink-walk-1",-1200475595));
-var inst_12303 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pink-walk-2","pink-walk-2",2040805893));
-var inst_12304 = [inst_12302,inst_12303];
-var inst_12305__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12301,inst_12304,null));
-var inst_12306__$1 = farn.gfx.get_texture.call(null,new cljs.core.Keyword(null,"pickup-star-1","pickup-star-1",-1674863964));
-var inst_12307__$1 = farn.sprite.make_sprite.call(null,inst_12306__$1);
-var inst_12308 = cljs.core.deref.call(null,farn.core.player_stars);
-var inst_12309 = [cljs.core.str(inst_12308)].join('');
-var inst_12310__$1 = farn.font.make_text.call(null,"400 20pt Varela Round",inst_12309,new cljs.core.Keyword(null,"weight","weight",-1262796205),(400),new cljs.core.Keyword(null,"fill","fill",883462889),"#ffffff",new cljs.core.Keyword(null,"dropShadow","dropShadow",1001370187),true,new cljs.core.Keyword(null,"dropShadowColor","dropShadowColor",-318037852),"#000000");
-var inst_12311 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12312 = [new cljs.core.Keyword(null,"pickup-star-1","pickup-star-1",-1674863964),new cljs.core.Keyword(null,"pickup-mushroom-1","pickup-mushroom-1",-338548111)];
-var inst_12313__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12311,inst_12312,null));
-var inst_12314 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12315 = [new cljs.core.Keyword(null,"static-floor-path-big","static-floor-path-big",-1637038697),new cljs.core.Keyword(null,"static-floor-path-medium","static-floor-path-medium",-46847685),new cljs.core.Keyword(null,"static-floor-path-small","static-floor-path-small",477685180),new cljs.core.Keyword(null,"static-floor-sand-big","static-floor-sand-big",953875278),new cljs.core.Keyword(null,"static-floor-sand-medium","static-floor-sand-medium",104159128),new cljs.core.Keyword(null,"static-floor-sand-small","static-floor-sand-small",-214159250),new cljs.core.Keyword(null,"static-floor-water-big","static-floor-water-big",1588138738),new cljs.core.Keyword(null,"static-floor-water-medium","static-floor-water-medium",1136261079),new cljs.core.Keyword(null,"static-floor-water-small","static-floor-water-small",1080050532)];
-var inst_12316__$1 = (new cljs.core.PersistentVector(null,9,(5),inst_12314,inst_12315,null));
-var inst_12317 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12318 = [new cljs.core.Keyword(null,"static-tree-1","static-tree-1",-1951953537),new cljs.core.Keyword(null,"static-tree-2","static-tree-2",-27985141),new cljs.core.Keyword(null,"static-tree-3","static-tree-3",378870117),new cljs.core.Keyword(null,"static-tree-4","static-tree-4",-1003799420),new cljs.core.Keyword(null,"static-tree-5","static-tree-5",154248249),new cljs.core.Keyword(null,"static-tree-6","static-tree-6",-500626901),new cljs.core.Keyword(null,"static-tree-7","static-tree-7",1865082789),new cljs.core.Keyword(null,"static-tree-8","static-tree-8",-708259882),new cljs.core.Keyword(null,"static-tree-9","static-tree-9",729041102),new cljs.core.Keyword(null,"static-tree-10","static-tree-10",225886540),new cljs.core.Keyword(null,"static-tree-11","static-tree-11",-461585621),new cljs.core.Keyword(null,"static-tree-12","static-tree-12",-1331568669),new cljs.core.Keyword(null,"static-tree-13","static-tree-13",1696371732),new cljs.core.Keyword(null,"static-tree-14","static-tree-14",-890945489),new cljs.core.Keyword(null,"static-tree-15","static-tree-15",-25295839),new cljs.core.Keyword(null,"static-tree-16","static-tree-16",847489456),new cljs.core.Keyword(null,"static-tree-17","static-tree-17",-1292342697),new cljs.core.Keyword(null,"static-tree-18","static-tree-18",-378591927),new cljs.core.Keyword(null,"static-tree-19","static-tree-19",425360659),new cljs.core.Keyword(null,"static-tree-20","static-tree-20",155885611),new cljs.core.Keyword(null,"static-castle-1","static-castle-1",1559541979),new cljs.core.Keyword(null,"static-giant-schroom-1","static-giant-schroom-1",371680418),new cljs.core.Keyword(null,"static-giant-schroom-2","static-giant-schroom-2",1230929171),new cljs.core.Keyword(null,"static-cactus-1","static-cactus-1",368350727),new cljs.core.Keyword(null,"static-cactus-2","static-cactus-2",2022050580),new cljs.core.Keyword(null,"static-cactus-3","static-cactus-3",1331250244)];
-var inst_12319__$1 = (new cljs.core.PersistentVector(null,26,(5),inst_12317,inst_12318,null));
-var inst_12324 = (function (){var player_stars_text = inst_12310__$1;
-var player_standing_texs = inst_12297__$1;
-var player_shadow = inst_12287__$1;
-var obstacle_types = inst_12319__$1;
-var player_standing_sway = inst_12300__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305__$1;
-var shadow_tex = inst_12286__$1;
-var _ = inst_12282__$1;
-var tex = inst_12284__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306__$1;
-var pickup_textures = inst_12313__$1;
-var perlin_channel = inst_12269;
-var title_text = inst_12283__$1;
-var floor_objects = inst_12316__$1;
-var tilemap = inst_12281__$1;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285__$1;
-var player_stars_icon = inst_12307__$1;
-return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12320(s__12321){
-return (new cljs.core.LazySeq(null,((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,state_val_13313,c__6459__auto___13746){
+var inst_12436 = cljs.core.range.call(null,(10));
+var inst_12437__$1 = inst_12435.call(null,inst_12436);
+var inst_12442 = (function (){var player_stars_text = inst_12421__$1;
+var player_standing_texs = inst_12408__$1;
+var player_shadow = inst_12398__$1;
+var obstacle_types = inst_12430__$1;
+var trees = inst_12437__$1;
+var player_standing_sway = inst_12411__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416__$1;
+var shadow_tex = inst_12397__$1;
+var tex = inst_12395__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417__$1;
+var pickup_textures = inst_12424__$1;
+var perlin_channel = inst_12384;
+var title_text = inst_12394__$1;
+var floor_objects = inst_12427__$1;
+var tilemap = inst_12393__$1;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396__$1;
+var player_stars_icon = inst_12418__$1;
+return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12438(s__12439){
+return (new cljs.core.LazySeq(null,((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,state_val_13386,c__6459__auto___13801){
 return (function (){
-var s__12321__$1 = s__12321;
+var s__12439__$1 = s__12439;
 while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12321__$1);
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12439__$1);
 if(temp__4126__auto__){
-var s__12321__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12321__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12321__$2);
+var s__12439__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12439__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12439__$2);
 var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12323 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12322 = (0);
+var b__12441 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12440 = (0);
 while(true){
-if((i__12322 < size__4385__auto__)){
-var i = cljs.core._nth.call(null,c__4384__auto__,i__12322);
-cljs.core.chunk_append.call(null,b__12323,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tree-"),cljs.core.str((i + (1)))].join(''))));
+if((i__12440 < size__4385__auto__)){
+var i = cljs.core._nth.call(null,c__4384__auto__,i__12440);
+cljs.core.chunk_append.call(null,b__12441,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tuft-"),cljs.core.str((i + (1)))].join(''))));
 
-var G__13781 = (i__12322 + (1));
-i__12322 = G__13781;
+var G__13838 = (i__12440 + (1));
+i__12440 = G__13838;
 continue;
 } else {
 return true;
@@ -3891,917 +3843,622 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12323),iter__12320.call(null,cljs.core.chunk_rest.call(null,s__12321__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12441),iter__12438.call(null,cljs.core.chunk_rest.call(null,s__12439__$2)));
 } else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12323),null);
-}
-} else {
-var i = cljs.core.first.call(null,s__12321__$2);
-return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tree-"),cljs.core.str((i + (1)))].join(''))),iter__12320.call(null,cljs.core.rest.call(null,s__12321__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12441),null);
 }
 } else {
-return null;
-}
-break;
-}
-});})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,state_val_13313,c__6459__auto___13746))
-,null,null));
-});
-;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12325 = cljs.core.range.call(null,(10));
-var inst_12326__$1 = inst_12324.call(null,inst_12325);
-var inst_12331 = (function (){var player_stars_text = inst_12310__$1;
-var player_standing_texs = inst_12297__$1;
-var player_shadow = inst_12287__$1;
-var obstacle_types = inst_12319__$1;
-var trees = inst_12326__$1;
-var player_standing_sway = inst_12300__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305__$1;
-var shadow_tex = inst_12286__$1;
-var _ = inst_12282__$1;
-var tex = inst_12284__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306__$1;
-var pickup_textures = inst_12313__$1;
-var perlin_channel = inst_12269;
-var title_text = inst_12283__$1;
-var floor_objects = inst_12316__$1;
-var tilemap = inst_12281__$1;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285__$1;
-var player_stars_icon = inst_12307__$1;
-return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12327(s__12328){
-return (new cljs.core.LazySeq(null,((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,state_val_13313,c__6459__auto___13746){
-return (function (){
-var s__12328__$1 = s__12328;
-while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12328__$1);
-if(temp__4126__auto__){
-var s__12328__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12328__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12328__$2);
-var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12330 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12329 = (0);
-while(true){
-if((i__12329 < size__4385__auto__)){
-var i = cljs.core._nth.call(null,c__4384__auto__,i__12329);
-cljs.core.chunk_append.call(null,b__12330,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tuft-"),cljs.core.str((i + (1)))].join(''))));
-
-var G__13782 = (i__12329 + (1));
-i__12329 = G__13782;
-continue;
-} else {
-return true;
-}
-break;
-}
-})()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12330),iter__12327.call(null,cljs.core.chunk_rest.call(null,s__12328__$2)));
-} else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12330),null);
-}
-} else {
-var i = cljs.core.first.call(null,s__12328__$2);
-return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tuft-"),cljs.core.str((i + (1)))].join(''))),iter__12327.call(null,cljs.core.rest.call(null,s__12328__$2)));
+var i = cljs.core.first.call(null,s__12439__$2);
+return cljs.core.cons.call(null,farn.gfx.get_texture.call(null,cljs.core.keyword.call(null,[cljs.core.str("static-tuft-"),cljs.core.str((i + (1)))].join(''))),iter__12438.call(null,cljs.core.rest.call(null,s__12439__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,state_val_13313,c__6459__auto___13746))
+});})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,state_val_13386,c__6459__auto___13801))
 ,null,null));
 });
-;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,state_val_13313,c__6459__auto___13746))
+;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12332 = cljs.core.range.call(null,(3));
-var inst_12333__$1 = inst_12331.call(null,inst_12332);
-var inst_12336 = (function (){var player_stars_text = inst_12310__$1;
-var player_standing_texs = inst_12297__$1;
-var player_shadow = inst_12287__$1;
-var obstacle_types = inst_12319__$1;
-var trees = inst_12326__$1;
-var player_standing_sway = inst_12300__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305__$1;
-var shadow_tex = inst_12286__$1;
-var _ = inst_12282__$1;
-var tex = inst_12284__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306__$1;
-var tufts = inst_12333__$1;
-var pickup_textures = inst_12313__$1;
-var perlin_channel = inst_12269;
-var title_text = inst_12283__$1;
-var floor_objects = inst_12316__$1;
-var tilemap = inst_12281__$1;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285__$1;
-var player_stars_icon = inst_12307__$1;
-return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,inst_12331,inst_12332,inst_12333__$1,state_val_13313,c__6459__auto___13746){
+var inst_12443 = cljs.core.range.call(null,(3));
+var inst_12444__$1 = inst_12442.call(null,inst_12443);
+var inst_12447 = (function (){var player_stars_text = inst_12421__$1;
+var player_standing_texs = inst_12408__$1;
+var player_shadow = inst_12398__$1;
+var obstacle_types = inst_12430__$1;
+var trees = inst_12437__$1;
+var player_standing_sway = inst_12411__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416__$1;
+var shadow_tex = inst_12397__$1;
+var tex = inst_12395__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417__$1;
+var tufts = inst_12444__$1;
+var pickup_textures = inst_12424__$1;
+var perlin_channel = inst_12384;
+var title_text = inst_12394__$1;
+var floor_objects = inst_12427__$1;
+var tilemap = inst_12393__$1;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396__$1;
+var player_stars_icon = inst_12418__$1;
+return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,inst_12442,inst_12443,inst_12444__$1,state_val_13386,c__6459__auto___13801){
 return (function() { 
-var G__13783__delegate = function (p__12334,spread,p__12335){
-var vec__13367 = p__12334;
-var x = cljs.core.nth.call(null,vec__13367,(0),null);
-var y = cljs.core.nth.call(null,vec__13367,(1),null);
-var vec__13368 = p__12335;
-var force_type = cljs.core.nth.call(null,vec__13368,(0),null);
-var force_exclusion_zone = cljs.core.nth.call(null,vec__13368,(1),null);
+var G__13839__delegate = function (p__12445,spread,p__12446){
+var vec__13440 = p__12445;
+var x = cljs.core.nth.call(null,vec__13440,(0),null);
+var y = cljs.core.nth.call(null,vec__13440,(1),null);
+var vec__13441 = p__12446;
+var force_type = cljs.core.nth.call(null,vec__13441,(0),null);
+var force_exclusion_zone = cljs.core.nth.call(null,vec__13441,(1),null);
 var exclusion_zone = (cljs.core.truth_(force_exclusion_zone)?force_exclusion_zone:farn.core.pickup_exclusion_zone);
 var pickup_type = (cljs.core.truth_(force_type)?force_type:cljs.core.rand_nth.call(null,pickup_textures));
 var s = farn.sprite.make_sprite.call(null,farn.gfx.get_texture.call(null,pickup_type));
 var shadow = farn.sprite.make_sprite.call(null,shadow_tex,new cljs.core.Keyword(null,"anchor-x","anchor-x",-1597588837),0.5,new cljs.core.Keyword(null,"anchor-y","anchor-y",-1366716999),0.5);
-var ___$1 = farn.sprite.set_pos_BANG_.call(null,s,(50000),(10000));
-var ___$2 = farn.sprite.set_pos_BANG_.call(null,shadow,(50000),(10000));
+var _ = farn.sprite.set_pos_BANG_.call(null,s,(50000),(10000));
+var ___$1 = farn.sprite.set_pos_BANG_.call(null,shadow,(50000),(10000));
 var xoff = (((cljs.core.rand.call(null) < 0.5))?farn.utils.rand_between.call(null,(- spread),(- exclusion_zone)):farn.utils.rand_between.call(null,exclusion_zone,spread));
 var yoff = (((cljs.core.rand.call(null) < 0.5))?farn.utils.rand_between.call(null,(- spread),(- exclusion_zone)):farn.utils.rand_between.call(null,exclusion_zone,spread));
 cljs.core.println.call(null,pickup_type,(x + xoff),(y + yoff));
 
 return new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"sprite","sprite",172516848),s,new cljs.core.Keyword(null,"pos","pos",-864607220),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(x + xoff),(y + yoff)], null),new cljs.core.Keyword(null,"shadow","shadow",873231803),shadow,new cljs.core.Keyword(null,"scale","scale",-230427353),0.7,new cljs.core.Keyword(null,"type","type",1174270348),pickup_type], null);
 };
-var G__13783 = function (p__12334,spread,var_args){
-var p__12335 = null;
+var G__13839 = function (p__12445,spread,var_args){
+var p__12446 = null;
 if (arguments.length > 2) {
-  p__12335 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 2),0);
+  p__12446 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 2),0);
 } 
-return G__13783__delegate.call(this,p__12334,spread,p__12335);};
-G__13783.cljs$lang$maxFixedArity = 2;
-G__13783.cljs$lang$applyTo = (function (arglist__13784){
-var p__12334 = cljs.core.first(arglist__13784);
-arglist__13784 = cljs.core.next(arglist__13784);
-var spread = cljs.core.first(arglist__13784);
-var p__12335 = cljs.core.rest(arglist__13784);
-return G__13783__delegate(p__12334,spread,p__12335);
+return G__13839__delegate.call(this,p__12445,spread,p__12446);};
+G__13839.cljs$lang$maxFixedArity = 2;
+G__13839.cljs$lang$applyTo = (function (arglist__13840){
+var p__12445 = cljs.core.first(arglist__13840);
+arglist__13840 = cljs.core.next(arglist__13840);
+var spread = cljs.core.first(arglist__13840);
+var p__12446 = cljs.core.rest(arglist__13840);
+return G__13839__delegate(p__12445,spread,p__12446);
 });
-G__13783.cljs$core$IFn$_invoke$arity$variadic = G__13783__delegate;
-return G__13783;
+G__13839.cljs$core$IFn$_invoke$arity$variadic = G__13839__delegate;
+return G__13839;
 })()
 ;
-;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12274,inst_12305,inst_12333,inst_12307,inst_12300,inst_12285,inst_12326,inst_12282,inst_12316,inst_12269,inst_12310,inst_12283,inst_12297,inst_12287,inst_12284,inst_12275,inst_12313,inst_12281__$1,inst_12282__$1,inst_12283__$1,inst_12284__$1,inst_12285__$1,inst_12286__$1,inst_12287__$1,inst_12292,inst_12293,inst_12294,inst_12295,inst_12296,inst_12297__$1,inst_12298,inst_12299,inst_12300__$1,inst_12301,inst_12302,inst_12303,inst_12304,inst_12305__$1,inst_12306__$1,inst_12307__$1,inst_12308,inst_12309,inst_12310__$1,inst_12311,inst_12312,inst_12313__$1,inst_12314,inst_12315,inst_12316__$1,inst_12317,inst_12318,inst_12319__$1,inst_12324,inst_12325,inst_12326__$1,inst_12331,inst_12332,inst_12333__$1,state_val_13313,c__6459__auto___13746))
+;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,tilemap,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12383,inst_12397,inst_12416,inst_12396,inst_12395,inst_12398,inst_12437,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12411,inst_12408,inst_12387,inst_12384,inst_12393,inst_12444,inst_12393__$1,inst_12394__$1,inst_12395__$1,inst_12396__$1,inst_12397__$1,inst_12398__$1,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408__$1,inst_12409,inst_12410,inst_12411__$1,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416__$1,inst_12417__$1,inst_12418__$1,inst_12419,inst_12420,inst_12421__$1,inst_12422,inst_12423,inst_12424__$1,inst_12425,inst_12426,inst_12427__$1,inst_12428,inst_12429,inst_12430__$1,inst_12435,inst_12436,inst_12437__$1,inst_12442,inst_12443,inst_12444__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12340 = cljs.core.PersistentVector.EMPTY;
-var inst_12341 = cljs.core.range.call(null,(1),(10));
-var inst_12342 = cljs.core.nth.call(null,inst_12341,(0),null);
-var inst_12343 = cljs.core.nthnext.call(null,inst_12341,(1));
-var inst_12344 = inst_12340;
-var inst_12345 = inst_12341;
-var state_13312__$1 = (function (){var statearr_13369 = state_13312;
-(statearr_13369[(34)] = inst_12281__$1);
+var inst_12451 = cljs.core.PersistentVector.EMPTY;
+var inst_12452 = cljs.core.range.call(null,(1),(10));
+var inst_12453 = cljs.core.nth.call(null,inst_12452,(0),null);
+var inst_12454 = cljs.core.nthnext.call(null,inst_12452,(1));
+var inst_12455 = inst_12451;
+var inst_12456 = inst_12452;
+var state_13385__$1 = (function (){var statearr_13442 = state_13385;
+(statearr_13442[(60)] = inst_12427__$1);
 
-(statearr_13369[(35)] = inst_12286__$1);
+(statearr_13442[(62)] = inst_12421__$1);
 
-(statearr_13369[(38)] = inst_12306__$1);
+(statearr_13442[(63)] = inst_12417__$1);
 
-(statearr_13369[(40)] = inst_12319__$1);
+(statearr_13442[(78)] = inst_12447);
 
-(statearr_13369[(100)] = inst_12343);
+(statearr_13442[(64)] = inst_12397__$1);
 
-(statearr_13369[(45)] = inst_12305__$1);
+(statearr_13442[(79)] = inst_12455);
 
-(statearr_13369[(49)] = inst_12333__$1);
+(statearr_13442[(80)] = inst_12454);
 
-(statearr_13369[(50)] = inst_12307__$1);
+(statearr_13442[(81)] = inst_12456);
 
-(statearr_13369[(53)] = inst_12300__$1);
+(statearr_13442[(65)] = inst_12416__$1);
 
-(statearr_13369[(58)] = inst_12285__$1);
+(statearr_13442[(30)] = inst_12396__$1);
 
-(statearr_13369[(59)] = inst_12326__$1);
+(statearr_13442[(66)] = inst_12395__$1);
 
-(statearr_13369[(68)] = inst_12282__$1);
+(statearr_13442[(31)] = inst_12398__$1);
 
-(statearr_13369[(69)] = inst_12316__$1);
+(statearr_13442[(67)] = inst_12437__$1);
 
-(statearr_13369[(101)] = inst_12342);
+(statearr_13442[(82)] = inst_12453);
 
-(statearr_13369[(71)] = inst_12310__$1);
+(statearr_13442[(69)] = inst_12418__$1);
 
-(statearr_13369[(72)] = inst_12283__$1);
+(statearr_13442[(70)] = inst_12430__$1);
 
-(statearr_13369[(76)] = inst_12297__$1);
+(statearr_13442[(71)] = inst_12394__$1);
 
-(statearr_13369[(77)] = inst_12287__$1);
+(statearr_13442[(72)] = inst_12424__$1);
 
-(statearr_13369[(78)] = inst_12284__$1);
+(statearr_13442[(73)] = inst_12411__$1);
 
-(statearr_13369[(102)] = inst_12344);
+(statearr_13442[(74)] = inst_12408__$1);
 
-(statearr_13369[(103)] = inst_12345);
+(statearr_13442[(76)] = inst_12393__$1);
 
-(statearr_13369[(85)] = inst_12313__$1);
+(statearr_13442[(77)] = inst_12444__$1);
 
-(statearr_13369[(86)] = inst_12336);
-
-return statearr_13369;
+return statearr_13442;
 })();
-var statearr_13370_13785 = state_13312__$1;
-(statearr_13370_13785[(2)] = null);
+var statearr_13443_13841 = state_13385__$1;
+(statearr_13443_13841[(2)] = null);
 
-(statearr_13370_13785[(1)] = (5));
+(statearr_13443_13841[(1)] = (5));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (77))){
-var inst_13026 = (state_13312[(12)]);
-var inst_13027 = (state_13312[(13)]);
-var inst_13029 = (inst_13027 < inst_13026);
-var inst_13030 = inst_13029;
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13030)){
-var statearr_13371_13786 = state_13312__$1;
-(statearr_13371_13786[(1)] = (79));
+if((state_val_13386 === (77))){
+var inst_13139 = (state_13385[(83)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_13140 = (state_13385[(87)]);
+var inst_13143 = (state_13385[(12)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13145 = inst_13139.call(null,inst_13143);
+var inst_13147 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13145);
+var inst_13148 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13145);
+var inst_13149 = inst_12503.call(null,inst_13147,inst_13148,inst_12892,inst_12893,inst_12899,inst_12902);
+var inst_13150 = cljs.core.nth.call(null,inst_13149,(0),null);
+var inst_13151 = cljs.core.nth.call(null,inst_13149,(1),null);
+var inst_13152 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13145);
+var inst_13153 = farn.sprite.set_pos_BANG_.call(null,inst_13152,inst_13150,inst_13151);
+var inst_13154 = (inst_13140 - (1));
+var inst_13155 = (inst_13143 < inst_13154);
+var state_13385__$1 = (function (){var statearr_13444 = state_13385;
+(statearr_13444[(90)] = inst_13153);
+
+return statearr_13444;
+})();
+if(cljs.core.truth_(inst_13155)){
+var statearr_13445_13842 = state_13385__$1;
+(statearr_13445_13842[(1)] = (79));
 
 } else {
-var statearr_13372_13787 = state_13312__$1;
-(statearr_13372_13787[(1)] = (80));
+var statearr_13446_13843 = state_13385__$1;
+(statearr_13446_13843[(1)] = (80));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (106))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13235 = (state_13312[(104)]);
-var inst_13224 = (state_13312[(2)]);
-var inst_13225 = farn.sprite.set_pivot_BANG_.call(null,farn.core.main_stage,inst_12781,inst_12782);
-var inst_13226 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_13227 = [inst_12781,inst_12782];
-var inst_13228 = (new cljs.core.PersistentVector(null,2,(5),inst_13226,inst_13227,null));
-var inst_13229 = cljs.core.reset_BANG_.call(null,farn.core.last_player_position,inst_13228);
-var inst_13230 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_13231 = [inst_12788,inst_12791];
-var inst_13232 = (new cljs.core.PersistentVector(null,2,(5),inst_13230,inst_13231,null));
-var inst_13233 = cljs.core.reset_BANG_.call(null,farn.core.last_player_rh,inst_13232);
-var inst_13234 = Math.abs.call(null,inst_12792);
-var inst_13235__$1 = (inst_13234 > (2));
-var state_13312__$1 = (function (){var statearr_13373 = state_13312;
-(statearr_13373[(105)] = inst_13225);
+if((state_val_13386 === (106))){
+var inst_13284 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13447_13844 = state_13385__$1;
+(statearr_13447_13844[(2)] = inst_13284);
 
-(statearr_13373[(106)] = inst_13233);
+(statearr_13447_13844[(1)] = (103));
 
-(statearr_13373[(107)] = inst_13229);
 
-(statearr_13373[(108)] = inst_13224);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (119))){
+var inst_13122 = (state_13385[(37)]);
+var inst_13341 = (state_13385[(2)]);
+var inst_13342 = ((0) < inst_13122);
+var inst_13343 = (inst_13122 < (5));
+var inst_13344 = (inst_13342) && (inst_13343);
+var state_13385__$1 = (function (){var statearr_13448 = state_13385;
+(statearr_13448[(91)] = inst_13341);
 
-(statearr_13373[(104)] = inst_13235__$1);
-
-return statearr_13373;
+return statearr_13448;
 })();
-if(cljs.core.truth_(inst_13235__$1)){
-var statearr_13374_13788 = state_13312__$1;
-(statearr_13374_13788[(1)] = (116));
+if(cljs.core.truth_(inst_13344)){
+var statearr_13449_13845 = state_13385__$1;
+(statearr_13449_13845[(1)] = (120));
 
 } else {
-var statearr_13375_13789 = state_13312__$1;
-(statearr_13375_13789[(1)] = (117));
+var statearr_13450_13846 = state_13385__$1;
+(statearr_13450_13846[(1)] = (121));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (119))){
-var inst_13239 = (state_13312[(109)]);
-var state_13312__$1 = state_13312;
-var statearr_13376_13790 = state_13312__$1;
-(statearr_13376_13790[(2)] = inst_13239);
+if((state_val_13386 === (95))){
+var inst_13202 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13451_13847 = state_13385__$1;
+(statearr_13451_13847[(2)] = inst_13202);
 
-(statearr_13376_13790[(1)] = (121));
+(statearr_13451_13847[(1)] = (92));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (95))){
-var inst_13076 = (state_13312[(99)]);
-var inst_13140 = (state_13312[(2)]);
-var inst_13141 = cljs.core.next.call(null,inst_13076);
-var inst_13009 = inst_13141;
-var inst_13010 = null;
-var inst_13011 = (0);
-var inst_13012 = (0);
-var state_13312__$1 = (function (){var statearr_13377 = state_13312;
-(statearr_13377[(110)] = inst_13009);
+if((state_val_13386 === (54))){
+var inst_13056 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13452_13848 = state_13385__$1;
+(statearr_13452_13848[(2)] = inst_13056);
 
-(statearr_13377[(27)] = inst_13011);
+(statearr_13452_13848[(1)] = (53));
 
-(statearr_13377[(9)] = inst_13012);
 
-(statearr_13377[(111)] = inst_13140);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (92))){
+var inst_13204 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13453_13849 = state_13385__$1;
+(statearr_13453_13849[(2)] = inst_13204);
 
-(statearr_13377[(10)] = inst_13010);
+(statearr_13453_13849[(1)] = (90));
 
-return statearr_13377;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (104))){
+var inst_13254 = (state_13385[(48)]);
+var inst_13258 = cljs.core.chunk_first.call(null,inst_13254);
+var inst_13259 = cljs.core.chunk_rest.call(null,inst_13254);
+var inst_13260 = cljs.core.count.call(null,inst_13258);
+var inst_13225 = inst_13259;
+var inst_13226 = inst_13258;
+var inst_13227 = inst_13260;
+var inst_13228 = (0);
+var state_13385__$1 = (function (){var statearr_13454 = state_13385;
+(statearr_13454[(7)] = inst_13225);
+
+(statearr_13454[(9)] = inst_13227);
+
+(statearr_13454[(10)] = inst_13226);
+
+(statearr_13454[(11)] = inst_13228);
+
+return statearr_13454;
 })();
-var statearr_13378_13791 = state_13312__$1;
-(statearr_13378_13791[(2)] = null);
+var statearr_13455_13850 = state_13385__$1;
+(statearr_13455_13850[(2)] = null);
 
-(statearr_13378_13791[(1)] = (72));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (54))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12859 = (state_13312[(112)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12918 = (state_13312[(93)]);
-var inst_12925 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12918);
-var inst_12926 = farn.core.main_stage.removeChild(inst_12925);
-var inst_12927 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12918);
-var inst_12928 = farn.core.main_stage.removeChild(inst_12927);
-var inst_12929 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
-var inst_12931 = cljs.core.nth.call(null,inst_12764,(0),null);
-var inst_12932 = cljs.core.nth.call(null,inst_12764,(1),null);
-var inst_12933 = farn.core.game_completed.call(null,farn.core.main_stage,inst_12306,inst_12286,inst_12931,inst_12932,inst_12392,inst_12859,inst_12475,inst_12391);
-var state_13312__$1 = (function (){var statearr_13379 = state_13312;
-(statearr_13379[(113)] = inst_12929);
-
-(statearr_13379[(114)] = inst_12928);
-
-(statearr_13379[(115)] = inst_12926);
-
-return statearr_13379;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(57),inst_12933);
-} else {
-if((state_val_13313 === (92))){
-var inst_12475 = (state_13312[(8)]);
-var inst_13076 = (state_13312[(99)]);
-var inst_13085 = cljs.core.first.call(null,inst_13076);
-var inst_13090 = inst_12475.call(null,inst_13085);
-var inst_13091 = cljs.core.seq.call(null,inst_13090);
-var inst_13092 = inst_13091;
-var inst_13093 = null;
-var inst_13094 = (0);
-var inst_13095 = (0);
-var state_13312__$1 = (function (){var statearr_13380 = state_13312;
-(statearr_13380[(89)] = inst_13095);
-
-(statearr_13380[(90)] = inst_13094);
-
-(statearr_13380[(91)] = inst_13093);
-
-(statearr_13380[(92)] = inst_13092);
-
-return statearr_13380;
-})();
-var statearr_13381_13792 = state_13312__$1;
-(statearr_13381_13792[(2)] = null);
-
-(statearr_13381_13792[(1)] = (94));
+(statearr_13455_13850[(1)] = (96));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (141))){
-var inst_12766 = (state_13312[(61)]);
-var inst_13300 = (inst_12766 - farn.core.player_turn_speed);
-var state_13312__$1 = state_13312;
-var statearr_13382_13793 = state_13312__$1;
-(statearr_13382_13793[(2)] = inst_13300);
+if((state_val_13386 === (15))){
+var inst_12499 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13456_13851 = state_13385__$1;
+(statearr_13456_13851[(2)] = inst_12499);
 
-(statearr_13382_13793[(1)] = (143));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (137))){
-var inst_13288 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13383_13794 = state_13312__$1;
-(statearr_13383_13794[(2)] = inst_13288);
-
-(statearr_13383_13794[(1)] = (134));
+(statearr_13456_13851[(1)] = (12));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (104))){
-var inst_13133 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13384_13795 = state_13312__$1;
-(statearr_13384_13795[(2)] = inst_13133);
-
-(statearr_13384_13795[(1)] = (101));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (15))){
-var inst_12388 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13385_13796 = state_13312__$1;
-(statearr_13385_13796[(2)] = inst_12388);
-
-(statearr_13385_13796[(1)] = (12));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (48))){
-var inst_12909 = (state_13312[(116)]);
-var inst_12913 = cljs.core.chunk_first.call(null,inst_12909);
-var inst_12914 = cljs.core.chunk_rest.call(null,inst_12909);
-var inst_12915 = cljs.core.count.call(null,inst_12913);
-var inst_12866 = inst_12914;
-var inst_12867 = inst_12913;
-var inst_12868 = inst_12915;
-var inst_12869 = (0);
-var state_13312__$1 = (function (){var statearr_13386 = state_13312;
-(statearr_13386[(117)] = inst_12868);
-
-(statearr_13386[(118)] = inst_12867);
-
-(statearr_13386[(119)] = inst_12869);
-
-(statearr_13386[(120)] = inst_12866);
-
-return statearr_13386;
-})();
-var statearr_13387_13797 = state_13312__$1;
-(statearr_13387_13797[(2)] = null);
-
-(statearr_13387_13797[(1)] = (33));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (50))){
-var inst_12953 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13388_13798 = state_13312__$1;
-(statearr_13388_13798[(2)] = inst_12953);
-
-(statearr_13388_13798[(1)] = (47));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (116))){
-var inst_13235 = (state_13312[(104)]);
-var state_13312__$1 = state_13312;
-var statearr_13389_13799 = state_13312__$1;
-(statearr_13389_13799[(2)] = inst_13235);
-
-(statearr_13389_13799[(1)] = (118));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (75))){
-var inst_13009 = (state_13312[(110)]);
-var inst_13076 = (state_13312[(99)]);
-var inst_13076__$1 = cljs.core.seq.call(null,inst_13009);
-var state_13312__$1 = (function (){var statearr_13390 = state_13312;
-(statearr_13390[(99)] = inst_13076__$1);
-
-return statearr_13390;
-})();
-if(inst_13076__$1){
-var statearr_13391_13800 = state_13312__$1;
-(statearr_13391_13800[(1)] = (88));
+if((state_val_13386 === (48))){
+var inst_13039 = (state_13385[(59)]);
+var inst_13043 = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(inst_13039);
+var inst_13044 = cljs.core._EQ_.call(null,inst_13043,new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973));
+var state_13385__$1 = state_13385;
+if(inst_13044){
+var statearr_13457_13852 = state_13385__$1;
+(statearr_13457_13852[(1)] = (51));
 
 } else {
-var statearr_13392_13801 = state_13312__$1;
-(statearr_13392_13801[(1)] = (89));
+var statearr_13458_13853 = state_13385__$1;
+(statearr_13458_13853[(1)] = (52));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (99))){
-var inst_13112 = (state_13312[(88)]);
-var inst_13114 = cljs.core.chunked_seq_QMARK_.call(null,inst_13112);
-var state_13312__$1 = state_13312;
-if(inst_13114){
-var statearr_13393_13802 = state_13312__$1;
-(statearr_13393_13802[(1)] = (102));
+if((state_val_13386 === (50))){
+var inst_13030 = (state_13385[(58)]);
+var inst_13070 = (state_13385[(2)]);
+var inst_13071 = cljs.core.next.call(null,inst_13030);
+var inst_12987 = inst_13071;
+var inst_12988 = null;
+var inst_12989 = (0);
+var inst_12990 = (0);
+var state_13385__$1 = (function (){var statearr_13459 = state_13385;
+(statearr_13459[(92)] = inst_12989);
+
+(statearr_13459[(93)] = inst_12988);
+
+(statearr_13459[(94)] = inst_12987);
+
+(statearr_13459[(95)] = inst_12990);
+
+(statearr_13459[(96)] = inst_13070);
+
+return statearr_13459;
+})();
+var statearr_13460_13854 = state_13385__$1;
+(statearr_13460_13854[(2)] = null);
+
+(statearr_13460_13854[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (116))){
+var inst_12881 = (state_13385[(97)]);
+var inst_12888 = (state_13385[(15)]);
+var inst_13325 = (state_13385[(2)]);
+var inst_13326 = (inst_12881 + (1));
+var inst_13327 = (inst_12888 > (0));
+var state_13385__$1 = (function (){var statearr_13461 = state_13385;
+(statearr_13461[(98)] = inst_13325);
+
+(statearr_13461[(99)] = inst_13326);
+
+return statearr_13461;
+})();
+if(cljs.core.truth_(inst_13327)){
+var statearr_13462_13855 = state_13385__$1;
+(statearr_13462_13855[(1)] = (117));
 
 } else {
-var statearr_13394_13803 = state_13312__$1;
-(statearr_13394_13803[(1)] = (103));
+var statearr_13463_13856 = state_13385__$1;
+(statearr_13463_13856[(1)] = (118));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (21))){
-var state_13312__$1 = state_13312;
-var statearr_13395_13804 = state_13312__$1;
-(statearr_13395_13804[(2)] = null);
+if((state_val_13386 === (75))){
+var state_13385__$1 = state_13385;
+var statearr_13464_13857 = state_13385__$1;
+(statearr_13464_13857[(2)] = null);
 
-(statearr_13395_13804[(1)] = (22));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (31))){
-var inst_12844 = (state_13312[(64)]);
-var state_13312__$1 = state_13312;
-var statearr_13396_13805 = state_13312__$1;
-(statearr_13396_13805[(2)] = inst_12844);
-
-(statearr_13396_13805[(1)] = (32));
+(statearr_13464_13857[(1)] = (76));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (113))){
-var inst_13187 = (state_13312[(15)]);
-var inst_13191 = cljs.core.chunk_first.call(null,inst_13187);
-var inst_13192 = cljs.core.chunk_rest.call(null,inst_13187);
-var inst_13193 = cljs.core.count.call(null,inst_13191);
-var inst_13158 = inst_13192;
-var inst_13159 = inst_13191;
-var inst_13160 = inst_13193;
-var inst_13161 = (0);
-var state_13312__$1 = (function (){var statearr_13397 = state_13312;
-(statearr_13397[(121)] = inst_13159);
+if((state_val_13386 === (99))){
+var inst_13225 = (state_13385[(7)]);
+var inst_13254 = (state_13385[(48)]);
+var inst_13254__$1 = cljs.core.seq.call(null,inst_13225);
+var state_13385__$1 = (function (){var statearr_13465 = state_13385;
+(statearr_13465[(48)] = inst_13254__$1);
 
-(statearr_13397[(122)] = inst_13161);
-
-(statearr_13397[(123)] = inst_13160);
-
-(statearr_13397[(124)] = inst_13158);
-
-return statearr_13397;
+return statearr_13465;
 })();
-var statearr_13398_13806 = state_13312__$1;
-(statearr_13398_13806[(2)] = null);
-
-(statearr_13398_13806[(1)] = (105));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (32))){
-var inst_12857 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13399_13807 = state_13312__$1;
-(statearr_13399_13807[(2)] = inst_12857);
-
-(statearr_13399_13807[(1)] = (29));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (136))){
-var inst_12765 = (state_13312[(44)]);
-var inst_13285 = (inst_12765 * farn.core.player_drag);
-var inst_13286 = ((inst_13285 > (0)) ? inst_13285 : (0));
-var state_13312__$1 = state_13312;
-var statearr_13403_13808 = state_13312__$1;
-(statearr_13403_13808[(2)] = inst_13286);
-
-(statearr_13403_13808[(1)] = (137));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (139))){
-var inst_13298 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"right","right",-452581833));
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13298)){
-var statearr_13404_13809 = state_13312__$1;
-(statearr_13404_13809[(1)] = (141));
+if(inst_13254__$1){
+var statearr_13466_13858 = state_13385__$1;
+(statearr_13466_13858[(1)] = (101));
 
 } else {
-var statearr_13405_13810 = state_13312__$1;
-(statearr_13405_13810[(1)] = (142));
+var statearr_13467_13859 = state_13385__$1;
+(statearr_13467_13859[(1)] = (102));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (40))){
-var inst_12868 = (state_13312[(117)]);
-var inst_12867 = (state_13312[(118)]);
-var inst_12869 = (state_13312[(119)]);
-var inst_12866 = (state_13312[(120)]);
-var inst_12905 = (state_13312[(2)]);
-var inst_12906 = (inst_12869 + (1));
-var tmp13400 = inst_12868;
-var tmp13401 = inst_12867;
-var tmp13402 = inst_12866;
-var inst_12866__$1 = tmp13402;
-var inst_12867__$1 = tmp13401;
-var inst_12868__$1 = tmp13400;
-var inst_12869__$1 = inst_12906;
-var state_13312__$1 = (function (){var statearr_13406 = state_13312;
-(statearr_13406[(117)] = inst_12868__$1);
-
-(statearr_13406[(118)] = inst_12867__$1);
-
-(statearr_13406[(119)] = inst_12869__$1);
-
-(statearr_13406[(125)] = inst_12905);
-
-(statearr_13406[(120)] = inst_12866__$1);
-
-return statearr_13406;
+if((state_val_13386 === (21))){
+var inst_12950 = (state_13385[(100)]);
+var inst_12427 = (state_13385[(60)]);
+var inst_12929 = (state_13385[(101)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12928 = (state_13385[(102)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12895 = (state_13385[(103)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_12447 = (state_13385[(78)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12916 = (state_13385[(104)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_12882 = (state_13385[(25)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_12887 = (state_13385[(105)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12590 = (state_13385[(108)]);
+var inst_12907 = (state_13385[(109)]);
+var inst_12506 = (state_13385[(110)]);
+var inst_12919 = (state_13385[(111)]);
+var inst_12883 = (state_13385[(112)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12884 = (state_13385[(118)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12585 = (state_13385[(119)]);
+var inst_12949 = (state_13385[(115)]);
+var inst_12578 = (state_13385[(120)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12906 = (state_13385[(121)]);
+var inst_12896 = (state_13385[(122)]);
+var inst_12958 = (state_13385[(116)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12905 = (state_13385[(123)]);
+var inst_12589 = (state_13385[(124)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12886 = (state_13385[(32)]);
+var inst_12894 = (state_13385[(125)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12881 = (state_13385[(97)]);
+var inst_12885 = (state_13385[(126)]);
+var inst_12888 = (state_13385[(15)]);
+var inst_12908 = (state_13385[(127)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_12949__$1 = (state_13385[(2)]);
+var inst_12950__$1 = ((2) + inst_12916);
+var inst_12951 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892;
+var cull_dist = inst_12950__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919;
+var player_shadow = inst_12398;
+var player_cell = inst_12906;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905;
+var y = inst_12893;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908;
+var player_cell_x = inst_12907;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var player_and_surrounds = inst_12928;
+var vec__12891 = inst_12906;
+var rhx = inst_12899;
+var rhy = inst_12902;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var process_add_cell = inst_12929;
+var tex = inst_12395;
+var speed = inst_12883;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916;
+var vy = inst_12904;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var new_cells = inst_12949__$1;
+var hy = inst_12896;
+var wait = inst_12391;
+var hx = inst_12895;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,state_val_13386,c__6459__auto___13801){
+return (function (p1__12356_SHARP_){
+return !((p1__12356_SHARP_ == null));
+});
+;})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,state_val_13386,c__6459__auto___13801))
 })();
-var statearr_13407_13811 = state_13312__$1;
-(statearr_13407_13811[(2)] = null);
-
-(statearr_13407_13811[(1)] = (33));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (129))){
-var state_13312__$1 = state_13312;
-var statearr_13408_13812 = state_13312__$1;
-(statearr_13408_13812[(2)] = (0));
-
-(statearr_13408_13812[(1)] = (131));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (91))){
-var inst_13076 = (state_13312[(99)]);
-var inst_13080 = cljs.core.chunk_first.call(null,inst_13076);
-var inst_13081 = cljs.core.chunk_rest.call(null,inst_13076);
-var inst_13082 = cljs.core.count.call(null,inst_13080);
-var inst_13009 = inst_13081;
-var inst_13010 = inst_13080;
-var inst_13011 = inst_13082;
-var inst_13012 = (0);
-var state_13312__$1 = (function (){var statearr_13409 = state_13312;
-(statearr_13409[(110)] = inst_13009);
-
-(statearr_13409[(27)] = inst_13011);
-
-(statearr_13409[(9)] = inst_13012);
-
-(statearr_13409[(10)] = inst_13010);
-
-return statearr_13409;
-})();
-var statearr_13410_13813 = state_13312__$1;
-(statearr_13410_13813[(2)] = null);
-
-(statearr_13410_13813[(1)] = (72));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (117))){
-var inst_13239 = (state_13312[(109)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_13238 = Math.abs.call(null,inst_12793);
-var inst_13239__$1 = (inst_13238 > (2));
-var state_13312__$1 = (function (){var statearr_13411 = state_13312;
-(statearr_13411[(109)] = inst_13239__$1);
-
-return statearr_13411;
-})();
-if(cljs.core.truth_(inst_13239__$1)){
-var statearr_13412_13814 = state_13312__$1;
-(statearr_13412_13814[(1)] = (119));
-
-} else {
-var statearr_13413_13815 = state_13312__$1;
-(statearr_13413_13815[(1)] = (120));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (108))){
-var inst_13187 = (state_13312[(15)]);
-var inst_13158 = (state_13312[(124)]);
-var inst_13187__$1 = cljs.core.seq.call(null,inst_13158);
-var state_13312__$1 = (function (){var statearr_13414 = state_13312;
-(statearr_13414[(15)] = inst_13187__$1);
-
-return statearr_13414;
-})();
-if(inst_13187__$1){
-var statearr_13415_13816 = state_13312__$1;
-(statearr_13415_13816[(1)] = (110));
-
-} else {
-var statearr_13416_13817 = state_13312__$1;
-(statearr_13416_13817[(1)] = (111));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (56))){
-var inst_12946 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13417_13818 = state_13312__$1;
-(statearr_13417_13818[(2)] = inst_12946);
-
-(statearr_13417_13818[(1)] = (53));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (33))){
-var inst_12868 = (state_13312[(117)]);
-var inst_12869 = (state_13312[(119)]);
-var inst_12871 = (inst_12869 < inst_12868);
-var inst_12872 = inst_12871;
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_12872)){
-var statearr_13418_13819 = state_13312__$1;
-(statearr_13418_13819[(1)] = (35));
-
-} else {
-var statearr_13419_13820 = state_13312__$1;
-(statearr_13419_13820[(1)] = (36));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (13))){
-var inst_12375 = (state_13312[(126)]);
-var inst_12380 = [cljs.core.str("sfx/boom-"),cljs.core.str(inst_12375),cljs.core.str(".ogg")].join('');
-var inst_12381 = farn.sound.load_sound.call(null,inst_12380);
-var state_13312__$1 = state_13312;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(16),inst_12381);
-} else {
-if((state_val_13313 === (22))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12795 = (state_13312[(36)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12768 = (state_13312[(39)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12474 = (state_13312[(41)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12796 = (state_13312[(43)]);
-var inst_12765 = (state_13312[(44)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12390 = (state_13312[(46)]);
-var inst_12467 = (state_13312[(47)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_12763 = (state_13312[(48)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_12783 = (state_13312[(52)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12363 = (state_13312[(55)]);
-var inst_12797 = (state_13312[(56)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12395 = (state_13312[(60)]);
-var inst_12766 = (state_13312[(61)]);
-var inst_12282 = (state_13312[(68)]);
-var inst_12769 = (state_13312[(7)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12808 = (state_13312[(70)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12794 = (state_13312[(73)]);
-var inst_12479 = (state_13312[(74)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12784 = (state_13312[(79)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12767 = (state_13312[(81)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_12478 = (state_13312[(83)]);
-var inst_12785 = (state_13312[(84)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12336 = (state_13312[(86)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12778 = (state_13312[(2)]);
-var inst_12781__$1 = cljs.core.nth.call(null,inst_12764,(0),null);
-var inst_12782__$1 = cljs.core.nth.call(null,inst_12764,(1),null);
-var inst_12783__$1 = (inst_12766 + Math.PI);
-var inst_12784__$1 = Math.cos.call(null,inst_12783__$1);
-var inst_12785__$1 = Math.sin.call(null,inst_12783__$1);
-var inst_12786 = ((2) * Math.PI);
-var inst_12787 = (inst_12786 - inst_12783__$1);
-var inst_12788__$1 = Math.cos.call(null,inst_12787);
-var inst_12789 = ((2) * Math.PI);
-var inst_12790 = (inst_12789 - inst_12783__$1);
-var inst_12791__$1 = Math.sin.call(null,inst_12790);
-var inst_12792__$1 = (inst_12765 * inst_12784__$1);
-var inst_12793__$1 = (inst_12765 * inst_12785__$1);
-var inst_12794__$1 = farn.core.main_stage.children.length;
-var inst_12795__$1 = farn.spatial.which_cell.call(null,inst_12764,farn.core.cell_size);
-var inst_12796__$1 = cljs.core.nth.call(null,inst_12795__$1,(0),null);
-var inst_12797__$1 = cljs.core.nth.call(null,inst_12795__$1,(1),null);
-var inst_12804 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795__$1;
-var vec__12780 = inst_12795__$1;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794__$1;
-var y = inst_12782__$1;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797__$1;
-var player_cell_x = inst_12796__$1;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var rhx = inst_12788__$1;
-var rhy = inst_12791__$1;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var speed = inst_12765;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792__$1;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793__$1;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var hy = inst_12785__$1;
-var wait = inst_12278;
-var hx = inst_12784__$1;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12798(s__12799){
-return (new cljs.core.LazySeq(null,((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746){
+var inst_12956 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892;
+var cull_dist = inst_12950__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919;
+var player_shadow = inst_12398;
+var player_cell = inst_12906;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905;
+var y = inst_12893;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908;
+var player_cell_x = inst_12907;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var player_and_surrounds = inst_12928;
+var vec__12891 = inst_12906;
+var rhx = inst_12899;
+var rhy = inst_12902;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var process_add_cell = inst_12929;
+var tex = inst_12395;
+var speed = inst_12883;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916;
+var vy = inst_12904;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var new_cells = inst_12949__$1;
+var hy = inst_12896;
+var wait = inst_12391;
+var hx = inst_12895;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,inst_12951,state_val_13386,c__6459__auto___13801){
+return (function iter__12952(s__12953){
+return (new cljs.core.LazySeq(null,((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,inst_12951,state_val_13386,c__6459__auto___13801){
 return (function (){
-var s__12799__$1 = s__12799;
+var s__12953__$1 = s__12953;
 while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12799__$1);
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12953__$1);
 if(temp__4126__auto__){
-var xs__4624__auto__ = temp__4126__auto__;
-var dx = cljs.core.first.call(null,xs__4624__auto__);
-var iterys__4382__auto__ = ((function (s__12799__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12800(s__12801){
-return (new cljs.core.LazySeq(null,((function (s__12799__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746){
-return (function (){
-var s__12801__$1 = s__12801;
-while(true){
-var temp__4126__auto____$1 = cljs.core.seq.call(null,s__12801__$1);
-if(temp__4126__auto____$1){
-var s__12801__$2 = temp__4126__auto____$1;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12801__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12801__$2);
+var s__12953__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12953__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12953__$2);
 var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12803 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12802 = (0);
+var b__12955 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12954 = (0);
 while(true){
-if((i__12802 < size__4385__auto__)){
-var dy = cljs.core._nth.call(null,c__4384__auto__,i__12802);
-cljs.core.chunk_append.call(null,b__12803,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(dx + player_cell_x),(dy + player_cell_y)], null));
+if((i__12954 < size__4385__auto__)){
+var c = cljs.core._nth.call(null,c__4384__auto__,i__12954);
+cljs.core.chunk_append.call(null,b__12955,(function (){var vec__13470 = c;
+var cx = cljs.core.nth.call(null,vec__13470,(0),null);
+var cy = cljs.core.nth.call(null,vec__13470,(1),null);
+var dx = Math.abs.call(null,(cx - player_cell_x));
+var dy = Math.abs.call(null,(cy - player_cell_y));
+if(((dx > cull_dist)) || ((dy > cull_dist))){
+return c;
+} else {
+return null;
+}
+})());
 
-var G__13821 = (i__12802 + (1));
-i__12802 = G__13821;
+var G__13860 = (i__12954 + (1));
+i__12954 = G__13860;
 continue;
 } else {
 return true;
@@ -4809,1454 +4466,1523 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12803),iter__12800.call(null,cljs.core.chunk_rest.call(null,s__12801__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12955),iter__12952.call(null,cljs.core.chunk_rest.call(null,s__12953__$2)));
 } else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12803),null);
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12955),null);
 }
 } else {
-var dy = cljs.core.first.call(null,s__12801__$2);
-return cljs.core.cons.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(dx + player_cell_x),(dy + player_cell_y)], null),iter__12800.call(null,cljs.core.rest.call(null,s__12801__$2)));
+var c = cljs.core.first.call(null,s__12953__$2);
+return cljs.core.cons.call(null,(function (){var vec__13471 = c;
+var cx = cljs.core.nth.call(null,vec__13471,(0),null);
+var cy = cljs.core.nth.call(null,vec__13471,(1),null);
+var dx = Math.abs.call(null,(cx - player_cell_x));
+var dy = Math.abs.call(null,(cy - player_cell_y));
+if(((dx > cull_dist)) || ((dy > cull_dist))){
+return c;
+} else {
+return null;
+}
+})(),iter__12952.call(null,cljs.core.rest.call(null,s__12953__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(s__12799__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746))
-,null,null));
-});})(s__12799__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746))
-;
-var fs__4383__auto__ = cljs.core.seq.call(null,iterys__4382__auto__.call(null,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [(-2),(-1),(0),(1),(2)], null)));
-if(fs__4383__auto__){
-return cljs.core.concat.call(null,fs__4383__auto__,iter__12798.call(null,cljs.core.rest.call(null,s__12799__$1)));
-} else {
-var G__13822 = cljs.core.rest.call(null,s__12799__$1);
-s__12799__$1 = G__13822;
-continue;
-}
-} else {
-return null;
-}
-break;
-}
-});})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746))
+});})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,inst_12951,state_val_13386,c__6459__auto___13801))
 ,null,null));
 });
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,process_add_cell,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12949__$1,inst_12950__$1,inst_12951,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12805 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12806 = [(-2),(-1),(0),(1),(2)];
-var inst_12807 = (new cljs.core.PersistentVector(null,5,(5),inst_12805,inst_12806,null));
-var inst_12808__$1 = inst_12804.call(null,inst_12807);
-var inst_12809 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795__$1;
-var vec__12780 = inst_12795__$1;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794__$1;
-var y = inst_12782__$1;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797__$1;
-var player_cell_x = inst_12796__$1;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var player_and_surrounds = inst_12808__$1;
-var rhx = inst_12788__$1;
-var rhy = inst_12791__$1;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var speed = inst_12765;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792__$1;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793__$1;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var hy = inst_12785__$1;
-var wait = inst_12278;
-var hx = inst_12784__$1;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,inst_12804,inst_12805,inst_12806,inst_12807,inst_12808__$1,state_val_13313,c__6459__auto___13746){
-return (function (test_cell,cells__$1){
-if(cljs.core.not.call(null,cljs.core.some.call(null,((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,inst_12804,inst_12805,inst_12806,inst_12807,inst_12808__$1,state_val_13313,c__6459__auto___13746){
-return (function (p1__12237_SHARP_){
-return cljs.core._EQ_.call(null,p1__12237_SHARP_,test_cell);
-});})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,inst_12804,inst_12805,inst_12806,inst_12807,inst_12808__$1,state_val_13313,c__6459__auto___13746))
-,cells__$1))){
-add_cell_BANG_.call(null,test_cell);
+var inst_12957 = inst_12956.call(null,inst_12886);
+var inst_12958__$1 = cljs.core.filter.call(null,inst_12951,inst_12957);
+var inst_12962 = cljs.core.nth.call(null,inst_12958__$1,(0),null);
+var inst_12963 = cljs.core.nthnext.call(null,inst_12958__$1,(1));
+var inst_12964 = inst_12958__$1;
+var inst_12965 = inst_12949__$1;
+var state_13385__$1 = (function (){var statearr_13472 = state_13385;
+(statearr_13472[(100)] = inst_12950__$1);
 
-return cljs.core.conj.call(null,cells__$1,test_cell);
-} else {
-return cells__$1;
-}
-});
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,rhx,rhy,frame_num,shadow_tex,_,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12395,inst_12766,inst_12282,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12283,inst_12794,inst_12479,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12778,inst_12781__$1,inst_12782__$1,inst_12783__$1,inst_12784__$1,inst_12785__$1,inst_12786,inst_12787,inst_12788__$1,inst_12789,inst_12790,inst_12791__$1,inst_12792__$1,inst_12793__$1,inst_12794__$1,inst_12795__$1,inst_12796__$1,inst_12797__$1,inst_12804,inst_12805,inst_12806,inst_12807,inst_12808__$1,state_val_13313,c__6459__auto___13746))
+(statearr_13472[(113)] = inst_12963);
+
+(statearr_13472[(43)] = inst_12964);
+
+(statearr_13472[(114)] = inst_12962);
+
+(statearr_13472[(41)] = inst_12965);
+
+(statearr_13472[(115)] = inst_12949__$1);
+
+(statearr_13472[(116)] = inst_12958__$1);
+
+return statearr_13472;
 })();
-var inst_12813 = cljs.core.nth.call(null,inst_12808__$1,(0),null);
-var inst_12814 = cljs.core.nthnext.call(null,inst_12808__$1,(1));
-var inst_12815 = inst_12767;
-var inst_12816 = inst_12808__$1;
-var state_13312__$1 = (function (){var statearr_13420 = state_13312;
-(statearr_13420[(36)] = inst_12795__$1);
+var statearr_13473_13861 = state_13385__$1;
+(statearr_13473_13861[(2)] = null);
 
-(statearr_13420[(43)] = inst_12796__$1);
-
-(statearr_13420[(20)] = inst_12781__$1);
-
-(statearr_13420[(51)] = inst_12793__$1);
-
-(statearr_13420[(52)] = inst_12783__$1);
-
-(statearr_13420[(127)] = inst_12813);
-
-(statearr_13420[(56)] = inst_12797__$1);
-
-(statearr_13420[(57)] = inst_12792__$1);
-
-(statearr_13420[(128)] = inst_12778);
-
-(statearr_13420[(21)] = inst_12791__$1);
-
-(statearr_13420[(70)] = inst_12808__$1);
-
-(statearr_13420[(23)] = inst_12782__$1);
-
-(statearr_13420[(73)] = inst_12794__$1);
-
-(statearr_13420[(75)] = inst_12809);
-
-(statearr_13420[(79)] = inst_12784__$1);
-
-(statearr_13420[(129)] = inst_12814);
-
-(statearr_13420[(130)] = inst_12815);
-
-(statearr_13420[(24)] = inst_12788__$1);
-
-(statearr_13420[(84)] = inst_12785__$1);
-
-(statearr_13420[(131)] = inst_12816);
-
-return statearr_13420;
-})();
-var statearr_13421_13823 = state_13312__$1;
-(statearr_13421_13823[(2)] = null);
-
-(statearr_13421_13823[(1)] = (23));
+(statearr_13473_13861[(1)] = (25));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (90))){
-var inst_13147 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13422_13824 = state_13312__$1;
-(statearr_13422_13824[(2)] = inst_13147);
-
-(statearr_13422_13824[(1)] = (76));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (109))){
-var inst_13222 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13423_13825 = state_13312__$1;
-(statearr_13423_13825[(2)] = inst_13222);
-
-(statearr_13423_13825[(1)] = (106));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (143))){
-var inst_13303 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13424_13826 = state_13312__$1;
-(statearr_13424_13826[(2)] = inst_13303);
-
-(statearr_13424_13826[(1)] = (140));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (36))){
-var inst_12909 = (state_13312[(116)]);
-var inst_12866 = (state_13312[(120)]);
-var inst_12909__$1 = cljs.core.seq.call(null,inst_12866);
-var state_13312__$1 = (function (){var statearr_13425 = state_13312;
-(statearr_13425[(116)] = inst_12909__$1);
-
-return statearr_13425;
-})();
-if(inst_12909__$1){
-var statearr_13426_13827 = state_13312__$1;
-(statearr_13426_13827[(1)] = (45));
-
-} else {
-var statearr_13427_13828 = state_13312__$1;
-(statearr_13427_13828[(1)] = (46));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (41))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12859 = (state_13312[(112)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12874 = (state_13312[(132)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12881 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12874);
-var inst_12882 = farn.core.main_stage.removeChild(inst_12881);
-var inst_12883 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12874);
-var inst_12884 = farn.core.main_stage.removeChild(inst_12883);
-var inst_12885 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
-var inst_12887 = cljs.core.nth.call(null,inst_12764,(0),null);
-var inst_12888 = cljs.core.nth.call(null,inst_12764,(1),null);
-var inst_12889 = farn.core.game_completed.call(null,farn.core.main_stage,inst_12306,inst_12286,inst_12887,inst_12888,inst_12392,inst_12859,inst_12475,inst_12391);
-var state_13312__$1 = (function (){var statearr_13428 = state_13312;
-(statearr_13428[(133)] = inst_12882);
-
-(statearr_13428[(134)] = inst_12884);
-
-(statearr_13428[(135)] = inst_12885);
-
-return statearr_13428;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(44),inst_12889);
-} else {
-if((state_val_13313 === (118))){
-var inst_13246 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13246)){
-var statearr_13429_13829 = state_13312__$1;
-(statearr_13429_13829[(1)] = (122));
-
-} else {
-var statearr_13430_13830 = state_13312__$1;
-(statearr_13430_13830[(1)] = (123));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (89))){
-var state_13312__$1 = state_13312;
-var statearr_13431_13831 = state_13312__$1;
-(statearr_13431_13831[(2)] = null);
-
-(statearr_13431_13831[(1)] = (90));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (100))){
-var state_13312__$1 = state_13312;
-var statearr_13432_13832 = state_13312__$1;
-(statearr_13432_13832[(2)] = null);
-
-(statearr_13432_13832[(1)] = (101));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (131))){
-var inst_13293 = (state_13312[(2)]);
-var inst_13294 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"left","left",-399115937));
-var state_13312__$1 = (function (){var statearr_13433 = state_13312;
-(statearr_13433[(136)] = inst_13293);
-
-return statearr_13433;
-})();
-if(cljs.core.truth_(inst_13294)){
-var statearr_13434_13833 = state_13312__$1;
-(statearr_13434_13833[(1)] = (138));
-
-} else {
-var statearr_13435_13834 = state_13312__$1;
-(statearr_13435_13834[(1)] = (139));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (122))){
-var inst_13248 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"running","running",1554969103));
-var state_13312__$1 = state_13312;
-var statearr_13436_13835 = state_13312__$1;
-(statearr_13436_13835[(2)] = inst_13248);
-
-(statearr_13436_13835[(1)] = (124));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (43))){
-var inst_12902 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13437_13836 = state_13312__$1;
-(statearr_13437_13836[(2)] = inst_12902);
-
-(statearr_13437_13836[(1)] = (40));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (61))){
-var inst_12390 = (state_13312[(46)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12976 = (state_13312[(137)]);
-var inst_12972 = cljs.core.rand_nth.call(null,inst_12390);
-var inst_12973 = farn.sound.play_sound.call(null,inst_12972,0.5);
-var inst_12975 = cljs.core.deref.call(null,farn.core.player_stars);
-var inst_12976__$1 = (((30) < inst_12975) ? (30) : inst_12975);
-var inst_12977 = cljs.core.nth.call(null,inst_12764,(0),null);
-var inst_12978 = cljs.core.nth.call(null,inst_12764,(1),null);
-var inst_12979 = (inst_12976__$1 > (0));
-var state_13312__$1 = (function (){var statearr_13438 = state_13312;
-(statearr_13438[(138)] = inst_12977);
-
-(statearr_13438[(139)] = inst_12973);
-
-(statearr_13438[(140)] = inst_12978);
-
-(statearr_13438[(137)] = inst_12976__$1);
-
-return statearr_13438;
-})();
-if(cljs.core.truth_(inst_12979)){
-var statearr_13439_13837 = state_13312__$1;
-(statearr_13439_13837[(1)] = (64));
-
-} else {
-var statearr_13440_13838 = state_13312__$1;
-(statearr_13440_13838[(1)] = (65));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (29))){
-var inst_12859 = (state_13312[(2)]);
-var inst_12864 = cljs.core.deref.call(null,farn.core.pickup_store);
-var inst_12865 = cljs.core.seq.call(null,inst_12864);
-var inst_12866 = inst_12865;
-var inst_12867 = null;
-var inst_12868 = (0);
-var inst_12869 = (0);
-var state_13312__$1 = (function (){var statearr_13441 = state_13312;
-(statearr_13441[(112)] = inst_12859);
-
-(statearr_13441[(117)] = inst_12868);
-
-(statearr_13441[(118)] = inst_12867);
-
-(statearr_13441[(119)] = inst_12869);
-
-(statearr_13441[(120)] = inst_12866);
-
-return statearr_13441;
-})();
-var statearr_13442_13839 = state_13312__$1;
-(statearr_13442_13839[(2)] = null);
-
-(statearr_13442_13839[(1)] = (33));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (44))){
-var inst_12891 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13443_13840 = state_13312__$1;
-(statearr_13443_13840[(2)] = inst_12891);
-
-(statearr_13443_13840[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (93))){
-var inst_13144 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13444_13841 = state_13312__$1;
-(statearr_13444_13841[(2)] = inst_13144);
-
-(statearr_13444_13841[(1)] = (90));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (6))){
-var inst_12363 = (state_13312[(2)]);
-var inst_12367 = cljs.core.PersistentVector.EMPTY;
-var inst_12368 = cljs.core.range.call(null,(1),(4));
-var inst_12369 = cljs.core.nth.call(null,inst_12368,(0),null);
-var inst_12370 = cljs.core.nthnext.call(null,inst_12368,(1));
-var inst_12371 = inst_12367;
-var inst_12372 = inst_12368;
-var state_13312__$1 = (function (){var statearr_13445 = state_13312;
-(statearr_13445[(141)] = inst_12372);
-
-(statearr_13445[(142)] = inst_12370);
-
-(statearr_13445[(55)] = inst_12363);
-
-(statearr_13445[(143)] = inst_12369);
-
-(statearr_13445[(144)] = inst_12371);
-
-return statearr_13445;
-})();
-var statearr_13446_13842 = state_13312__$1;
-(statearr_13446_13842[(2)] = null);
-
-(statearr_13446_13842[(1)] = (11));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (111))){
-var state_13312__$1 = state_13312;
-var statearr_13447_13843 = state_13312__$1;
-(statearr_13447_13843[(2)] = null);
-
-(statearr_13447_13843[(1)] = (112));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (28))){
-var inst_12847 = (state_13312[(145)]);
-var inst_12843 = (state_13312[(65)]);
-var inst_12847__$1 = cljs.core.nth.call(null,inst_12843,(0),null);
-var inst_12848 = cljs.core.nthnext.call(null,inst_12843,(1));
-var inst_12849 = (inst_12847__$1 == null);
-var inst_12850 = cljs.core.not.call(null,inst_12849);
-var state_13312__$1 = (function (){var statearr_13448 = state_13312;
-(statearr_13448[(146)] = inst_12848);
-
-(statearr_13448[(145)] = inst_12847__$1);
-
-return statearr_13448;
-})();
-if(inst_12850){
-var statearr_13449_13844 = state_13312__$1;
-(statearr_13449_13844[(1)] = (30));
-
-} else {
-var statearr_13450_13845 = state_13312__$1;
-(statearr_13450_13845[(1)] = (31));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (134))){
-var inst_13291 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13451_13846 = state_13312__$1;
-(statearr_13451_13846[(2)] = inst_13291);
-
-(statearr_13451_13846[(1)] = (131));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (64))){
-var inst_12976 = (state_13312[(137)]);
-var inst_12981 = inst_12976;
-var state_13312__$1 = (function (){var statearr_13452 = state_13312;
-(statearr_13452[(33)] = inst_12981);
-
-return statearr_13452;
-})();
-var statearr_13453_13847 = state_13312__$1;
-(statearr_13453_13847[(2)] = null);
-
-(statearr_13453_13847[(1)] = (67));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (103))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13112 = (state_13312[(88)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13121 = cljs.core.first.call(null,inst_13112);
-var inst_13123 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13121);
-var inst_13124 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13121);
-var inst_13125 = inst_12392.call(null,inst_13123,inst_13124,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13126 = cljs.core.nth.call(null,inst_13125,(0),null);
-var inst_13127 = cljs.core.nth.call(null,inst_13125,(1),null);
-var inst_13128 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13121);
-var inst_13129 = farn.sprite.set_pos_BANG_.call(null,inst_13128,inst_13126,inst_13127);
-var inst_13130 = cljs.core.next.call(null,inst_13112);
-var inst_13092 = inst_13130;
-var inst_13093 = null;
-var inst_13094 = (0);
-var inst_13095 = (0);
-var state_13312__$1 = (function (){var statearr_13454 = state_13312;
-(statearr_13454[(89)] = inst_13095);
-
-(statearr_13454[(90)] = inst_13094);
-
-(statearr_13454[(147)] = inst_13129);
-
-(statearr_13454[(91)] = inst_13093);
-
-(statearr_13454[(92)] = inst_13092);
-
-return statearr_13454;
-})();
-var statearr_13455_13848 = state_13312__$1;
-(statearr_13455_13848[(2)] = null);
-
-(statearr_13455_13848[(1)] = (94));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (51))){
-var inst_12918 = (state_13312[(93)]);
-var inst_12922 = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(inst_12918);
-var inst_12923 = cljs.core._EQ_.call(null,inst_12922,new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973));
-var state_13312__$1 = state_13312;
-if(inst_12923){
-var statearr_13456_13849 = state_13312__$1;
-(statearr_13456_13849[(1)] = (54));
-
-} else {
-var statearr_13457_13850 = state_13312__$1;
-(statearr_13457_13850[(1)] = (55));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (25))){
-var inst_12815 = (state_13312[(130)]);
-var state_13312__$1 = state_13312;
-var statearr_13458_13851 = state_13312__$1;
-(statearr_13458_13851[(2)] = inst_12815);
-
-(statearr_13458_13851[(1)] = (27));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (34))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12795 = (state_13312[(36)]);
-var inst_12966 = (state_13312[(19)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12768 = (state_13312[(39)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12474 = (state_13312[(41)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12796 = (state_13312[(43)]);
-var inst_12765 = (state_13312[(44)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12390 = (state_13312[(46)]);
-var inst_12467 = (state_13312[(47)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_12763 = (state_13312[(48)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_12783 = (state_13312[(52)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12764 = (state_13312[(54)]);
-var inst_12363 = (state_13312[(55)]);
-var inst_12797 = (state_13312[(56)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12859 = (state_13312[(112)]);
-var inst_12395 = (state_13312[(60)]);
-var inst_12766 = (state_13312[(61)]);
-var inst_12769 = (state_13312[(7)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12808 = (state_13312[(70)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12837 = (state_13312[(62)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12794 = (state_13312[(73)]);
-var inst_12479 = (state_13312[(74)]);
-var inst_12809 = (state_13312[(75)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12784 = (state_13312[(79)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12767 = (state_13312[(81)]);
-var inst_12829 = (state_13312[(67)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_12478 = (state_13312[(83)]);
-var inst_12785 = (state_13312[(84)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12336 = (state_13312[(86)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12960 = (state_13312[(2)]);
-var inst_12961 = inst_12475.call(null,inst_12795);
-var inst_12962 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795;
-var vec__12780 = inst_12795;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783;
-var obstacle_types = inst_12319;
-var post_remove_cells = inst_12859;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794;
-var y = inst_12782;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797;
-var player_cell_x = inst_12796;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var player_and_surrounds = inst_12808;
-var check_cell = inst_12961;
-var rhx = inst_12788;
-var rhy = inst_12791;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var process_add_cell = inst_12809;
-var _ = inst_12960;
-var tex = inst_12284;
-var speed = inst_12765;
-var cull_cells = inst_12837;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var new_cells = inst_12829;
-var hy = inst_12785;
-var wait = inst_12278;
-var hx = inst_12784;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,state_val_13313,c__6459__auto___13746){
+if((state_val_13386 === (31))){
+var inst_12950 = (state_13385[(100)]);
+var inst_12427 = (state_13385[(60)]);
+var inst_12929 = (state_13385[(101)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12928 = (state_13385[(102)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12895 = (state_13385[(103)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_12447 = (state_13385[(78)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12916 = (state_13385[(104)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_12882 = (state_13385[(25)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_12980 = (state_13385[(128)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_12887 = (state_13385[(105)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12590 = (state_13385[(108)]);
+var inst_12907 = (state_13385[(109)]);
+var inst_12506 = (state_13385[(110)]);
+var inst_12919 = (state_13385[(111)]);
+var inst_12883 = (state_13385[(112)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12884 = (state_13385[(118)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12585 = (state_13385[(119)]);
+var inst_12949 = (state_13385[(115)]);
+var inst_12578 = (state_13385[(120)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12906 = (state_13385[(121)]);
+var inst_12896 = (state_13385[(122)]);
+var inst_12958 = (state_13385[(116)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12905 = (state_13385[(123)]);
+var inst_12589 = (state_13385[(124)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12886 = (state_13385[(32)]);
+var inst_12894 = (state_13385[(125)]);
+var inst_13087 = (state_13385[(129)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12881 = (state_13385[(97)]);
+var inst_12885 = (state_13385[(126)]);
+var inst_12888 = (state_13385[(15)]);
+var inst_12908 = (state_13385[(127)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13081 = (state_13385[(2)]);
+var inst_13082 = inst_12586.call(null,inst_12906);
+var inst_13083 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892;
+var cull_dist = inst_12950;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919;
+var player_shadow = inst_12398;
+var player_cell = inst_12906;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894;
+var obstacle_types = inst_12430;
+var post_remove_cells = inst_12980;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905;
+var y = inst_12893;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908;
+var player_cell_x = inst_12907;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var player_and_surrounds = inst_12928;
+var vec__12891 = inst_12906;
+var check_cell = inst_13082;
+var rhx = inst_12899;
+var rhy = inst_12902;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var process_add_cell = inst_12929;
+var _ = inst_13081;
+var tex = inst_12395;
+var speed = inst_12883;
+var cull_cells = inst_12958;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916;
+var vy = inst_12904;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var new_cells = inst_12949;
+var hy = inst_12896;
+var wait = inst_12391;
+var hx = inst_12895;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,state_val_13386,c__6459__auto___13801){
 return (function (obj){
-return cljs.core.some.call(null,((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,state_val_13313,c__6459__auto___13746){
-return (function (p1__12239_SHARP_){
-return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(obj),p1__12239_SHARP_);
-});})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,state_val_13313,c__6459__auto___13746))
+return cljs.core.some.call(null,((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,state_val_13386,c__6459__auto___13801){
+return (function (p1__12357_SHARP_){
+return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(obj),p1__12357_SHARP_);
+});})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,state_val_13386,c__6459__auto___13801))
 ,obstacle_types);
 });
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12963 = cljs.core.filter.call(null,inst_12962,inst_12961);
-var inst_12964 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var vec__12779 = inst_12764;
-var x = inst_12781;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var cells = inst_12767;
-var player_shadow = inst_12287;
-var player_cell = inst_12795;
-var vec__12780 = inst_12795;
-var close_QMARK_ = inst_12395;
-var sprite_count = inst_12768;
-var player_pos = inst_12478;
-var calc_theta = inst_12783;
-var obstacle_types = inst_12319;
-var post_remove_cells = inst_12859;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_hit = inst_12769;
-var old_sprite_count = inst_12794;
-var y = inst_12782;
-var player_standing_sway = inst_12300;
-var player_cell_y = inst_12797;
-var player_cell_x = inst_12796;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var player_and_surrounds = inst_12808;
-var check_cell = inst_12961;
-var rhx = inst_12788;
-var rhy = inst_12791;
-var frame_num = inst_12763;
-var shadow_tex = inst_12286;
-var process_add_cell = inst_12809;
-var _ = inst_12960;
-var tex = inst_12284;
-var speed = inst_12765;
-var cull_cells = inst_12837;
-var obstacle_QMARK_ = inst_12962;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var pos = inst_12764;
-var remove_cell_BANG_ = inst_12480;
-var theta = inst_12766;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var hit_things = inst_12963;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var vx = inst_12792;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var vy = inst_12793;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var new_cells = inst_12829;
-var hy = inst_12785;
-var wait = inst_12278;
-var hx = inst_12784;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,obstacle_QMARK_,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,hit_things,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,inst_12962,inst_12963,state_val_13313,c__6459__auto___13746){
-return (function (p1__12240_SHARP_){
-return close_QMARK_.call(null,pos,new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(p1__12240_SHARP_),(500));
+var inst_13084 = cljs.core.filter.call(null,inst_13083,inst_13082);
+var inst_13085 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892;
+var cull_dist = inst_12950;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919;
+var player_shadow = inst_12398;
+var player_cell = inst_12906;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894;
+var obstacle_types = inst_12430;
+var post_remove_cells = inst_12980;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905;
+var y = inst_12893;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908;
+var player_cell_x = inst_12907;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var player_and_surrounds = inst_12928;
+var vec__12891 = inst_12906;
+var check_cell = inst_13082;
+var rhx = inst_12899;
+var rhy = inst_12902;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var process_add_cell = inst_12929;
+var _ = inst_13081;
+var tex = inst_12395;
+var speed = inst_12883;
+var cull_cells = inst_12958;
+var obstacle_QMARK_ = inst_13083;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var hit_things = inst_13084;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916;
+var vy = inst_12904;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var new_cells = inst_12949;
+var hy = inst_12896;
+var wait = inst_12391;
+var hx = inst_12895;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,obstacle_QMARK_,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,hit_things,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,inst_13083,inst_13084,state_val_13386,c__6459__auto___13801){
+return (function (p1__12358_SHARP_){
+return close_QMARK_.call(null,pos,new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(p1__12358_SHARP_),(500));
 });
-;})(add_cell_BANG_,depth_compare,vec__12779,x,player_stars_text,player_standing_texs,cells,player_shadow,player_cell,vec__12780,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,obstacle_QMARK_,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,hit_things,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12795,inst_12966,inst_12278,inst_12268,inst_12306,inst_12768,inst_12319,inst_12474,inst_12274,inst_12796,inst_12765,inst_12305,inst_12390,inst_12467,inst_12781,inst_12763,inst_12333,inst_12307,inst_12793,inst_12783,inst_12300,inst_12764,inst_12363,inst_12797,inst_12792,inst_12285,inst_12326,inst_12791,inst_12859,inst_12395,inst_12766,inst_12769,inst_12316,inst_12392,inst_12808,inst_12269,inst_12782,inst_12310,inst_12837,inst_12283,inst_12794,inst_12479,inst_12809,inst_12297,inst_12287,inst_12284,inst_12784,inst_12391,inst_12767,inst_12829,inst_12275,inst_12788,inst_12478,inst_12785,inst_12313,inst_12336,inst_12480,inst_12960,inst_12961,inst_12962,inst_12963,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,d_theta,x,cull_dist,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,post_remove_cells,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,check_cell,rhx,rhy,frame_num,shadow_tex,process_add_cell,_,tex,speed,cull_cells,obstacle_QMARK_,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,hit_things,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,new_cells,hy,wait,hx,player,player_stars_icon,inst_12950,inst_12427,inst_12929,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12980,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12949,inst_12578,inst_12411,inst_12906,inst_12896,inst_12958,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_13087,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_13081,inst_13082,inst_13083,inst_13084,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12965 = cljs.core.some.call(null,inst_12964,inst_12963);
-var inst_12966__$1 = cljs.core._EQ_.call(null,(0),inst_12769);
-var state_13312__$1 = (function (){var statearr_13459 = state_13312;
-(statearr_13459[(19)] = inst_12966__$1);
+var inst_13086 = cljs.core.some.call(null,inst_13085,inst_13084);
+var inst_13087__$1 = cljs.core._EQ_.call(null,(0),inst_12888);
+var state_13385__$1 = (function (){var statearr_13474 = state_13385;
+(statearr_13474[(49)] = inst_13086);
 
-(statearr_13459[(28)] = inst_12965);
+(statearr_13474[(129)] = inst_13087__$1);
 
-return statearr_13459;
+return statearr_13474;
 })();
-if(inst_12966__$1){
-var statearr_13460_13852 = state_13312__$1;
-(statearr_13460_13852[(1)] = (58));
+if(inst_13087__$1){
+var statearr_13475_13862 = state_13385__$1;
+(statearr_13475_13862[(1)] = (55));
 
 } else {
-var statearr_13461_13853 = state_13312__$1;
-(statearr_13461_13853[(1)] = (59));
+var statearr_13476_13863 = state_13385__$1;
+(statearr_13476_13863[(1)] = (56));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (125))){
-var inst_12763 = (state_13312[(48)]);
-var inst_12769 = (state_13312[(7)]);
-var inst_13257 = (state_13312[(2)]);
-var inst_13258 = (inst_12763 + (1));
-var inst_13259 = (inst_12769 > (0));
-var state_13312__$1 = (function (){var statearr_13462 = state_13312;
-(statearr_13462[(148)] = inst_13257);
+if((state_val_13386 === (113))){
+var inst_13316 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"running","running",1554969103));
+var state_13385__$1 = state_13385;
+var statearr_13477_13864 = state_13385__$1;
+(statearr_13477_13864[(2)] = inst_13316);
 
-(statearr_13462[(149)] = inst_13258);
+(statearr_13477_13864[(1)] = (115));
 
-return statearr_13462;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (32))){
+var inst_12995 = (state_13385[(50)]);
+var inst_12988 = (state_13385[(93)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12990 = (state_13385[(95)]);
+var inst_12995__$1 = cljs.core._nth.call(null,inst_12988,inst_12990);
+var inst_12996 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12995__$1);
+var inst_12997 = farn.sprite.overlap_QMARK_.call(null,inst_12396,inst_12996);
+var state_13385__$1 = (function (){var statearr_13478 = state_13385;
+(statearr_13478[(50)] = inst_12995__$1);
+
+return statearr_13478;
 })();
-if(cljs.core.truth_(inst_13259)){
-var statearr_13463_13854 = state_13312__$1;
-(statearr_13463_13854[(1)] = (126));
+if(inst_12997){
+var statearr_13479_13865 = state_13385__$1;
+(statearr_13479_13865[(1)] = (35));
 
 } else {
-var statearr_13464_13855 = state_13312__$1;
-(statearr_13464_13855[(1)] = (127));
+var statearr_13480_13866 = state_13385__$1;
+(statearr_13480_13866[(1)] = (36));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (17))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12474 = (state_13312[(41)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12390 = (state_13312[(46)]);
-var inst_12467 = (state_13312[(47)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12363 = (state_13312[(55)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12395 = (state_13312[(60)]);
-var inst_12282 = (state_13312[(68)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12479 = (state_13312[(74)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12478 = (state_13312[(83)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12336 = (state_13312[(86)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12637 = (state_13312[(2)]);
-var inst_12638 = farn.utils.log.call(null,"adding player");
-var inst_12640 = farn.sprite.set_scale_BANG_.call(null,inst_12285,0.5);
-var inst_12641 = farn.core.main_stage.addChild(inst_12285);
-var inst_12642 = farn.core.main_stage.addChild(inst_12287);
-var inst_12748 = cljs.core.async.chan.call(null,(1));
-var inst_12749 = (function (){var add_cell_BANG_ = inst_12479;
-var depth_compare = inst_12391;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395;
-var player_pos = inst_12478;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12748;
-var hit_sfx = inst_12390;
-var lobster_big = inst_12274;
-var game_map = inst_12467;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480;
-var tufts = inst_12333;
-var game_space = inst_12475;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746){
+if((state_val_13386 === (40))){
+var inst_13023 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13481_13867 = state_13385__$1;
+(statearr_13481_13867[(2)] = inst_13023);
+
+(statearr_13481_13867[(1)] = (37));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (129))){
+var inst_12885 = (state_13385[(126)]);
+var inst_13365 = (inst_12885 + 0.01);
+var inst_13366 = ((inst_13365 < farn.core.player_turn_speed) ? inst_13365 : farn.core.player_turn_speed);
+var state_13385__$1 = state_13385;
+var statearr_13482_13868 = state_13385__$1;
+(statearr_13482_13868[(2)] = inst_13366);
+
+(statearr_13482_13868[(1)] = (131));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (91))){
+var inst_13184 = (state_13385[(57)]);
+var inst_13180 = (state_13385[(16)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_13181 = (state_13385[(17)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13186 = inst_13180.call(null,inst_13184);
+var inst_13188 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13186);
+var inst_13189 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13186);
+var inst_13190 = inst_12503.call(null,inst_13188,inst_13189,inst_12892,inst_12893,inst_12899,inst_12902);
+var inst_13191 = cljs.core.nth.call(null,inst_13190,(0),null);
+var inst_13192 = cljs.core.nth.call(null,inst_13190,(1),null);
+var inst_13193 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13186);
+var inst_13194 = farn.sprite.set_pos_BANG_.call(null,inst_13193,inst_13191,inst_13192);
+var inst_13195 = (inst_13181 - (1));
+var inst_13196 = (inst_13184 < inst_13195);
+var state_13385__$1 = (function (){var statearr_13483 = state_13385;
+(statearr_13483[(130)] = inst_13194);
+
+return statearr_13483;
+})();
+if(cljs.core.truth_(inst_13196)){
+var statearr_13484_13869 = state_13385__$1;
+(statearr_13484_13869[(1)] = (93));
+
+} else {
+var statearr_13485_13870 = state_13385__$1;
+(statearr_13485_13870[(1)] = (94));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (117))){
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_13329 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_13330 = (inst_12892 + inst_12903);
+var inst_13331 = (inst_12893 + inst_12904);
+var inst_13332 = [inst_13330,inst_13331];
+var inst_13333 = (new cljs.core.PersistentVector(null,2,(5),inst_13329,inst_13332,null));
+var state_13385__$1 = state_13385;
+var statearr_13486_13871 = state_13385__$1;
+(statearr_13486_13871[(2)] = inst_13333);
+
+(statearr_13486_13871[(1)] = (119));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (108))){
+var inst_13307 = (state_13385[(13)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_13306 = Math.abs.call(null,inst_12904);
+var inst_13307__$1 = (inst_13306 > (2));
+var state_13385__$1 = (function (){var statearr_13487 = state_13385;
+(statearr_13487[(13)] = inst_13307__$1);
+
+return statearr_13487;
+})();
+if(cljs.core.truth_(inst_13307__$1)){
+var statearr_13488_13872 = state_13385__$1;
+(statearr_13488_13872[(1)] = (110));
+
+} else {
+var statearr_13489_13873 = state_13385__$1;
+(statearr_13489_13873[(1)] = (111));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (56))){
+var inst_13087 = (state_13385[(129)]);
+var state_13385__$1 = state_13385;
+var statearr_13490_13874 = state_13385__$1;
+(statearr_13490_13874[(2)] = inst_13087);
+
+(statearr_13490_13874[(1)] = (57));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (33))){
+var inst_12987 = (state_13385[(94)]);
+var inst_13030 = (state_13385[(58)]);
+var inst_13030__$1 = cljs.core.seq.call(null,inst_12987);
+var state_13385__$1 = (function (){var statearr_13491 = state_13385;
+(statearr_13491[(58)] = inst_13030__$1);
+
+return statearr_13491;
+})();
+if(inst_13030__$1){
+var statearr_13492_13875 = state_13385__$1;
+(statearr_13492_13875[(1)] = (42));
+
+} else {
+var statearr_13493_13876 = state_13385__$1;
+(statearr_13493_13876[(1)] = (43));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (13))){
+var inst_12486 = (state_13385[(131)]);
+var inst_12491 = [cljs.core.str("sfx/boom-"),cljs.core.str(inst_12486),cljs.core.str(".ogg")].join('');
+var inst_12492 = farn.sound.load_sound.call(null,inst_12491);
+var state_13385__$1 = state_13385;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(16),inst_12492);
+} else {
+if((state_val_13386 === (22))){
+var inst_12935 = (state_13385[(132)]);
+var state_13385__$1 = state_13385;
+var statearr_13494_13877 = state_13385__$1;
+(statearr_13494_13877[(2)] = inst_12935);
+
+(statearr_13494_13877[(1)] = (24));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (90))){
+var inst_13170 = (state_13385[(18)]);
+var inst_13207 = (state_13385[(2)]);
+var inst_13208 = cljs.core.next.call(null,inst_13170);
+var inst_13130 = inst_13208;
+var inst_13131 = null;
+var inst_13132 = (0);
+var inst_13133 = (0);
+var state_13385__$1 = (function (){var statearr_13495 = state_13385;
+(statearr_13495[(33)] = inst_13131);
+
+(statearr_13495[(34)] = inst_13133);
+
+(statearr_13495[(23)] = inst_13130);
+
+(statearr_13495[(36)] = inst_13132);
+
+(statearr_13495[(133)] = inst_13207);
+
+return statearr_13495;
+})();
+var statearr_13496_13878 = state_13385__$1;
+(statearr_13496_13878[(2)] = null);
+
+(statearr_13496_13878[(1)] = (69));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (109))){
+var inst_13314 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13314)){
+var statearr_13497_13879 = state_13385__$1;
+(statearr_13497_13879[(1)] = (113));
+
+} else {
+var statearr_13498_13880 = state_13385__$1;
+(statearr_13498_13880[(1)] = (114));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (36))){
+var state_13385__$1 = state_13385;
+var statearr_13499_13881 = state_13385__$1;
+(statearr_13499_13881[(2)] = null);
+
+(statearr_13499_13881[(1)] = (37));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (41))){
+var inst_13012 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13500_13882 = state_13385__$1;
+(statearr_13500_13882[(2)] = inst_13012);
+
+(statearr_13500_13882[(1)] = (40));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (118))){
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_13335 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_13336 = (inst_12892 - inst_12903);
+var inst_13337 = (inst_12893 - inst_12904);
+var inst_13338 = [inst_13336,inst_13337];
+var inst_13339 = (new cljs.core.PersistentVector(null,2,(5),inst_13335,inst_13338,null));
+var state_13385__$1 = state_13385;
+var statearr_13501_13883 = state_13385__$1;
+(statearr_13501_13883[(2)] = inst_13339);
+
+(statearr_13501_13883[(1)] = (119));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (89))){
+var state_13385__$1 = state_13385;
+var statearr_13502_13884 = state_13385__$1;
+(statearr_13502_13884[(2)] = null);
+
+(statearr_13502_13884[(1)] = (90));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (100))){
+var inst_13289 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13503_13885 = state_13385__$1;
+(statearr_13503_13885[(2)] = inst_13289);
+
+(statearr_13503_13885[(1)] = (97));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (131))){
+var inst_13341 = (state_13385[(91)]);
+var inst_12980 = (state_13385[(128)]);
+var inst_13361 = (state_13385[(134)]);
+var inst_13362 = (state_13385[(135)]);
+var inst_12905 = (state_13385[(123)]);
+var inst_13122 = (state_13385[(37)]);
+var inst_13326 = (state_13385[(99)]);
+var inst_13378 = (state_13385[(2)]);
+var inst_13379 = (inst_13122 - (1));
+var inst_13380 = (((0) > inst_13379) ? (0) : inst_13379);
+var inst_12881 = inst_13326;
+var inst_12882 = inst_13341;
+var inst_12883 = inst_13361;
+var inst_12884 = inst_13362;
+var inst_12885 = inst_13378;
+var inst_12886 = inst_12980;
+var inst_12887 = inst_12905;
+var inst_12888 = inst_13380;
+var state_13385__$1 = (function (){var statearr_13504 = state_13385;
+(statearr_13504[(25)] = inst_12882);
+
+(statearr_13504[(105)] = inst_12887);
+
+(statearr_13504[(112)] = inst_12883);
+
+(statearr_13504[(118)] = inst_12884);
+
+(statearr_13504[(32)] = inst_12886);
+
+(statearr_13504[(97)] = inst_12881);
+
+(statearr_13504[(126)] = inst_12885);
+
+(statearr_13504[(15)] = inst_12888);
+
+return statearr_13504;
+})();
+var statearr_13505_13886 = state_13385__$1;
+(statearr_13505_13886[(2)] = null);
+
+(statearr_13505_13886[(1)] = (18));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (122))){
+var inst_12884 = (state_13385[(118)]);
+var inst_12885 = (state_13385[(126)]);
+var inst_13361 = (state_13385[(2)]);
+var inst_13362 = (inst_12884 + inst_12885);
+var inst_13363 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"left","left",-399115937));
+var state_13385__$1 = (function (){var statearr_13506 = state_13385;
+(statearr_13506[(134)] = inst_13361);
+
+(statearr_13506[(135)] = inst_13362);
+
+return statearr_13506;
+})();
+if(cljs.core.truth_(inst_13363)){
+var statearr_13507_13887 = state_13385__$1;
+(statearr_13507_13887[(1)] = (129));
+
+} else {
+var statearr_13508_13888 = state_13385__$1;
+(statearr_13508_13888[(1)] = (130));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (43))){
+var state_13385__$1 = state_13385;
+var statearr_13509_13889 = state_13385__$1;
+(statearr_13509_13889[(2)] = null);
+
+(statearr_13509_13889[(1)] = (44));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (61))){
+var inst_13097 = (state_13385[(24)]);
+var inst_13102 = inst_13097;
+var state_13385__$1 = (function (){var statearr_13510 = state_13385;
+(statearr_13510[(136)] = inst_13102);
+
+return statearr_13510;
+})();
+var statearr_13511_13890 = state_13385__$1;
+(statearr_13511_13890[(2)] = null);
+
+(statearr_13511_13890[(1)] = (64));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (29))){
+var inst_12978 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13512_13891 = state_13385__$1;
+(statearr_13512_13891[(2)] = inst_12978);
+
+(statearr_13512_13891[(1)] = (26));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (44))){
+var inst_13077 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13513_13892 = state_13385__$1;
+(statearr_13513_13892[(2)] = inst_13077);
+
+(statearr_13513_13892[(1)] = (34));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (93))){
+var inst_13184 = (state_13385[(57)]);
+var inst_13198 = (inst_13184 + (1));
+var inst_13184__$1 = inst_13198;
+var state_13385__$1 = (function (){var statearr_13514 = state_13385;
+(statearr_13514[(57)] = inst_13184__$1);
+
+return statearr_13514;
+})();
+var statearr_13515_13893 = state_13385__$1;
+(statearr_13515_13893[(2)] = null);
+
+(statearr_13515_13893[(1)] = (91));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (6))){
+var inst_12474 = (state_13385[(2)]);
+var inst_12478 = cljs.core.PersistentVector.EMPTY;
+var inst_12479 = cljs.core.range.call(null,(1),(4));
+var inst_12480 = cljs.core.nth.call(null,inst_12479,(0),null);
+var inst_12481 = cljs.core.nthnext.call(null,inst_12479,(1));
+var inst_12482 = inst_12478;
+var inst_12483 = inst_12479;
+var state_13385__$1 = (function (){var statearr_13516 = state_13385;
+(statearr_13516[(51)] = inst_12474);
+
+(statearr_13516[(137)] = inst_12482);
+
+(statearr_13516[(138)] = inst_12481);
+
+(statearr_13516[(139)] = inst_12483);
+
+(statearr_13516[(140)] = inst_12480);
+
+return statearr_13516;
+})();
+var statearr_13517_13894 = state_13385__$1;
+(statearr_13517_13894[(2)] = null);
+
+(statearr_13517_13894[(1)] = (11));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (111))){
+var inst_13310 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"up","up",-269712113));
+var state_13385__$1 = state_13385;
+var statearr_13518_13895 = state_13385__$1;
+(statearr_13518_13895[(2)] = inst_13310);
+
+(statearr_13518_13895[(1)] = (112));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (28))){
+var inst_12965 = (state_13385[(41)]);
+var state_13385__$1 = state_13385;
+var statearr_13519_13896 = state_13385__$1;
+(statearr_13519_13896[(2)] = inst_12965);
+
+(statearr_13519_13896[(1)] = (29));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (134))){
+var inst_13376 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13520_13897 = state_13385__$1;
+(statearr_13520_13897[(2)] = inst_13376);
+
+(statearr_13520_13897[(1)] = (131));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (64))){
+var inst_12417 = (state_13385[(63)]);
+var inst_13098 = (state_13385[(27)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_13099 = (state_13385[(28)]);
+var inst_13102 = (state_13385[(136)]);
+var inst_13104 = farn.stars.make.call(null,farn.core.main_stage,inst_12417,inst_12397,inst_13098,inst_13099);
+var inst_13105 = (inst_13102 > (1));
+var state_13385__$1 = (function (){var statearr_13521 = state_13385;
+(statearr_13521[(141)] = inst_13104);
+
+return statearr_13521;
+})();
+if(cljs.core.truth_(inst_13105)){
+var statearr_13522_13898 = state_13385__$1;
+(statearr_13522_13898[(1)] = (66));
+
+} else {
+var statearr_13523_13899 = state_13385__$1;
+(statearr_13523_13899[(1)] = (67));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (103))){
+var inst_13287 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13524_13900 = state_13385__$1;
+(statearr_13524_13900[(2)] = inst_13287);
+
+(statearr_13524_13900[(1)] = (100));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (51))){
+var inst_12417 = (state_13385[(63)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12980 = (state_13385[(128)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_13039 = (state_13385[(59)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_13046 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13039);
+var inst_13047 = farn.core.main_stage.removeChild(inst_13046);
+var inst_13048 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
+var inst_13050 = cljs.core.deref.call(null,farn.core.last_player_position);
+var inst_13051 = cljs.core.nth.call(null,inst_13050,(0),null);
+var inst_13052 = cljs.core.nth.call(null,inst_13050,(1),null);
+var inst_13053 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13039);
+var inst_13054 = farn.core.game_completed.call(null,farn.core.main_stage,inst_12417,inst_12397,inst_13051,inst_13052,inst_12503,inst_12980,inst_12586,inst_12502,inst_13053);
+var state_13385__$1 = (function (){var statearr_13525 = state_13385;
+(statearr_13525[(142)] = inst_13048);
+
+(statearr_13525[(143)] = inst_13047);
+
+return statearr_13525;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(54),inst_13054);
+} else {
+if((state_val_13386 === (25))){
+var inst_12964 = (state_13385[(43)]);
+var inst_12968 = (state_13385[(42)]);
+var inst_12968__$1 = cljs.core.nth.call(null,inst_12964,(0),null);
+var inst_12969 = cljs.core.nthnext.call(null,inst_12964,(1));
+var inst_12970 = (inst_12968__$1 == null);
+var inst_12971 = cljs.core.not.call(null,inst_12970);
+var state_13385__$1 = (function (){var statearr_13526 = state_13385;
+(statearr_13526[(39)] = inst_12969);
+
+(statearr_13526[(42)] = inst_12968__$1);
+
+return statearr_13526;
+})();
+if(inst_12971){
+var statearr_13527_13901 = state_13385__$1;
+(statearr_13527_13901[(1)] = (27));
+
+} else {
+var statearr_13528_13902 = state_13385__$1;
+(statearr_13528_13902[(1)] = (28));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (34))){
+var inst_13079 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13529_13903 = state_13385__$1;
+(statearr_13529_13903[(2)] = inst_13079);
+
+(statearr_13529_13903[(1)] = (31));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (125))){
+var inst_13359 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13530_13904 = state_13385__$1;
+(statearr_13530_13904[(2)] = inst_13359);
+
+(statearr_13530_13904[(1)] = (122));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (17))){
+var inst_12427 = (state_13385[(60)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_12447 = (state_13385[(78)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12590 = (state_13385[(108)]);
+var inst_12506 = (state_13385[(110)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12585 = (state_13385[(119)]);
+var inst_12578 = (state_13385[(120)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12589 = (state_13385[(124)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12756 = (state_13385[(2)]);
+var inst_12758 = farn.sprite.set_scale_BANG_.call(null,inst_12396,0.5);
+var inst_12759 = farn.core.main_stage.addChild(inst_12396);
+var inst_12760 = farn.core.main_stage.addChild(inst_12398);
+var inst_12866 = cljs.core.async.chan.call(null,(1));
+var inst_12867 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506;
+var player_pos = inst_12589;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12866;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746){
-return (function (state_12746){
-var state_val_12747 = (state_12746[(1)]);
-if((state_val_12747 === (7))){
-var inst_12738 = (state_12746[(2)]);
-var state_12746__$1 = (function (){var statearr_13465 = state_12746;
-(statearr_13465[(7)] = inst_12738);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801){
+return (function (state_12864){
+var state_val_12865 = (state_12864[(1)]);
+if((state_val_12865 === (7))){
+var inst_12856 = (state_12864[(2)]);
+var state_12864__$1 = (function (){var statearr_13531 = state_12864;
+(statearr_13531[(7)] = inst_12856);
 
-return statearr_13465;
+return statearr_13531;
 })();
-var statearr_13466_13856 = state_12746__$1;
-(statearr_13466_13856[(2)] = null);
+var statearr_13532_13905 = state_12864__$1;
+(statearr_13532_13905[(2)] = null);
 
-(statearr_13466_13856[(1)] = (2));
+(statearr_13532_13905[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (20))){
-var state_12746__$1 = state_12746;
-var statearr_13467_13857 = state_12746__$1;
-(statearr_13467_13857[(2)] = null);
+if((state_val_12865 === (20))){
+var state_12864__$1 = state_12864;
+var statearr_13533_13906 = state_12864__$1;
+(statearr_13533_13906[(2)] = null);
 
-(statearr_13467_13857[(1)] = (21));
+(statearr_13533_13906[(1)] = (21));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (27))){
-var inst_12701 = (state_12746[(2)]);
-var inst_12702 = cljs.core.deref.call(null,farn.core.player_animation);
-var inst_12703 = cljs.core._EQ_.call(null,inst_12702,new cljs.core.Keyword(null,"running","running",1554969103));
-var state_12746__$1 = (function (){var statearr_13468 = state_12746;
-(statearr_13468[(8)] = inst_12701);
+if((state_val_12865 === (27))){
+var inst_12819 = (state_12864[(2)]);
+var inst_12820 = cljs.core.deref.call(null,farn.core.player_animation);
+var inst_12821 = cljs.core._EQ_.call(null,inst_12820,new cljs.core.Keyword(null,"running","running",1554969103));
+var state_12864__$1 = (function (){var statearr_13534 = state_12864;
+(statearr_13534[(8)] = inst_12819);
 
-return statearr_13468;
+return statearr_13534;
 })();
-if(inst_12703){
-var statearr_13469_13858 = state_12746__$1;
-(statearr_13469_13858[(1)] = (32));
+if(inst_12821){
+var statearr_13535_13907 = state_12864__$1;
+(statearr_13535_13907[(1)] = (32));
 
 } else {
-var statearr_13470_13859 = state_12746__$1;
-(statearr_13470_13859[(1)] = (33));
+var statearr_13536_13908 = state_12864__$1;
+(statearr_13536_13908[(1)] = (33));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (1))){
-var state_12746__$1 = state_12746;
-var statearr_13471_13860 = state_12746__$1;
-(statearr_13471_13860[(2)] = null);
+if((state_val_12865 === (1))){
+var state_12864__$1 = state_12864;
+var statearr_13537_13909 = state_12864__$1;
+(statearr_13537_13909[(2)] = null);
 
-(statearr_13471_13860[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (24))){
-var state_12746__$1 = state_12746;
-var statearr_13472_13861 = state_12746__$1;
-(statearr_13472_13861[(2)] = null);
-
-(statearr_13472_13861[(1)] = (25));
+(statearr_13537_13909[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (39))){
-var state_12746__$1 = state_12746;
-var statearr_13473_13862 = state_12746__$1;
-(statearr_13473_13862[(2)] = null);
+if((state_val_12865 === (24))){
+var state_12864__$1 = state_12864;
+var statearr_13538_13910 = state_12864__$1;
+(statearr_13538_13910[(2)] = null);
 
-(statearr_13473_13862[(1)] = (40));
+(statearr_13538_13910[(1)] = (25));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (4))){
-var inst_12736 = cljs.core.deref.call(null,farn.core.player_animation);
-var state_12746__$1 = state_12746;
-var G__13474_13863 = (((inst_12736 instanceof cljs.core.Keyword))?inst_12736.fqn:null);
-switch (G__13474_13863) {
+if((state_val_12865 === (39))){
+var state_12864__$1 = state_12864;
+var statearr_13539_13911 = state_12864__$1;
+(statearr_13539_13911[(2)] = null);
+
+(statearr_13539_13911[(1)] = (40));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (4))){
+var inst_12854 = cljs.core.deref.call(null,farn.core.player_animation);
+var state_12864__$1 = state_12864;
+var G__13540_13912 = (((inst_12854 instanceof cljs.core.Keyword))?inst_12854.fqn:null);
+switch (G__13540_13912) {
 case "running":
-var statearr_13475_13865 = state_12746__$1;
-(statearr_13475_13865[(1)] = (20));
+var statearr_13541_13914 = state_12864__$1;
+(statearr_13541_13914[(1)] = (20));
 
 
 break;
 case "standing":
-var statearr_13476_13866 = state_12746__$1;
-(statearr_13476_13866[(1)] = (8));
+var statearr_13542_13915 = state_12864__$1;
+(statearr_13542_13915[(1)] = (8));
 
 
 break;
 default:
-throw (new Error([cljs.core.str("No matching clause: "),cljs.core.str(inst_12736)].join('')));
+throw (new Error([cljs.core.str("No matching clause: "),cljs.core.str(inst_12854)].join('')));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (15))){
-var inst_12669 = (state_12746[(2)]);
-var state_12746__$1 = (function (){var statearr_13477 = state_12746;
-(statearr_13477[(9)] = inst_12669);
+if((state_val_12865 === (15))){
+var inst_12787 = (state_12864[(2)]);
+var state_12864__$1 = (function (){var statearr_13543 = state_12864;
+(statearr_13543[(9)] = inst_12787);
 
-return statearr_13477;
+return statearr_13543;
 })();
-var statearr_13478_13867 = state_12746__$1;
-(statearr_13478_13867[(2)] = null);
+var statearr_13544_13916 = state_12864__$1;
+(statearr_13544_13916[(2)] = null);
 
-(statearr_13478_13867[(1)] = (9));
+(statearr_13544_13916[(1)] = (9));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (21))){
-var inst_12678 = cljs.core.deref.call(null,farn.core.player_animation);
-var inst_12679 = cljs.core._EQ_.call(null,inst_12678,new cljs.core.Keyword(null,"running","running",1554969103));
-var state_12746__$1 = state_12746;
-if(inst_12679){
-var statearr_13479_13868 = state_12746__$1;
-(statearr_13479_13868[(1)] = (23));
+if((state_val_12865 === (21))){
+var inst_12796 = cljs.core.deref.call(null,farn.core.player_animation);
+var inst_12797 = cljs.core._EQ_.call(null,inst_12796,new cljs.core.Keyword(null,"running","running",1554969103));
+var state_12864__$1 = state_12864;
+if(inst_12797){
+var statearr_13545_13917 = state_12864__$1;
+(statearr_13545_13917[(1)] = (23));
 
 } else {
-var statearr_13480_13869 = state_12746__$1;
-(statearr_13480_13869[(1)] = (24));
+var statearr_13546_13918 = state_12864__$1;
+(statearr_13546_13918[(1)] = (24));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (31))){
-var inst_12699 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13481_13870 = state_12746__$1;
-(statearr_13481_13870[(2)] = inst_12699);
+if((state_val_12865 === (31))){
+var inst_12817 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13547_13919 = state_12864__$1;
+(statearr_13547_13919[(2)] = inst_12817);
 
-(statearr_13481_13870[(1)] = (27));
+(statearr_13547_13919[(1)] = (27));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (32))){
-var inst_12705 = player_walking_texs.call(null,(1));
-var inst_12706 = player.setTexture(inst_12705);
-var inst_12707 = (0);
-var state_12746__$1 = (function (){var statearr_13482 = state_12746;
-(statearr_13482[(10)] = inst_12707);
+if((state_val_12865 === (32))){
+var inst_12823 = player_walking_texs.call(null,(1));
+var inst_12824 = player.setTexture(inst_12823);
+var inst_12825 = (0);
+var state_12864__$1 = (function (){var statearr_13548 = state_12864;
+(statearr_13548[(10)] = inst_12825);
 
-(statearr_13482[(11)] = inst_12706);
+(statearr_13548[(11)] = inst_12824);
 
-return statearr_13482;
+return statearr_13548;
 })();
-var statearr_13483_13871 = state_12746__$1;
-(statearr_13483_13871[(2)] = null);
+var statearr_13549_13920 = state_12864__$1;
+(statearr_13549_13920[(2)] = null);
 
-(statearr_13483_13871[(1)] = (35));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (40))){
-var inst_12723 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13484_13872 = state_12746__$1;
-(statearr_13484_13872[(2)] = inst_12723);
-
-(statearr_13484_13872[(1)] = (36));
+(statearr_13549_13920[(1)] = (35));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (33))){
-var state_12746__$1 = state_12746;
-var statearr_13485_13873 = state_12746__$1;
-(statearr_13485_13873[(2)] = null);
+if((state_val_12865 === (40))){
+var inst_12841 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13550_13921 = state_12864__$1;
+(statearr_13550_13921[(2)] = inst_12841);
 
-(statearr_13485_13873[(1)] = (34));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (13))){
-var inst_12673 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13486_13874 = state_12746__$1;
-(statearr_13486_13874[(2)] = inst_12673);
-
-(statearr_13486_13874[(1)] = (10));
+(statearr_13550_13921[(1)] = (36));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (22))){
-var inst_12734 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13487_13875 = state_12746__$1;
-(statearr_13487_13875[(2)] = inst_12734);
+if((state_val_12865 === (33))){
+var state_12864__$1 = state_12864;
+var statearr_13551_13922 = state_12864__$1;
+(statearr_13551_13922[(2)] = null);
 
-(statearr_13487_13875[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (36))){
-var inst_12725 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13488_13876 = state_12746__$1;
-(statearr_13488_13876[(2)] = inst_12725);
-
-(statearr_13488_13876[(1)] = (34));
+(statearr_13551_13922[(1)] = (34));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (29))){
-var inst_12683 = (state_12746[(12)]);
-var inst_12695 = (inst_12683 + (1));
-var inst_12683__$1 = inst_12695;
-var state_12746__$1 = (function (){var statearr_13489 = state_12746;
-(statearr_13489[(12)] = inst_12683__$1);
+if((state_val_12865 === (13))){
+var inst_12791 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13552_13923 = state_12864__$1;
+(statearr_13552_13923[(2)] = inst_12791);
 
-return statearr_13489;
+(statearr_13552_13923[(1)] = (10));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (22))){
+var inst_12852 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13553_13924 = state_12864__$1;
+(statearr_13553_13924[(2)] = inst_12852);
+
+(statearr_13553_13924[(1)] = (7));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (36))){
+var inst_12843 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13554_13925 = state_12864__$1;
+(statearr_13554_13925[(2)] = inst_12843);
+
+(statearr_13554_13925[(1)] = (34));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (29))){
+var inst_12801 = (state_12864[(12)]);
+var inst_12813 = (inst_12801 + (1));
+var inst_12801__$1 = inst_12813;
+var state_12864__$1 = (function (){var statearr_13555 = state_12864;
+(statearr_13555[(12)] = inst_12801__$1);
+
+return statearr_13555;
 })();
-var statearr_13490_13877 = state_12746__$1;
-(statearr_13490_13877[(2)] = null);
+var statearr_13556_13926 = state_12864__$1;
+(statearr_13556_13926[(2)] = null);
 
-(statearr_13490_13877[(1)] = (26));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (6))){
-var inst_12742 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13491_13878 = state_12746__$1;
-(statearr_13491_13878[(2)] = inst_12742);
-
-(statearr_13491_13878[(1)] = (3));
+(statearr_13556_13926[(1)] = (26));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (28))){
-var inst_12683 = (state_12746[(12)]);
-var inst_12687 = (state_12746[(2)]);
-var inst_12688 = (inst_12683 / farn.core.player_bound_length);
-var inst_12689 = (Math.PI * inst_12688);
-var inst_12690 = Math.sin.call(null,inst_12689);
-var inst_12691 = (farn.core.player_bound_height * inst_12690);
-var inst_12692 = farn.sprite.set_pivot_BANG_.call(null,player,(-1),inst_12691);
-var inst_12693 = (inst_12683 < farn.core.player_bound_length);
-var state_12746__$1 = (function (){var statearr_13492 = state_12746;
-(statearr_13492[(13)] = inst_12687);
+if((state_val_12865 === (6))){
+var inst_12860 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13557_13927 = state_12864__$1;
+(statearr_13557_13927[(2)] = inst_12860);
 
-(statearr_13492[(14)] = inst_12692);
+(statearr_13557_13927[(1)] = (3));
 
-return statearr_13492;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (28))){
+var inst_12801 = (state_12864[(12)]);
+var inst_12805 = (state_12864[(2)]);
+var inst_12806 = (inst_12801 / farn.core.player_bound_length);
+var inst_12807 = (Math.PI * inst_12806);
+var inst_12808 = Math.sin.call(null,inst_12807);
+var inst_12809 = (farn.core.player_bound_height * inst_12808);
+var inst_12810 = farn.sprite.set_pivot_BANG_.call(null,player,(-1),inst_12809);
+var inst_12811 = (inst_12801 < farn.core.player_bound_length);
+var state_12864__$1 = (function (){var statearr_13558 = state_12864;
+(statearr_13558[(13)] = inst_12805);
+
+(statearr_13558[(14)] = inst_12810);
+
+return statearr_13558;
 })();
-if(cljs.core.truth_(inst_12693)){
-var statearr_13493_13879 = state_12746__$1;
-(statearr_13493_13879[(1)] = (29));
+if(cljs.core.truth_(inst_12811)){
+var statearr_13559_13928 = state_12864__$1;
+(statearr_13559_13928[(1)] = (29));
 
 } else {
-var statearr_13494_13880 = state_12746__$1;
-(statearr_13494_13880[(1)] = (30));
+var statearr_13560_13929 = state_12864__$1;
+(statearr_13560_13929[(1)] = (30));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (25))){
-var inst_12732 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13495_13881 = state_12746__$1;
-(statearr_13495_13881[(2)] = inst_12732);
+if((state_val_12865 === (25))){
+var inst_12850 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13561_13930 = state_12864__$1;
+(statearr_13561_13930[(2)] = inst_12850);
 
-(statearr_13495_13881[(1)] = (22));
+(statearr_13561_13930[(1)] = (22));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (34))){
-var inst_12728 = (state_12746[(2)]);
-var state_12746__$1 = (function (){var statearr_13496 = state_12746;
-(statearr_13496[(15)] = inst_12728);
+if((state_val_12865 === (34))){
+var inst_12846 = (state_12864[(2)]);
+var state_12864__$1 = (function (){var statearr_13562 = state_12864;
+(statearr_13562[(15)] = inst_12846);
 
-return statearr_13496;
+return statearr_13562;
 })();
-var statearr_13497_13882 = state_12746__$1;
-(statearr_13497_13882[(2)] = null);
+var statearr_13563_13931 = state_12864__$1;
+(statearr_13563_13931[(2)] = null);
 
-(statearr_13497_13882[(1)] = (21));
+(statearr_13563_13931[(1)] = (21));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (17))){
-var inst_12649 = (state_12746[(16)]);
-var inst_12662 = (inst_12649 + (1));
-var inst_12663 = cljs.core.mod.call(null,inst_12662,(4));
-var inst_12649__$1 = inst_12663;
-var state_12746__$1 = (function (){var statearr_13498 = state_12746;
-(statearr_13498[(16)] = inst_12649__$1);
+if((state_val_12865 === (17))){
+var inst_12767 = (state_12864[(16)]);
+var inst_12780 = (inst_12767 + (1));
+var inst_12781 = cljs.core.mod.call(null,inst_12780,(4));
+var inst_12767__$1 = inst_12781;
+var state_12864__$1 = (function (){var statearr_13564 = state_12864;
+(statearr_13564[(16)] = inst_12767__$1);
 
-return statearr_13498;
+return statearr_13564;
 })();
-var statearr_13499_13883 = state_12746__$1;
-(statearr_13499_13883[(2)] = null);
+var statearr_13565_13932 = state_12864__$1;
+(statearr_13565_13932[(2)] = null);
 
-(statearr_13499_13883[(1)] = (14));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (3))){
-var inst_12744 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12746__$1,inst_12744);
-} else {
-if((state_val_12747 === (12))){
-var state_12746__$1 = state_12746;
-var statearr_13500_13884 = state_12746__$1;
-(statearr_13500_13884[(2)] = null);
-
-(statearr_13500_13884[(1)] = (13));
+(statearr_13565_13932[(1)] = (14));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (2))){
-var state_12746__$1 = state_12746;
-var statearr_13501_13885 = state_12746__$1;
-(statearr_13501_13885[(1)] = (4));
+if((state_val_12865 === (3))){
+var inst_12862 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12864__$1,inst_12862);
+} else {
+if((state_val_12865 === (12))){
+var state_12864__$1 = state_12864;
+var statearr_13566_13933 = state_12864__$1;
+(statearr_13566_13933[(2)] = null);
+
+(statearr_13566_13933[(1)] = (13));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (2))){
+var state_12864__$1 = state_12864;
+var statearr_13567_13934 = state_12864__$1;
+(statearr_13567_13934[(1)] = (4));
 
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (23))){
-var inst_12681 = player_walking_texs.call(null,(0));
-var inst_12682 = player.setTexture(inst_12681);
-var inst_12683 = (0);
-var state_12746__$1 = (function (){var statearr_13503 = state_12746;
-(statearr_13503[(12)] = inst_12683);
+if((state_val_12865 === (23))){
+var inst_12799 = player_walking_texs.call(null,(0));
+var inst_12800 = player.setTexture(inst_12799);
+var inst_12801 = (0);
+var state_12864__$1 = (function (){var statearr_13569 = state_12864;
+(statearr_13569[(12)] = inst_12801);
 
-(statearr_13503[(17)] = inst_12682);
+(statearr_13569[(17)] = inst_12800);
 
-return statearr_13503;
+return statearr_13569;
 })();
-var statearr_13504_13886 = state_12746__$1;
-(statearr_13504_13886[(2)] = null);
+var statearr_13570_13935 = state_12864__$1;
+(statearr_13570_13935[(2)] = null);
 
-(statearr_13504_13886[(1)] = (26));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (35))){
-var inst_12709 = farn.events.next_frame.call(null);
-var state_12746__$1 = state_12746;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12746__$1,(37),inst_12709);
-} else {
-if((state_val_12747 === (19))){
-var inst_12667 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13505_13887 = state_12746__$1;
-(statearr_13505_13887[(2)] = inst_12667);
-
-(statearr_13505_13887[(1)] = (15));
+(statearr_13570_13935[(1)] = (26));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (11))){
-var inst_12649 = (0);
-var state_12746__$1 = (function (){var statearr_13506 = state_12746;
-(statearr_13506[(16)] = inst_12649);
+if((state_val_12865 === (35))){
+var inst_12827 = farn.events.next_frame.call(null);
+var state_12864__$1 = state_12864;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12864__$1,(37),inst_12827);
+} else {
+if((state_val_12865 === (19))){
+var inst_12785 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13571_13936 = state_12864__$1;
+(statearr_13571_13936[(2)] = inst_12785);
 
-return statearr_13506;
+(statearr_13571_13936[(1)] = (15));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (11))){
+var inst_12767 = (0);
+var state_12864__$1 = (function (){var statearr_13572 = state_12864;
+(statearr_13572[(16)] = inst_12767);
+
+return statearr_13572;
 })();
-var statearr_13507_13888 = state_12746__$1;
-(statearr_13507_13888[(2)] = null);
+var statearr_13573_13937 = state_12864__$1;
+(statearr_13573_13937[(2)] = null);
 
-(statearr_13507_13888[(1)] = (14));
+(statearr_13573_13937[(1)] = (14));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (9))){
-var inst_12646 = cljs.core.deref.call(null,farn.core.player_animation);
-var inst_12647 = cljs.core._EQ_.call(null,inst_12646,new cljs.core.Keyword(null,"standing","standing",-1248340762));
-var state_12746__$1 = state_12746;
-if(inst_12647){
-var statearr_13508_13889 = state_12746__$1;
-(statearr_13508_13889[(1)] = (11));
+if((state_val_12865 === (9))){
+var inst_12764 = cljs.core.deref.call(null,farn.core.player_animation);
+var inst_12765 = cljs.core._EQ_.call(null,inst_12764,new cljs.core.Keyword(null,"standing","standing",-1248340762));
+var state_12864__$1 = state_12864;
+if(inst_12765){
+var statearr_13574_13938 = state_12864__$1;
+(statearr_13574_13938[(1)] = (11));
 
 } else {
-var statearr_13509_13890 = state_12746__$1;
-(statearr_13509_13890[(1)] = (12));
+var statearr_13575_13939 = state_12864__$1;
+(statearr_13575_13939[(1)] = (12));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (5))){
-var state_12746__$1 = state_12746;
-var statearr_13510_13891 = state_12746__$1;
-(statearr_13510_13891[(2)] = null);
+if((state_val_12865 === (5))){
+var state_12864__$1 = state_12864;
+var statearr_13576_13940 = state_12864__$1;
+(statearr_13576_13940[(2)] = null);
 
-(statearr_13510_13891[(1)] = (6));
+(statearr_13576_13940[(1)] = (6));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (14))){
-var inst_12651 = farn.utils.rand_between.call(null,(300),(600));
-var inst_12652 = cljs.core.async.timeout.call(null,inst_12651);
-var state_12746__$1 = state_12746;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12746__$1,(16),inst_12652);
+if((state_val_12865 === (14))){
+var inst_12769 = farn.utils.rand_between.call(null,(300),(600));
+var inst_12770 = cljs.core.async.timeout.call(null,inst_12769);
+var state_12864__$1 = state_12864;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12864__$1,(16),inst_12770);
 } else {
-if((state_val_12747 === (26))){
-var inst_12685 = farn.events.next_frame.call(null);
-var state_12746__$1 = state_12746;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12746__$1,(28),inst_12685);
+if((state_val_12865 === (26))){
+var inst_12803 = farn.events.next_frame.call(null);
+var state_12864__$1 = state_12864;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12864__$1,(28),inst_12803);
 } else {
-if((state_val_12747 === (16))){
-var inst_12649 = (state_12746[(16)]);
-var inst_12654 = (state_12746[(2)]);
-var inst_12655 = cljs.core.nth.call(null,player_standing_texs,inst_12649);
-var inst_12656 = player.setTexture(inst_12655);
-var inst_12657 = player_standing_sway.call(null,inst_12649);
-var inst_12658 = farn.sprite.set_pivot_BANG_.call(null,player,inst_12657,(0));
-var inst_12659 = cljs.core.deref.call(null,farn.core.player_animation);
-var inst_12660 = cljs.core._EQ_.call(null,inst_12659,new cljs.core.Keyword(null,"standing","standing",-1248340762));
-var state_12746__$1 = (function (){var statearr_13511 = state_12746;
-(statearr_13511[(18)] = inst_12654);
+if((state_val_12865 === (16))){
+var inst_12767 = (state_12864[(16)]);
+var inst_12772 = (state_12864[(2)]);
+var inst_12773 = cljs.core.nth.call(null,player_standing_texs,inst_12767);
+var inst_12774 = player.setTexture(inst_12773);
+var inst_12775 = player_standing_sway.call(null,inst_12767);
+var inst_12776 = farn.sprite.set_pivot_BANG_.call(null,player,inst_12775,(0));
+var inst_12777 = cljs.core.deref.call(null,farn.core.player_animation);
+var inst_12778 = cljs.core._EQ_.call(null,inst_12777,new cljs.core.Keyword(null,"standing","standing",-1248340762));
+var state_12864__$1 = (function (){var statearr_13577 = state_12864;
+(statearr_13577[(18)] = inst_12776);
 
-(statearr_13511[(19)] = inst_12656);
+(statearr_13577[(19)] = inst_12772);
 
-(statearr_13511[(20)] = inst_12658);
+(statearr_13577[(20)] = inst_12774);
 
-return statearr_13511;
+return statearr_13577;
 })();
-if(inst_12660){
-var statearr_13512_13892 = state_12746__$1;
-(statearr_13512_13892[(1)] = (17));
+if(inst_12778){
+var statearr_13578_13941 = state_12864__$1;
+(statearr_13578_13941[(1)] = (17));
 
 } else {
-var statearr_13513_13893 = state_12746__$1;
-(statearr_13513_13893[(1)] = (18));
+var statearr_13579_13942 = state_12864__$1;
+(statearr_13579_13942[(1)] = (18));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (38))){
-var inst_12707 = (state_12746[(10)]);
-var inst_12719 = (inst_12707 + (1));
-var inst_12707__$1 = inst_12719;
-var state_12746__$1 = (function (){var statearr_13514 = state_12746;
-(statearr_13514[(10)] = inst_12707__$1);
+if((state_val_12865 === (38))){
+var inst_12825 = (state_12864[(10)]);
+var inst_12837 = (inst_12825 + (1));
+var inst_12825__$1 = inst_12837;
+var state_12864__$1 = (function (){var statearr_13580 = state_12864;
+(statearr_13580[(10)] = inst_12825__$1);
 
-return statearr_13514;
+return statearr_13580;
 })();
-var statearr_13515_13894 = state_12746__$1;
-(statearr_13515_13894[(2)] = null);
+var statearr_13581_13943 = state_12864__$1;
+(statearr_13581_13943[(2)] = null);
 
-(statearr_13515_13894[(1)] = (35));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (30))){
-var state_12746__$1 = state_12746;
-var statearr_13516_13895 = state_12746__$1;
-(statearr_13516_13895[(2)] = null);
-
-(statearr_13516_13895[(1)] = (31));
+(statearr_13581_13943[(1)] = (35));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (10))){
-var inst_12675 = (state_12746[(2)]);
-var state_12746__$1 = state_12746;
-var statearr_13517_13896 = state_12746__$1;
-(statearr_13517_13896[(2)] = inst_12675);
+if((state_val_12865 === (30))){
+var state_12864__$1 = state_12864;
+var statearr_13582_13944 = state_12864__$1;
+(statearr_13582_13944[(2)] = null);
 
-(statearr_13517_13896[(1)] = (7));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12747 === (18))){
-var state_12746__$1 = state_12746;
-var statearr_13518_13897 = state_12746__$1;
-(statearr_13518_13897[(2)] = null);
-
-(statearr_13518_13897[(1)] = (19));
+(statearr_13582_13944[(1)] = (31));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (37))){
-var inst_12707 = (state_12746[(10)]);
-var inst_12711 = (state_12746[(2)]);
-var inst_12712 = (inst_12707 / farn.core.player_bound_length);
-var inst_12713 = (Math.PI * inst_12712);
-var inst_12714 = Math.sin.call(null,inst_12713);
-var inst_12715 = (farn.core.player_bound_height * inst_12714);
-var inst_12716 = farn.sprite.set_pivot_BANG_.call(null,player,(1),inst_12715);
-var inst_12717 = (inst_12707 < farn.core.player_bound_length);
-var state_12746__$1 = (function (){var statearr_13519 = state_12746;
-(statearr_13519[(21)] = inst_12711);
+if((state_val_12865 === (10))){
+var inst_12793 = (state_12864[(2)]);
+var state_12864__$1 = state_12864;
+var statearr_13583_13945 = state_12864__$1;
+(statearr_13583_13945[(2)] = inst_12793);
 
-(statearr_13519[(22)] = inst_12716);
+(statearr_13583_13945[(1)] = (7));
 
-return statearr_13519;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (18))){
+var state_12864__$1 = state_12864;
+var statearr_13584_13946 = state_12864__$1;
+(statearr_13584_13946[(2)] = null);
+
+(statearr_13584_13946[(1)] = (19));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12865 === (37))){
+var inst_12825 = (state_12864[(10)]);
+var inst_12829 = (state_12864[(2)]);
+var inst_12830 = (inst_12825 / farn.core.player_bound_length);
+var inst_12831 = (Math.PI * inst_12830);
+var inst_12832 = Math.sin.call(null,inst_12831);
+var inst_12833 = (farn.core.player_bound_height * inst_12832);
+var inst_12834 = farn.sprite.set_pivot_BANG_.call(null,player,(1),inst_12833);
+var inst_12835 = (inst_12825 < farn.core.player_bound_length);
+var state_12864__$1 = (function (){var statearr_13585 = state_12864;
+(statearr_13585[(21)] = inst_12834);
+
+(statearr_13585[(22)] = inst_12829);
+
+return statearr_13585;
 })();
-if(cljs.core.truth_(inst_12717)){
-var statearr_13520_13898 = state_12746__$1;
-(statearr_13520_13898[(1)] = (38));
+if(cljs.core.truth_(inst_12835)){
+var statearr_13586_13947 = state_12864__$1;
+(statearr_13586_13947[(1)] = (38));
 
 } else {
-var statearr_13521_13899 = state_12746__$1;
-(statearr_13521_13899[(1)] = (39));
+var statearr_13587_13948 = state_12864__$1;
+(statearr_13587_13948[(1)] = (39));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12747 === (8))){
-var state_12746__$1 = state_12746;
-var statearr_13522_13900 = state_12746__$1;
-(statearr_13522_13900[(2)] = null);
+if((state_val_12865 === (8))){
+var state_12864__$1 = state_12864;
+var statearr_13588_13949 = state_12864__$1;
+(statearr_13588_13949[(2)] = null);
 
-(statearr_13522_13900[(1)] = (9));
+(statearr_13588_13949[(1)] = (9));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
@@ -6302,23 +6028,23 @@ return null;
 }
 }
 }
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746))
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801))
 ;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746){
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_13526 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_13526[(0)] = state_machine__6445__auto__);
+var statearr_13592 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_13592[(0)] = state_machine__6445__auto__);
 
-(statearr_13526[(1)] = (1));
+(statearr_13592[(1)] = (1));
 
-return statearr_13526;
+return statearr_13592;
 });
-var state_machine__6445__auto____1 = (function (state_12746){
+var state_machine__6445__auto____1 = (function (state_12864){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12746);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12864);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -6326,23 +6052,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e13527){if((e13527 instanceof Object)){
-var ex__6448__auto__ = e13527;
-var statearr_13528_13901 = state_12746;
-(statearr_13528_13901[(5)] = ex__6448__auto__);
+}catch (e13593){if((e13593 instanceof Object)){
+var ex__6448__auto__ = e13593;
+var statearr_13594_13950 = state_12864;
+(statearr_13594_13950[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12746);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12864);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e13527;
+throw e13593;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13902 = state_12746;
-state_12746 = G__13902;
+var G__13951 = state_12864;
+state_12864 = G__13951;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -6350,12 +6076,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12746){
+state_machine__6445__auto__ = function(state_12864){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12746);
+return state_machine__6445__auto____1.call(this,state_12864);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -6363,155 +6089,151 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746))
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801))
 })();
-var state__6461__auto__ = (function (){var statearr_13529 = f__6460__auto__.call(null);
-(statearr_13529[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
+var state__6461__auto__ = (function (){var statearr_13595 = f__6460__auto__.call(null);
+(statearr_13595[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
 
-return statearr_13529;
+return statearr_13595;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
 });
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12637,inst_12638,inst_12640,inst_12641,inst_12642,inst_12748,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12756,inst_12758,inst_12759,inst_12760,inst_12866,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12750 = cljs.core.async.impl.dispatch.run.call(null,inst_12749);
-var inst_12751 = farn.spatial.which_cell.call(null,inst_12478,farn.core.cell_size);
-var inst_12752 = inst_12479.call(null,inst_12751);
-var inst_12753 = farn.core.main_stage.children;
-var inst_12754 = inst_12753.sort(inst_12391);
-var inst_12755 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12756 = [(0),(0)];
-var inst_12757 = (new cljs.core.PersistentVector(null,2,(5),inst_12755,inst_12756,null));
-var inst_12758 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12759 = [(0),(0)];
-var inst_12760 = (new cljs.core.PersistentVector(null,2,(5),inst_12758,inst_12759,null));
-var inst_12761 = [inst_12760];
-var inst_12762 = cljs.core.PersistentHashSet.fromArray(inst_12761,true);
-var inst_12763 = (0);
-var inst_12764 = inst_12757;
-var inst_12765 = (0);
-var inst_12766 = (0);
-var inst_12767 = inst_12762;
-var inst_12768 = (0);
-var inst_12769 = (0);
-var state_13312__$1 = (function (){var statearr_13530 = state_13312;
-(statearr_13530[(150)] = inst_12642);
+var inst_12868 = cljs.core.async.impl.dispatch.run.call(null,inst_12867);
+var inst_12869 = farn.spatial.which_cell.call(null,inst_12589,farn.core.cell_size);
+var inst_12870 = inst_12590.call(null,inst_12869);
+var inst_12871 = farn.core.main_stage.children;
+var inst_12872 = inst_12871.sort(inst_12502);
+var inst_12873 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12874 = [(0),(0)];
+var inst_12875 = (new cljs.core.PersistentVector(null,2,(5),inst_12873,inst_12874,null));
+var inst_12876 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12877 = [(0),(0)];
+var inst_12878 = (new cljs.core.PersistentVector(null,2,(5),inst_12876,inst_12877,null));
+var inst_12879 = [inst_12878];
+var inst_12880 = cljs.core.PersistentHashSet.fromArray(inst_12879,true);
+var inst_12881 = (0);
+var inst_12882 = inst_12875;
+var inst_12883 = (0);
+var inst_12884 = (0);
+var inst_12885 = (0);
+var inst_12886 = inst_12880;
+var inst_12887 = (0);
+var inst_12888 = (0);
+var state_13385__$1 = (function (){var statearr_13596 = state_13385;
+(statearr_13596[(25)] = inst_12882);
 
-(statearr_13530[(39)] = inst_12768);
+(statearr_13596[(144)] = inst_12870);
 
-(statearr_13530[(44)] = inst_12765);
+(statearr_13596[(145)] = inst_12758);
 
-(statearr_13530[(151)] = inst_12750);
+(statearr_13596[(105)] = inst_12887);
 
-(statearr_13530[(48)] = inst_12763);
+(statearr_13596[(146)] = inst_12868);
 
-(statearr_13530[(152)] = inst_12754);
+(statearr_13596[(112)] = inst_12883);
 
-(statearr_13530[(54)] = inst_12764);
+(statearr_13596[(147)] = inst_12760);
 
-(statearr_13530[(153)] = inst_12752);
+(statearr_13596[(148)] = inst_12756);
 
-(statearr_13530[(61)] = inst_12766);
+(statearr_13596[(118)] = inst_12884);
 
-(statearr_13530[(7)] = inst_12769);
+(statearr_13596[(149)] = inst_12872);
 
-(statearr_13530[(154)] = inst_12637);
+(statearr_13596[(150)] = inst_12759);
 
-(statearr_13530[(81)] = inst_12767);
+(statearr_13596[(32)] = inst_12886);
 
-(statearr_13530[(155)] = inst_12641);
+(statearr_13596[(97)] = inst_12881);
 
-(statearr_13530[(156)] = inst_12638);
+(statearr_13596[(126)] = inst_12885);
 
-(statearr_13530[(157)] = inst_12640);
+(statearr_13596[(15)] = inst_12888);
 
-return statearr_13530;
+return statearr_13596;
 })();
-var statearr_13531_13903 = state_13312__$1;
-(statearr_13531_13903[(2)] = null);
+var statearr_13597_13952 = state_13385__$1;
+(statearr_13597_13952[(2)] = null);
 
-(statearr_13531_13903[(1)] = (18));
+(statearr_13597_13952[(1)] = (18));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (3))){
-var inst_12269 = (state_13312[(32)]);
-var inst_12278 = (state_13312[(2)]);
-var inst_12279 = farn.utils.log.call(null,"perlin channel - start");
-var state_13312__$1 = (function (){var statearr_13532 = state_13312;
-(statearr_13532[(158)] = inst_12279);
+if((state_val_13386 === (3))){
+var inst_12384 = (state_13385[(47)]);
+var inst_12391 = (state_13385[(2)]);
+var state_13385__$1 = (function (){var statearr_13598 = state_13385;
+(statearr_13598[(68)] = inst_12391);
 
-(statearr_13532[(37)] = inst_12278);
-
-return statearr_13532;
+return statearr_13598;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(4),inst_12269);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(4),inst_12384);
 } else {
-if((state_val_13313 === (12))){
-var inst_12475 = (state_13312[(8)]);
-var inst_12281 = (state_13312[(34)]);
-var inst_12286 = (state_13312[(35)]);
-var inst_12278 = (state_13312[(37)]);
-var inst_12268 = (state_13312[(29)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12319 = (state_13312[(40)]);
-var inst_12474 = (state_13312[(41)]);
-var inst_12274 = (state_13312[(42)]);
-var inst_12305 = (state_13312[(45)]);
-var inst_12390 = (state_13312[(46)]);
-var inst_12467 = (state_13312[(47)]);
-var inst_12333 = (state_13312[(49)]);
-var inst_12307 = (state_13312[(50)]);
-var inst_12300 = (state_13312[(53)]);
-var inst_12363 = (state_13312[(55)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12326 = (state_13312[(59)]);
-var inst_12395 = (state_13312[(60)]);
-var inst_12282 = (state_13312[(68)]);
-var inst_12316 = (state_13312[(69)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12269 = (state_13312[(32)]);
-var inst_12310 = (state_13312[(71)]);
-var inst_12283 = (state_13312[(72)]);
-var inst_12479 = (state_13312[(74)]);
-var inst_12297 = (state_13312[(76)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12284 = (state_13312[(78)]);
-var inst_12391 = (state_13312[(80)]);
-var inst_12275 = (state_13312[(82)]);
-var inst_12478 = (state_13312[(83)]);
-var inst_12313 = (state_13312[(85)]);
-var inst_12336 = (state_13312[(86)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12390__$1 = (state_13312[(2)]);
-var inst_12391__$1 = (function (){var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var obstacle_types = inst_12319;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,state_val_13313,c__6459__auto___13746){
+if((state_val_13386 === (12))){
+var inst_12427 = (state_13385[(60)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_12447 = (state_13385[(78)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12590 = (state_13385[(108)]);
+var inst_12506 = (state_13385[(110)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12585 = (state_13385[(119)]);
+var inst_12578 = (state_13385[(120)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12589 = (state_13385[(124)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12501__$1 = (state_13385[(2)]);
+var inst_12502__$1 = (function (){var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var obstacle_types = inst_12430;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,state_val_13386,c__6459__auto___13801){
 return (function (a,b){
 if(cljs.core.truth_((function (){var and__3618__auto__ = a.floortile;
 if(cljs.core.truth_(and__3618__auto__)){
@@ -6542,221 +6264,218 @@ return (0);
 }
 }
 });
-;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,state_val_13313,c__6459__auto___13746))
+;})(player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12392__$1 = (function (){var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var obstacle_types = inst_12319;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,state_val_13313,c__6459__auto___13746){
+var inst_12503__$1 = (function (){var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var obstacle_types = inst_12430;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,state_val_13386,c__6459__auto___13801){
 return (function (obj_pos,obj_sprite,player_x,player_y,rhx,rhy){
-var vec__13533 = obj_pos;
-var ox = cljs.core.nth.call(null,vec__13533,(0),null);
-var oy = cljs.core.nth.call(null,vec__13533,(1),null);
+var vec__13599 = obj_pos;
+var ox = cljs.core.nth.call(null,vec__13599,(0),null);
+var oy = cljs.core.nth.call(null,vec__13599,(1),null);
 var p__GT_t = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(ox - player_x),(oy - player_y)], null);
-var vec__13534 = p__GT_t;
-var p__GT_t_x = cljs.core.nth.call(null,vec__13534,(0),null);
-var p__GT_t_y = cljs.core.nth.call(null,vec__13534,(1),null);
-var vec__13535 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [((rhx * p__GT_t_y) + (rhy * p__GT_t_x)),((rhx * p__GT_t_x) - (rhy * p__GT_t_y))], null);
-var rx = cljs.core.nth.call(null,vec__13535,(0),null);
-var ry = cljs.core.nth.call(null,vec__13535,(1),null);
+var vec__13600 = p__GT_t;
+var p__GT_t_x = cljs.core.nth.call(null,vec__13600,(0),null);
+var p__GT_t_y = cljs.core.nth.call(null,vec__13600,(1),null);
+var vec__13601 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [((rhx * p__GT_t_y) + (rhy * p__GT_t_x)),((rhx * p__GT_t_x) - (rhy * p__GT_t_y))], null);
+var rx = cljs.core.nth.call(null,vec__13601,(0),null);
+var ry = cljs.core.nth.call(null,vec__13601,(1),null);
 var fx = (rx + player_x);
 var fy = ((ry / farn.core.isometric_factor) + player_y);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [fx,fy], null);
 });
-;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,state_val_13313,c__6459__auto___13746))
+;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12395__$1 = (function (){var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,state_val_13313,c__6459__auto___13746){
-return (function (p__12393,p__12394,threshold){
-var vec__13536 = p__12393;
-var x1 = cljs.core.nth.call(null,vec__13536,(0),null);
-var y1 = cljs.core.nth.call(null,vec__13536,(1),null);
-var vec__13537 = p__12394;
-var x2 = cljs.core.nth.call(null,vec__13537,(0),null);
-var y2 = cljs.core.nth.call(null,vec__13537,(1),null);
+var inst_12506__$1 = (function (){var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,state_val_13386,c__6459__auto___13801){
+return (function (p__12504,p__12505,threshold){
+var vec__13602 = p__12504;
+var x1 = cljs.core.nth.call(null,vec__13602,(0),null);
+var y1 = cljs.core.nth.call(null,vec__13602,(1),null);
+var vec__13603 = p__12505;
+var x2 = cljs.core.nth.call(null,vec__13603,(0),null);
+var y2 = cljs.core.nth.call(null,vec__13603,(1),null);
 var dx = (x1 - x2);
 var dy = (y1 - y2);
 var d_squared = ((dx * dx) + (dy * dy));
 return (d_squared < threshold);
 });
-;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,state_val_13313,c__6459__auto___13746))
+;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12396 = [(0),(1),(2),(3),(4)];
-var inst_12397 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12398 = [new cljs.core.Keyword(null,"static-floor-water-big","static-floor-water-big",1588138738),new cljs.core.Keyword(null,"static-floor-water-medium","static-floor-water-medium",1136261079),new cljs.core.Keyword(null,"static-floor-water-small","static-floor-water-small",1080050532)];
-var inst_12399 = (new cljs.core.PersistentVector(null,3,(5),inst_12397,inst_12398,null));
-var inst_12400 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12401 = [new cljs.core.Keyword(null,"static-floor-path-big","static-floor-path-big",-1637038697),new cljs.core.Keyword(null,"static-floor-path-medium","static-floor-path-medium",-46847685),new cljs.core.Keyword(null,"static-floor-path-small","static-floor-path-small",477685180)];
-var inst_12402 = (new cljs.core.PersistentVector(null,3,(5),inst_12400,inst_12401,null));
-var inst_12403 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12404 = [new cljs.core.Keyword(null,"static-rock-1","static-rock-1",-2031486616)];
-var inst_12405 = (new cljs.core.PersistentVector(null,1,(5),inst_12403,inst_12404,null));
-var inst_12406 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12407 = [new cljs.core.Keyword(null,"static-lump-2","static-lump-2",225760930)];
-var inst_12408 = (new cljs.core.PersistentVector(null,1,(5),inst_12406,inst_12407,null));
-var inst_12409 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12410 = [new cljs.core.Keyword(null,"static-floor-sand-big","static-floor-sand-big",953875278),new cljs.core.Keyword(null,"static-floor-sand-medium","static-floor-sand-medium",104159128),new cljs.core.Keyword(null,"static-floor-sand-small","static-floor-sand-small",-214159250)];
-var inst_12411 = (new cljs.core.PersistentVector(null,3,(5),inst_12409,inst_12410,null));
-var inst_12412 = farn.assets.make_range.call(null,"static-cactus-",(3));
-var inst_12413 = cljs.core.concat.call(null,inst_12405,inst_12408,inst_12411,inst_12412);
-var inst_12414 = cljs.core.vec.call(null,inst_12413);
-var inst_12415 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12416 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12417 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12418 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12419 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12420 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12421 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12422 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12423 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12424 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12425 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12426 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12427 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12428 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12429 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12430 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12431 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12432 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12433 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12434 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12435 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12436 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12437 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12438 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12439 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12440 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12441 = farn.assets.make_range.call(null,"static-tree-",(20));
-var inst_12442 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
-var inst_12443 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
-var inst_12444 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
-var inst_12445 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12446 = [new cljs.core.Keyword(null,"static-castle-1","static-castle-1",1559541979)];
-var inst_12447 = (new cljs.core.PersistentVector(null,1,(5),inst_12445,inst_12446,null));
-var inst_12448 = cljs.core.concat.call(null,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12447);
-var inst_12449 = cljs.core.vec.call(null,inst_12448);
-var inst_12450 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12451 = [new cljs.core.Keyword(null,"static-schrub-1","static-schrub-1",1655867923)];
-var inst_12452 = (new cljs.core.PersistentVector(null,1,(5),inst_12450,inst_12451,null));
-var inst_12453 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12454 = [new cljs.core.Keyword(null,"static-lump-1","static-lump-1",-811605060),new cljs.core.Keyword(null,"static-lump-3","static-lump-3",-581035868)];
-var inst_12455 = (new cljs.core.PersistentVector(null,2,(5),inst_12453,inst_12454,null));
-var inst_12456 = farn.assets.make_range.call(null,"static-schroom-",(3));
-var inst_12457 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12458 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12459 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12460 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12461 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12462 = farn.assets.make_range.call(null,"static-flower-",(3));
-var inst_12463 = cljs.core.concat.call(null,inst_12452,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462);
-var inst_12464 = cljs.core.vec.call(null,inst_12463);
-var inst_12465 = [inst_12399,inst_12402,inst_12414,inst_12449,inst_12464];
-var inst_12466 = cljs.core.PersistentHashMap.fromArrays(inst_12396,inst_12465);
-var inst_12467__$1 = farn.spatial.make_map_from_tilemap.call(null,inst_12281,inst_12466,(30000),(-10000),(10000),(-10000),(10000));
-var inst_12472 = (function (){var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746){
-return (function iter__12468(s__12469){
-return (new cljs.core.LazySeq(null,((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746){
+var inst_12507 = [(0),(1),(2),(3),(4)];
+var inst_12508 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12509 = [new cljs.core.Keyword(null,"static-floor-water-big","static-floor-water-big",1588138738),new cljs.core.Keyword(null,"static-floor-water-medium","static-floor-water-medium",1136261079),new cljs.core.Keyword(null,"static-floor-water-small","static-floor-water-small",1080050532)];
+var inst_12510 = (new cljs.core.PersistentVector(null,3,(5),inst_12508,inst_12509,null));
+var inst_12511 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12512 = [new cljs.core.Keyword(null,"static-floor-path-big","static-floor-path-big",-1637038697),new cljs.core.Keyword(null,"static-floor-path-medium","static-floor-path-medium",-46847685),new cljs.core.Keyword(null,"static-floor-path-small","static-floor-path-small",477685180)];
+var inst_12513 = (new cljs.core.PersistentVector(null,3,(5),inst_12511,inst_12512,null));
+var inst_12514 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12515 = [new cljs.core.Keyword(null,"static-rock-1","static-rock-1",-2031486616)];
+var inst_12516 = (new cljs.core.PersistentVector(null,1,(5),inst_12514,inst_12515,null));
+var inst_12517 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12518 = [new cljs.core.Keyword(null,"static-lump-2","static-lump-2",225760930)];
+var inst_12519 = (new cljs.core.PersistentVector(null,1,(5),inst_12517,inst_12518,null));
+var inst_12520 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12521 = [new cljs.core.Keyword(null,"static-floor-sand-big","static-floor-sand-big",953875278),new cljs.core.Keyword(null,"static-floor-sand-medium","static-floor-sand-medium",104159128),new cljs.core.Keyword(null,"static-floor-sand-small","static-floor-sand-small",-214159250)];
+var inst_12522 = (new cljs.core.PersistentVector(null,3,(5),inst_12520,inst_12521,null));
+var inst_12523 = farn.assets.make_range.call(null,"static-cactus-",(3));
+var inst_12524 = cljs.core.concat.call(null,inst_12516,inst_12519,inst_12522,inst_12523);
+var inst_12525 = cljs.core.vec.call(null,inst_12524);
+var inst_12526 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12527 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12528 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12529 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12530 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12531 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12532 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12533 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12534 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12535 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12536 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12537 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12538 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12539 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12540 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12541 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12542 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12543 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12544 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12545 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12546 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12547 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12548 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12549 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12550 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12551 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12552 = farn.assets.make_range.call(null,"static-tree-",(20));
+var inst_12553 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
+var inst_12554 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
+var inst_12555 = farn.assets.make_range.call(null,"static-giant-schroom-",(2));
+var inst_12556 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12557 = [new cljs.core.Keyword(null,"static-castle-1","static-castle-1",1559541979)];
+var inst_12558 = (new cljs.core.PersistentVector(null,1,(5),inst_12556,inst_12557,null));
+var inst_12559 = cljs.core.concat.call(null,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12558);
+var inst_12560 = cljs.core.vec.call(null,inst_12559);
+var inst_12561 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12562 = [new cljs.core.Keyword(null,"static-schrub-1","static-schrub-1",1655867923)];
+var inst_12563 = (new cljs.core.PersistentVector(null,1,(5),inst_12561,inst_12562,null));
+var inst_12564 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12565 = [new cljs.core.Keyword(null,"static-lump-1","static-lump-1",-811605060),new cljs.core.Keyword(null,"static-lump-3","static-lump-3",-581035868)];
+var inst_12566 = (new cljs.core.PersistentVector(null,2,(5),inst_12564,inst_12565,null));
+var inst_12567 = farn.assets.make_range.call(null,"static-schroom-",(3));
+var inst_12568 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12569 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12570 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12571 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12572 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12573 = farn.assets.make_range.call(null,"static-flower-",(3));
+var inst_12574 = cljs.core.concat.call(null,inst_12563,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573);
+var inst_12575 = cljs.core.vec.call(null,inst_12574);
+var inst_12576 = [inst_12510,inst_12513,inst_12525,inst_12560,inst_12575];
+var inst_12577 = cljs.core.PersistentHashMap.fromArrays(inst_12507,inst_12576);
+var inst_12578__$1 = farn.spatial.make_map_from_tilemap.call(null,inst_12393,inst_12577,(30000),(-10000),(10000),(-10000),(10000));
+var inst_12583 = (function (){var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12579(s__12580){
+return (new cljs.core.LazySeq(null,((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801){
 return (function (){
-var s__12469__$1 = s__12469;
+var s__12580__$1 = s__12580;
 while(true){
-var temp__4126__auto__ = cljs.core.seq.call(null,s__12469__$1);
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12580__$1);
 if(temp__4126__auto__){
-var s__12469__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,s__12469__$2)){
-var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12469__$2);
+var s__12580__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12580__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12580__$2);
 var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
-var b__12471 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
-if((function (){var i__12470 = (0);
+var b__12582 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12581 = (0);
 while(true){
-if((i__12470 < size__4385__auto__)){
-var obj = cljs.core._nth.call(null,c__4384__auto__,i__12470);
-cljs.core.chunk_append.call(null,b__12471,(function (){var type = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(obj);
+if((i__12581 < size__4385__auto__)){
+var obj = cljs.core._nth.call(null,c__4384__auto__,i__12581);
+cljs.core.chunk_append.call(null,b__12582,(function (){var type = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(obj);
 var sprite = farn.core.make_sprite.call(null,farn.gfx.get_texture.call(null,type));
-if(cljs.core.truth_(cljs.core.some.call(null,((function (i__12470,type,sprite,obj,c__4384__auto__,size__4385__auto__,b__12471,s__12469__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746){
-return (function (p1__12236_SHARP_){
-return cljs.core._EQ_.call(null,type,p1__12236_SHARP_);
-});})(i__12470,type,sprite,obj,c__4384__auto__,size__4385__auto__,b__12471,s__12469__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746))
+if(cljs.core.truth_(cljs.core.some.call(null,((function (i__12581,type,sprite,obj,c__4384__auto__,size__4385__auto__,b__12582,s__12580__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801){
+return (function (p1__12355_SHARP_){
+return cljs.core._EQ_.call(null,type,p1__12355_SHARP_);
+});})(i__12581,type,sprite,obj,c__4384__auto__,size__4385__auto__,b__12582,s__12580__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801))
 ,floor_objects))){
 sprite.floortile = true;
 
@@ -6767,8 +6486,8 @@ farn.sprite.set_anchor_BANG_.call(null,sprite,0.5,0.5);
 return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"sprite","sprite",172516848),sprite,new cljs.core.Keyword(null,"scale","scale",-230427353),0.5);
 })());
 
-var G__13904 = (i__12470 + (1));
-i__12470 = G__13904;
+var G__13953 = (i__12581 + (1));
+i__12581 = G__13953;
 continue;
 } else {
 return true;
@@ -6776,18 +6495,18 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12471),iter__12468.call(null,cljs.core.chunk_rest.call(null,s__12469__$2)));
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12582),iter__12579.call(null,cljs.core.chunk_rest.call(null,s__12580__$2)));
 } else {
-return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12471),null);
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12582),null);
 }
 } else {
-var obj = cljs.core.first.call(null,s__12469__$2);
+var obj = cljs.core.first.call(null,s__12580__$2);
 return cljs.core.cons.call(null,(function (){var type = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(obj);
 var sprite = farn.core.make_sprite.call(null,farn.gfx.get_texture.call(null,type));
-if(cljs.core.truth_(cljs.core.some.call(null,((function (type,sprite,obj,s__12469__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746){
-return (function (p1__12236_SHARP_){
-return cljs.core._EQ_.call(null,type,p1__12236_SHARP_);
-});})(type,sprite,obj,s__12469__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746))
+if(cljs.core.truth_(cljs.core.some.call(null,((function (type,sprite,obj,s__12580__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801){
+return (function (p1__12355_SHARP_){
+return cljs.core._EQ_.call(null,type,p1__12355_SHARP_);
+});})(type,sprite,obj,s__12580__$2,temp__4126__auto__,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801))
 ,floor_objects))){
 sprite.floortile = true;
 
@@ -6796,112 +6515,111 @@ farn.sprite.set_anchor_BANG_.call(null,sprite,0.5,0.5);
 }
 
 return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"sprite","sprite",172516848),sprite,new cljs.core.Keyword(null,"scale","scale",-230427353),0.5);
-})(),iter__12468.call(null,cljs.core.rest.call(null,s__12469__$2)));
+})(),iter__12579.call(null,cljs.core.rest.call(null,s__12580__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746))
+});})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801))
 ,null,null));
 });
-;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,state_val_13313,c__6459__auto___13746))
+;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,obstacle_types,polar_object_coords,trees,player_standing_sway,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12473 = inst_12472.call(null,inst_12467__$1);
-var inst_12474__$1 = cljs.core.doall.call(null,inst_12473);
-var inst_12475__$1 = farn.spatial.hash_locations.call(null,inst_12474__$1,farn.core.cell_size);
-var inst_12476 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12477 = [(0),(0)];
-var inst_12478__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12476,inst_12477,null));
-var inst_12479__$1 = (function (){var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,state_val_13313,c__6459__auto___13746){
+var inst_12584 = inst_12583.call(null,inst_12578__$1);
+var inst_12585__$1 = cljs.core.doall.call(null,inst_12584);
+var inst_12586__$1 = farn.spatial.hash_locations.call(null,inst_12585__$1,farn.core.cell_size);
+var inst_12587 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12588 = [(0),(0)];
+var inst_12589__$1 = (new cljs.core.PersistentVector(null,2,(5),inst_12587,inst_12588,null));
+var inst_12590__$1 = (function (){var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,state_val_13386,c__6459__auto___13801){
 return (function (id){
-var seq__13538 = cljs.core.seq.call(null,game_space.call(null,id));
-var chunk__13539 = null;
-var count__13540 = (0);
-var i__13541 = (0);
+var seq__13604 = cljs.core.seq.call(null,game_space.call(null,id));
+var chunk__13605 = null;
+var count__13606 = (0);
+var i__13607 = (0);
 while(true){
-if((i__13541 < count__13540)){
-var obj = cljs.core._nth.call(null,chunk__13539,i__13541);
+if((i__13607 < count__13606)){
+var obj = cljs.core._nth.call(null,chunk__13605,i__13607);
 farn.sprite.set_scale_BANG_.call(null,new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj),new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(obj));
 
 farn.sprite.set_pos_BANG_.call(null,new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj),(100000),(100000));
 
 farn.core.main_stage.addChild(new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj));
 
-var G__13905 = seq__13538;
-var G__13906 = chunk__13539;
-var G__13907 = count__13540;
-var G__13908 = (i__13541 + (1));
-seq__13538 = G__13905;
-chunk__13539 = G__13906;
-count__13540 = G__13907;
-i__13541 = G__13908;
+var G__13954 = seq__13604;
+var G__13955 = chunk__13605;
+var G__13956 = count__13606;
+var G__13957 = (i__13607 + (1));
+seq__13604 = G__13954;
+chunk__13605 = G__13955;
+count__13606 = G__13956;
+i__13607 = G__13957;
 continue;
 } else {
-var temp__4126__auto__ = cljs.core.seq.call(null,seq__13538);
+var temp__4126__auto__ = cljs.core.seq.call(null,seq__13604);
 if(temp__4126__auto__){
-var seq__13538__$1 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__13538__$1)){
-var c__4417__auto__ = cljs.core.chunk_first.call(null,seq__13538__$1);
-var G__13909 = cljs.core.chunk_rest.call(null,seq__13538__$1);
-var G__13910 = c__4417__auto__;
-var G__13911 = cljs.core.count.call(null,c__4417__auto__);
-var G__13912 = (0);
-seq__13538 = G__13909;
-chunk__13539 = G__13910;
-count__13540 = G__13911;
-i__13541 = G__13912;
+var seq__13604__$1 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__13604__$1)){
+var c__4417__auto__ = cljs.core.chunk_first.call(null,seq__13604__$1);
+var G__13958 = cljs.core.chunk_rest.call(null,seq__13604__$1);
+var G__13959 = c__4417__auto__;
+var G__13960 = cljs.core.count.call(null,c__4417__auto__);
+var G__13961 = (0);
+seq__13604 = G__13958;
+chunk__13605 = G__13959;
+count__13606 = G__13960;
+i__13607 = G__13961;
 continue;
 } else {
-var obj = cljs.core.first.call(null,seq__13538__$1);
+var obj = cljs.core.first.call(null,seq__13604__$1);
 farn.sprite.set_scale_BANG_.call(null,new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj),new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(obj));
 
 farn.sprite.set_pos_BANG_.call(null,new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj),(100000),(100000));
 
 farn.core.main_stage.addChild(new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj));
 
-var G__13913 = cljs.core.next.call(null,seq__13538__$1);
-var G__13914 = null;
-var G__13915 = (0);
-var G__13916 = (0);
-seq__13538 = G__13913;
-chunk__13539 = G__13914;
-count__13540 = G__13915;
-i__13541 = G__13916;
+var G__13962 = cljs.core.next.call(null,seq__13604__$1);
+var G__13963 = null;
+var G__13964 = (0);
+var G__13965 = (0);
+seq__13604 = G__13962;
+chunk__13605 = G__13963;
+count__13606 = G__13964;
+i__13607 = G__13965;
 continue;
 }
 } else {
@@ -6911,89 +6629,88 @@ return null;
 break;
 }
 });
-;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,state_val_13313,c__6459__auto___13746))
+;})(depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12480__$1 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,state_val_13313,c__6459__auto___13746){
+var inst_12591__$1 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,state_val_13386,c__6459__auto___13801){
 return (function (id){
-var seq__13542 = cljs.core.seq.call(null,game_space.call(null,id));
-var chunk__13543 = null;
-var count__13544 = (0);
-var i__13545 = (0);
+var seq__13608 = cljs.core.seq.call(null,game_space.call(null,id));
+var chunk__13609 = null;
+var count__13610 = (0);
+var i__13611 = (0);
 while(true){
-if((i__13545 < count__13544)){
-var obj = cljs.core._nth.call(null,chunk__13543,i__13545);
+if((i__13611 < count__13610)){
+var obj = cljs.core._nth.call(null,chunk__13609,i__13611);
 farn.core.main_stage.removeChild(new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj));
 
-var G__13917 = seq__13542;
-var G__13918 = chunk__13543;
-var G__13919 = count__13544;
-var G__13920 = (i__13545 + (1));
-seq__13542 = G__13917;
-chunk__13543 = G__13918;
-count__13544 = G__13919;
-i__13545 = G__13920;
+var G__13966 = seq__13608;
+var G__13967 = chunk__13609;
+var G__13968 = count__13610;
+var G__13969 = (i__13611 + (1));
+seq__13608 = G__13966;
+chunk__13609 = G__13967;
+count__13610 = G__13968;
+i__13611 = G__13969;
 continue;
 } else {
-var temp__4126__auto__ = cljs.core.seq.call(null,seq__13542);
+var temp__4126__auto__ = cljs.core.seq.call(null,seq__13608);
 if(temp__4126__auto__){
-var seq__13542__$1 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__13542__$1)){
-var c__4417__auto__ = cljs.core.chunk_first.call(null,seq__13542__$1);
-var G__13921 = cljs.core.chunk_rest.call(null,seq__13542__$1);
-var G__13922 = c__4417__auto__;
-var G__13923 = cljs.core.count.call(null,c__4417__auto__);
-var G__13924 = (0);
-seq__13542 = G__13921;
-chunk__13543 = G__13922;
-count__13544 = G__13923;
-i__13545 = G__13924;
+var seq__13608__$1 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__13608__$1)){
+var c__4417__auto__ = cljs.core.chunk_first.call(null,seq__13608__$1);
+var G__13970 = cljs.core.chunk_rest.call(null,seq__13608__$1);
+var G__13971 = c__4417__auto__;
+var G__13972 = cljs.core.count.call(null,c__4417__auto__);
+var G__13973 = (0);
+seq__13608 = G__13970;
+chunk__13609 = G__13971;
+count__13610 = G__13972;
+i__13611 = G__13973;
 continue;
 } else {
-var obj = cljs.core.first.call(null,seq__13542__$1);
+var obj = cljs.core.first.call(null,seq__13608__$1);
 farn.core.main_stage.removeChild(new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(obj));
 
-var G__13925 = cljs.core.next.call(null,seq__13542__$1);
-var G__13926 = null;
-var G__13927 = (0);
-var G__13928 = (0);
-seq__13542 = G__13925;
-chunk__13543 = G__13926;
-count__13544 = G__13927;
-i__13545 = G__13928;
+var G__13974 = cljs.core.next.call(null,seq__13608__$1);
+var G__13975 = null;
+var G__13976 = (0);
+var G__13977 = (0);
+seq__13608 = G__13974;
+chunk__13609 = G__13975;
+count__13610 = G__13976;
+i__13611 = G__13977;
 continue;
 }
 } else {
@@ -7003,1102 +6720,129 @@ return null;
 break;
 }
 });
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12481 = farn.core.ui_stage.addChild(inst_12283);
-var inst_12503 = cljs.core.async.chan.call(null,(1));
-var inst_12504 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12503;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746){
+var inst_12592 = farn.core.ui_stage.addChild(inst_12394);
+var inst_12614 = cljs.core.async.chan.call(null,(1));
+var inst_12615 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12614;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801){
 return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746){
-return (function (state_12501){
-var state_val_12502 = (state_12501[(1)]);
-if((state_val_12502 === (7))){
-var inst_12493 = (state_12501[(2)]);
-var state_12501__$1 = (function (){var statearr_13546 = state_12501;
-(statearr_13546[(7)] = inst_12493);
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801){
+return (function (state_12612){
+var state_val_12613 = (state_12612[(1)]);
+if((state_val_12613 === (7))){
+var inst_12604 = (state_12612[(2)]);
+var state_12612__$1 = (function (){var statearr_13612 = state_12612;
+(statearr_13612[(7)] = inst_12604);
 
-return statearr_13546;
+return statearr_13612;
 })();
-var statearr_13547_13929 = state_12501__$1;
-(statearr_13547_13929[(2)] = null);
+var statearr_13613_13978 = state_12612__$1;
+(statearr_13613_13978[(2)] = null);
 
-(statearr_13547_13929[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12502 === (6))){
-var inst_12497 = (state_12501[(2)]);
-var state_12501__$1 = state_12501;
-var statearr_13548_13930 = state_12501__$1;
-(statearr_13548_13930[(2)] = inst_12497);
-
-(statearr_13548_13930[(1)] = (3));
+(statearr_13613_13978[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12502 === (5))){
-var state_12501__$1 = state_12501;
-var statearr_13549_13931 = state_12501__$1;
-(statearr_13549_13931[(2)] = null);
+if((state_val_12613 === (6))){
+var inst_12608 = (state_12612[(2)]);
+var state_12612__$1 = state_12612;
+var statearr_13614_13979 = state_12612__$1;
+(statearr_13614_13979[(2)] = inst_12608);
 
-(statearr_13549_13931[(1)] = (6));
+(statearr_13614_13979[(1)] = (3));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12502 === (4))){
-var inst_12482 = (state_12501[(8)]);
-var inst_12485 = window.innerWidth;
-var inst_12486 = window.innerHeight;
-var inst_12487 = (inst_12485 / (2));
-var inst_12488 = (inst_12486 / (2));
-var inst_12489 = (- inst_12488);
-var inst_12490 = (inst_12489 + (100));
-var inst_12491 = farn.sprite.set_pos_BANG_.call(null,title_text,(0),inst_12490);
-var state_12501__$1 = (function (){var statearr_13550 = state_12501;
-(statearr_13550[(9)] = inst_12491);
+if((state_val_12613 === (5))){
+var state_12612__$1 = state_12612;
+var statearr_13615_13980 = state_12612__$1;
+(statearr_13615_13980[(2)] = null);
 
-(statearr_13550[(10)] = inst_12487);
+(statearr_13615_13980[(1)] = (6));
 
-return statearr_13550;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12613 === (4))){
+var inst_12593 = (state_12612[(8)]);
+var inst_12596 = window.innerWidth;
+var inst_12597 = window.innerHeight;
+var inst_12598 = (inst_12596 / (2));
+var inst_12599 = (inst_12597 / (2));
+var inst_12600 = (- inst_12599);
+var inst_12601 = (inst_12600 + (100));
+var inst_12602 = farn.sprite.set_pos_BANG_.call(null,title_text,(0),inst_12601);
+var state_12612__$1 = (function (){var statearr_13616 = state_12612;
+(statearr_13616[(9)] = inst_12602);
+
+(statearr_13616[(10)] = inst_12598);
+
+return statearr_13616;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12501__$1,(7),inst_12482);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12612__$1,(7),inst_12593);
 } else {
-if((state_val_12502 === (3))){
-var inst_12499 = (state_12501[(2)]);
-var state_12501__$1 = state_12501;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12501__$1,inst_12499);
+if((state_val_12613 === (3))){
+var inst_12610 = (state_12612[(2)]);
+var state_12612__$1 = state_12612;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12612__$1,inst_12610);
 } else {
-if((state_val_12502 === (2))){
-var state_12501__$1 = state_12501;
-var statearr_13551_13932 = state_12501__$1;
-(statearr_13551_13932[(1)] = (4));
+if((state_val_12613 === (2))){
+var state_12612__$1 = state_12612;
+var statearr_13617_13981 = state_12612__$1;
+(statearr_13617_13981[(1)] = (4));
 
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_12502 === (1))){
-var inst_12482 = farn.events.new_resize_chan.call(null);
-var state_12501__$1 = (function (){var statearr_13553 = state_12501;
-(statearr_13553[(8)] = inst_12482);
-
-return statearr_13553;
-})();
-var statearr_13554_13933 = state_12501__$1;
-(statearr_13554_13933[(2)] = null);
-
-(statearr_13554_13933[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-return null;
-}
-}
-}
-}
-}
-}
-}
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746))
-;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746){
-return (function() {
-var state_machine__6445__auto__ = null;
-var state_machine__6445__auto____0 = (function (){
-var statearr_13558 = [null,null,null,null,null,null,null,null,null,null,null];
-(statearr_13558[(0)] = state_machine__6445__auto__);
-
-(statearr_13558[(1)] = (1));
-
-return statearr_13558;
-});
-var state_machine__6445__auto____1 = (function (state_12501){
-while(true){
-var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12501);
-if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-continue;
-} else {
-return result__6447__auto__;
-}
-break;
-}
-}catch (e13559){if((e13559 instanceof Object)){
-var ex__6448__auto__ = e13559;
-var statearr_13560_13934 = state_12501;
-(statearr_13560_13934[(5)] = ex__6448__auto__);
-
-
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12501);
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-throw e13559;
-
-}
-}})();
-if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13935 = state_12501;
-state_12501 = G__13935;
-continue;
-} else {
-return ret_value__6446__auto__;
-}
-break;
-}
-});
-state_machine__6445__auto__ = function(state_12501){
-switch(arguments.length){
-case 0:
-return state_machine__6445__auto____0.call(this);
-case 1:
-return state_machine__6445__auto____1.call(this,state_12501);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
-return state_machine__6445__auto__;
-})()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746))
-})();
-var state__6461__auto__ = (function (){var statearr_13561 = f__6460__auto__.call(null);
-(statearr_13561[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
-
-return statearr_13561;
-})();
-return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12505 = cljs.core.async.impl.dispatch.run.call(null,inst_12504);
-var inst_12516 = cljs.core.async.chan.call(null,(1));
-var inst_12517 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12516;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746){
-return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746){
-return (function (state_12514){
-var state_val_12515 = (state_12514[(1)]);
-if((state_val_12515 === (3))){
-var inst_12511 = (state_12514[(2)]);
-var inst_12512 = farn.core.ui_stage.removeChild(title_text);
-var state_12514__$1 = (function (){var statearr_13562 = state_12514;
-(statearr_13562[(7)] = inst_12511);
-
-return statearr_13562;
-})();
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12514__$1,inst_12512);
-} else {
-if((state_val_12515 === (2))){
-var inst_12508 = (state_12514[(2)]);
-var inst_12509 = farn.gfx.fadeout.call(null,title_text,new cljs.core.Keyword(null,"duration","duration",1444101068),(1));
-var state_12514__$1 = (function (){var statearr_13563 = state_12514;
-(statearr_13563[(8)] = inst_12508);
-
-return statearr_13563;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12514__$1,(3),inst_12509);
-} else {
-if((state_val_12515 === (1))){
-var inst_12506 = cljs.core.async.timeout.call(null,(1000));
-var state_12514__$1 = state_12514;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12514__$1,(2),inst_12506);
-} else {
-return null;
-}
-}
-}
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746))
-;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746){
-return (function() {
-var state_machine__6445__auto__ = null;
-var state_machine__6445__auto____0 = (function (){
-var statearr_13567 = [null,null,null,null,null,null,null,null,null];
-(statearr_13567[(0)] = state_machine__6445__auto__);
-
-(statearr_13567[(1)] = (1));
-
-return statearr_13567;
-});
-var state_machine__6445__auto____1 = (function (state_12514){
-while(true){
-var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12514);
-if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-continue;
-} else {
-return result__6447__auto__;
-}
-break;
-}
-}catch (e13568){if((e13568 instanceof Object)){
-var ex__6448__auto__ = e13568;
-var statearr_13569_13936 = state_12514;
-(statearr_13569_13936[(5)] = ex__6448__auto__);
-
-
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12514);
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-throw e13568;
-
-}
-}})();
-if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13937 = state_12514;
-state_12514 = G__13937;
-continue;
-} else {
-return ret_value__6446__auto__;
-}
-break;
-}
-});
-state_machine__6445__auto__ = function(state_12514){
-switch(arguments.length){
-case 0:
-return state_machine__6445__auto____0.call(this);
-case 1:
-return state_machine__6445__auto____1.call(this,state_12514);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
-return state_machine__6445__auto__;
-})()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746))
-})();
-var state__6461__auto__ = (function (){var statearr_13570 = f__6460__auto__.call(null);
-(statearr_13570[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
-
-return statearr_13570;
-})();
-return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12518 = cljs.core.async.impl.dispatch.run.call(null,inst_12517);
-var inst_12519 = farn.sprite.set_anchor_BANG_.call(null,inst_12307,(0),(0));
-var inst_12520 = farn.sprite.set_scale_BANG_.call(null,inst_12307,0.7);
-var inst_12521 = farn.sprite.set_anchor_BANG_.call(null,inst_12310,(0),(0));
-var inst_12522 = farn.core.ui_stage.addChild(inst_12307);
-var inst_12523 = farn.core.ui_stage.addChild(inst_12310);
-var inst_12552 = cljs.core.async.chan.call(null,(1));
-var inst_12553 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12552;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746){
-return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746){
-return (function (state_12550){
-var state_val_12551 = (state_12550[(1)]);
-if((state_val_12551 === (7))){
-var inst_12542 = (state_12550[(2)]);
-var state_12550__$1 = (function (){var statearr_13571 = state_12550;
-(statearr_13571[(7)] = inst_12542);
-
-return statearr_13571;
-})();
-var statearr_13572_13938 = state_12550__$1;
-(statearr_13572_13938[(2)] = null);
-
-(statearr_13572_13938[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12551 === (6))){
-var inst_12546 = (state_12550[(2)]);
-var state_12550__$1 = state_12550;
-var statearr_13573_13939 = state_12550__$1;
-(statearr_13573_13939[(2)] = inst_12546);
-
-(statearr_13573_13939[(1)] = (3));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12551 === (5))){
-var state_12550__$1 = state_12550;
-var statearr_13574_13940 = state_12550__$1;
-(statearr_13574_13940[(2)] = null);
-
-(statearr_13574_13940[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12551 === (4))){
-var inst_12524 = (state_12550[(8)]);
-var inst_12527 = window.innerWidth;
-var inst_12528 = window.innerHeight;
-var inst_12529 = (inst_12527 / (2));
-var inst_12530 = (inst_12528 / (2));
-var inst_12531 = (- inst_12529);
-var inst_12532 = (inst_12531 + (5));
-var inst_12533 = (- inst_12530);
-var inst_12534 = (inst_12533 + (5));
-var inst_12535 = farn.sprite.set_pos_BANG_.call(null,player_stars_icon,inst_12532,inst_12534);
-var inst_12536 = (- inst_12529);
-var inst_12537 = (inst_12536 + (45));
-var inst_12538 = (- inst_12530);
-var inst_12539 = (inst_12538 + (5));
-var inst_12540 = farn.sprite.set_pos_BANG_.call(null,player_stars_text,inst_12537,inst_12539);
-var state_12550__$1 = (function (){var statearr_13575 = state_12550;
-(statearr_13575[(9)] = inst_12535);
-
-(statearr_13575[(10)] = inst_12540);
-
-return statearr_13575;
-})();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12550__$1,(7),inst_12524);
-} else {
-if((state_val_12551 === (3))){
-var inst_12548 = (state_12550[(2)]);
-var state_12550__$1 = state_12550;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12550__$1,inst_12548);
-} else {
-if((state_val_12551 === (2))){
-var state_12550__$1 = state_12550;
-var statearr_13576_13941 = state_12550__$1;
-(statearr_13576_13941[(1)] = (4));
-
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12551 === (1))){
-var inst_12524 = farn.events.new_resize_chan.call(null);
-var state_12550__$1 = (function (){var statearr_13578 = state_12550;
-(statearr_13578[(8)] = inst_12524);
-
-return statearr_13578;
-})();
-var statearr_13579_13942 = state_12550__$1;
-(statearr_13579_13942[(2)] = null);
-
-(statearr_13579_13942[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-return null;
-}
-}
-}
-}
-}
-}
-}
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746))
-;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746){
-return (function() {
-var state_machine__6445__auto__ = null;
-var state_machine__6445__auto____0 = (function (){
-var statearr_13583 = [null,null,null,null,null,null,null,null,null,null,null];
-(statearr_13583[(0)] = state_machine__6445__auto__);
-
-(statearr_13583[(1)] = (1));
-
-return statearr_13583;
-});
-var state_machine__6445__auto____1 = (function (state_12550){
-while(true){
-var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12550);
-if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-continue;
-} else {
-return result__6447__auto__;
-}
-break;
-}
-}catch (e13584){if((e13584 instanceof Object)){
-var ex__6448__auto__ = e13584;
-var statearr_13585_13943 = state_12550;
-(statearr_13585_13943[(5)] = ex__6448__auto__);
-
-
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12550);
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-throw e13584;
-
-}
-}})();
-if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13944 = state_12550;
-state_12550 = G__13944;
-continue;
-} else {
-return ret_value__6446__auto__;
-}
-break;
-}
-});
-state_machine__6445__auto__ = function(state_12550){
-switch(arguments.length){
-case 0:
-return state_machine__6445__auto____0.call(this);
-case 1:
-return state_machine__6445__auto____1.call(this,state_12550);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
-return state_machine__6445__auto__;
-})()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746))
-})();
-var state__6461__auto__ = (function (){var statearr_13586 = f__6460__auto__.call(null);
-(statearr_13586[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
-
-return statearr_13586;
-})();
-return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12554 = cljs.core.async.impl.dispatch.run.call(null,inst_12553);
-var inst_12555 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,state_val_13313,c__6459__auto___13746){
-return (function (key,ref,old,new$){
-return player_stars_text.setText([cljs.core.str(new$)].join(''));
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12556 = cljs.core.add_watch.call(null,farn.core.player_stars,new cljs.core.Keyword(null,"add","add",235287739),inst_12555);
-var inst_12557 = farn.rex.launch_rex.call(null,farn.core.ui_stage);
-var inst_12601 = cljs.core.async.chan.call(null,(1));
-var inst_12602 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12601;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746){
-return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746){
-return (function (state_12599){
-var state_val_12600 = (state_12599[(1)]);
-if((state_val_12600 === (7))){
-var inst_12574 = (state_12599[(2)]);
-var inst_12575 = cljs.core.deref.call(null,farn.core.pickup_store);
-var inst_12576 = cljs.core.count.call(null,inst_12575);
-var inst_12577 = (inst_12576 < farn.core.max_pickups);
-var state_12599__$1 = (function (){var statearr_13587 = state_12599;
-(statearr_13587[(7)] = inst_12574);
-
-return statearr_13587;
-})();
-if(cljs.core.truth_(inst_12577)){
-var statearr_13588_13945 = state_12599__$1;
-(statearr_13588_13945[(1)] = (8));
-
-} else {
-var statearr_13589_13946 = state_12599__$1;
-(statearr_13589_13946[(1)] = (9));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (1))){
-var inst_12558 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_12559 = [(0),(0)];
-var inst_12560 = (new cljs.core.PersistentVector(null,2,(5),inst_12558,inst_12559,null));
-var inst_12561 = make_pickup.call(null,inst_12560,(10000),new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973),(2000));
-var inst_12562 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.conj,inst_12561);
-var inst_12563 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12561);
-var inst_12564 = new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(inst_12561);
-var inst_12565 = farn.sprite.set_scale_BANG_.call(null,inst_12563,inst_12564);
-var inst_12566 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12561);
-var inst_12567 = farn.core.main_stage.addChild(inst_12566);
-var inst_12568 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12561);
-var inst_12569 = farn.core.main_stage.addChild(inst_12568);
-var state_12599__$1 = (function (){var statearr_13590 = state_12599;
-(statearr_13590[(8)] = inst_12565);
-
-(statearr_13590[(9)] = inst_12569);
-
-(statearr_13590[(10)] = inst_12562);
-
-(statearr_13590[(11)] = inst_12567);
-
-return statearr_13590;
-})();
-var statearr_13591_13947 = state_12599__$1;
-(statearr_13591_13947[(2)] = null);
-
-(statearr_13591_13947[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (4))){
-var inst_12572 = cljs.core.async.timeout.call(null,(333));
-var state_12599__$1 = state_12599;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12599__$1,(7),inst_12572);
-} else {
-if((state_val_12600 === (6))){
-var inst_12595 = (state_12599[(2)]);
-var state_12599__$1 = state_12599;
-var statearr_13592_13948 = state_12599__$1;
-(statearr_13592_13948[(2)] = inst_12595);
-
-(statearr_13592_13948[(1)] = (3));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (3))){
-var inst_12597 = (state_12599[(2)]);
-var state_12599__$1 = state_12599;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12599__$1,inst_12597);
-} else {
-if((state_val_12600 === (2))){
-var state_12599__$1 = state_12599;
-var statearr_13593_13949 = state_12599__$1;
-(statearr_13593_13949[(1)] = (4));
-
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (9))){
-var state_12599__$1 = state_12599;
-var statearr_13595_13950 = state_12599__$1;
-(statearr_13595_13950[(2)] = null);
-
-(statearr_13595_13950[(1)] = (10));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (5))){
-var state_12599__$1 = state_12599;
-var statearr_13596_13951 = state_12599__$1;
-(statearr_13596_13951[(2)] = null);
-
-(statearr_13596_13951[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (10))){
-var inst_12591 = (state_12599[(2)]);
-var state_12599__$1 = (function (){var statearr_13597 = state_12599;
-(statearr_13597[(12)] = inst_12591);
-
-return statearr_13597;
-})();
-var statearr_13598_13952 = state_12599__$1;
-(statearr_13598_13952[(2)] = null);
-
-(statearr_13598_13952[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12600 === (8))){
-var inst_12579 = cljs.core.deref.call(null,farn.core.last_player_position);
-var inst_12580 = make_pickup.call(null,inst_12579,farn.core.pickup_spread);
-var inst_12581 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.conj,inst_12580);
-var inst_12582 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12580);
-var inst_12583 = new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(inst_12580);
-var inst_12584 = farn.sprite.set_scale_BANG_.call(null,inst_12582,inst_12583);
-var inst_12585 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12580);
-var inst_12586 = farn.core.main_stage.addChild(inst_12585);
-var inst_12587 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12580);
-var inst_12588 = farn.core.main_stage.addChild(inst_12587);
-var state_12599__$1 = (function (){var statearr_13599 = state_12599;
-(statearr_13599[(13)] = inst_12581);
-
-(statearr_13599[(14)] = inst_12584);
-
-(statearr_13599[(15)] = inst_12586);
-
-return statearr_13599;
-})();
-var statearr_13600_13953 = state_12599__$1;
-(statearr_13600_13953[(2)] = inst_12588);
-
-(statearr_13600_13953[(1)] = (10));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-return null;
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746))
-;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746){
-return (function() {
-var state_machine__6445__auto__ = null;
-var state_machine__6445__auto____0 = (function (){
-var statearr_13604 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_13604[(0)] = state_machine__6445__auto__);
-
-(statearr_13604[(1)] = (1));
-
-return statearr_13604;
-});
-var state_machine__6445__auto____1 = (function (state_12599){
-while(true){
-var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12599);
-if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-continue;
-} else {
-return result__6447__auto__;
-}
-break;
-}
-}catch (e13605){if((e13605 instanceof Object)){
-var ex__6448__auto__ = e13605;
-var statearr_13606_13954 = state_12599;
-(statearr_13606_13954[(5)] = ex__6448__auto__);
-
-
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12599);
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-throw e13605;
-
-}
-}})();
-if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13955 = state_12599;
-state_12599 = G__13955;
-continue;
-} else {
-return ret_value__6446__auto__;
-}
-break;
-}
-});
-state_machine__6445__auto__ = function(state_12599){
-switch(arguments.length){
-case 0:
-return state_machine__6445__auto____0.call(this);
-case 1:
-return state_machine__6445__auto____1.call(this,state_12599);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
-state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
-return state_machine__6445__auto__;
-})()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746))
-})();
-var state__6461__auto__ = (function (){var statearr_13607 = f__6460__auto__.call(null);
-(statearr_13607[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
-
-return statearr_13607;
-})();
-return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12603 = cljs.core.async.impl.dispatch.run.call(null,inst_12602);
-var inst_12604 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,state_val_13313,c__6459__auto___13746){
-return (function (pickup){
-if(cljs.core.not.call(null,close_QMARK_.call(null,cljs.core.deref.call(null,farn.core.last_player_position),new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(pickup),farn.core.pickup_cull_distance_squared))){
-return pickup;
-} else {
-return null;
-}
-});
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,state_val_13313,c__6459__auto___13746))
-})();
-var inst_12632 = cljs.core.async.chan.call(null,(1));
-var inst_12633 = (function (){var add_cell_BANG_ = inst_12479__$1;
-var depth_compare = inst_12391__$1;
-var player_stars_text = inst_12310;
-var player_standing_texs = inst_12297;
-var player_shadow = inst_12287;
-var close_QMARK_ = inst_12395__$1;
-var player_pos = inst_12478__$1;
-var obstacle_types = inst_12319;
-var polar_object_coords = inst_12392__$1;
-var trees = inst_12326;
-var player_standing_sway = inst_12300;
-var game_sprites = inst_12474__$1;
-var loader = inst_12268;
-var player_walking_texs = inst_12305;
-var shadow_tex = inst_12286;
-var _ = inst_12282;
-var tex = inst_12284;
-var c__6459__auto____$1 = inst_12632;
-var hit_sfx = inst_12390__$1;
-var lobster_big = inst_12274;
-var game_map = inst_12467__$1;
-var star_tex = inst_12306;
-var remove_cell_BANG_ = inst_12480__$1;
-var tufts = inst_12333;
-var game_space = inst_12475__$1;
-var pickup_textures = inst_12313;
-var perlin_channel = inst_12269;
-var title_text = inst_12283;
-var floor_objects = inst_12316;
-var cull_distance_QMARK_ = inst_12604;
-var pickup_sfx = inst_12363;
-var tilemap = inst_12281;
-var make_pickup = inst_12336;
-var varela = inst_12275;
-var wait = inst_12278;
-var player = inst_12285;
-var player_stars_icon = inst_12307;
-return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746){
-return (function (){
-var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746){
-return (function (state_12630){
-var state_val_12631 = (state_12630[(1)]);
-if((state_val_12631 === (7))){
-var inst_12611 = (state_12630[(7)]);
-var inst_12609 = (state_12630[(2)]);
-var inst_12610 = cljs.core.deref.call(null,farn.core.pickup_store);
-var inst_12611__$1 = cljs.core.some.call(null,cull_distance_QMARK_,inst_12610);
-var state_12630__$1 = (function (){var statearr_13608 = state_12630;
-(statearr_13608[(8)] = inst_12609);
-
-(statearr_13608[(7)] = inst_12611__$1);
-
-return statearr_13608;
-})();
-if(cljs.core.truth_(inst_12611__$1)){
-var statearr_13609_13956 = state_12630__$1;
-(statearr_13609_13956[(1)] = (8));
-
-} else {
-var statearr_13610_13957 = state_12630__$1;
-(statearr_13610_13957[(1)] = (9));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (1))){
-var state_12630__$1 = state_12630;
-var statearr_13611_13958 = state_12630__$1;
-(statearr_13611_13958[(2)] = null);
-
-(statearr_13611_13958[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (4))){
-var inst_12607 = cljs.core.async.timeout.call(null,(250));
-var state_12630__$1 = state_12630;
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12630__$1,(7),inst_12607);
-} else {
-if((state_val_12631 === (6))){
-var inst_12626 = (state_12630[(2)]);
-var state_12630__$1 = state_12630;
-var statearr_13612_13959 = state_12630__$1;
-(statearr_13612_13959[(2)] = inst_12626);
-
-(statearr_13612_13959[(1)] = (3));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (3))){
-var inst_12628 = (state_12630[(2)]);
-var state_12630__$1 = state_12630;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12630__$1,inst_12628);
-} else {
-if((state_val_12631 === (2))){
-var state_12630__$1 = state_12630;
-var statearr_13613_13960 = state_12630__$1;
-(statearr_13613_13960[(1)] = (4));
-
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (9))){
-var state_12630__$1 = state_12630;
-var statearr_13615_13961 = state_12630__$1;
-(statearr_13615_13961[(2)] = null);
-
-(statearr_13615_13961[(1)] = (10));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (5))){
-var state_12630__$1 = state_12630;
-var statearr_13616_13962 = state_12630__$1;
-(statearr_13616_13962[(2)] = null);
-
-(statearr_13616_13962[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (10))){
-var inst_12622 = (state_12630[(2)]);
-var state_12630__$1 = (function (){var statearr_13617 = state_12630;
-(statearr_13617[(9)] = inst_12622);
-
-return statearr_13617;
-})();
-var statearr_13618_13963 = state_12630__$1;
-(statearr_13618_13963[(2)] = null);
-
-(statearr_13618_13963[(1)] = (2));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_12631 === (8))){
-var inst_12611 = (state_12630[(7)]);
-var inst_12613 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12611);
-var inst_12614 = farn.core.main_stage.removeChild(inst_12613);
-var inst_12615 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12611);
-var inst_12616 = farn.core.main_stage.removeChild(inst_12615);
-var inst_12617 = [cljs.core.str(inst_12611)].join('');
-var inst_12618 = farn.utils.log.call(null,"REMOVING",inst_12617);
-var inst_12619 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_12611);
-var state_12630__$1 = (function (){var statearr_13619 = state_12630;
-(statearr_13619[(10)] = inst_12614);
-
-(statearr_13619[(11)] = inst_12618);
-
-(statearr_13619[(12)] = inst_12616);
+if((state_val_12613 === (1))){
+var inst_12593 = farn.events.new_resize_chan.call(null);
+var state_12612__$1 = (function (){var statearr_13619 = state_12612;
+(statearr_13619[(8)] = inst_12593);
 
 return statearr_13619;
 })();
-var statearr_13620_13964 = state_12630__$1;
-(statearr_13620_13964[(2)] = inst_12619);
+var statearr_13620_13982 = state_12612__$1;
+(statearr_13620_13982[(2)] = null);
 
-(statearr_13620_13964[(1)] = (10));
+(statearr_13620_13982[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
@@ -8111,26 +6855,23 @@ return null;
 }
 }
 }
-}
-}
-}
-});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746))
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801))
 ;
-return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746){
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_13624 = [null,null,null,null,null,null,null,null,null,null,null,null,null];
+var statearr_13624 = [null,null,null,null,null,null,null,null,null,null,null];
 (statearr_13624[(0)] = state_machine__6445__auto__);
 
 (statearr_13624[(1)] = (1));
 
 return statearr_13624;
 });
-var state_machine__6445__auto____1 = (function (state_12630){
+var state_machine__6445__auto____1 = (function (state_12612){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_12630);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12612);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -8140,11 +6881,11 @@ break;
 }
 }catch (e13625){if((e13625 instanceof Object)){
 var ex__6448__auto__ = e13625;
-var statearr_13626_13965 = state_12630;
-(statearr_13626_13965[(5)] = ex__6448__auto__);
+var statearr_13626_13983 = state_12612;
+(statearr_13626_13983[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12630);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12612);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
@@ -8153,8 +6894,8 @@ throw e13625;
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__13966 = state_12630;
-state_12630 = G__13966;
+var G__13984 = state_12612;
+state_12612 = G__13984;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -8162,12 +6903,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_12630){
+state_machine__6445__auto__ = function(state_12612){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_12630);
+return state_machine__6445__auto____1.call(this,state_12612);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -8175,7 +6916,7 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746))
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801))
 })();
 var state__6461__auto__ = (function (){var statearr_13627 = f__6460__auto__.call(null);
 (statearr_13627[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
@@ -8184,1213 +6925,2399 @@ return statearr_13627;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
 });
-;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,_,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12475,inst_12281,inst_12286,inst_12278,inst_12268,inst_12306,inst_12319,inst_12474,inst_12274,inst_12305,inst_12390,inst_12467,inst_12333,inst_12307,inst_12300,inst_12363,inst_12285,inst_12326,inst_12395,inst_12282,inst_12316,inst_12392,inst_12269,inst_12310,inst_12283,inst_12479,inst_12297,inst_12287,inst_12284,inst_12391,inst_12275,inst_12478,inst_12313,inst_12336,inst_12480,inst_12390__$1,inst_12391__$1,inst_12392__$1,inst_12395__$1,inst_12396,inst_12397,inst_12398,inst_12399,inst_12400,inst_12401,inst_12402,inst_12403,inst_12404,inst_12405,inst_12406,inst_12407,inst_12408,inst_12409,inst_12410,inst_12411,inst_12412,inst_12413,inst_12414,inst_12415,inst_12416,inst_12417,inst_12418,inst_12419,inst_12420,inst_12421,inst_12422,inst_12423,inst_12424,inst_12425,inst_12426,inst_12427,inst_12428,inst_12429,inst_12430,inst_12431,inst_12432,inst_12433,inst_12434,inst_12435,inst_12436,inst_12437,inst_12438,inst_12439,inst_12440,inst_12441,inst_12442,inst_12443,inst_12444,inst_12445,inst_12446,inst_12447,inst_12448,inst_12449,inst_12450,inst_12451,inst_12452,inst_12453,inst_12454,inst_12455,inst_12456,inst_12457,inst_12458,inst_12459,inst_12460,inst_12461,inst_12462,inst_12463,inst_12464,inst_12465,inst_12466,inst_12467__$1,inst_12472,inst_12473,inst_12474__$1,inst_12475__$1,inst_12476,inst_12477,inst_12478__$1,inst_12479__$1,inst_12480__$1,inst_12481,inst_12503,inst_12504,inst_12505,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12601,inst_12602,inst_12603,inst_12604,inst_12632,state_val_13313,c__6459__auto___13746))
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,state_val_13386,c__6459__auto___13801))
 })();
-var inst_12634 = cljs.core.async.impl.dispatch.run.call(null,inst_12633);
-var inst_12635 = cljs.core.async.timeout.call(null,(1000));
-var state_13312__$1 = (function (){var statearr_13628 = state_13312;
-(statearr_13628[(8)] = inst_12475__$1);
-
-(statearr_13628[(159)] = inst_12556);
-
-(statearr_13628[(41)] = inst_12474__$1);
-
-(statearr_13628[(46)] = inst_12390__$1);
-
-(statearr_13628[(47)] = inst_12467__$1);
-
-(statearr_13628[(60)] = inst_12395__$1);
-
-(statearr_13628[(160)] = inst_12518);
-
-(statearr_13628[(161)] = inst_12520);
-
-(statearr_13628[(22)] = inst_12392__$1);
-
-(statearr_13628[(162)] = inst_12554);
-
-(statearr_13628[(74)] = inst_12479__$1);
-
-(statearr_13628[(80)] = inst_12391__$1);
-
-(statearr_13628[(163)] = inst_12603);
-
-(statearr_13628[(164)] = inst_12557);
-
-(statearr_13628[(165)] = inst_12634);
-
-(statearr_13628[(166)] = inst_12505);
-
-(statearr_13628[(167)] = inst_12519);
-
-(statearr_13628[(168)] = inst_12522);
-
-(statearr_13628[(83)] = inst_12478__$1);
-
-(statearr_13628[(169)] = inst_12521);
-
-(statearr_13628[(170)] = inst_12481);
-
-(statearr_13628[(171)] = inst_12523);
-
-(statearr_13628[(87)] = inst_12480__$1);
+var inst_12616 = cljs.core.async.impl.dispatch.run.call(null,inst_12615);
+var inst_12627 = cljs.core.async.chan.call(null,(1));
+var inst_12628 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12627;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801){
+return (function (){
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801){
+return (function (state_12625){
+var state_val_12626 = (state_12625[(1)]);
+if((state_val_12626 === (3))){
+var inst_12622 = (state_12625[(2)]);
+var inst_12623 = farn.core.ui_stage.removeChild(title_text);
+var state_12625__$1 = (function (){var statearr_13628 = state_12625;
+(statearr_13628[(7)] = inst_12622);
 
 return statearr_13628;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(17),inst_12635);
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12625__$1,inst_12623);
 } else {
-if((state_val_13313 === (2))){
-var inst_12272 = (state_13312[(2)]);
-var inst_12273 = farn.utils.log.call(null,"pulled");
-var inst_12274 = farn.font.make_tiled_font.call(null,"Lobster",(400),(48));
-var inst_12275 = farn.font.make_tiled_font.call(null,"Varela Round",(400),(24));
-var inst_12276 = cljs.core.async.timeout.call(null,(1000));
-var state_13312__$1 = (function (){var statearr_13629 = state_13312;
-(statearr_13629[(42)] = inst_12274);
-
-(statearr_13629[(172)] = inst_12273);
-
-(statearr_13629[(173)] = inst_12272);
-
-(statearr_13629[(82)] = inst_12275);
+if((state_val_12626 === (2))){
+var inst_12619 = (state_12625[(2)]);
+var inst_12620 = farn.gfx.fadeout.call(null,title_text,new cljs.core.Keyword(null,"duration","duration",1444101068),(1));
+var state_12625__$1 = (function (){var statearr_13629 = state_12625;
+(statearr_13629[(8)] = inst_12619);
 
 return statearr_13629;
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(3),inst_12276);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12625__$1,(3),inst_12620);
 } else {
-if((state_val_13313 === (66))){
-var inst_12765 = (state_13312[(44)]);
-var inst_12995 = (state_13312[(2)]);
-var inst_12996 = cljs.core.reset_BANG_.call(null,farn.core.player_stars,(0));
-var inst_12997 = (inst_12765 / farn.core.player_max_speed);
-var inst_12998 = ((30) * inst_12997);
-var state_13312__$1 = (function (){var statearr_13633 = state_13312;
-(statearr_13633[(174)] = inst_12995);
+if((state_val_12626 === (1))){
+var inst_12617 = cljs.core.async.timeout.call(null,(1000));
+var state_12625__$1 = state_12625;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12625__$1,(2),inst_12617);
+} else {
+return null;
+}
+}
+}
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801))
+;
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801){
+return (function() {
+var state_machine__6445__auto__ = null;
+var state_machine__6445__auto____0 = (function (){
+var statearr_13633 = [null,null,null,null,null,null,null,null,null];
+(statearr_13633[(0)] = state_machine__6445__auto__);
 
-(statearr_13633[(175)] = inst_12996);
+(statearr_13633[(1)] = (1));
 
 return statearr_13633;
+});
+var state_machine__6445__auto____1 = (function (state_12625){
+while(true){
+var ret_value__6446__auto__ = (function (){try{while(true){
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12625);
+if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+continue;
+} else {
+return result__6447__auto__;
+}
+break;
+}
+}catch (e13634){if((e13634 instanceof Object)){
+var ex__6448__auto__ = e13634;
+var statearr_13635_13985 = state_12625;
+(statearr_13635_13985[(5)] = ex__6448__auto__);
+
+
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12625);
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+throw e13634;
+
+}
+}})();
+if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+var G__13986 = state_12625;
+state_12625 = G__13986;
+continue;
+} else {
+return ret_value__6446__auto__;
+}
+break;
+}
+});
+state_machine__6445__auto__ = function(state_12625){
+switch(arguments.length){
+case 0:
+return state_machine__6445__auto____0.call(this);
+case 1:
+return state_machine__6445__auto____1.call(this,state_12625);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
+return state_machine__6445__auto__;
+})()
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801))
 })();
-var statearr_13634_13967 = state_13312__$1;
-(statearr_13634_13967[(2)] = inst_12998);
-
-(statearr_13634_13967[(1)] = (63));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (142))){
-var inst_12766 = (state_13312[(61)]);
-var state_13312__$1 = state_13312;
-var statearr_13635_13968 = state_13312__$1;
-(statearr_13635_13968[(2)] = inst_12766);
-
-(statearr_13635_13968[(1)] = (143));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (107))){
-var inst_13159 = (state_13312[(121)]);
-var inst_13161 = (state_13312[(122)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_12763 = (state_13312[(48)]);
-var inst_13160 = (state_13312[(123)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13158 = (state_13312[(124)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13166 = cljs.core._nth.call(null,inst_13159,inst_13161);
-var inst_13168 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13166);
-var inst_13169 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13166);
-var inst_13170 = inst_12392.call(null,inst_13168,inst_13169,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13171 = cljs.core.nth.call(null,inst_13170,(0),null);
-var inst_13172 = cljs.core.nth.call(null,inst_13170,(1),null);
-var inst_13173 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13166);
-var inst_13174 = farn.sprite.set_pos_BANG_.call(null,inst_13173,inst_13171,inst_13172);
-var inst_13175 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13166);
-var inst_13176 = farn.sprite.set_pos_BANG_.call(null,inst_13175,inst_13171,inst_13172);
-var inst_13177 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13166);
-var inst_13178 = (inst_12763 * farn.core.pickup_bounce_speed);
-var inst_13179 = Math.sin.call(null,inst_13178);
-var inst_13180 = ((1) + inst_13179);
-var inst_13181 = (farn.core.pickup_bounce_height * inst_13180);
-var inst_13182 = (farn.core.pickup_vertical_offset + inst_13181);
-var inst_13183 = farn.sprite.set_pivot_BANG_.call(null,inst_13177,(0),inst_13182);
-var inst_13184 = (inst_13161 + (1));
-var tmp13630 = inst_13159;
-var tmp13631 = inst_13160;
-var tmp13632 = inst_13158;
-var inst_13158__$1 = tmp13632;
-var inst_13159__$1 = tmp13630;
-var inst_13160__$1 = tmp13631;
-var inst_13161__$1 = inst_13184;
-var state_13312__$1 = (function (){var statearr_13636 = state_13312;
-(statearr_13636[(121)] = inst_13159__$1);
-
-(statearr_13636[(176)] = inst_13176);
-
-(statearr_13636[(122)] = inst_13161__$1);
-
-(statearr_13636[(123)] = inst_13160__$1);
-
-(statearr_13636[(177)] = inst_13174);
-
-(statearr_13636[(178)] = inst_13183);
-
-(statearr_13636[(124)] = inst_13158__$1);
+var state__6461__auto__ = (function (){var statearr_13636 = f__6460__auto__.call(null);
+(statearr_13636[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
 
 return statearr_13636;
 })();
-var statearr_13637_13969 = state_13312__$1;
-(statearr_13637_13969[(2)] = null);
-
-(statearr_13637_13969[(1)] = (105));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (23))){
-var inst_12819 = (state_13312[(179)]);
-var inst_12816 = (state_13312[(131)]);
-var inst_12819__$1 = cljs.core.nth.call(null,inst_12816,(0),null);
-var inst_12820 = cljs.core.nthnext.call(null,inst_12816,(1));
-var inst_12821 = (inst_12819__$1 == null);
-var state_13312__$1 = (function (){var statearr_13638 = state_13312;
-(statearr_13638[(180)] = inst_12820);
-
-(statearr_13638[(179)] = inst_12819__$1);
-
-return statearr_13638;
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,state_val_13386,c__6459__auto___13801))
 })();
-if(cljs.core.truth_(inst_12821)){
-var statearr_13639_13970 = state_13312__$1;
-(statearr_13639_13970[(1)] = (25));
+var inst_12629 = cljs.core.async.impl.dispatch.run.call(null,inst_12628);
+var inst_12630 = farn.sprite.set_anchor_BANG_.call(null,inst_12418,(0),(0));
+var inst_12631 = farn.sprite.set_scale_BANG_.call(null,inst_12418,0.7);
+var inst_12632 = farn.sprite.set_anchor_BANG_.call(null,inst_12421,(0),(0));
+var inst_12633 = farn.core.ui_stage.addChild(inst_12418);
+var inst_12634 = farn.core.ui_stage.addChild(inst_12421);
+var inst_12663 = cljs.core.async.chan.call(null,(1));
+var inst_12664 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12663;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801){
+return (function (){
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801){
+return (function (state_12661){
+var state_val_12662 = (state_12661[(1)]);
+if((state_val_12662 === (7))){
+var inst_12653 = (state_12661[(2)]);
+var state_12661__$1 = (function (){var statearr_13637 = state_12661;
+(statearr_13637[(7)] = inst_12653);
 
-} else {
-var statearr_13640_13971 = state_13312__$1;
-(statearr_13640_13971[(1)] = (26));
-
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (47))){
-var inst_12956 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13641_13972 = state_13312__$1;
-(statearr_13641_13972[(2)] = inst_12956);
-
-(statearr_13641_13972[(1)] = (37));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (35))){
-var inst_12285 = (state_13312[(58)]);
-var inst_12874 = (state_13312[(132)]);
-var inst_12867 = (state_13312[(118)]);
-var inst_12869 = (state_13312[(119)]);
-var inst_12874__$1 = cljs.core._nth.call(null,inst_12867,inst_12869);
-var inst_12875 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12874__$1);
-var inst_12876 = farn.sprite.overlap_QMARK_.call(null,inst_12285,inst_12875);
-var state_13312__$1 = (function (){var statearr_13642 = state_13312;
-(statearr_13642[(132)] = inst_12874__$1);
-
-return statearr_13642;
+return statearr_13637;
 })();
-if(inst_12876){
-var statearr_13643_13973 = state_13312__$1;
-(statearr_13643_13973[(1)] = (38));
+var statearr_13638_13987 = state_12661__$1;
+(statearr_13638_13987[(2)] = null);
 
+(statearr_13638_13987[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-var statearr_13644_13974 = state_13312__$1;
-(statearr_13644_13974[(1)] = (39));
+if((state_val_12662 === (6))){
+var inst_12657 = (state_12661[(2)]);
+var state_12661__$1 = state_12661;
+var statearr_13639_13988 = state_12661__$1;
+(statearr_13639_13988[(2)] = inst_12657);
 
+(statearr_13639_13988[(1)] = (3));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12662 === (5))){
+var state_12661__$1 = state_12661;
+var statearr_13640_13989 = state_12661__$1;
+(statearr_13640_13989[(2)] = null);
+
+(statearr_13640_13989[(1)] = (6));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12662 === (4))){
+var inst_12635 = (state_12661[(8)]);
+var inst_12638 = window.innerWidth;
+var inst_12639 = window.innerHeight;
+var inst_12640 = (inst_12638 / (2));
+var inst_12641 = (inst_12639 / (2));
+var inst_12642 = (- inst_12640);
+var inst_12643 = (inst_12642 + (5));
+var inst_12644 = (- inst_12641);
+var inst_12645 = (inst_12644 + (5));
+var inst_12646 = farn.sprite.set_pos_BANG_.call(null,player_stars_icon,inst_12643,inst_12645);
+var inst_12647 = (- inst_12640);
+var inst_12648 = (inst_12647 + (45));
+var inst_12649 = (- inst_12641);
+var inst_12650 = (inst_12649 + (5));
+var inst_12651 = farn.sprite.set_pos_BANG_.call(null,player_stars_text,inst_12648,inst_12650);
+var state_12661__$1 = (function (){var statearr_13641 = state_12661;
+(statearr_13641[(9)] = inst_12646);
+
+(statearr_13641[(10)] = inst_12651);
+
+return statearr_13641;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12661__$1,(7),inst_12635);
+} else {
+if((state_val_12662 === (3))){
+var inst_12659 = (state_12661[(2)]);
+var state_12661__$1 = state_12661;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12661__$1,inst_12659);
+} else {
+if((state_val_12662 === (2))){
+var state_12661__$1 = state_12661;
+var statearr_13642_13990 = state_12661__$1;
+(statearr_13642_13990[(1)] = (4));
+
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12662 === (1))){
+var inst_12635 = farn.events.new_resize_chan.call(null);
+var state_12661__$1 = (function (){var statearr_13644 = state_12661;
+(statearr_13644[(8)] = inst_12635);
+
+return statearr_13644;
+})();
+var statearr_13645_13991 = state_12661__$1;
+(statearr_13645_13991[(2)] = null);
+
+(statearr_13645_13991[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+return null;
 }
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (127))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13267 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_13268 = (inst_12781 - inst_12792);
-var inst_13269 = (inst_12782 - inst_12793);
-var inst_13270 = [inst_13268,inst_13269];
-var inst_13271 = (new cljs.core.PersistentVector(null,2,(5),inst_13267,inst_13270,null));
-var state_13312__$1 = state_13312;
-var statearr_13645_13975 = state_13312__$1;
-(statearr_13645_13975[(2)] = inst_13271);
-
-(statearr_13645_13975[(1)] = (128));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (82))){
-var inst_13044 = (state_13312[(25)]);
-var inst_13046 = cljs.core.chunked_seq_QMARK_.call(null,inst_13044);
-var state_13312__$1 = state_13312;
-if(inst_13046){
-var statearr_13646_13976 = state_13312__$1;
-(statearr_13646_13976[(1)] = (85));
-
-} else {
-var statearr_13647_13977 = state_13312__$1;
-(statearr_13647_13977[(1)] = (86));
-
 }
+}
+}
+}
+}
+}
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801))
+;
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801){
+return (function() {
+var state_machine__6445__auto__ = null;
+var state_machine__6445__auto____0 = (function (){
+var statearr_13649 = [null,null,null,null,null,null,null,null,null,null,null];
+(statearr_13649[(0)] = state_machine__6445__auto__);
 
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (76))){
-var inst_13149 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13648_13978 = state_13312__$1;
-(statearr_13648_13978[(2)] = inst_13149);
-
-(statearr_13648_13978[(1)] = (73));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (97))){
-var inst_13112 = (state_13312[(88)]);
-var inst_13092 = (state_13312[(92)]);
-var inst_13112__$1 = cljs.core.seq.call(null,inst_13092);
-var state_13312__$1 = (function (){var statearr_13649 = state_13312;
-(statearr_13649[(88)] = inst_13112__$1);
+(statearr_13649[(1)] = (1));
 
 return statearr_13649;
+});
+var state_machine__6445__auto____1 = (function (state_12661){
+while(true){
+var ret_value__6446__auto__ = (function (){try{while(true){
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12661);
+if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+continue;
+} else {
+return result__6447__auto__;
+}
+break;
+}
+}catch (e13650){if((e13650 instanceof Object)){
+var ex__6448__auto__ = e13650;
+var statearr_13651_13992 = state_12661;
+(statearr_13651_13992[(5)] = ex__6448__auto__);
+
+
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12661);
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+throw e13650;
+
+}
+}})();
+if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+var G__13993 = state_12661;
+state_12661 = G__13993;
+continue;
+} else {
+return ret_value__6446__auto__;
+}
+break;
+}
+});
+state_machine__6445__auto__ = function(state_12661){
+switch(arguments.length){
+case 0:
+return state_machine__6445__auto____0.call(this);
+case 1:
+return state_machine__6445__auto____1.call(this,state_12661);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
+return state_machine__6445__auto__;
+})()
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801))
 })();
-if(inst_13112__$1){
-var statearr_13650_13979 = state_13312__$1;
-(statearr_13650_13979[(1)] = (99));
+var state__6461__auto__ = (function (){var statearr_13652 = f__6460__auto__.call(null);
+(statearr_13652[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
+
+return statearr_13652;
+})();
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12665 = cljs.core.async.impl.dispatch.run.call(null,inst_12664);
+var inst_12666 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,state_val_13386,c__6459__auto___13801){
+return (function (key,ref,old,new$){
+return player_stars_text.setText([cljs.core.str(new$)].join(''));
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12667 = cljs.core.add_watch.call(null,farn.core.player_stars,new cljs.core.Keyword(null,"add","add",235287739),inst_12666);
+var inst_12668 = farn.rex.launch_rex.call(null,farn.core.ui_stage);
+var inst_12714 = cljs.core.async.chan.call(null,(1));
+var inst_12715 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12714;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801){
+return (function (){
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801){
+return (function (state_12712){
+var state_val_12713 = (state_12712[(1)]);
+if((state_val_12713 === (7))){
+var inst_12687 = (state_12712[(2)]);
+var inst_12688 = cljs.core.deref.call(null,farn.core.pickup_store);
+var inst_12689 = cljs.core.count.call(null,inst_12688);
+var inst_12690 = (inst_12689 < farn.core.max_pickups);
+var state_12712__$1 = (function (){var statearr_13653 = state_12712;
+(statearr_13653[(7)] = inst_12687);
+
+return statearr_13653;
+})();
+if(cljs.core.truth_(inst_12690)){
+var statearr_13654_13994 = state_12712__$1;
+(statearr_13654_13994[(1)] = (8));
 
 } else {
-var statearr_13651_13980 = state_13312__$1;
-(statearr_13651_13980[(1)] = (100));
+var statearr_13655_13995 = state_12712__$1;
+(statearr_13655_13995[(1)] = (9));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (19))){
-var inst_13310 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_13312__$1,inst_13310);
-} else {
-if((state_val_13313 === (57))){
-var inst_12935 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13652_13981 = state_13312__$1;
-(statearr_13652_13981[(2)] = inst_12935);
+if((state_val_12713 === (1))){
+var inst_12669 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_12670 = [(0),(0)];
+var inst_12671 = (new cljs.core.PersistentVector(null,2,(5),inst_12669,inst_12670,null));
+var inst_12672 = make_pickup.call(null,inst_12671,(10000),new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973),(2000));
+var inst_12673 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.conj,inst_12672);
+var inst_12674 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_12672);
+var inst_12675 = cljs.core.reset_BANG_.call(null,farn.core.baby_position,inst_12674);
+var inst_12676 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12672);
+var inst_12677 = new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(inst_12672);
+var inst_12678 = farn.sprite.set_scale_BANG_.call(null,inst_12676,inst_12677);
+var inst_12679 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12672);
+var inst_12680 = farn.core.main_stage.addChild(inst_12679);
+var inst_12681 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12672);
+var inst_12682 = farn.core.main_stage.addChild(inst_12681);
+var state_12712__$1 = (function (){var statearr_13656 = state_12712;
+(statearr_13656[(8)] = inst_12678);
 
-(statearr_13652_13981[(1)] = (56));
+(statearr_13656[(9)] = inst_12682);
 
+(statearr_13656[(10)] = inst_12673);
 
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (68))){
-var inst_12992 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13653_13982 = state_13312__$1;
-(statearr_13653_13982[(2)] = inst_12992);
+(statearr_13656[(11)] = inst_12680);
 
-(statearr_13653_13982[(1)] = (66));
+(statearr_13656[(12)] = inst_12675);
 
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (11))){
-var inst_12372 = (state_13312[(141)]);
-var inst_12375 = (state_13312[(126)]);
-var inst_12375__$1 = cljs.core.nth.call(null,inst_12372,(0),null);
-var inst_12376 = cljs.core.nthnext.call(null,inst_12372,(1));
-var inst_12377 = (inst_12375__$1 == null);
-var inst_12378 = cljs.core.not.call(null,inst_12377);
-var state_13312__$1 = (function (){var statearr_13654 = state_13312;
-(statearr_13654[(181)] = inst_12376);
-
-(statearr_13654[(126)] = inst_12375__$1);
-
-return statearr_13654;
+return statearr_13656;
 })();
-if(inst_12378){
-var statearr_13655_13983 = state_13312__$1;
-(statearr_13655_13983[(1)] = (13));
+var statearr_13657_13996 = state_12712__$1;
+(statearr_13657_13996[(2)] = null);
 
+(statearr_13657_13996[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-var statearr_13656_13984 = state_13312__$1;
-(statearr_13656_13984[(1)] = (14));
+if((state_val_12713 === (4))){
+var inst_12685 = cljs.core.async.timeout.call(null,(150));
+var state_12712__$1 = state_12712;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12712__$1,(7),inst_12685);
+} else {
+if((state_val_12713 === (6))){
+var inst_12708 = (state_12712[(2)]);
+var state_12712__$1 = state_12712;
+var statearr_13658_13997 = state_12712__$1;
+(statearr_13658_13997[(2)] = inst_12708);
+
+(statearr_13658_13997[(1)] = (3));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12713 === (3))){
+var inst_12710 = (state_12712[(2)]);
+var state_12712__$1 = state_12712;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12712__$1,inst_12710);
+} else {
+if((state_val_12713 === (2))){
+var state_12712__$1 = state_12712;
+var statearr_13659_13998 = state_12712__$1;
+(statearr_13659_13998[(1)] = (4));
+
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12713 === (9))){
+var state_12712__$1 = state_12712;
+var statearr_13661_13999 = state_12712__$1;
+(statearr_13661_13999[(2)] = null);
+
+(statearr_13661_13999[(1)] = (10));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12713 === (5))){
+var state_12712__$1 = state_12712;
+var statearr_13662_14000 = state_12712__$1;
+(statearr_13662_14000[(2)] = null);
+
+(statearr_13662_14000[(1)] = (6));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12713 === (10))){
+var inst_12704 = (state_12712[(2)]);
+var state_12712__$1 = (function (){var statearr_13663 = state_12712;
+(statearr_13663[(13)] = inst_12704);
+
+return statearr_13663;
+})();
+var statearr_13664_14001 = state_12712__$1;
+(statearr_13664_14001[(2)] = null);
+
+(statearr_13664_14001[(1)] = (2));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12713 === (8))){
+var inst_12692 = cljs.core.deref.call(null,farn.core.last_player_position);
+var inst_12693 = make_pickup.call(null,inst_12692,farn.core.pickup_spread);
+var inst_12694 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.conj,inst_12693);
+var inst_12695 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12693);
+var inst_12696 = new cljs.core.Keyword(null,"scale","scale",-230427353).cljs$core$IFn$_invoke$arity$1(inst_12693);
+var inst_12697 = farn.sprite.set_scale_BANG_.call(null,inst_12695,inst_12696);
+var inst_12698 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12693);
+var inst_12699 = farn.core.main_stage.addChild(inst_12698);
+var inst_12700 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12693);
+var inst_12701 = farn.core.main_stage.addChild(inst_12700);
+var state_12712__$1 = (function (){var statearr_13665 = state_12712;
+(statearr_13665[(14)] = inst_12694);
+
+(statearr_13665[(15)] = inst_12697);
+
+(statearr_13665[(16)] = inst_12699);
+
+return statearr_13665;
+})();
+var statearr_13666_14002 = state_12712__$1;
+(statearr_13666_14002[(2)] = inst_12701);
+
+(statearr_13666_14002[(1)] = (10));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+return null;
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801))
+;
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801){
+return (function() {
+var state_machine__6445__auto__ = null;
+var state_machine__6445__auto____0 = (function (){
+var statearr_13670 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_13670[(0)] = state_machine__6445__auto__);
+
+(statearr_13670[(1)] = (1));
+
+return statearr_13670;
+});
+var state_machine__6445__auto____1 = (function (state_12712){
+while(true){
+var ret_value__6446__auto__ = (function (){try{while(true){
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12712);
+if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+continue;
+} else {
+return result__6447__auto__;
+}
+break;
+}
+}catch (e13671){if((e13671 instanceof Object)){
+var ex__6448__auto__ = e13671;
+var statearr_13672_14003 = state_12712;
+(statearr_13672_14003[(5)] = ex__6448__auto__);
+
+
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12712);
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+throw e13671;
 
 }
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
+}})();
+if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+var G__14004 = state_12712;
+state_12712 = G__14004;
+continue;
 } else {
-if((state_val_13313 === (115))){
-var inst_13217 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13657_13985 = state_13312__$1;
-(statearr_13657_13985[(2)] = inst_13217);
-
-(statearr_13657_13985[(1)] = (112));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (9))){
-var inst_12361 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13658_13986 = state_13312__$1;
-(statearr_13658_13986[(2)] = inst_12361);
-
-(statearr_13658_13986[(1)] = (6));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (5))){
-var inst_12348 = (state_13312[(18)]);
-var inst_12345 = (state_13312[(103)]);
-var inst_12348__$1 = cljs.core.nth.call(null,inst_12345,(0),null);
-var inst_12349 = cljs.core.nthnext.call(null,inst_12345,(1));
-var inst_12350 = (inst_12348__$1 == null);
-var inst_12351 = cljs.core.not.call(null,inst_12350);
-var state_13312__$1 = (function (){var statearr_13659 = state_13312;
-(statearr_13659[(18)] = inst_12348__$1);
-
-(statearr_13659[(182)] = inst_12349);
-
-return statearr_13659;
-})();
-if(inst_12351){
-var statearr_13660_13987 = state_13312__$1;
-(statearr_13660_13987[(1)] = (7));
-
-} else {
-var statearr_13661_13988 = state_13312__$1;
-(statearr_13661_13988[(1)] = (8));
-
+return ret_value__6446__auto__;
 }
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (112))){
-var inst_13220 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13662_13989 = state_13312__$1;
-(statearr_13662_13989[(2)] = inst_13220);
-
-(statearr_13662_13989[(1)] = (109));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (83))){
-var state_13312__$1 = state_13312;
-var statearr_13663_13990 = state_13312__$1;
-(statearr_13663_13990[(2)] = null);
-
-(statearr_13663_13990[(1)] = (84));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (138))){
-var inst_12766 = (state_13312[(61)]);
-var inst_13296 = (inst_12766 + farn.core.player_turn_speed);
-var state_13312__$1 = state_13312;
-var statearr_13664_13991 = state_13312__$1;
-(statearr_13664_13991[(2)] = inst_13296);
-
-(statearr_13664_13991[(1)] = (140));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (14))){
-var inst_12371 = (state_13312[(144)]);
-var state_13312__$1 = state_13312;
-var statearr_13665_13992 = state_13312__$1;
-(statearr_13665_13992[(2)] = inst_12371);
-
-(statearr_13665_13992[(1)] = (15));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (45))){
-var inst_12909 = (state_13312[(116)]);
-var inst_12911 = cljs.core.chunked_seq_QMARK_.call(null,inst_12909);
-var state_13312__$1 = state_13312;
-if(inst_12911){
-var statearr_13669_13993 = state_13312__$1;
-(statearr_13669_13993[(1)] = (48));
-
-} else {
-var statearr_13670_13994 = state_13312__$1;
-(statearr_13670_13994[(1)] = (49));
-
+break;
 }
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (53))){
-var inst_12909 = (state_13312[(116)]);
-var inst_12949 = (state_13312[(2)]);
-var inst_12950 = cljs.core.next.call(null,inst_12909);
-var inst_12866 = inst_12950;
-var inst_12867 = null;
-var inst_12868 = (0);
-var inst_12869 = (0);
-var state_13312__$1 = (function (){var statearr_13671 = state_13312;
-(statearr_13671[(117)] = inst_12868);
-
-(statearr_13671[(118)] = inst_12867);
-
-(statearr_13671[(183)] = inst_12949);
-
-(statearr_13671[(119)] = inst_12869);
-
-(statearr_13671[(120)] = inst_12866);
-
-return statearr_13671;
+});
+state_machine__6445__auto__ = function(state_12712){
+switch(arguments.length){
+case 0:
+return state_machine__6445__auto____0.call(this);
+case 1:
+return state_machine__6445__auto____1.call(this,state_12712);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
+return state_machine__6445__auto__;
+})()
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801))
 })();
-var statearr_13672_13995 = state_13312__$1;
-(statearr_13672_13995[(2)] = null);
-
-(statearr_13672_13995[(1)] = (33));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (78))){
-var inst_13009 = (state_13312[(110)]);
-var inst_13011 = (state_13312[(27)]);
-var inst_13012 = (state_13312[(9)]);
-var inst_13010 = (state_13312[(10)]);
-var inst_13072 = (state_13312[(2)]);
-var inst_13073 = (inst_13012 + (1));
-var tmp13666 = inst_13009;
-var tmp13667 = inst_13011;
-var tmp13668 = inst_13010;
-var inst_13009__$1 = tmp13666;
-var inst_13010__$1 = tmp13668;
-var inst_13011__$1 = tmp13667;
-var inst_13012__$1 = inst_13073;
-var state_13312__$1 = (function (){var statearr_13673 = state_13312;
-(statearr_13673[(110)] = inst_13009__$1);
-
-(statearr_13673[(27)] = inst_13011__$1);
-
-(statearr_13673[(9)] = inst_13012__$1);
-
-(statearr_13673[(10)] = inst_13010__$1);
-
-(statearr_13673[(184)] = inst_13072);
+var state__6461__auto__ = (function (){var statearr_13673 = f__6460__auto__.call(null);
+(statearr_13673[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
 
 return statearr_13673;
 })();
-var statearr_13674_13996 = state_13312__$1;
-(statearr_13674_13996[(2)] = null);
-
-(statearr_13674_13996[(1)] = (72));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12716 = cljs.core.async.impl.dispatch.run.call(null,inst_12715);
+var inst_12717 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,state_val_13386,c__6459__auto___13801){
+return (function (pickup){
+if(cljs.core.not.call(null,close_QMARK_.call(null,cljs.core.deref.call(null,farn.core.last_player_position),new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(pickup),farn.core.pickup_cull_distance_squared))){
+return pickup;
 } else {
-if((state_val_13313 === (132))){
-var inst_13280 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"up","up",-269712113));
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13280)){
-var statearr_13675_13997 = state_13312__$1;
-(statearr_13675_13997[(1)] = (135));
+return null;
+}
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12751 = cljs.core.async.chan.call(null,(1));
+var inst_12752 = (function (){var add_cell_BANG_ = inst_12590__$1;
+var depth_compare = inst_12502__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var player_shadow = inst_12398;
+var close_QMARK_ = inst_12506__$1;
+var player_pos = inst_12589__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503__$1;
+var trees = inst_12437;
+var player_standing_sway = inst_12411;
+var game_sprites = inst_12585__$1;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var c__6459__auto____$1 = inst_12751;
+var hit_sfx = inst_12501__$1;
+var lobster_big = inst_12387;
+var game_map = inst_12578__$1;
+var star_tex = inst_12417;
+var remove_cell_BANG_ = inst_12591__$1;
+var tufts = inst_12444;
+var game_space = inst_12586__$1;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var floor_objects = inst_12427;
+var cull_distance_QMARK_ = inst_12717;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var wait = inst_12391;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801){
+return (function (){
+var f__6460__auto__ = (function (){var switch__6444__auto__ = ((function (add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801){
+return (function (state_12749){
+var state_val_12750 = (state_12749[(1)]);
+if((state_val_12750 === (7))){
+var inst_12724 = (state_12749[(7)]);
+var inst_12722 = (state_12749[(2)]);
+var inst_12723 = cljs.core.deref.call(null,farn.core.pickup_store);
+var inst_12724__$1 = cljs.core.some.call(null,cull_distance_QMARK_,inst_12723);
+var state_12749__$1 = (function (){var statearr_13674 = state_12749;
+(statearr_13674[(8)] = inst_12722);
+
+(statearr_13674[(7)] = inst_12724__$1);
+
+return statearr_13674;
+})();
+if(cljs.core.truth_(inst_12724__$1)){
+var statearr_13675_14005 = state_12749__$1;
+(statearr_13675_14005[(1)] = (8));
 
 } else {
-var statearr_13676_13998 = state_13312__$1;
-(statearr_13676_13998[(1)] = (136));
+var statearr_13676_14006 = state_12749__$1;
+(statearr_13676_14006[(1)] = (9));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (26))){
-var inst_12820 = (state_13312[(180)]);
-var inst_12809 = (state_13312[(75)]);
-var inst_12819 = (state_13312[(179)]);
-var inst_12815 = (state_13312[(130)]);
-var inst_12824 = inst_12809.call(null,inst_12819,inst_12815);
-var inst_12815__$1 = inst_12824;
-var inst_12816 = inst_12820;
-var state_13312__$1 = (function (){var statearr_13677 = state_13312;
-(statearr_13677[(130)] = inst_12815__$1);
+if((state_val_12750 === (1))){
+var state_12749__$1 = state_12749;
+var statearr_13677_14007 = state_12749__$1;
+(statearr_13677_14007[(2)] = null);
 
-(statearr_13677[(131)] = inst_12816);
+(statearr_13677_14007[(1)] = (2));
 
-return statearr_13677;
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (4))){
+var inst_12720 = cljs.core.async.timeout.call(null,(250));
+var state_12749__$1 = state_12749;
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_12749__$1,(7),inst_12720);
+} else {
+if((state_val_12750 === (13))){
+var inst_12738 = (state_12749[(2)]);
+var state_12749__$1 = state_12749;
+var statearr_13678_14008 = state_12749__$1;
+(statearr_13678_14008[(2)] = inst_12738);
+
+(statearr_13678_14008[(1)] = (10));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (6))){
+var inst_12745 = (state_12749[(2)]);
+var state_12749__$1 = state_12749;
+var statearr_13679_14009 = state_12749__$1;
+(statearr_13679_14009[(2)] = inst_12745);
+
+(statearr_13679_14009[(1)] = (3));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (3))){
+var inst_12747 = (state_12749[(2)]);
+var state_12749__$1 = state_12749;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_12749__$1,inst_12747);
+} else {
+if((state_val_12750 === (12))){
+var state_12749__$1 = state_12749;
+var statearr_13680_14010 = state_12749__$1;
+(statearr_13680_14010[(2)] = null);
+
+(statearr_13680_14010[(1)] = (13));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (2))){
+var state_12749__$1 = state_12749;
+var statearr_13681_14011 = state_12749__$1;
+(statearr_13681_14011[(1)] = (4));
+
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (11))){
+var inst_12724 = (state_12749[(7)]);
+var inst_12729 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12724);
+var inst_12730 = farn.core.main_stage.removeChild(inst_12729);
+var inst_12731 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12724);
+var inst_12732 = farn.core.main_stage.removeChild(inst_12731);
+var inst_12733 = [cljs.core.str(inst_12724)].join('');
+var inst_12734 = farn.utils.log.call(null,"REMOVING",inst_12733);
+var inst_12735 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_12724);
+var state_12749__$1 = (function (){var statearr_13683 = state_12749;
+(statearr_13683[(9)] = inst_12732);
+
+(statearr_13683[(10)] = inst_12730);
+
+(statearr_13683[(11)] = inst_12734);
+
+return statearr_13683;
 })();
-var statearr_13678_13999 = state_13312__$1;
-(statearr_13678_13999[(2)] = null);
+var statearr_13684_14012 = state_12749__$1;
+(statearr_13684_14012[(2)] = inst_12735);
 
-(statearr_13678_13999[(1)] = (23));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (123))){
-var inst_13250 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
-var state_13312__$1 = state_13312;
-var statearr_13679_14000 = state_13312__$1;
-(statearr_13679_14000[(2)] = inst_13250);
-
-(statearr_13679_14000[(1)] = (124));
+(statearr_13684_14012[(1)] = (13));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (140))){
-var inst_13293 = (state_13312[(136)]);
-var inst_13001 = (state_13312[(16)]);
-var inst_12859 = (state_13312[(112)]);
-var inst_12794 = (state_13312[(73)]);
-var inst_13273 = (state_13312[(17)]);
-var inst_13258 = (state_13312[(149)]);
-var inst_13305 = (state_13312[(2)]);
-var inst_13306 = (inst_13001 - (1));
-var inst_13307 = (((0) > inst_13306) ? (0) : inst_13306);
-var inst_12763 = inst_13258;
-var inst_12764 = inst_13273;
-var inst_12765 = inst_13293;
-var inst_12766 = inst_13305;
-var inst_12767 = inst_12859;
-var inst_12768 = inst_12794;
-var inst_12769 = inst_13307;
-var state_13312__$1 = (function (){var statearr_13680 = state_13312;
-(statearr_13680[(39)] = inst_12768);
+if((state_val_12750 === (9))){
+var state_12749__$1 = state_12749;
+var statearr_13685_14013 = state_12749__$1;
+(statearr_13685_14013[(2)] = null);
 
-(statearr_13680[(44)] = inst_12765);
+(statearr_13685_14013[(1)] = (10));
 
-(statearr_13680[(48)] = inst_12763);
 
-(statearr_13680[(54)] = inst_12764);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (5))){
+var state_12749__$1 = state_12749;
+var statearr_13686_14014 = state_12749__$1;
+(statearr_13686_14014[(2)] = null);
 
-(statearr_13680[(61)] = inst_12766);
+(statearr_13686_14014[(1)] = (6));
 
-(statearr_13680[(7)] = inst_12769);
 
-(statearr_13680[(81)] = inst_12767);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_12750 === (10))){
+var inst_12741 = (state_12749[(2)]);
+var state_12749__$1 = (function (){var statearr_13687 = state_12749;
+(statearr_13687[(12)] = inst_12741);
 
-return statearr_13680;
+return statearr_13687;
 })();
-var statearr_13681_14001 = state_13312__$1;
-(statearr_13681_14001[(2)] = null);
+var statearr_13688_14015 = state_12749__$1;
+(statearr_13688_14015[(2)] = null);
 
-(statearr_13681_14001[(1)] = (18));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (16))){
-var inst_12376 = (state_13312[(181)]);
-var inst_12371 = (state_13312[(144)]);
-var inst_12383 = (state_13312[(2)]);
-var inst_12384 = cljs.core.conj.call(null,inst_12371,inst_12383);
-var inst_12371__$1 = inst_12384;
-var inst_12372 = inst_12376;
-var state_13312__$1 = (function (){var statearr_13682 = state_13312;
-(statearr_13682[(141)] = inst_12372);
-
-(statearr_13682[(144)] = inst_12371__$1);
-
-return statearr_13682;
-})();
-var statearr_13683_14002 = state_13312__$1;
-(statearr_13683_14002[(2)] = null);
-
-(statearr_13683_14002[(1)] = (11));
+(statearr_13688_14015[(1)] = (2));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (133))){
-var state_13312__$1 = state_13312;
-var statearr_13684_14003 = state_13312__$1;
-(statearr_13684_14003[(2)] = null);
-
-(statearr_13684_14003[(1)] = (134));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (81))){
-var inst_13070 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13688_14004 = state_13312__$1;
-(statearr_13688_14004[(2)] = inst_13070);
-
-(statearr_13688_14004[(1)] = (78));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (120))){
-var inst_13242 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"up","up",-269712113));
-var state_13312__$1 = state_13312;
-var statearr_13689_14005 = state_13312__$1;
-(statearr_13689_14005[(2)] = inst_13242);
-
-(statearr_13689_14005[(1)] = (121));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (79))){
-var inst_13025 = (state_13312[(11)]);
-var inst_13026 = (state_13312[(12)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_13027 = (state_13312[(13)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13024 = (state_13312[(14)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13032 = cljs.core._nth.call(null,inst_13025,inst_13027);
-var inst_13034 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13032);
-var inst_13035 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13032);
-var inst_13036 = inst_12392.call(null,inst_13034,inst_13035,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13037 = cljs.core.nth.call(null,inst_13036,(0),null);
-var inst_13038 = cljs.core.nth.call(null,inst_13036,(1),null);
-var inst_13039 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13032);
-var inst_13040 = farn.sprite.set_pos_BANG_.call(null,inst_13039,inst_13037,inst_13038);
-var inst_13041 = (inst_13027 + (1));
-var tmp13685 = inst_13025;
-var tmp13686 = inst_13026;
-var tmp13687 = inst_13024;
-var inst_13024__$1 = tmp13687;
-var inst_13025__$1 = tmp13685;
-var inst_13026__$1 = tmp13686;
-var inst_13027__$1 = inst_13041;
-var state_13312__$1 = (function (){var statearr_13690 = state_13312;
-(statearr_13690[(11)] = inst_13025__$1);
-
-(statearr_13690[(12)] = inst_13026__$1);
-
-(statearr_13690[(13)] = inst_13027__$1);
-
-(statearr_13690[(185)] = inst_13040);
-
-(statearr_13690[(14)] = inst_13024__$1);
-
-return statearr_13690;
-})();
-var statearr_13691_14006 = state_13312__$1;
-(statearr_13691_14006[(2)] = null);
-
-(statearr_13691_14006[(1)] = (77));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (38))){
-var inst_12874 = (state_13312[(132)]);
-var inst_12878 = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(inst_12874);
-var inst_12879 = cljs.core._EQ_.call(null,inst_12878,new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973));
-var state_13312__$1 = state_13312;
-if(inst_12879){
-var statearr_13692_14007 = state_13312__$1;
-(statearr_13692_14007[(1)] = (41));
+if((state_val_12750 === (8))){
+var inst_12724 = (state_12749[(7)]);
+var inst_12726 = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(inst_12724);
+var inst_12727 = cljs.core.not_EQ_.call(null,new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973),inst_12726);
+var state_12749__$1 = state_12749;
+if(inst_12727){
+var statearr_13689_14016 = state_12749__$1;
+(statearr_13689_14016[(1)] = (11));
 
 } else {
-var statearr_13693_14008 = state_13312__$1;
-(statearr_13693_14008[(1)] = (42));
+var statearr_13690_14017 = state_12749__$1;
+(statearr_13690_14017[(1)] = (12));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (126))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12793 = (state_13312[(51)]);
-var inst_12792 = (state_13312[(57)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13261 = cljs.core.PersistentVector.EMPTY_NODE;
-var inst_13262 = (inst_12781 + inst_12792);
-var inst_13263 = (inst_12782 + inst_12793);
-var inst_13264 = [inst_13262,inst_13263];
-var inst_13265 = (new cljs.core.PersistentVector(null,2,(5),inst_13261,inst_13264,null));
-var state_13312__$1 = state_13312;
-var statearr_13694_14009 = state_13312__$1;
-(statearr_13694_14009[(2)] = inst_13265);
+return null;
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+});})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801))
+;
+return ((function (switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801){
+return (function() {
+var state_machine__6445__auto__ = null;
+var state_machine__6445__auto____0 = (function (){
+var statearr_13694 = [null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_13694[(0)] = state_machine__6445__auto__);
 
-(statearr_13694_14009[(1)] = (128));
+(statearr_13694[(1)] = (1));
 
+return statearr_13694;
+});
+var state_machine__6445__auto____1 = (function (state_12749){
+while(true){
+var ret_value__6446__auto__ = (function (){try{while(true){
+var result__6447__auto__ = switch__6444__auto__.call(null,state_12749);
+if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+continue;
+} else {
+return result__6447__auto__;
+}
+break;
+}
+}catch (e13695){if((e13695 instanceof Object)){
+var ex__6448__auto__ = e13695;
+var statearr_13696_14018 = state_12749;
+(statearr_13696_14018[(5)] = ex__6448__auto__);
+
+
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_12749);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (98))){
-var inst_13138 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13695_14010 = state_13312__$1;
-(statearr_13695_14010[(2)] = inst_13138);
+throw e13695;
 
-(statearr_13695_14010[(1)] = (95));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
+}
+}})();
+if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
+var G__14019 = state_12749;
+state_12749 = G__14019;
+continue;
 } else {
-if((state_val_13313 === (124))){
-var inst_12391 = (state_13312[(80)]);
-var inst_13252 = (state_13312[(2)]);
-var inst_13253 = farn.core.main_stage.children;
-var inst_13254 = inst_13253.sort(inst_12391);
-var inst_13255 = farn.events.next_frame.call(null);
-var state_13312__$1 = (function (){var statearr_13696 = state_13312;
-(statearr_13696[(186)] = inst_13252);
-
-(statearr_13696[(187)] = inst_13254);
-
-return statearr_13696;
+return ret_value__6446__auto__;
+}
+break;
+}
+});
+state_machine__6445__auto__ = function(state_12749){
+switch(arguments.length){
+case 0:
+return state_machine__6445__auto____0.call(this);
+case 1:
+return state_machine__6445__auto____1.call(this,state_12749);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445__auto____0;
+state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
+return state_machine__6445__auto__;
+})()
+;})(switch__6444__auto__,add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801))
 })();
-return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13312__$1,(125),inst_13255);
-} else {
-if((state_val_13313 === (87))){
-var inst_13065 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13697_14011 = state_13312__$1;
-(statearr_13697_14011[(2)] = inst_13065);
+var state__6461__auto__ = (function (){var statearr_13697 = f__6460__auto__.call(null);
+(statearr_13697[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto____$1);
 
-(statearr_13697_14011[(1)] = (84));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (30))){
-var inst_12848 = (state_13312[(146)]);
-var inst_12847 = (state_13312[(145)]);
-var inst_12844 = (state_13312[(64)]);
-var inst_12480 = (state_13312[(87)]);
-var inst_12852 = inst_12480.call(null,inst_12847);
-var inst_12853 = cljs.core.disj.call(null,inst_12844,inst_12847);
-var inst_12843 = inst_12848;
-var inst_12844__$1 = inst_12853;
-var state_13312__$1 = (function (){var statearr_13701 = state_13312;
-(statearr_13701[(64)] = inst_12844__$1);
-
-(statearr_13701[(188)] = inst_12852);
-
-(statearr_13701[(65)] = inst_12843);
-
-return statearr_13701;
+return statearr_13697;
 })();
-var statearr_13702_14012 = state_13312__$1;
-(statearr_13702_14012[(2)] = null);
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
+});
+;})(add_cell_BANG_,depth_compare,player_stars_text,player_standing_texs,player_shadow,close_QMARK_,player_pos,obstacle_types,polar_object_coords,trees,player_standing_sway,game_sprites,loader,player_walking_texs,shadow_tex,tex,c__6459__auto____$1,hit_sfx,lobster_big,game_map,star_tex,remove_cell_BANG_,tufts,game_space,pickup_textures,perlin_channel,title_text,floor_objects,cull_distance_QMARK_,pickup_sfx,tilemap,make_pickup,varela,wait,player,player_stars_icon,inst_12427,inst_12388,inst_12421,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12397,inst_12501,inst_12416,inst_12396,inst_12395,inst_12398,inst_12502,inst_12437,inst_12590,inst_12506,inst_12391,inst_12418,inst_12430,inst_12394,inst_12424,inst_12585,inst_12578,inst_12411,inst_12408,inst_12589,inst_12503,inst_12387,inst_12384,inst_12586,inst_12393,inst_12444,inst_12501__$1,inst_12502__$1,inst_12503__$1,inst_12506__$1,inst_12507,inst_12508,inst_12509,inst_12510,inst_12511,inst_12512,inst_12513,inst_12514,inst_12515,inst_12516,inst_12517,inst_12518,inst_12519,inst_12520,inst_12521,inst_12522,inst_12523,inst_12524,inst_12525,inst_12526,inst_12527,inst_12528,inst_12529,inst_12530,inst_12531,inst_12532,inst_12533,inst_12534,inst_12535,inst_12536,inst_12537,inst_12538,inst_12539,inst_12540,inst_12541,inst_12542,inst_12543,inst_12544,inst_12545,inst_12546,inst_12547,inst_12548,inst_12549,inst_12550,inst_12551,inst_12552,inst_12553,inst_12554,inst_12555,inst_12556,inst_12557,inst_12558,inst_12559,inst_12560,inst_12561,inst_12562,inst_12563,inst_12564,inst_12565,inst_12566,inst_12567,inst_12568,inst_12569,inst_12570,inst_12571,inst_12572,inst_12573,inst_12574,inst_12575,inst_12576,inst_12577,inst_12578__$1,inst_12583,inst_12584,inst_12585__$1,inst_12586__$1,inst_12587,inst_12588,inst_12589__$1,inst_12590__$1,inst_12591__$1,inst_12592,inst_12614,inst_12615,inst_12616,inst_12627,inst_12628,inst_12629,inst_12630,inst_12631,inst_12632,inst_12633,inst_12634,inst_12663,inst_12664,inst_12665,inst_12666,inst_12667,inst_12668,inst_12714,inst_12715,inst_12716,inst_12717,inst_12751,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12753 = cljs.core.async.impl.dispatch.run.call(null,inst_12752);
+var inst_12754 = cljs.core.async.timeout.call(null,(1000));
+var state_13385__$1 = (function (){var statearr_13698 = state_13385;
+(statearr_13698[(40)] = inst_12591__$1);
 
-(statearr_13702_14012[(1)] = (28));
+(statearr_13698[(26)] = inst_12501__$1);
+
+(statearr_13698[(151)] = inst_12630);
+
+(statearr_13698[(152)] = inst_12633);
+
+(statearr_13698[(107)] = inst_12502__$1);
+
+(statearr_13698[(108)] = inst_12590__$1);
+
+(statearr_13698[(153)] = inst_12667);
+
+(statearr_13698[(110)] = inst_12506__$1);
+
+(statearr_13698[(154)] = inst_12665);
+
+(statearr_13698[(155)] = inst_12634);
+
+(statearr_13698[(119)] = inst_12585__$1);
+
+(statearr_13698[(156)] = inst_12592);
+
+(statearr_13698[(120)] = inst_12578__$1);
+
+(statearr_13698[(157)] = inst_12716);
+
+(statearr_13698[(158)] = inst_12753);
+
+(statearr_13698[(124)] = inst_12589__$1);
+
+(statearr_13698[(159)] = inst_12668);
+
+(statearr_13698[(88)] = inst_12503__$1);
+
+(statearr_13698[(160)] = inst_12616);
+
+(statearr_13698[(19)] = inst_12586__$1);
+
+(statearr_13698[(161)] = inst_12632);
+
+(statearr_13698[(162)] = inst_12629);
+
+(statearr_13698[(163)] = inst_12631);
+
+return statearr_13698;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(17),inst_12754);
+} else {
+if((state_val_13386 === (2))){
+var inst_12386 = (state_13385[(2)]);
+var inst_12387 = farn.font.make_tiled_font.call(null,"Lobster",(400),(48));
+var inst_12388 = farn.font.make_tiled_font.call(null,"Varela Round",(400),(24));
+var inst_12389 = cljs.core.async.timeout.call(null,(1000));
+var state_13385__$1 = (function (){var statearr_13699 = state_13385;
+(statearr_13699[(61)] = inst_12388);
+
+(statearr_13699[(164)] = inst_12386);
+
+(statearr_13699[(75)] = inst_12387);
+
+return statearr_13699;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(3),inst_12389);
+} else {
+if((state_val_13386 === (66))){
+var inst_13102 = (state_13385[(136)]);
+var inst_13107 = (inst_13102 - (1));
+var inst_13102__$1 = inst_13107;
+var state_13385__$1 = (function (){var statearr_13700 = state_13385;
+(statearr_13700[(136)] = inst_13102__$1);
+
+return statearr_13700;
+})();
+var statearr_13701_14020 = state_13385__$1;
+(statearr_13701_14020[(2)] = null);
+
+(statearr_13701_14020[(1)] = (64));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (73))){
-var inst_13151 = (state_13312[(2)]);
-var inst_13156 = cljs.core.deref.call(null,farn.core.pickup_store);
-var inst_13157 = cljs.core.seq.call(null,inst_13156);
-var inst_13158 = inst_13157;
-var inst_13159 = null;
-var inst_13160 = (0);
-var inst_13161 = (0);
-var state_13312__$1 = (function (){var statearr_13703 = state_13312;
-(statearr_13703[(121)] = inst_13159);
+if((state_val_13386 === (107))){
+var inst_13303 = (state_13385[(165)]);
+var state_13385__$1 = state_13385;
+var statearr_13702_14021 = state_13385__$1;
+(statearr_13702_14021[(2)] = inst_13303);
 
-(statearr_13703[(189)] = inst_13151);
+(statearr_13702_14021[(1)] = (109));
 
-(statearr_13703[(122)] = inst_13161);
 
-(statearr_13703[(123)] = inst_13160);
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (23))){
+var inst_12929 = (state_13385[(101)]);
+var inst_12939 = (state_13385[(20)]);
+var inst_12940 = (state_13385[(22)]);
+var inst_12935 = (state_13385[(132)]);
+var inst_12944 = inst_12929.call(null,inst_12939,inst_12935);
+var inst_12935__$1 = inst_12944;
+var inst_12936 = inst_12940;
+var state_13385__$1 = (function (){var statearr_13703 = state_13385;
+(statearr_13703[(21)] = inst_12936);
 
-(statearr_13703[(124)] = inst_13158);
+(statearr_13703[(132)] = inst_12935__$1);
 
 return statearr_13703;
 })();
-var statearr_13704_14013 = state_13312__$1;
-(statearr_13704_14013[(2)] = null);
+var statearr_13704_14022 = state_13385__$1;
+(statearr_13704_14022[(2)] = null);
 
-(statearr_13704_14013[(1)] = (105));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (96))){
-var inst_13095 = (state_13312[(89)]);
-var inst_12781 = (state_13312[(20)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_13094 = (state_13312[(90)]);
-var inst_13093 = (state_13312[(91)]);
-var inst_13092 = (state_13312[(92)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13100 = cljs.core._nth.call(null,inst_13093,inst_13095);
-var inst_13102 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13100);
-var inst_13103 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13100);
-var inst_13104 = inst_12392.call(null,inst_13102,inst_13103,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13105 = cljs.core.nth.call(null,inst_13104,(0),null);
-var inst_13106 = cljs.core.nth.call(null,inst_13104,(1),null);
-var inst_13107 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13100);
-var inst_13108 = farn.sprite.set_pos_BANG_.call(null,inst_13107,inst_13105,inst_13106);
-var inst_13109 = (inst_13095 + (1));
-var tmp13698 = inst_13094;
-var tmp13699 = inst_13093;
-var tmp13700 = inst_13092;
-var inst_13092__$1 = tmp13700;
-var inst_13093__$1 = tmp13699;
-var inst_13094__$1 = tmp13698;
-var inst_13095__$1 = inst_13109;
-var state_13312__$1 = (function (){var statearr_13705 = state_13312;
-(statearr_13705[(89)] = inst_13095__$1);
-
-(statearr_13705[(190)] = inst_13108);
-
-(statearr_13705[(90)] = inst_13094__$1);
-
-(statearr_13705[(91)] = inst_13093__$1);
-
-(statearr_13705[(92)] = inst_13092__$1);
-
-return statearr_13705;
-})();
-var statearr_13706_14014 = state_13312__$1;
-(statearr_13706_14014[(2)] = null);
-
-(statearr_13706_14014[(1)] = (94));
+(statearr_13704_14022[(1)] = (20));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (10))){
-var inst_12349 = (state_13312[(182)]);
-var inst_12344 = (state_13312[(102)]);
-var inst_12356 = (state_13312[(2)]);
-var inst_12357 = cljs.core.conj.call(null,inst_12344,inst_12356);
-var inst_12344__$1 = inst_12357;
-var inst_12345 = inst_12349;
-var state_13312__$1 = (function (){var statearr_13707 = state_13312;
-(statearr_13707[(102)] = inst_12344__$1);
+if((state_val_13386 === (47))){
+var inst_13074 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13705_14023 = state_13385__$1;
+(statearr_13705_14023[(2)] = inst_13074);
 
-(statearr_13707[(103)] = inst_12345);
-
-return statearr_13707;
-})();
-var statearr_13708_14015 = state_13312__$1;
-(statearr_13708_14015[(2)] = null);
-
-(statearr_13708_14015[(1)] = (5));
+(statearr_13705_14023[(1)] = (44));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (18))){
-var inst_12768 = (state_13312[(39)]);
-var inst_12771 = farn.core.main_stage.children.length;
-var inst_12772 = cljs.core.not_EQ_.call(null,inst_12768,inst_12771);
-var state_13312__$1 = state_13312;
-if(inst_12772){
-var statearr_13709_14016 = state_13312__$1;
-(statearr_13709_14016[(1)] = (20));
+if((state_val_13386 === (35))){
+var inst_12995 = (state_13385[(50)]);
+var inst_12999 = new cljs.core.Keyword(null,"type","type",1174270348).cljs$core$IFn$_invoke$arity$1(inst_12995);
+var inst_13000 = cljs.core._EQ_.call(null,inst_12999,new cljs.core.Keyword(null,"pickup-baby-1","pickup-baby-1",-1650486973));
+var state_13385__$1 = state_13385;
+if(inst_13000){
+var statearr_13706_14024 = state_13385__$1;
+(statearr_13706_14024[(1)] = (38));
 
 } else {
-var statearr_13710_14017 = state_13312__$1;
-(statearr_13710_14017[(1)] = (21));
+var statearr_13707_14025 = state_13385__$1;
+(statearr_13707_14025[(1)] = (39));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (105))){
-var inst_13161 = (state_13312[(122)]);
-var inst_13160 = (state_13312[(123)]);
-var inst_13163 = (inst_13161 < inst_13160);
-var inst_13164 = inst_13163;
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13164)){
-var statearr_13711_14018 = state_13312__$1;
-(statearr_13711_14018[(1)] = (107));
+if((state_val_13386 === (127))){
+var inst_12883 = (state_13385[(112)]);
+var inst_13353 = (inst_12883 * farn.core.player_drag);
+var inst_13354 = ((inst_13353 > (0)) ? inst_13353 : (0));
+var state_13385__$1 = state_13385;
+var statearr_13711_14026 = state_13385__$1;
+(statearr_13711_14026[(2)] = inst_13354);
+
+(statearr_13711_14026[(1)] = (128));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (82))){
+var inst_13170 = (state_13385[(18)]);
+var inst_13172 = cljs.core.chunked_seq_QMARK_.call(null,inst_13170);
+var state_13385__$1 = state_13385;
+if(inst_13172){
+var statearr_13712_14027 = state_13385__$1;
+(statearr_13712_14027[(1)] = (85));
 
 } else {
-var statearr_13712_14019 = state_13312__$1;
-(statearr_13712_14019[(1)] = (108));
+var statearr_13713_14028 = state_13385__$1;
+(statearr_13713_14028[(1)] = (86));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (52))){
-var state_13312__$1 = state_13312;
-var statearr_13713_14020 = state_13312__$1;
-(statearr_13713_14020[(2)] = null);
+if((state_val_13386 === (76))){
+var inst_13131 = (state_13385[(33)]);
+var inst_13133 = (state_13385[(34)]);
+var inst_13130 = (state_13385[(23)]);
+var inst_13132 = (state_13385[(36)]);
+var inst_13166 = (state_13385[(2)]);
+var inst_13167 = (inst_13133 + (1));
+var tmp13708 = inst_13131;
+var tmp13709 = inst_13130;
+var tmp13710 = inst_13132;
+var inst_13130__$1 = tmp13709;
+var inst_13131__$1 = tmp13708;
+var inst_13132__$1 = tmp13710;
+var inst_13133__$1 = inst_13167;
+var state_13385__$1 = (function (){var statearr_13714 = state_13385;
+(statearr_13714[(33)] = inst_13131__$1);
 
-(statearr_13713_14020[(1)] = (53));
+(statearr_13714[(166)] = inst_13166);
 
+(statearr_13714[(34)] = inst_13133__$1);
 
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (114))){
-var inst_12781 = (state_13312[(20)]);
-var inst_12763 = (state_13312[(48)]);
-var inst_13187 = (state_13312[(15)]);
-var inst_12791 = (state_13312[(21)]);
-var inst_12392 = (state_13312[(22)]);
-var inst_12782 = (state_13312[(23)]);
-var inst_12788 = (state_13312[(24)]);
-var inst_13196 = cljs.core.first.call(null,inst_13187);
-var inst_13198 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13196);
-var inst_13199 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13196);
-var inst_13200 = inst_12392.call(null,inst_13198,inst_13199,inst_12781,inst_12782,inst_12788,inst_12791);
-var inst_13201 = cljs.core.nth.call(null,inst_13200,(0),null);
-var inst_13202 = cljs.core.nth.call(null,inst_13200,(1),null);
-var inst_13203 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13196);
-var inst_13204 = farn.sprite.set_pos_BANG_.call(null,inst_13203,inst_13201,inst_13202);
-var inst_13205 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13196);
-var inst_13206 = farn.sprite.set_pos_BANG_.call(null,inst_13205,inst_13201,inst_13202);
-var inst_13207 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13196);
-var inst_13208 = (inst_12763 * farn.core.pickup_bounce_speed);
-var inst_13209 = Math.sin.call(null,inst_13208);
-var inst_13210 = ((1) + inst_13209);
-var inst_13211 = (farn.core.pickup_bounce_height * inst_13210);
-var inst_13212 = (farn.core.pickup_vertical_offset + inst_13211);
-var inst_13213 = farn.sprite.set_pivot_BANG_.call(null,inst_13207,(0),inst_13212);
-var inst_13214 = cljs.core.next.call(null,inst_13187);
-var inst_13158 = inst_13214;
-var inst_13159 = null;
-var inst_13160 = (0);
-var inst_13161 = (0);
-var state_13312__$1 = (function (){var statearr_13714 = state_13312;
-(statearr_13714[(121)] = inst_13159);
+(statearr_13714[(23)] = inst_13130__$1);
 
-(statearr_13714[(191)] = inst_13204);
-
-(statearr_13714[(122)] = inst_13161);
-
-(statearr_13714[(123)] = inst_13160);
-
-(statearr_13714[(192)] = inst_13206);
-
-(statearr_13714[(193)] = inst_13213);
-
-(statearr_13714[(124)] = inst_13158);
+(statearr_13714[(36)] = inst_13132__$1);
 
 return statearr_13714;
 })();
-var statearr_13715_14021 = state_13312__$1;
-(statearr_13715_14021[(2)] = null);
+var statearr_13715_14029 = state_13385__$1;
+(statearr_13715_14029[(2)] = null);
 
-(statearr_13715_14021[(1)] = (105));
+(statearr_13715_14029[(1)] = (69));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (67))){
-var inst_12286 = (state_13312[(35)]);
-var inst_12306 = (state_13312[(38)]);
-var inst_12981 = (state_13312[(33)]);
-var inst_12977 = (state_13312[(138)]);
-var inst_12978 = (state_13312[(140)]);
-var inst_12983 = farn.stars.make.call(null,farn.core.main_stage,inst_12306,inst_12286,inst_12977,inst_12978);
-var inst_12984 = (inst_12981 > (1));
-var state_13312__$1 = (function (){var statearr_13716 = state_13312;
-(statearr_13716[(194)] = inst_12983);
+if((state_val_13386 === (97))){
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12884 = (state_13385[(118)]);
+var inst_13303 = (state_13385[(165)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13291 = (state_13385[(2)]);
+var inst_13292 = farn.sprite.set_pivot_BANG_.call(null,farn.core.main_stage,inst_12892,inst_12893);
+var inst_13293 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_13294 = [inst_12892,inst_12893];
+var inst_13295 = (new cljs.core.PersistentVector(null,2,(5),inst_13293,inst_13294,null));
+var inst_13296 = cljs.core.reset_BANG_.call(null,farn.core.last_player_position,inst_13295);
+var inst_13297 = cljs.core.PersistentVector.EMPTY_NODE;
+var inst_13298 = [inst_12899,inst_12902];
+var inst_13299 = (new cljs.core.PersistentVector(null,2,(5),inst_13297,inst_13298,null));
+var inst_13300 = cljs.core.reset_BANG_.call(null,farn.core.last_player_rh,inst_13299);
+var inst_13301 = cljs.core.reset_BANG_.call(null,farn.core.last_player_theta,inst_12884);
+var inst_13302 = Math.abs.call(null,inst_12903);
+var inst_13303__$1 = (inst_13302 > (2));
+var state_13385__$1 = (function (){var statearr_13716 = state_13385;
+(statearr_13716[(167)] = inst_13291);
+
+(statearr_13716[(168)] = inst_13300);
+
+(statearr_13716[(169)] = inst_13301);
+
+(statearr_13716[(170)] = inst_13296);
+
+(statearr_13716[(165)] = inst_13303__$1);
+
+(statearr_13716[(171)] = inst_13292);
 
 return statearr_13716;
 })();
-if(cljs.core.truth_(inst_12984)){
-var statearr_13717_14022 = state_13312__$1;
-(statearr_13717_14022[(1)] = (69));
+if(cljs.core.truth_(inst_13303__$1)){
+var statearr_13717_14030 = state_13385__$1;
+(statearr_13717_14030[(1)] = (107));
 
 } else {
-var statearr_13718_14023 = state_13312__$1;
-(statearr_13718_14023[(1)] = (70));
+var statearr_13718_14031 = state_13385__$1;
+(statearr_13718_14031[(1)] = (108));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (71))){
-var inst_12990 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13719_14024 = state_13312__$1;
-(statearr_13719_14024[(2)] = inst_12990);
+if((state_val_13386 === (19))){
+var inst_13383 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_13385__$1,inst_13383);
+} else {
+if((state_val_13386 === (57))){
+var inst_13091 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13091)){
+var statearr_13719_14032 = state_13385__$1;
+(statearr_13719_14032[(1)] = (58));
 
-(statearr_13719_14024[(1)] = (68));
+} else {
+var statearr_13720_14033 = state_13385__$1;
+(statearr_13720_14033[(1)] = (59));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (68))){
+var inst_13111 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13721_14034 = state_13385__$1;
+(statearr_13721_14034[(2)] = inst_13111);
+
+(statearr_13721_14034[(1)] = (65));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (42))){
-var inst_12363 = (state_13312[(55)]);
-var inst_12874 = (state_13312[(132)]);
-var inst_12893 = cljs.core.rand_nth.call(null,inst_12363);
-var inst_12894 = farn.sound.play_sound.call(null,inst_12893,0.4);
-var inst_12895 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12874);
-var inst_12896 = farn.core.main_stage.removeChild(inst_12895);
-var inst_12897 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12874);
-var inst_12898 = farn.core.main_stage.removeChild(inst_12897);
-var inst_12899 = cljs.core.swap_BANG_.call(null,farn.core.player_stars,cljs.core.inc);
-var inst_12900 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_12874);
-var state_13312__$1 = (function (){var statearr_13720 = state_13312;
-(statearr_13720[(195)] = inst_12900);
+if((state_val_13386 === (11))){
+var inst_12486 = (state_13385[(131)]);
+var inst_12483 = (state_13385[(139)]);
+var inst_12486__$1 = cljs.core.nth.call(null,inst_12483,(0),null);
+var inst_12487 = cljs.core.nthnext.call(null,inst_12483,(1));
+var inst_12488 = (inst_12486__$1 == null);
+var inst_12489 = cljs.core.not.call(null,inst_12488);
+var state_13385__$1 = (function (){var statearr_13722 = state_13385;
+(statearr_13722[(172)] = inst_12487);
 
-(statearr_13720[(196)] = inst_12898);
-
-(statearr_13720[(197)] = inst_12899);
-
-(statearr_13720[(198)] = inst_12896);
-
-(statearr_13720[(199)] = inst_12894);
-
-return statearr_13720;
-})();
-var statearr_13721_14025 = state_13312__$1;
-(statearr_13721_14025[(2)] = null);
-
-(statearr_13721_14025[(1)] = (43));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (80))){
-var inst_13024 = (state_13312[(14)]);
-var inst_13044 = (state_13312[(25)]);
-var inst_13044__$1 = cljs.core.seq.call(null,inst_13024);
-var state_13312__$1 = (function (){var statearr_13722 = state_13312;
-(statearr_13722[(25)] = inst_13044__$1);
+(statearr_13722[(131)] = inst_12486__$1);
 
 return statearr_13722;
 })();
-if(inst_13044__$1){
-var statearr_13723_14026 = state_13312__$1;
-(statearr_13723_14026[(1)] = (82));
+if(inst_12489){
+var statearr_13723_14035 = state_13385__$1;
+(statearr_13723_14035[(1)] = (13));
 
 } else {
-var statearr_13724_14027 = state_13312__$1;
-(statearr_13724_14027[(1)] = (83));
+var statearr_13724_14036 = state_13385__$1;
+(statearr_13724_14036[(1)] = (14));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (37))){
-var inst_12958 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13725_14028 = state_13312__$1;
-(statearr_13725_14028[(2)] = inst_12958);
+if((state_val_13386 === (115))){
+var inst_12502 = (state_13385[(107)]);
+var inst_13320 = (state_13385[(2)]);
+var inst_13321 = farn.core.main_stage.children;
+var inst_13322 = inst_13321.sort(inst_12502);
+var inst_13323 = farn.events.next_frame.call(null);
+var state_13385__$1 = (function (){var statearr_13725 = state_13385;
+(statearr_13725[(173)] = inst_13320);
 
-(statearr_13725_14028[(1)] = (34));
+(statearr_13725[(174)] = inst_13322);
 
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (63))){
-var inst_12764 = (state_13312[(54)]);
-var inst_12285 = (state_13312[(58)]);
-var inst_12287 = (state_13312[(77)]);
-var inst_12767 = (state_13312[(81)]);
-var inst_13001 = (state_13312[(2)]);
-var inst_13002 = farn.sprite.set_pos_BANG_.call(null,inst_12285,inst_12764);
-var inst_13003 = farn.sprite.set_pos_BANG_.call(null,inst_12287,inst_12764);
-var inst_13008 = cljs.core.seq.call(null,inst_12767);
-var inst_13009 = inst_13008;
-var inst_13010 = null;
-var inst_13011 = (0);
-var inst_13012 = (0);
-var state_13312__$1 = (function (){var statearr_13726 = state_13312;
-(statearr_13726[(110)] = inst_13009);
-
-(statearr_13726[(27)] = inst_13011);
-
-(statearr_13726[(200)] = inst_13003);
-
-(statearr_13726[(201)] = inst_13002);
-
-(statearr_13726[(16)] = inst_13001);
-
-(statearr_13726[(9)] = inst_13012);
-
-(statearr_13726[(10)] = inst_13010);
-
-return statearr_13726;
+return statearr_13725;
 })();
-var statearr_13727_14029 = state_13312__$1;
-(statearr_13727_14029[(2)] = null);
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(116),inst_13323);
+} else {
+if((state_val_13386 === (9))){
+var inst_12472 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13726_14037 = state_13385__$1;
+(statearr_13726_14037[(2)] = inst_12472);
 
-(statearr_13727_14029[(1)] = (72));
+(statearr_13726_14037[(1)] = (6));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (94))){
-var inst_13095 = (state_13312[(89)]);
-var inst_13094 = (state_13312[(90)]);
-var inst_13097 = (inst_13095 < inst_13094);
-var inst_13098 = inst_13097;
-var state_13312__$1 = state_13312;
-if(cljs.core.truth_(inst_13098)){
-var statearr_13728_14030 = state_13312__$1;
-(statearr_13728_14030[(1)] = (96));
+if((state_val_13386 === (5))){
+var inst_12456 = (state_13385[(81)]);
+var inst_12459 = (state_13385[(14)]);
+var inst_12459__$1 = cljs.core.nth.call(null,inst_12456,(0),null);
+var inst_12460 = cljs.core.nthnext.call(null,inst_12456,(1));
+var inst_12461 = (inst_12459__$1 == null);
+var inst_12462 = cljs.core.not.call(null,inst_12461);
+var state_13385__$1 = (function (){var statearr_13727 = state_13385;
+(statearr_13727[(175)] = inst_12460);
 
-} else {
-var statearr_13729_14031 = state_13312__$1;
-(statearr_13729_14031[(1)] = (97));
+(statearr_13727[(14)] = inst_12459__$1);
 
-}
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (8))){
-var inst_12344 = (state_13312[(102)]);
-var state_13312__$1 = state_13312;
-var statearr_13730_14032 = state_13312__$1;
-(statearr_13730_14032[(2)] = inst_12344);
-
-(statearr_13730_14032[(1)] = (9));
-
-
-return new cljs.core.Keyword(null,"recur","recur",-437573268);
-} else {
-if((state_val_13313 === (49))){
-var inst_12285 = (state_13312[(58)]);
-var inst_12909 = (state_13312[(116)]);
-var inst_12918 = (state_13312[(93)]);
-var inst_12918__$1 = cljs.core.first.call(null,inst_12909);
-var inst_12919 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12918__$1);
-var inst_12920 = farn.sprite.overlap_QMARK_.call(null,inst_12285,inst_12919);
-var state_13312__$1 = (function (){var statearr_13731 = state_13312;
-(statearr_13731[(93)] = inst_12918__$1);
-
-return statearr_13731;
+return statearr_13727;
 })();
-if(inst_12920){
-var statearr_13732_14033 = state_13312__$1;
-(statearr_13732_14033[(1)] = (51));
+if(inst_12462){
+var statearr_13728_14038 = state_13385__$1;
+(statearr_13728_14038[(1)] = (7));
 
 } else {
-var statearr_13733_14034 = state_13312__$1;
-(statearr_13733_14034[(1)] = (52));
+var statearr_13729_14039 = state_13385__$1;
+(statearr_13729_14039[(1)] = (8));
 
 }
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-if((state_val_13313 === (84))){
-var inst_13068 = (state_13312[(2)]);
-var state_13312__$1 = state_13312;
-var statearr_13734_14035 = state_13312__$1;
-(statearr_13734_14035[(2)] = inst_13068);
+if((state_val_13386 === (112))){
+var inst_13312 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13730_14040 = state_13385__$1;
+(statearr_13730_14040[(2)] = inst_13312);
 
-(statearr_13734_14035[(1)] = (81));
+(statearr_13730_14040[(1)] = (109));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (83))){
+var state_13385__$1 = state_13385;
+var statearr_13731_14041 = state_13385__$1;
+(statearr_13731_14041[(2)] = null);
+
+(statearr_13731_14041[(1)] = (84));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (14))){
+var inst_12482 = (state_13385[(137)]);
+var state_13385__$1 = state_13385;
+var statearr_13732_14042 = state_13385__$1;
+(statearr_13732_14042[(2)] = inst_12482);
+
+(statearr_13732_14042[(1)] = (15));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (45))){
+var inst_13030 = (state_13385[(58)]);
+var inst_13034 = cljs.core.chunk_first.call(null,inst_13030);
+var inst_13035 = cljs.core.chunk_rest.call(null,inst_13030);
+var inst_13036 = cljs.core.count.call(null,inst_13034);
+var inst_12987 = inst_13035;
+var inst_12988 = inst_13034;
+var inst_12989 = inst_13036;
+var inst_12990 = (0);
+var state_13385__$1 = (function (){var statearr_13733 = state_13385;
+(statearr_13733[(92)] = inst_12989);
+
+(statearr_13733[(93)] = inst_12988);
+
+(statearr_13733[(94)] = inst_12987);
+
+(statearr_13733[(95)] = inst_12990);
+
+return statearr_13733;
+})();
+var statearr_13734_14043 = state_13385__$1;
+(statearr_13734_14043[(2)] = null);
+
+(statearr_13734_14043[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (53))){
+var inst_13067 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13735_14044 = state_13385__$1;
+(statearr_13735_14044[(2)] = inst_13067);
+
+(statearr_13735_14044[(1)] = (50));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (78))){
+var inst_13163 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13736_14045 = state_13385__$1;
+(statearr_13736_14045[(2)] = inst_13163);
+
+(statearr_13736_14045[(1)] = (76));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (132))){
+var inst_12885 = (state_13385[(126)]);
+var inst_13370 = (inst_12885 - 0.01);
+var inst_13371 = (- farn.core.player_turn_speed);
+var inst_13372 = ((inst_13370 > inst_13371) ? inst_13370 : inst_13371);
+var state_13385__$1 = state_13385;
+var statearr_13737_14046 = state_13385__$1;
+(statearr_13737_14046[(2)] = inst_13372);
+
+(statearr_13737_14046[(1)] = (134));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (26))){
+var inst_12980 = (state_13385[(2)]);
+var inst_12985 = cljs.core.deref.call(null,farn.core.pickup_store);
+var inst_12986 = cljs.core.seq.call(null,inst_12985);
+var inst_12987 = inst_12986;
+var inst_12988 = null;
+var inst_12989 = (0);
+var inst_12990 = (0);
+var state_13385__$1 = (function (){var statearr_13738 = state_13385;
+(statearr_13738[(92)] = inst_12989);
+
+(statearr_13738[(93)] = inst_12988);
+
+(statearr_13738[(128)] = inst_12980);
+
+(statearr_13738[(94)] = inst_12987);
+
+(statearr_13738[(95)] = inst_12990);
+
+return statearr_13738;
+})();
+var statearr_13739_14047 = state_13385__$1;
+(statearr_13739_14047[(2)] = null);
+
+(statearr_13739_14047[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (123))){
+var inst_13348 = farn.events.is_pressed_QMARK_.call(null,new cljs.core.Keyword(null,"up","up",-269712113));
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13348)){
+var statearr_13740_14048 = state_13385__$1;
+(statearr_13740_14048[(1)] = (126));
+
+} else {
+var statearr_13741_14049 = state_13385__$1;
+(statearr_13741_14049[(1)] = (127));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (16))){
+var inst_12482 = (state_13385[(137)]);
+var inst_12487 = (state_13385[(172)]);
+var inst_12494 = (state_13385[(2)]);
+var inst_12495 = cljs.core.conj.call(null,inst_12482,inst_12494);
+var inst_12482__$1 = inst_12495;
+var inst_12483 = inst_12487;
+var state_13385__$1 = (function (){var statearr_13742 = state_13385;
+(statearr_13742[(137)] = inst_12482__$1);
+
+(statearr_13742[(139)] = inst_12483);
+
+return statearr_13742;
+})();
+var statearr_13743_14050 = state_13385__$1;
+(statearr_13743_14050[(2)] = null);
+
+(statearr_13743_14050[(1)] = (11));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (133))){
+var inst_12885 = (state_13385[(126)]);
+var inst_13374 = (0.5 * inst_12885);
+var state_13385__$1 = state_13385;
+var statearr_13744_14051 = state_13385__$1;
+(statearr_13744_14051[(2)] = inst_13374);
+
+(statearr_13744_14051[(1)] = (134));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (81))){
+var inst_13161 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13745_14052 = state_13385__$1;
+(statearr_13745_14052[(2)] = inst_13161);
+
+(statearr_13745_14052[(1)] = (78));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (120))){
+var state_13385__$1 = state_13385;
+var statearr_13746_14053 = state_13385__$1;
+(statearr_13746_14053[(2)] = (0));
+
+(statearr_13746_14053[(1)] = (122));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (79))){
+var inst_13143 = (state_13385[(12)]);
+var inst_13157 = (inst_13143 + (1));
+var inst_13143__$1 = inst_13157;
+var state_13385__$1 = (function (){var statearr_13747 = state_13385;
+(statearr_13747[(12)] = inst_13143__$1);
+
+return statearr_13747;
+})();
+var statearr_13748_14054 = state_13385__$1;
+(statearr_13748_14054[(2)] = null);
+
+(statearr_13748_14054[(1)] = (77));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (38))){
+var inst_12995 = (state_13385[(50)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12980 = (state_13385[(128)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_13002 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_12995);
+var inst_13003 = farn.core.main_stage.removeChild(inst_13002);
+var inst_13004 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
+var inst_13006 = cljs.core.deref.call(null,farn.core.last_player_position);
+var inst_13007 = cljs.core.nth.call(null,inst_13006,(0),null);
+var inst_13008 = cljs.core.nth.call(null,inst_13006,(1),null);
+var inst_13009 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_12995);
+var inst_13010 = farn.core.game_completed.call(null,farn.core.main_stage,inst_12417,inst_12397,inst_13007,inst_13008,inst_12503,inst_12980,inst_12586,inst_12502,inst_13009);
+var state_13385__$1 = (function (){var statearr_13752 = state_13385;
+(statearr_13752[(176)] = inst_13003);
+
+(statearr_13752[(177)] = inst_13004);
+
+return statearr_13752;
+})();
+return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_13385__$1,(41),inst_13010);
+} else {
+if((state_val_13386 === (126))){
+var inst_12883 = (state_13385[(112)]);
+var inst_13350 = (inst_12883 + farn.core.player_acceleration);
+var inst_13351 = ((inst_13350 < farn.core.player_max_speed) ? inst_13350 : farn.core.player_max_speed);
+var state_13385__$1 = state_13385;
+var statearr_13753_14055 = state_13385__$1;
+(statearr_13753_14055[(2)] = inst_13351);
+
+(statearr_13753_14055[(1)] = (128));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (98))){
+var inst_13225 = (state_13385[(7)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_13227 = (state_13385[(9)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_13226 = (state_13385[(10)]);
+var inst_13228 = (state_13385[(11)]);
+var inst_12881 = (state_13385[(97)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13233 = cljs.core._nth.call(null,inst_13226,inst_13228);
+var inst_13235 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13233);
+var inst_13236 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13233);
+var inst_13237 = inst_12503.call(null,inst_13235,inst_13236,inst_12892,inst_12893,inst_12899,inst_12902);
+var inst_13238 = cljs.core.nth.call(null,inst_13237,(0),null);
+var inst_13239 = cljs.core.nth.call(null,inst_13237,(1),null);
+var inst_13240 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13233);
+var inst_13241 = farn.sprite.set_pos_BANG_.call(null,inst_13240,inst_13238,inst_13239);
+var inst_13242 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13233);
+var inst_13243 = farn.sprite.set_pos_BANG_.call(null,inst_13242,inst_13238,inst_13239);
+var inst_13244 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13233);
+var inst_13245 = (inst_12881 * farn.core.pickup_bounce_speed);
+var inst_13246 = Math.sin.call(null,inst_13245);
+var inst_13247 = ((1) + inst_13246);
+var inst_13248 = (farn.core.pickup_bounce_height * inst_13247);
+var inst_13249 = (farn.core.pickup_vertical_offset + inst_13248);
+var inst_13250 = farn.sprite.set_pivot_BANG_.call(null,inst_13244,(0),inst_13249);
+var inst_13251 = (inst_13228 + (1));
+var tmp13749 = inst_13225;
+var tmp13750 = inst_13227;
+var tmp13751 = inst_13226;
+var inst_13225__$1 = tmp13749;
+var inst_13226__$1 = tmp13751;
+var inst_13227__$1 = tmp13750;
+var inst_13228__$1 = inst_13251;
+var state_13385__$1 = (function (){var statearr_13754 = state_13385;
+(statearr_13754[(178)] = inst_13241);
+
+(statearr_13754[(7)] = inst_13225__$1);
+
+(statearr_13754[(179)] = inst_13250);
+
+(statearr_13754[(9)] = inst_13227__$1);
+
+(statearr_13754[(10)] = inst_13226__$1);
+
+(statearr_13754[(11)] = inst_13228__$1);
+
+(statearr_13754[(180)] = inst_13243);
+
+return statearr_13754;
+})();
+var statearr_13755_14056 = state_13385__$1;
+(statearr_13755_14056[(2)] = null);
+
+(statearr_13755_14056[(1)] = (96));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (124))){
+var state_13385__$1 = state_13385;
+var statearr_13756_14057 = state_13385__$1;
+(statearr_13756_14057[(2)] = null);
+
+(statearr_13756_14057[(1)] = (125));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (87))){
+var inst_13211 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13757_14058 = state_13385__$1;
+(statearr_13757_14058[(2)] = inst_13211);
+
+(statearr_13757_14058[(1)] = (84));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (30))){
+var inst_12989 = (state_13385[(92)]);
+var inst_12990 = (state_13385[(95)]);
+var inst_12992 = (inst_12990 < inst_12989);
+var inst_12993 = inst_12992;
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_12993)){
+var statearr_13758_14059 = state_13385__$1;
+(statearr_13758_14059[(1)] = (32));
+
+} else {
+var statearr_13759_14060 = state_13385__$1;
+(statearr_13759_14060[(1)] = (33));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (73))){
+var inst_13216 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13760_14061 = state_13385__$1;
+(statearr_13760_14061[(2)] = inst_13216);
+
+(statearr_13760_14061[(1)] = (70));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (96))){
+var inst_13227 = (state_13385[(9)]);
+var inst_13228 = (state_13385[(11)]);
+var inst_13230 = (inst_13228 < inst_13227);
+var inst_13231 = inst_13230;
+var state_13385__$1 = state_13385;
+if(cljs.core.truth_(inst_13231)){
+var statearr_13761_14062 = state_13385__$1;
+(statearr_13761_14062[(1)] = (98));
+
+} else {
+var statearr_13762_14063 = state_13385__$1;
+(statearr_13762_14063[(1)] = (99));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (10))){
+var inst_12460 = (state_13385[(175)]);
+var inst_12455 = (state_13385[(79)]);
+var inst_12467 = (state_13385[(2)]);
+var inst_12468 = cljs.core.conj.call(null,inst_12455,inst_12467);
+var inst_12455__$1 = inst_12468;
+var inst_12456 = inst_12460;
+var state_13385__$1 = (function (){var statearr_13763 = state_13385;
+(statearr_13763[(79)] = inst_12455__$1);
+
+(statearr_13763[(81)] = inst_12456);
+
+return statearr_13763;
+})();
+var statearr_13764_14064 = state_13385__$1;
+(statearr_13764_14064[(2)] = null);
+
+(statearr_13764_14064[(1)] = (5));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (18))){
+var inst_12427 = (state_13385[(60)]);
+var inst_12388 = (state_13385[(61)]);
+var inst_12928 = (state_13385[(102)]);
+var inst_12421 = (state_13385[(62)]);
+var inst_12895 = (state_13385[(103)]);
+var inst_12417 = (state_13385[(63)]);
+var inst_12474 = (state_13385[(51)]);
+var inst_12447 = (state_13385[(78)]);
+var inst_12383 = (state_13385[(45)]);
+var inst_12591 = (state_13385[(40)]);
+var inst_12916 = (state_13385[(104)]);
+var inst_12397 = (state_13385[(64)]);
+var inst_12892 = (state_13385[(84)]);
+var inst_12882 = (state_13385[(25)]);
+var inst_12501 = (state_13385[(26)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12416 = (state_13385[(65)]);
+var inst_12396 = (state_13385[(30)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_12887 = (state_13385[(105)]);
+var inst_12395 = (state_13385[(66)]);
+var inst_12903 = (state_13385[(106)]);
+var inst_12398 = (state_13385[(31)]);
+var inst_12502 = (state_13385[(107)]);
+var inst_12437 = (state_13385[(67)]);
+var inst_12590 = (state_13385[(108)]);
+var inst_12907 = (state_13385[(109)]);
+var inst_12506 = (state_13385[(110)]);
+var inst_12919 = (state_13385[(111)]);
+var inst_12883 = (state_13385[(112)]);
+var inst_12391 = (state_13385[(68)]);
+var inst_12418 = (state_13385[(69)]);
+var inst_12430 = (state_13385[(70)]);
+var inst_12904 = (state_13385[(117)]);
+var inst_12394 = (state_13385[(71)]);
+var inst_12884 = (state_13385[(118)]);
+var inst_12424 = (state_13385[(72)]);
+var inst_12585 = (state_13385[(119)]);
+var inst_12578 = (state_13385[(120)]);
+var inst_12411 = (state_13385[(73)]);
+var inst_12906 = (state_13385[(121)]);
+var inst_12896 = (state_13385[(122)]);
+var inst_12408 = (state_13385[(74)]);
+var inst_12905 = (state_13385[(123)]);
+var inst_12589 = (state_13385[(124)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12387 = (state_13385[(75)]);
+var inst_12384 = (state_13385[(47)]);
+var inst_12886 = (state_13385[(32)]);
+var inst_12894 = (state_13385[(125)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_12393 = (state_13385[(76)]);
+var inst_12444 = (state_13385[(77)]);
+var inst_12881 = (state_13385[(97)]);
+var inst_12885 = (state_13385[(126)]);
+var inst_12888 = (state_13385[(15)]);
+var inst_12908 = (state_13385[(127)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_12892__$1 = cljs.core.nth.call(null,inst_12882,(0),null);
+var inst_12893__$1 = cljs.core.nth.call(null,inst_12882,(1),null);
+var inst_12894__$1 = (inst_12884 + Math.PI);
+var inst_12895__$1 = Math.cos.call(null,inst_12894__$1);
+var inst_12896__$1 = Math.sin.call(null,inst_12894__$1);
+var inst_12897 = ((2) * Math.PI);
+var inst_12898 = (inst_12897 - inst_12894__$1);
+var inst_12899__$1 = Math.cos.call(null,inst_12898);
+var inst_12900 = ((2) * Math.PI);
+var inst_12901 = (inst_12900 - inst_12894__$1);
+var inst_12902__$1 = Math.sin.call(null,inst_12901);
+var inst_12903__$1 = (inst_12883 * inst_12895__$1);
+var inst_12904__$1 = (inst_12883 * inst_12896__$1);
+var inst_12905__$1 = farn.core.main_stage.children.length;
+var inst_12906__$1 = farn.spatial.which_cell.call(null,inst_12882,farn.core.cell_size);
+var inst_12907__$1 = cljs.core.nth.call(null,inst_12906__$1,(0),null);
+var inst_12908__$1 = cljs.core.nth.call(null,inst_12906__$1,(1),null);
+var inst_12909 = window.innerWidth;
+var inst_12910 = window.innerHeight;
+var inst_12911 = (farn.core.isometric_factor * inst_12910);
+var inst_12912 = ((inst_12909 > inst_12911) ? inst_12909 : inst_12911);
+var inst_12913 = (inst_12912 / (2));
+var inst_12914 = (inst_12913 / farn.core.cell_size);
+var inst_12915 = ((1) + inst_12914);
+var inst_12916__$1 = (inst_12915 | (0));
+var inst_12917 = (- inst_12916__$1);
+var inst_12918 = (inst_12916__$1 + (1));
+var inst_12919__$1 = cljs.core.range.call(null,inst_12917,inst_12918);
+var inst_12926 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919__$1;
+var player_shadow = inst_12398;
+var player_cell = inst_12906__$1;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905__$1;
+var y = inst_12893__$1;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908__$1;
+var player_cell_x = inst_12907__$1;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var vec__12891 = inst_12906__$1;
+var rhx = inst_12899__$1;
+var rhy = inst_12902__$1;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var speed = inst_12883;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903__$1;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916__$1;
+var vy = inst_12904__$1;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var hy = inst_12896__$1;
+var wait = inst_12391;
+var hx = inst_12895__$1;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12920(s__12921){
+return (new cljs.core.LazySeq(null,((function (add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801){
+return (function (){
+var s__12921__$1 = s__12921;
+while(true){
+var temp__4126__auto__ = cljs.core.seq.call(null,s__12921__$1);
+if(temp__4126__auto__){
+var xs__4624__auto__ = temp__4126__auto__;
+var dx = cljs.core.first.call(null,xs__4624__auto__);
+var iterys__4382__auto__ = ((function (s__12921__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801){
+return (function iter__12922(s__12923){
+return (new cljs.core.LazySeq(null,((function (s__12921__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801){
+return (function (){
+var s__12923__$1 = s__12923;
+while(true){
+var temp__4126__auto____$1 = cljs.core.seq.call(null,s__12923__$1);
+if(temp__4126__auto____$1){
+var s__12923__$2 = temp__4126__auto____$1;
+if(cljs.core.chunked_seq_QMARK_.call(null,s__12923__$2)){
+var c__4384__auto__ = cljs.core.chunk_first.call(null,s__12923__$2);
+var size__4385__auto__ = cljs.core.count.call(null,c__4384__auto__);
+var b__12925 = cljs.core.chunk_buffer.call(null,size__4385__auto__);
+if((function (){var i__12924 = (0);
+while(true){
+if((i__12924 < size__4385__auto__)){
+var dy = cljs.core._nth.call(null,c__4384__auto__,i__12924);
+cljs.core.chunk_append.call(null,b__12925,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(dx + player_cell_x),(dy + player_cell_y)], null));
+
+var G__14065 = (i__12924 + (1));
+i__12924 = G__14065;
+continue;
+} else {
+return true;
+}
+break;
+}
+})()){
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12925),iter__12922.call(null,cljs.core.chunk_rest.call(null,s__12923__$2)));
+} else {
+return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__12925),null);
+}
+} else {
+var dy = cljs.core.first.call(null,s__12923__$2);
+return cljs.core.cons.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(dx + player_cell_x),(dy + player_cell_y)], null),iter__12922.call(null,cljs.core.rest.call(null,s__12923__$2)));
+}
+} else {
+return null;
+}
+break;
+}
+});})(s__12921__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801))
+,null,null));
+});})(s__12921__$1,dx,xs__4624__auto__,temp__4126__auto__,add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801))
+;
+var fs__4383__auto__ = cljs.core.seq.call(null,iterys__4382__auto__.call(null,render_range));
+if(fs__4383__auto__){
+return cljs.core.concat.call(null,fs__4383__auto__,iter__12920.call(null,cljs.core.rest.call(null,s__12921__$1)));
+} else {
+var G__14066 = cljs.core.rest.call(null,s__12921__$1);
+s__12921__$1 = G__14066;
+continue;
+}
+} else {
+return null;
+}
+break;
+}
+});})(add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801))
+,null,null));
+});
+;})(add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12927 = inst_12926.call(null,inst_12919__$1);
+var inst_12928__$1 = cljs.core.doall.call(null,inst_12927);
+var inst_12929 = (function (){var add_cell_BANG_ = inst_12590;
+var depth_compare = inst_12502;
+var d_theta = inst_12885;
+var x = inst_12892__$1;
+var player_stars_text = inst_12421;
+var player_standing_texs = inst_12408;
+var cells = inst_12886;
+var vec__12890 = inst_12882;
+var render_range = inst_12919__$1;
+var player_shadow = inst_12398;
+var player_cell = inst_12906__$1;
+var close_QMARK_ = inst_12506;
+var sprite_count = inst_12887;
+var player_pos = inst_12589;
+var calc_theta = inst_12894__$1;
+var obstacle_types = inst_12430;
+var polar_object_coords = inst_12503;
+var trees = inst_12437;
+var player_hit = inst_12888;
+var old_sprite_count = inst_12905__$1;
+var y = inst_12893__$1;
+var player_standing_sway = inst_12411;
+var player_cell_y = inst_12908__$1;
+var player_cell_x = inst_12907__$1;
+var game_sprites = inst_12585;
+var loader = inst_12383;
+var player_walking_texs = inst_12416;
+var player_and_surrounds = inst_12928__$1;
+var vec__12891 = inst_12906__$1;
+var rhx = inst_12899__$1;
+var rhy = inst_12902__$1;
+var frame_num = inst_12881;
+var shadow_tex = inst_12397;
+var tex = inst_12395;
+var speed = inst_12883;
+var hit_sfx = inst_12501;
+var lobster_big = inst_12387;
+var game_map = inst_12578;
+var star_tex = inst_12417;
+var pos = inst_12882;
+var remove_cell_BANG_ = inst_12591;
+var theta = inst_12884;
+var tufts = inst_12444;
+var game_space = inst_12586;
+var pickup_textures = inst_12424;
+var perlin_channel = inst_12384;
+var title_text = inst_12394;
+var vx = inst_12903__$1;
+var floor_objects = inst_12427;
+var pickup_sfx = inst_12474;
+var tilemap = inst_12393;
+var render_distance = inst_12916__$1;
+var vy = inst_12904__$1;
+var make_pickup = inst_12447;
+var varela = inst_12388;
+var hy = inst_12896__$1;
+var wait = inst_12391;
+var hx = inst_12895__$1;
+var player = inst_12396;
+var player_stars_icon = inst_12418;
+return ((function (add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,inst_12926,inst_12927,inst_12928__$1,state_val_13386,c__6459__auto___13801){
+return (function (test_cell,cells__$1){
+if(!(cljs.core.contains_QMARK_.call(null,cells__$1,test_cell))){
+add_cell_BANG_.call(null,test_cell);
+
+return cljs.core.conj.call(null,cells__$1,test_cell);
+} else {
+return cells__$1;
+}
+});
+;})(add_cell_BANG_,depth_compare,d_theta,x,player_stars_text,player_standing_texs,cells,vec__12890,render_range,player_shadow,player_cell,close_QMARK_,sprite_count,player_pos,calc_theta,obstacle_types,polar_object_coords,trees,player_hit,old_sprite_count,y,player_standing_sway,player_cell_y,player_cell_x,game_sprites,loader,player_walking_texs,player_and_surrounds,vec__12891,rhx,rhy,frame_num,shadow_tex,tex,speed,hit_sfx,lobster_big,game_map,star_tex,pos,remove_cell_BANG_,theta,tufts,game_space,pickup_textures,perlin_channel,title_text,vx,floor_objects,pickup_sfx,tilemap,render_distance,vy,make_pickup,varela,hy,wait,hx,player,player_stars_icon,inst_12427,inst_12388,inst_12928,inst_12421,inst_12895,inst_12417,inst_12474,inst_12447,inst_12383,inst_12591,inst_12916,inst_12397,inst_12892,inst_12882,inst_12501,inst_12893,inst_12416,inst_12396,inst_12899,inst_12887,inst_12395,inst_12903,inst_12398,inst_12502,inst_12437,inst_12590,inst_12907,inst_12506,inst_12919,inst_12883,inst_12391,inst_12418,inst_12430,inst_12904,inst_12394,inst_12884,inst_12424,inst_12585,inst_12578,inst_12411,inst_12906,inst_12896,inst_12408,inst_12905,inst_12589,inst_12503,inst_12387,inst_12384,inst_12886,inst_12894,inst_12586,inst_12393,inst_12444,inst_12881,inst_12885,inst_12888,inst_12908,inst_12902,inst_12892__$1,inst_12893__$1,inst_12894__$1,inst_12895__$1,inst_12896__$1,inst_12897,inst_12898,inst_12899__$1,inst_12900,inst_12901,inst_12902__$1,inst_12903__$1,inst_12904__$1,inst_12905__$1,inst_12906__$1,inst_12907__$1,inst_12908__$1,inst_12909,inst_12910,inst_12911,inst_12912,inst_12913,inst_12914,inst_12915,inst_12916__$1,inst_12917,inst_12918,inst_12919__$1,inst_12926,inst_12927,inst_12928__$1,state_val_13386,c__6459__auto___13801))
+})();
+var inst_12933 = cljs.core.nth.call(null,inst_12928__$1,(0),null);
+var inst_12934 = cljs.core.nthnext.call(null,inst_12928__$1,(1));
+var inst_12935 = inst_12886;
+var inst_12936 = inst_12928__$1;
+var state_13385__$1 = (function (){var statearr_13765 = state_13385;
+(statearr_13765[(101)] = inst_12929);
+
+(statearr_13765[(102)] = inst_12928__$1);
+
+(statearr_13765[(103)] = inst_12895__$1);
+
+(statearr_13765[(104)] = inst_12916__$1);
+
+(statearr_13765[(84)] = inst_12892__$1);
+
+(statearr_13765[(85)] = inst_12893__$1);
+
+(statearr_13765[(86)] = inst_12899__$1);
+
+(statearr_13765[(21)] = inst_12936);
+
+(statearr_13765[(106)] = inst_12903__$1);
+
+(statearr_13765[(181)] = inst_12934);
+
+(statearr_13765[(109)] = inst_12907__$1);
+
+(statearr_13765[(111)] = inst_12919__$1);
+
+(statearr_13765[(182)] = inst_12933);
+
+(statearr_13765[(117)] = inst_12904__$1);
+
+(statearr_13765[(132)] = inst_12935);
+
+(statearr_13765[(121)] = inst_12906__$1);
+
+(statearr_13765[(122)] = inst_12896__$1);
+
+(statearr_13765[(123)] = inst_12905__$1);
+
+(statearr_13765[(125)] = inst_12894__$1);
+
+(statearr_13765[(127)] = inst_12908__$1);
+
+(statearr_13765[(89)] = inst_12902__$1);
+
+return statearr_13765;
+})();
+var statearr_13766_14067 = state_13385__$1;
+(statearr_13766_14067[(2)] = null);
+
+(statearr_13766_14067[(1)] = (20));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (105))){
+var inst_12892 = (state_13385[(84)]);
+var inst_12893 = (state_13385[(85)]);
+var inst_12899 = (state_13385[(86)]);
+var inst_13254 = (state_13385[(48)]);
+var inst_12503 = (state_13385[(88)]);
+var inst_12881 = (state_13385[(97)]);
+var inst_12902 = (state_13385[(89)]);
+var inst_13263 = cljs.core.first.call(null,inst_13254);
+var inst_13265 = new cljs.core.Keyword(null,"pos","pos",-864607220).cljs$core$IFn$_invoke$arity$1(inst_13263);
+var inst_13266 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13263);
+var inst_13267 = inst_12503.call(null,inst_13265,inst_13266,inst_12892,inst_12893,inst_12899,inst_12902);
+var inst_13268 = cljs.core.nth.call(null,inst_13267,(0),null);
+var inst_13269 = cljs.core.nth.call(null,inst_13267,(1),null);
+var inst_13270 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13263);
+var inst_13271 = farn.sprite.set_pos_BANG_.call(null,inst_13270,inst_13268,inst_13269);
+var inst_13272 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13263);
+var inst_13273 = farn.sprite.set_pos_BANG_.call(null,inst_13272,inst_13268,inst_13269);
+var inst_13274 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13263);
+var inst_13275 = (inst_12881 * farn.core.pickup_bounce_speed);
+var inst_13276 = Math.sin.call(null,inst_13275);
+var inst_13277 = ((1) + inst_13276);
+var inst_13278 = (farn.core.pickup_bounce_height * inst_13277);
+var inst_13279 = (farn.core.pickup_vertical_offset + inst_13278);
+var inst_13280 = farn.sprite.set_pivot_BANG_.call(null,inst_13274,(0),inst_13279);
+var inst_13281 = cljs.core.next.call(null,inst_13254);
+var inst_13225 = inst_13281;
+var inst_13226 = null;
+var inst_13227 = (0);
+var inst_13228 = (0);
+var state_13385__$1 = (function (){var statearr_13767 = state_13385;
+(statearr_13767[(7)] = inst_13225);
+
+(statearr_13767[(183)] = inst_13271);
+
+(statearr_13767[(184)] = inst_13273);
+
+(statearr_13767[(9)] = inst_13227);
+
+(statearr_13767[(185)] = inst_13280);
+
+(statearr_13767[(10)] = inst_13226);
+
+(statearr_13767[(11)] = inst_13228);
+
+return statearr_13767;
+})();
+var statearr_13768_14068 = state_13385__$1;
+(statearr_13768_14068[(2)] = null);
+
+(statearr_13768_14068[(1)] = (96));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (52))){
+var inst_12474 = (state_13385[(51)]);
+var inst_13039 = (state_13385[(59)]);
+var inst_13058 = cljs.core.rand_nth.call(null,inst_12474);
+var inst_13059 = farn.sound.play_sound.call(null,inst_13058,0.4);
+var inst_13060 = new cljs.core.Keyword(null,"sprite","sprite",172516848).cljs$core$IFn$_invoke$arity$1(inst_13039);
+var inst_13061 = farn.core.main_stage.removeChild(inst_13060);
+var inst_13062 = new cljs.core.Keyword(null,"shadow","shadow",873231803).cljs$core$IFn$_invoke$arity$1(inst_13039);
+var inst_13063 = farn.core.main_stage.removeChild(inst_13062);
+var inst_13064 = cljs.core.swap_BANG_.call(null,farn.core.player_stars,cljs.core.inc);
+var inst_13065 = cljs.core.swap_BANG_.call(null,farn.core.pickup_store,cljs.core.disj,inst_13039);
+var state_13385__$1 = (function (){var statearr_13769 = state_13385;
+(statearr_13769[(186)] = inst_13059);
+
+(statearr_13769[(187)] = inst_13064);
+
+(statearr_13769[(188)] = inst_13065);
+
+(statearr_13769[(189)] = inst_13063);
+
+(statearr_13769[(190)] = inst_13061);
+
+return statearr_13769;
+})();
+var statearr_13770_14069 = state_13385__$1;
+(statearr_13770_14069[(2)] = null);
+
+(statearr_13770_14069[(1)] = (53));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (114))){
+var inst_13318 = cljs.core.reset_BANG_.call(null,farn.core.player_animation,new cljs.core.Keyword(null,"standing","standing",-1248340762));
+var state_13385__$1 = state_13385;
+var statearr_13771_14070 = state_13385__$1;
+(statearr_13771_14070[(2)] = inst_13318);
+
+(statearr_13771_14070[(1)] = (115));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (67))){
+var state_13385__$1 = state_13385;
+var statearr_13772_14071 = state_13385__$1;
+(statearr_13772_14071[(2)] = null);
+
+(statearr_13772_14071[(1)] = (68));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (71))){
+var inst_13131 = (state_13385[(33)]);
+var inst_13139 = (state_13385[(83)]);
+var inst_13133 = (state_13385[(34)]);
+var inst_13140 = (state_13385[(87)]);
+var inst_12586 = (state_13385[(19)]);
+var inst_13138 = cljs.core._nth.call(null,inst_13131,inst_13133);
+var inst_13139__$1 = inst_12586.call(null,inst_13138);
+var inst_13140__$1 = cljs.core.count.call(null,inst_13139__$1);
+var inst_13141 = (inst_13140__$1 > (0));
+var state_13385__$1 = (function (){var statearr_13773 = state_13385;
+(statearr_13773[(83)] = inst_13139__$1);
+
+(statearr_13773[(87)] = inst_13140__$1);
+
+return statearr_13773;
+})();
+if(cljs.core.truth_(inst_13141)){
+var statearr_13774_14072 = state_13385__$1;
+(statearr_13774_14072[(1)] = (74));
+
+} else {
+var statearr_13775_14073 = state_13385__$1;
+(statearr_13775_14073[(1)] = (75));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (42))){
+var inst_13030 = (state_13385[(58)]);
+var inst_13032 = cljs.core.chunked_seq_QMARK_.call(null,inst_13030);
+var state_13385__$1 = state_13385;
+if(inst_13032){
+var statearr_13779_14074 = state_13385__$1;
+(statearr_13779_14074[(1)] = (45));
+
+} else {
+var statearr_13780_14075 = state_13385__$1;
+(statearr_13780_14075[(1)] = (46));
+
+}
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (80))){
+var state_13385__$1 = state_13385;
+var statearr_13781_14076 = state_13385__$1;
+(statearr_13781_14076[(2)] = null);
+
+(statearr_13781_14076[(1)] = (81));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (37))){
+var inst_12989 = (state_13385[(92)]);
+var inst_12988 = (state_13385[(93)]);
+var inst_12987 = (state_13385[(94)]);
+var inst_12990 = (state_13385[(95)]);
+var inst_13026 = (state_13385[(2)]);
+var inst_13027 = (inst_12990 + (1));
+var tmp13776 = inst_12989;
+var tmp13777 = inst_12988;
+var tmp13778 = inst_12987;
+var inst_12987__$1 = tmp13778;
+var inst_12988__$1 = tmp13777;
+var inst_12989__$1 = tmp13776;
+var inst_12990__$1 = inst_13027;
+var state_13385__$1 = (function (){var statearr_13782 = state_13385;
+(statearr_13782[(191)] = inst_13026);
+
+(statearr_13782[(92)] = inst_12989__$1);
+
+(statearr_13782[(93)] = inst_12988__$1);
+
+(statearr_13782[(94)] = inst_12987__$1);
+
+(statearr_13782[(95)] = inst_12990__$1);
+
+return statearr_13782;
+})();
+var statearr_13783_14077 = state_13385__$1;
+(statearr_13783_14077[(2)] = null);
+
+(statearr_13783_14077[(1)] = (30));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (63))){
+var inst_12883 = (state_13385[(112)]);
+var inst_13116 = (state_13385[(2)]);
+var inst_13117 = cljs.core.reset_BANG_.call(null,farn.core.player_stars,(0));
+var inst_13118 = (inst_12883 / farn.core.player_max_speed);
+var inst_13119 = ((30) * inst_13118);
+var state_13385__$1 = (function (){var statearr_13784 = state_13385;
+(statearr_13784[(192)] = inst_13117);
+
+(statearr_13784[(193)] = inst_13116);
+
+return statearr_13784;
+})();
+var statearr_13785_14078 = state_13385__$1;
+(statearr_13785_14078[(2)] = inst_13119);
+
+(statearr_13785_14078[(1)] = (60));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (94))){
+var state_13385__$1 = state_13385;
+var statearr_13786_14079 = state_13385__$1;
+(statearr_13786_14079[(2)] = null);
+
+(statearr_13786_14079[(1)] = (95));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (8))){
+var inst_12455 = (state_13385[(79)]);
+var state_13385__$1 = state_13385;
+var statearr_13787_14080 = state_13385__$1;
+(statearr_13787_14080[(2)] = inst_12455);
+
+(statearr_13787_14080[(1)] = (9));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (49))){
+var state_13385__$1 = state_13385;
+var statearr_13788_14081 = state_13385__$1;
+(statearr_13788_14081[(2)] = null);
+
+(statearr_13788_14081[(1)] = (50));
+
+
+return new cljs.core.Keyword(null,"recur","recur",-437573268);
+} else {
+if((state_val_13386 === (84))){
+var inst_13214 = (state_13385[(2)]);
+var state_13385__$1 = state_13385;
+var statearr_13789_14082 = state_13385__$1;
+(statearr_13789_14082[(2)] = inst_13214);
+
+(statearr_13789_14082[(1)] = (73));
 
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
@@ -9530,32 +9457,23 @@ return null;
 }
 }
 }
-}
-}
-}
-}
-}
-}
-}
-}
-}
-});})(c__6459__auto___13746))
+});})(c__6459__auto___13801))
 ;
-return ((function (switch__6444__auto__,c__6459__auto___13746){
+return ((function (switch__6444__auto__,c__6459__auto___13801){
 return (function() {
 var state_machine__6445__auto__ = null;
 var state_machine__6445__auto____0 = (function (){
-var statearr_13738 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-(statearr_13738[(0)] = state_machine__6445__auto__);
+var statearr_13793 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+(statearr_13793[(0)] = state_machine__6445__auto__);
 
-(statearr_13738[(1)] = (1));
+(statearr_13793[(1)] = (1));
 
-return statearr_13738;
+return statearr_13793;
 });
-var state_machine__6445__auto____1 = (function (state_13312){
+var state_machine__6445__auto____1 = (function (state_13385){
 while(true){
 var ret_value__6446__auto__ = (function (){try{while(true){
-var result__6447__auto__ = switch__6444__auto__.call(null,state_13312);
+var result__6447__auto__ = switch__6444__auto__.call(null,state_13385);
 if(cljs.core.keyword_identical_QMARK_.call(null,result__6447__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
 continue;
 } else {
@@ -9563,23 +9481,23 @@ return result__6447__auto__;
 }
 break;
 }
-}catch (e13739){if((e13739 instanceof Object)){
-var ex__6448__auto__ = e13739;
-var statearr_13740_14036 = state_13312;
-(statearr_13740_14036[(5)] = ex__6448__auto__);
+}catch (e13794){if((e13794 instanceof Object)){
+var ex__6448__auto__ = e13794;
+var statearr_13795_14083 = state_13385;
+(statearr_13795_14083[(5)] = ex__6448__auto__);
 
 
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_13312);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_13385);
 
 return new cljs.core.Keyword(null,"recur","recur",-437573268);
 } else {
-throw e13739;
+throw e13794;
 
 }
 }})();
 if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__6446__auto__,new cljs.core.Keyword(null,"recur","recur",-437573268))){
-var G__14037 = state_13312;
-state_13312 = G__14037;
+var G__14084 = state_13385;
+state_13385 = G__14084;
 continue;
 } else {
 return ret_value__6446__auto__;
@@ -9587,12 +9505,12 @@ return ret_value__6446__auto__;
 break;
 }
 });
-state_machine__6445__auto__ = function(state_13312){
+state_machine__6445__auto__ = function(state_13385){
 switch(arguments.length){
 case 0:
 return state_machine__6445__auto____0.call(this);
 case 1:
-return state_machine__6445__auto____1.call(this,state_13312);
+return state_machine__6445__auto____1.call(this,state_13385);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -9600,15 +9518,15 @@ state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__6445_
 state_machine__6445__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__6445__auto____1;
 return state_machine__6445__auto__;
 })()
-;})(switch__6444__auto__,c__6459__auto___13746))
+;})(switch__6444__auto__,c__6459__auto___13801))
 })();
-var state__6461__auto__ = (function (){var statearr_13741 = f__6460__auto__.call(null);
-(statearr_13741[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___13746);
+var state__6461__auto__ = (function (){var statearr_13796 = f__6460__auto__.call(null);
+(statearr_13796[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__6459__auto___13801);
 
-return statearr_13741;
+return statearr_13796;
 })();
 return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__6461__auto__);
-});})(c__6459__auto___13746))
+});})(c__6459__auto___13801))
 );
 
 }

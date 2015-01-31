@@ -8,6 +8,6 @@
  ["farn.sound/audio-context", "js/window.AudioContext",
   "js/window.webkitAudioContext", "farn.sound/default-gain",
   "farn.sound/load-sound", "url", "req", "js/XMLHttpRequest", "c",
-  "cljs.core.async/chan", "p1__15145#", "cljs.core.async/put!",
+  "cljs.core.async/chan", "p1__15263#", "cljs.core.async/put!",
   "farn.sound/play-sound", "buff", "g", "loop-flag", "source", "gain",
   "play-sound"]}
